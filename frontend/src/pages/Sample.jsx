@@ -1,36 +1,36 @@
-import React, { useState } from 'react';
-import DarkModeToggle from '../components/DarkModeToggle';
-
+import React, { useState, useEffect } from 'react';
 
 const Sample = () => {
-    const [darkMode, setDarkMode] = useState(false);
-  
-    const toggleDarkMode = () => {
-      setDarkMode(!darkMode);
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    // Add event listener to detect system-level dark mode preference changes
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    setDarkMode(mediaQuery.matches);
+
+    const handleChange = (event) => {
+      setDarkMode(event.matches);
     };
-  
-    if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark')
-      } else {
-        document.documentElement.classList.remove('dark')
-      }
-      
-      // Whenever the user explicitly chooses light mode
-      localStorage.theme = 'light'
-      
-      // Whenever the user explicitly chooses dark mode
-      localStorage.theme = 'dark'
-      
-      // Whenever the user explicitly chooses to respect the OS preference
-      localStorage.removeItem('theme')
-      
-    return (
-      <div>
-        <h1>My App</h1>
-        <DarkModeToggle darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-        {/* Other components and content */}
-      </div>
-    );
+
+    mediaQuery.addEventListener('change', handleChange);
+
+    // Clean up the event listener on component unmount
+    return () => mediaQuery.removeEventListener('change', handleChange);
+  }, []);
+
+  const toggleDarkMode = () => {
+    setDarkMode((prevDarkMode) => !prevDarkMode);
   };
-  
+
+  return (
+    <div className={darkMode ? 'dark' : ''}>
+      <div className="flex">
+        <h1 className="dark:text-gray-100 dark:bg-slate-900 duration-100 underline">Hello</h1>
+        <h1 className="dark:text-gray-100 dark:bg-slate-900 duration-100">World</h1>
+      </div>
+      <button onClick={toggleDarkMode}>Toggle Dark Mode</button>
+    </div>
+  );
+};
+
 export default Sample;
