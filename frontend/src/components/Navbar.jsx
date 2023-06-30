@@ -1,91 +1,91 @@
-import React from 'react';
-import '../assets/navbar.css'
+
+import React, { useState, useEffect } from 'react';
+import DarkModeToggle from '../components/DarkModeToggle';
 
 function Navbar() {
-    const body = document.querySelector("body");
-    const darkLight = document.querySelector("#darkLight");
-    const sidebar = document.querySelector(".sidebar");
-    const submenuItems = document.querySelectorAll(".submenu_item");
-    const sidebarOpen = document.querySelector("#sidebarOpen");
-    const sidebarClose = document.querySelector(".collapse_sidebar");
-    const sidebarExpand = document.querySelector(".expand_sidebar");
-    const darkModePref = localStorage.getItem('darkMode');
+    const [darkMode, setDarkMode] = useState(false);
+    // const body = document.querySelector("body");
+    // const darkLight = document.querySelector("#darkLight");
+    // const sidebar = document.querySelector(".sidebar");
+    // const submenuItems = document.querySelectorAll(".submenu_item");
+    // const darkModePref = localStorage.getItem('darkMode');
 
+        
+    // document.addEventListener("DOMContentLoaded", () => {
+    //     sidebar.classList.add("close");
+
+    //     if (sidebar.classList.contains("close")) {
+    //         sidebarExpand.style.display = "block";
+    //         sidebarClose.style.display = "none";
+    //     } else {
+    //         sidebarExpand.style.display = "none";
+    //         sidebarClose.style.display = "block";
+    //     }
+    // });
+
+    // const sidebarExpand = () => {
+    //     sidebar.classList.remove("close", "hoverable");
+    //     sidebarExpand.style.display = "none";
+    //     sidebarClose.style.display = "block";
+    // }
+
+    // const sidebarClose = () => {
+    //     sidebar.classList.add("close", "hoverable");
+    //     sidebarExpand.style.display = "block";
+    //     sidebarClose.style.display = "none";
+    // }
+
+    // const sidebarOpen = () => {
+    //     sidebar.classList.toggle("close")
+    // }
+
+
+    // submenuItems.forEach((item, index) => {
+    //     item.addEventListener("click", () => {
+    //         item.classList.toggle("show_submenu");
+    //         submenuItems.forEach((item2, index2) => {
+    //             if (index !== index2) {
+    //                 item2.classList.remove("show_submenu");
+    //             }
+    //         });
+    //     });
+    // });
+
+
+    // if (window.innerWidth < 768) {
+    //     sidebar.classList.add("close");
+    // } else {
+    //     sidebar.classList.remove("close");
+    // }
+
+
+
+    useEffect(() => {
+    if (darkMode) {
+        document.body.classList.add('dark');
+    } else {
+        document.body.classList.remove('dark');
+    }
+    }, [darkMode]);
+
+    const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    };
+
+    return (
+    <div>
+        <DarkModeToggle darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
+        {/* Rest of your application */}
+    </div>
+    );
     
 
-
-    document.addEventListener("DOMContentLoaded", () => {
-        sidebar.classList.add("close");
-
-        if (sidebar.classList.contains("close")) {
-            sidebarExpand.style.display = "block";
-            sidebarClose.style.display = "none";
-        } else {
-            sidebarExpand.style.display = "none";
-            sidebarClose.style.display = "block";
-        }
-    });
-
-
-    sidebarExpand.addEventListener("click", () => {
-        sidebar.classList.remove("close", "hoverable");
-        sidebarExpand.style.display = "none";
-        sidebarClose.style.display = "block";
-    });
-
-
-    sidebarClose.addEventListener("click", () => {
-        sidebar.classList.add("close", "hoverable");
-        sidebarExpand.style.display = "block";
-        sidebarClose.style.display = "none";
-    });
-
-
-    sidebarOpen.addEventListener("click", () => sidebar.classList.toggle("close"));
-
-
-    if (darkModePref === 'true') {
-        body.classList.add('dark');
-        darkLight.classList.replace("bx-sun", "bx-moon");
-    }
-
-
-    darkLight.addEventListener("click", () => {
-        body.classList.toggle("dark");
-        if (body.classList.contains("dark")) {
-            document.setI;
-            darkLight.classList.replace("bx-sun", "bx-moon");
-            localStorage.setItem('darkMode', 'true');
-        } else {
-            darkLight.classList.replace("bx-moon", "bx-sun");
-            localStorage.setItem('darkMode', 'false');
-        }
-    });
-
-
-    submenuItems.forEach((item, index) => {
-        item.addEventListener("click", () => {
-            item.classList.toggle("show_submenu");
-            submenuItems.forEach((item2, index2) => {
-                if (index !== index2) {
-                    item2.classList.remove("show_submenu");
-                }
-            });
-        });
-    });
-
-
-    if (window.innerWidth < 768) {
-        sidebar.classList.add("close");
-    } else {
-        sidebar.classList.remove("close");
-    }
 
   return (
     <>
         <nav className="navbar">
             <div className="logo_item">
-                <i className="bx bx-menu" id="sidebarOpen"></i>
+                <i className="bx bx-menu" id="sidebarOpen" onClick={sidebarOpen}></i>
                 <img src="" alt="" /><span className="navbar-text">DLL Alumni Office</span>
             </div>
             <div className="navbar_content">
@@ -179,10 +179,10 @@ function Navbar() {
                     </li>
                 </ul>
                 <div className="bottom_content">
-                    <div className="bottom expand_sidebar">
+                    <div className="bottom expand_sidebar" onClick={sidebarExpand}>
                         <i className='bx bx-log-in'></i>
                     </div>
-                    <div className="bottom collapse_sidebar">
+                    <div className="bottom collapse_sidebar" onClick={sidebarClose}>
                         <i className='bx bx-log-out'></i>
                     </div>
                 </div>
