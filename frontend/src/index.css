@@ -1,8 +1,9 @@
+@import url("./styles/output.css");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url("./styles/output.css");
+
 .toggleDarkBtn {
   position: relative;
   display: inline-block;
