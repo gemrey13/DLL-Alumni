@@ -6,6 +6,7 @@ function Tracer() {
 
   return (
     <div>
+    <Navbar />
       <h1 className="text-black dark:text-white">sakdjas</h1>
     </div>
   );
