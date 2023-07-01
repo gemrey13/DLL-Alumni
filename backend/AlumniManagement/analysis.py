@@ -122,18 +122,18 @@ def analyze_alumni_with_jobs_within_six_months(request):
 
 # Get the job by field type
 def analyze_job_field_distribution(request):
-    field_distribution = CurrentJob.objects.values('field_type').annotate(job_count=Count('field_type'))
+    field_distribution = CurrentJob.objects.values('job_type').annotate(job_count=Count('job_type'))
 
     data = []
     total_jobs = 0
 
     for item in field_distribution:
-        field_type = item['field_type']
+        job_type = item['job_type']
         job_count = item['job_count']
         total_jobs += job_count
 
         field_data = {
-            'field_type': field_type,
+            'job_type': job_type,
             'job_count': job_count
         }
         data.append(field_data)
@@ -150,13 +150,13 @@ def analyze_salary_by_field(request):
     current_jobs_data = []
     for job in current_jobs:
         current_jobs_data.append({
-            'field_type': job.field_type,
+            'job_type': job.job_type,
             'salary': job.salary,
         })
 
     current_jobs_df = pd.DataFrame(current_jobs_data)
 
-    average_salary_by_field = current_jobs_df.groupby('field_type')['salary'].mean().reset_index()
+    average_salary_by_field = current_jobs_df.groupby('job_type')['salary'].mean().reset_index()
     average_salary_by_field['salary'] = average_salary_by_field['salary'].round(2)
 
     analysis_result = average_salary_by_field.to_dict(orient='records')
