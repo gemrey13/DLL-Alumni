@@ -6,8 +6,15 @@ const Navbar = () => {
     const [isSidebarClosed, setSidebarClosed] = useState(true);
     const [isMobileView, setMobileView] = useState(false);
     const [isSidebarExpanded, setSidebarExpanded] = useState(false);
-    const [activeSubmenuItem, setActiveSubmenuItem] = useState(null);
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+useEffect(() => {
+    if (isSidebarOpen) {
+      setSidebarClosed(false);
+    } else {
+      setSidebarClosed(true);
+    }
+  }, [isSidebarOpen]);
 
       const darkSwitch = () => {
         setDarkToggle((prevDarkToggle) => {
@@ -66,10 +73,6 @@ const Navbar = () => {
           setSidebarClosed(!isSidebarClosed);
         };
 
-        const handleSubmenuItemToggle = (index) => {
-          setActiveSubmenuItem(index === activeSubmenuItem ? null : index);
-        };
-
 
       useEffect(() => {
         if (darkToggle) {
@@ -87,13 +90,14 @@ const Navbar = () => {
     }
   }, [isSidebarClosed]);
 
+    
 
 
     return (
         <div>
         <nav  className='navbar dark:bg-gray-700 dark:bg-slate-900 bg-white transition-colors duration-500'>
             <div className="logo_item">
-                <i className={`bx bx-menu ${!isMobileView? 'hidden' : ''}`} id="sidebarOpen"></i>
+                <i className={`bx bx-menu ${!isMobileView? 'hidden' : ''}`} id="sidebarOpen" onClick={() => setIsSidebarOpen(!isSidebarOpen)}></i>
                 <img src="" alt="" /><span className='navbar-text dark:text-white'>DLL Alumni Office</span>
             </div>
             <div className="navbar_content dark:text-white" onClick={darkSwitch}>
@@ -103,19 +107,19 @@ const Navbar = () => {
             </div>
         </nav>
 
-        <nav className={`sidebar ${!isSidebarClosed ? 'close' : ''}`}>
-            <div className="menu_content">
-                <ul className="menu_items">
-                    <div className="menu_title menu_dahsboard"></div>
+        <nav className={`sidebar ${!isSidebarClosed ? 'close' : ''} bg-white dark:bg-gray-700 shadow-gray-900`}>
+            <div className={`menu_content ${isSidebarClosed ? 'mt-10' : ''}`}>
+            {isSidebarClosed && <hr className='mt-5 border-slate-300 w-5 mx-auto'/>}
+                <ul className="menu_items ">
+                    <div className={`menu_title menu_dahsboard ${isSidebarClosed? 'hidden': ''}`}></div>
 
-                    <li className="item">
-                        <a href="" className="nav_link">
-                            <span className="navlink_icon">
-                                <i className="bx bx-grid-alt"></i>
-                            </span>
-                            <span className="navlink">Overview</span>
-                        </a>
-                    </li>
+                    <div href="#" className="nav_link submenu_item">
+                        <span className="navlink_icon">
+                            <i className="bx bx-grid-alt"></i>
+                        </span>
+                        <span className="navlink">Overview</span>
+                        <i className="bx bx-chevron-right arrow-left"></i>
+                    </div>
 
                     <div href="#" className="nav_link submenu_item">
                         <span className="navlink_icon">
@@ -124,38 +128,35 @@ const Navbar = () => {
                         <span className="navlink">Home</span>
                         <i className="bx bx-chevron-right arrow-left"></i>
                     </div>
-                    <ul className="menu_items submenu">
-                        <a href="#" className="nav_link sublink">Under Development</a>
-                        <a href="#" className="nav_link sublink">Under Development</a>
-                    </ul>
-                    <li className="item">
-                        <a href="" className="nav_link">
-                            <span className="navlink_icon">
-                                <i className='bx bx-user'></i>
-                            </span>
-                            <span className="navlink">Alumni</span>
-                        </a>
-                    </li>
-                    <li className="item">
-                        <a href="#" className="nav_link">
-                            <span className="navlink_icon">
-                                <i className='bx bx-message-square-add'></i>
-                            </span>
-                            <span className="navlink">Post Request</span>
-                        </a>
-                    </li>
-                    <li className="item">
-                        <a href="#" className="nav_link">
-                            <span className="navlink_icon">
-                                <i className='bx bx-book-bookmark'></i>
-                            </span>
-                            <span className="navlink">Tracer</span>
-                        </a>
-                    </li>
- 
+
+                    <div href="#" className="nav_link submenu_item">
+                        <span className="navlink_icon">
+                            <i className="bx bx-user"></i>
+                        </span>
+                        <span className="navlink">Tracer</span>
+                        <i className="bx bx-chevron-right arrow-left"></i>
+                    </div>
+
+                    <div href="#" className="nav_link submenu_item">
+                        <span className="navlink_icon">
+                            <i className="bx bx-book-bookmark"></i>
+                        </span>
+                        <span className="navlink">Analysis</span>
+                        <i className="bx bx-chevron-right arrow-left"></i>
+                    </div>
+
+                    <div href="#" className="nav_link submenu_item">
+                        <span className="navlink_icon">
+                            <i className="bx bx-message-square-add"></i>
+                        </span>
+                        <span className="navlink">Post Request</span>
+                        <i className="bx bx-chevron-right arrow-left"></i>
+                    </div>
+
                 </ul>
+                {isSidebarClosed && <hr className='mt-5 border-slate-300 w-5 mx-auto'/>}
                 <ul className="menu_items">
-                    <div className="menu_title menu_setting"></div>
+                    <div className={`menu_title menu_setting ${isSidebarClosed? 'hidden': ''}`}></div>
                     <li className="item">
                         <a href="#" className="nav_link">
                             <span className="navlink_icon">
@@ -164,6 +165,7 @@ const Navbar = () => {
                             <span className="navlink">Notification</span>
                         </a>
                     </li>
+
                     <li className="item">
                         <a href="#" className="nav_link">
                             <span className="navlink_icon">

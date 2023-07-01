@@ -42,7 +42,6 @@
 
 /* sidebar */
 .sidebar {
-    background-color: var(--white-color);
     width: 260px;
     position: fixed;
     top: 0;
@@ -51,7 +50,7 @@
     padding: 60px 20px;
     z-index: 1;
     overflow-y: scroll;
-    box-shadow: 0 0 1px var(--grey-color-light);
+    box-shadow: 0 0 1px;
     transition: all 0.5s ease;
 }
 
@@ -101,7 +100,6 @@
     height: 2px;
     width: 18px;
     border-radius: 12px;
-    background: var(--grey-color-light);
 }
 
 .menu_items {
