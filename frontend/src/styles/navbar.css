@@ -154,7 +154,7 @@
 }
 
 .nav_link:hover {
-    color: var(--white-color);
+    color: white;
     background: var(--blue-color);
 }
 
