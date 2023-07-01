@@ -8,94 +8,95 @@ const Navbar = () => {
     const [isSidebarExpanded, setSidebarExpanded] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-useEffect(() => {
-    if (isSidebarOpen) {
-      setSidebarClosed(false);
-    } else {
-      setSidebarClosed(true);
-    }
-  }, [isSidebarOpen]);
 
-      const darkSwitch = () => {
+    const handleExpandSidebar = () => {
+        setSidebarClosed(false);
+        setSidebarExpanded(true);
+    };
+
+    const handleCloseSidebar = () => {
+        setSidebarClosed(true);
+        setSidebarExpanded(false);
+    };
+
+    const handleToggleSidebar = () => {
+        setSidebarClosed(!isSidebarClosed);
+    };
+
+    const darkSwitch = () => {
         setDarkToggle((prevDarkToggle) => {
-          const newDarkToggle = !prevDarkToggle;
-          localStorage.setItem('darkMode', newDarkToggle.toString());
-          return newDarkToggle;
+            const newDarkToggle = !prevDarkToggle;
+            localStorage.setItem('darkMode', newDarkToggle.toString());
+            return newDarkToggle;
         });
-      };
+    };
 
-      useEffect(() => {
+
+    useEffect(() => {
+        if (isSidebarOpen) {
+            setSidebarClosed(false);
+        } else {
+            setSidebarClosed(true);
+        }
+    }, [isSidebarOpen]);
+
+    useEffect(() => {
         const savedDarkMode = localStorage.getItem('darkMode');
         if (savedDarkMode !== null) {
-          setDarkToggle(savedDarkMode === 'true');
+            setDarkToggle(savedDarkMode === 'true');
         } else {
-          localStorage.setItem('darkMode', darkToggle.toString());
+            localStorage.setItem('darkMode', darkToggle.toString());
         }
 
 
         function handleWindowResize() {
-              if (window.innerWidth < 768) {
+            if (window.innerWidth < 640) {
                 setMobileView(true);
-              } else {
+            } else {
                 setMobileView(false);
-              }
+            }
         }
 
         window.addEventListener('resize', handleWindowResize);
         return () => {
-          window.removeEventListener('resize', handleWindowResize);
+            window.removeEventListener('resize', handleWindowResize);
         };
 
         const handleDOMContentLoaded = () => {
-              setSidebarClosed(true);
-              setSidebarExpanded(false);
-            };
+            setSidebarClosed(true);
+            setSidebarExpanded(false);
+        };
 
         document.addEventListener('DOMContentLoaded', handleDOMContentLoaded);
 
         return () => {
-          document.removeEventListener('DOMContentLoaded', handleDOMContentLoaded);
+            document.removeEventListener('DOMContentLoaded', handleDOMContentLoaded);
         };
 
-      }, []);
+    }, []);
 
-      const handleExpandSidebar = () => {
-          setSidebarClosed(false);
-          setSidebarExpanded(true);
-        };
-
-        const handleCloseSidebar = () => {
-          setSidebarClosed(true);
-          setSidebarExpanded(false);
-        };
-
-        const handleToggleSidebar = () => {
-          setSidebarClosed(!isSidebarClosed);
-        };
-
-
-      useEffect(() => {
+    useEffect(() => {
         if (darkToggle) {
-          document.documentElement.classList.add('dark');
+            document.documentElement.classList.add('dark');
         } else {
-          document.documentElement.classList.remove('dark');
+            document.documentElement.classList.remove('dark');
         }
-      }, [darkToggle]);
+    }, [darkToggle]);
 
-      useEffect(() => {
-    if (isSidebarClosed) {
-      document.querySelector('.sidebar').classList.add('close');
-    } else {
-      document.querySelector('.sidebar').classList.remove('close');
-    }
-  }, [isSidebarClosed]);
+    useEffect(() => {
+        if (isSidebarClosed) {
+            document.querySelector('.sidebar').classList.add('close');
+        } else {
+            document.querySelector('.sidebar').classList.remove('close');
+        }
+    }, [isSidebarClosed]);
 
-    
+
 
 
     return (
-        <div>
-        <nav  className='navbar dark:bg-gray-700 dark:bg-slate-900 bg-white transition-colors duration-500'>
+        <>
+        <nav  className='navbar dark:bg-gray-700 dark:bg-slate-900 bg-white transition-colors duration-500 shadow-gray-400 shadow-sm'>
             <div className="logo_item">
                 <i className={`bx bx-menu ${!isMobileView? 'hidden' : ''}`} id="sidebarOpen" onClick={() => setIsSidebarOpen(!isSidebarOpen)}></i>
                 <img src="" alt="" /><span className='navbar-text dark:text-white'>DLL Alumni Office</span>
@@ -108,7 +109,7 @@ useEffect(() => {
         </nav>
 
         <nav className={`sidebar ${!isSidebarClosed ? 'close' : ''} bg-white dark:bg-gray-700 shadow-gray-900`}>
-            <div className={`menu_content ${isSidebarClosed ? 'mt-10' : ''}`}>
+            <div className={`menu_content ${isSidebarClosed ? 'my-12' : 'my-8'}`}>
             {isSidebarClosed && <hr className='mt-5 border-slate-300 w-5 mx-auto'/>}
                 <ul className="menu_items ">
                     <div className={`menu_title menu_dahsboard ${isSidebarClosed? 'hidden': ''}`}></div>
@@ -202,7 +203,7 @@ useEffect(() => {
                 </div>
             </div>
         </nav>
-        </div>
+        </>
     )
 }
 
