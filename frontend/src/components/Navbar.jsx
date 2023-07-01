@@ -107,7 +107,7 @@ const Navbar = () => {
                 <i className="bi bi-grid"></i>
                 <i className={`bx ${darkToggle? 'bx-moon' : 'bx-sun'}`} id="darkLight"></i>
                 <i className='bx bx-bell'></i>
-                <span className='w-full h-10 border-2 border-blue-600 cursor-pointer animate-border-color rounded-full'><img src={avatarMale} alt='' className='relative mt-1'/></span>
+                <span className='w-full h-10 border-2 border-blue-600 cursor-pointer transition-colors duration-500 animate-border-color rounded-full'><img src={avatarMale} alt='' className='relative mt-1'/></span>
 
             </div>
         </nav>
