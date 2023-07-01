@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../styles/navbar.css';
+import avatarMale from '../assets/avatar-male.jpg';
 
 const Navbar = () => {
     const [darkToggle, setDarkToggle] = useState(false);
@@ -106,6 +107,8 @@ const Navbar = () => {
                 <i className="bi bi-grid"></i>
                 <i className={`bx ${darkToggle? 'bx-moon' : 'bx-sun'}`} id="darkLight"></i>
                 <i className='bx bx-bell'></i>
+                <span className='w-full h-10 border-2 border-blue-600 cursor-pointer animate-border-color rounded-full'><img src={avatarMale} alt='' className='relative mt-1'/></span>
+
             </div>
         </nav>
 
@@ -139,13 +142,13 @@ const Navbar = () => {
                         {location.pathname === '/tracer' && <i className="bx bx-chevron-right arrow-left"></i>}
                     </Link>
 
-                    <div href="#" className="nav_link submenu_item">
+                    <Link to='/analysis' className={`${location.pathname === '/analysis' ? 'bg-blue-500' : ''} nav_link submenu_item`}>
                         <span className="navlink_icon">
                             <i className="bx bx-book-bookmark"></i>
                         </span>
                         <span className="navlink">Analysis</span>
-                        {location.pathname === '/sample' && <i className="bx bx-chevron-right arrow-left"></i>}
-                    </div>
+                        {location.pathname === '/analysis' && <i className="bx bx-chevron-right arrow-left"></i>}
+                    </Link>
 
                     <div href="#" className="nav_link submenu_item">
                         <span className="navlink_icon">

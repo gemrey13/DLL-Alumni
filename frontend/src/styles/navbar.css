@@ -7,7 +7,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 27px;
+    padding: 15px 25px;
     z-index: 2;
     box-shadow: 0 0 2px var(--grey-color-light);
 }
@@ -39,6 +39,16 @@
     color: var(--grey-color);
 }
 
+
+.animate-border-color {
+  animation: border-color-animation 2s infinite;
+}
+
+@keyframes border-color-animation {
+  0% { border-color: orange; }
+  50% { border-color: green; }
+  100% { border-color: red; }
+}
 
 /* sidebar */
 .sidebar {
