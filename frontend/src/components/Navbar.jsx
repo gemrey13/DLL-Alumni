@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import '../styles/navbar.css';
 
 const Navbar = () => {
@@ -7,7 +8,7 @@ const Navbar = () => {
     const [isMobileView, setMobileView] = useState(false);
     const [isSidebarExpanded, setSidebarExpanded] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-
+    const location = useLocation();
 
     const handleExpandSidebar = () => {
         setSidebarClosed(false);
@@ -119,7 +120,7 @@ const Navbar = () => {
                             <i className="bx bx-grid-alt"></i>
                         </span>
                         <span className="navlink">Overview</span>
-                        <i className="bx bx-chevron-right arrow-left"></i>
+                        {location.pathname === '/sample' && <i className="bx bx-chevron-right arrow-left"></i>}
                     </div>
 
                     <div href="#" className="nav_link submenu_item">
@@ -127,23 +128,23 @@ const Navbar = () => {
                             <i className="bx bx-home-alt"></i>
                         </span>
                         <span className="navlink">Home</span>
-                        <i className="bx bx-chevron-right arrow-left"></i>
+                        {location.pathname === '/sample' && <i className="bx bx-chevron-right arrow-left"></i>}
                     </div>
 
-                    <div href="#" className="nav_link submenu_item">
+                    <Link to="/tracer" className={`${location.pathname === '/tracer' ? 'bg-blue-500' : ''} nav_link submenu_item`}>
                         <span className="navlink_icon">
                             <i className="bx bx-user"></i>
                         </span>
                         <span className="navlink">Tracer</span>
-                        <i className="bx bx-chevron-right arrow-left"></i>
-                    </div>
+                        {location.pathname === '/tracer' && <i className="bx bx-chevron-right arrow-left"></i>}
+                    </Link>
 
                     <div href="#" className="nav_link submenu_item">
                         <span className="navlink_icon">
                             <i className="bx bx-book-bookmark"></i>
                         </span>
                         <span className="navlink">Analysis</span>
-                        <i className="bx bx-chevron-right arrow-left"></i>
+                        {location.pathname === '/sample' && <i className="bx bx-chevron-right arrow-left"></i>}
                     </div>
 
                     <div href="#" className="nav_link submenu_item">
@@ -151,7 +152,7 @@ const Navbar = () => {
                             <i className="bx bx-message-square-add"></i>
                         </span>
                         <span className="navlink">Post Request</span>
-                        <i className="bx bx-chevron-right arrow-left"></i>
+                        {location.pathname === '/sample' && <i className="bx bx-chevron-right arrow-left"></i>}
                     </div>
 
                 </ul>
@@ -159,37 +160,37 @@ const Navbar = () => {
                 <ul className="menu_items">
                     <div className={`menu_title menu_setting ${isSidebarClosed? 'hidden': ''}`}></div>
                     <li className="item">
-                        <a href="#" className="nav_link">
+                        <Link href="#" className="nav_link">
                             <span className="navlink_icon">
                                 <i className="bx bx-flag"></i>
                             </span>
                             <span className="navlink">Notification</span>
-                        </a>
+                        </Link>
                     </li>
 
                     <li className="item">
-                        <a href="#" className="nav_link">
+                        <Link href="#" className="nav_link">
                             <span className="navlink_icon">
                                 <i className="bx bx-medal"></i>
                             </span>
                             <span className="navlink">Award</span>
-                        </a>
+                        </Link>
                     </li>
                     <li className="item">
-                        <a href="#" className="nav_link">
+                        <Link href="#" className="nav_link">
                             <span className="navlink_icon">
                                 <i className="bx bx-cog"></i>
                             </span>
                             <span className="navlink">Setting</span>
-                        </a>
+                        </Link>
                     </li>
                     <li className="item">
-                        <a href="#" className="nav_link">
+                        <Link href="#" className="nav_link">
                             <span className="navlink_icon">
                                 <i className="bx bx-layer"></i>
                             </span>
                             <span className="navlink">Features</span>
-                        </a>
+                        </Link>
                     </li>
                 </ul>
 
