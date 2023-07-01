@@ -10,6 +10,7 @@ const Navbar = () => {
     const [isSidebarExpanded, setSidebarExpanded] = useState(false);
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const location = useLocation();
+    const loc = location.pathname;
 
     const handleExpandSidebar = () => {
         setSidebarClosed(false);
@@ -103,10 +104,9 @@ const Navbar = () => {
                 <i className={`bx bx-menu ${!isMobileView? 'hidden' : ''}`} id="sidebarOpen" onClick={() => setIsSidebarOpen(!isSidebarOpen)}></i>
                 <img src="" alt="" /><span className='navbar-text dark:text-white'>DLL Alumni Office</span>
             </div>
-            <div className="navbar_content dark:text-white" onClick={darkSwitch}>
-                <i className="bi bi-grid"></i>
-                <i className={`bx ${darkToggle? 'bx-moon' : 'bx-sun'}`} id="darkLight"></i>
-                <i className='bx bx-bell'></i>
+            <div className="navbar_content dark:text-white">
+                <i className={`bx ${darkToggle? 'bx-moon' : 'bx-sun'} hover: transition-transform duration-200 hover:scale-125`} id="darkLight"  onClick={darkSwitch}></i>
+                <i className='bx bx-bell hover: transition-transform duration-200 hover:scale-125'></i>
                 <span className='w-full h-10 border-2 border-blue-600 cursor-pointer transition-colors duration-500 animate-border-color rounded-full'><img src={avatarMale} alt='' className='relative mt-1'/></span>
 
             </div>
@@ -118,32 +118,34 @@ const Navbar = () => {
                 <ul className="menu_items ">
                     <div className={`menu_title menu_dahsboard ${isSidebarClosed? 'hidden': ''}`}></div>
 
-                    <div href="#" className="nav_link submenu_item">
-                        <span className="navlink_icon">
+                    <Link to='/#' className='nav_link submenu_item'>
+                        <span className={`${location.pathname === '/#' ? 'bg-blue-500 navlink_icon hover:text-gray-200' : ''} navlink_icon`}>
                             <i className="bx bx-grid-alt"></i>
                         </span>
-                        <span className="navlink">Overview</span>
-                        {location.pathname === '/sample' && <i className="bx bx-chevron-right arrow-left"></i>}
-                    </div>
+                        <span className="navlink">Dashboard</span>
+                        {location.pathname === '/#' && <i className="bx bx-chevron-right arrow-left"></i>}
+                    </Link>
 
-                    <div href="#" className="nav_link submenu_item">
-                        <span className="navlink_icon">
+                    <Link to='/#' className='nav_link submenu_item'>
+                        <span className={`${location.pathname === '/#' ? 'bg-blue-500 navlink_icon hover:text-gray-200' : ''} navlink_icon`}>
                             <i className="bx bx-home-alt"></i>
                         </span>
                         <span className="navlink">Home</span>
-                        {location.pathname === '/sample' && <i className="bx bx-chevron-right arrow-left"></i>}
-                    </div>
-
-                    <Link to="/tracer" className={`${location.pathname === '/tracer' ? 'bg-blue-500' : ''} nav_link submenu_item`}>
-                        <span className="navlink_icon">
-                            <i className="bx bx-user"></i>
-                        </span>
-                        <span className="navlink">Tracer</span>
-                        {location.pathname === '/tracer' && <i className="bx bx-chevron-right arrow-left"></i>}
+                        {location.pathname === '/#' && <i className="bx bx-chevron-right arrow-left"></i>}
                     </Link>
 
-                    <Link to='/analysis' className={`${location.pathname === '/analysis' ? 'bg-blue-500' : ''} nav_link submenu_item`}>
-                        <span className="navlink_icon">
+
+                    <Link to='/tracer' className={`nav_link submenu_item hover:bg-indigo-700 ${isSidebarExpanded && location.pathname === '/tracer' ? 'bg-indigo-700 text-gray-200 hover:bg-indigo-700' : ''}`}>
+                        <span className={`${loc=== '/tracer' ? 'bg-indigo-700 text-white' : 'hover:text-white'} navlink_icon`}>
+                            <i className="bx bx-user"></i>
+                        </span>
+                        <span className={`navlink ${loc === '/tracer'? 'text-white': 'hover:text-white'}`}>Tracer</span>
+                        {location.pathname === '/tracer' && <i className={`${isSidebarExpanded? 'text-gray-200' : 'text-black'} bx bx-chevron-right arrow-left  font-bold`}></i>}
+                    </Link>
+
+
+                    <Link to='/analysis' className='nav_link submenu_item'>
+                        <span className={`${location.pathname === '/analysis' ? 'bg-blue-500 navlink_icon hover:text-gray-200' : ''} navlink_icon`}>
                             <i className="bx bx-book-bookmark"></i>
                         </span>
                         <span className="navlink">Analysis</span>
