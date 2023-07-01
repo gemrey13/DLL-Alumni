@@ -3,6 +3,11 @@ import '../styles/navbar.css';
 
 const Navbar = () => {
     const [darkToggle, setDarkToggle] = useState(false);
+    const [isSidebarClosed, setSidebarClosed] = useState(true);
+    const [isMobileView, setMobileView] = useState(false);
+    const [isSidebarExpanded, setSidebarExpanded] = useState(false);
+    const [activeSubmenuItem, setActiveSubmenuItem] = useState(null);
+
 
       const darkSwitch = () => {
         setDarkToggle((prevDarkToggle) => {
@@ -19,7 +24,52 @@ const Navbar = () => {
         } else {
           localStorage.setItem('darkMode', darkToggle.toString());
         }
+
+
+        function handleWindowResize() {
+              if (window.innerWidth < 768) {
+                setMobileView(true);
+              } else {
+                setMobileView(false);
+              }
+        }
+
+        window.addEventListener('resize', handleWindowResize);
+        return () => {
+          window.removeEventListener('resize', handleWindowResize);
+        };
+
+        const handleDOMContentLoaded = () => {
+              setSidebarClosed(true);
+              setSidebarExpanded(false);
+            };
+
+        document.addEventListener('DOMContentLoaded', handleDOMContentLoaded);
+
+        return () => {
+          document.removeEventListener('DOMContentLoaded', handleDOMContentLoaded);
+        };
+
       }, []);
+
+      const handleExpandSidebar = () => {
+          setSidebarClosed(false);
+          setSidebarExpanded(true);
+        };
+
+        const handleCloseSidebar = () => {
+          setSidebarClosed(true);
+          setSidebarExpanded(false);
+        };
+
+        const handleToggleSidebar = () => {
+          setSidebarClosed(!isSidebarClosed);
+        };
+
+        const handleSubmenuItemToggle = (index) => {
+          setActiveSubmenuItem(index === activeSubmenuItem ? null : index);
+        };
+
 
       useEffect(() => {
         if (darkToggle) {
@@ -29,13 +79,21 @@ const Navbar = () => {
         }
       }, [darkToggle]);
 
+      useEffect(() => {
+    if (isSidebarClosed) {
+      document.querySelector('.sidebar').classList.add('close');
+    } else {
+      document.querySelector('.sidebar').classList.remove('close');
+    }
+  }, [isSidebarClosed]);
+
 
 
     return (
         <div>
         <nav  className='navbar dark:bg-gray-700 dark:bg-slate-900 bg-white transition-colors duration-500'>
             <div className="logo_item">
-                <i className="bx bx-menu" id="sidebarOpen"></i>
+                <i className={`bx bx-menu ${!isMobileView? 'hidden' : ''}`} id="sidebarOpen"></i>
                 <img src="" alt="" /><span className='navbar-text dark:text-white'>DLL Alumni Office</span>
             </div>
             <div className="navbar_content dark:text-white" onClick={darkSwitch}>
@@ -45,7 +103,7 @@ const Navbar = () => {
             </div>
         </nav>
 
-        <nav className="sidebar close bg-white">
+        <nav className={`sidebar ${!isSidebarClosed ? 'close' : ''}`}>
             <div className="menu_content">
                 <ul className="menu_items">
                     <div className="menu_title menu_dahsboard"></div>
@@ -133,10 +191,10 @@ const Navbar = () => {
                 </ul>
 
                 <div className="bottom_content">
-                    <div className="bottom expand_sidebar">
+                    <div className="bottom expand_sidebar" style={{ display: !isSidebarExpanded ? 'block' : 'none' }} onClick={handleExpandSidebar}>
                         <i className='bx bx-log-in'></i>
                     </div>
-                    <div className="bottom collapse_sidebar">
+                    <div className="bottom collapse_sidebar" style={{ display: isSidebarExpanded ? 'block' : 'none' }} onClick={handleCloseSidebar}>
                         <i className='bx bx-log-out'></i>
                     </div>
                 </div>
