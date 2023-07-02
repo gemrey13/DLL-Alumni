@@ -16,7 +16,7 @@ const Tracer = () => {
             <h1 className="font-black text-2xl flex-1 hidden sm:block">Alumni Tracer</h1>
             <form className="">
               <span className="flex">
-                <input type="text" className="sm:focus:w-72 w-52 p-2 rounded-md bg-gray-100 transition-width duration-500" placeholder="Search Alumni . . . ." />
+                <input type="text" className="sm:focus:w-72 w-52 p-2 rounded-md bg-gray-200 text-gray-600 dark:bg-slate-700 dark:text-white transition-width duration-500" placeholder="Search Alumni . . . ." />
                 <button className="relative top-auto right-10">
                   <i className="bx bx-search text-blue-600 text-2xl "></i>
                 </button>
@@ -29,7 +29,7 @@ const Tracer = () => {
             </span>
             <span className="mr-2 sm:mr-6 transition-transform duration-200 hover:scale-110">
               <button>
-                <i className="bx bx-filter text-black hover:font-black text-4xl"></i>
+                <i className="bx bx-filter text-black dark:text-white hover:font-black text-4xl"></i>
               </button>
             </span>
           </div>
