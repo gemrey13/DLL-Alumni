@@ -1,0 +1,29 @@
+
+Set Up
+First i write scripts to generate data. The folder is in root folder of DLL-Alumni named generateData
+
+
+Second create a folder in app root directory named management then in that created another directory named commands 
+this where you write the command to put it in data.
+
+Third I created a folder named JsonData. This is where i put my json
+
+1. I download json data of PH region, province, city and barangay then i write command named add_adress.py. See for your Self.
+>> python manage.py add_address JsonData/ph-address.json 
+
+2. I generate data of alumni profile using script in generateData folder.
+then
+
+
+
+
+
+---------------------------------------------------
+
+Faster to delete than admin Page
+To Delete Data
+
+from AlumniManagement.models import Region
+g = Region.objects.all()
+g.delete()
+(43792, {'AlumniManagement.Barangay': 42042, 'AlumniManagement.City': 1647, 'AlumniManagement.Province': 86, 'AlumniManagement.Region': 17})

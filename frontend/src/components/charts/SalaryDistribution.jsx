@@ -1,4 +1,4 @@
-import { AreaChart, Area, Tooltip, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer, BarChart, Bar, LineChart, Line, ComposedChart } from 'recharts';
+import { AreaChart, Area, Tooltip, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer, BarChart, Bar, LineChart, Line } from 'recharts';
 
 const data = [
   {
