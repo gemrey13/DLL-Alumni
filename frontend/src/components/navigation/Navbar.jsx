@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import '../styles/navbar.css';
-import avatarMale from '../assets/avatar-male.jpg';
+import '../../styles/navbar.css';
+import avatarMale from '../../assets/avatar-male.jpg';
 
 const Navbar = () => {
   const [darkToggle, setDarkToggle] = useState(false);

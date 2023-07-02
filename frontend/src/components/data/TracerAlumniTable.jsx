@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 
-const TableAlumni = () => {
+const TracerAlumniTable = () => {
   return (
     <>
       <div className="overflow-auto rounded-lg shadow hidden sm:block mt-4" id="table-container">
         <table className="w-full shadow-gray-700 shadow-md bg-gray-400">
-          <thead className="bg-gray-50 border-b-2 border-gray-200">
-            <tr className="text-md">
-              <th className="w-auto px-3 py-4 font-semibold tracking-wide text-left">ID</th>
-              <th className="w-auto px-3 py-4 font-semibold tracking-wide text-left">First Name</th>
-              <th className="w-auto px-3 py-4 font-semibold tracking-wide text-left">Last Name</th>
-              <th className="w-auto px-3 py-4 font-semibold tracking-wide text-left">Staus</th>
-              <th className="w-auto px-3 py-4 font-semibold tracking-wide text-left">Grad Year</th>
-              <th className="w-auto px-3 py-4 font-semibold tracking-wide text-left">Email</th>
-              <th className="w-auto px-3 py-4 font-semibold tracking-wide text-left">Mobile No.</th>
-              <th className="w-auto px-3 py-4 font-semibold tracking-wide text-center"></th>
+          <thead className="bg-gray-100 border-b-2 border-gray-200">
+            <tr className="text-sm text-gray-500">
+              <th className="w-auto px-3 py-4 font-extralight tracking-wide text-left">ID</th>
+              <th className="w-auto px-3 py-4 font-extralight tracking-wide text-left">First Name</th>
+              <th className="w-auto px-3 py-4 font-extralight tracking-wide text-left">Last Name</th>
+              <th className="w-auto px-3 py-4 font-extralight tracking-wide text-left">Staus</th>
+              <th className="w-auto px-3 py-4 font-extralight tracking-wide text-left">Grad Year</th>
+              <th className="w-auto px-3 py-4 font-extralight tracking-wide text-left">Email</th>
+              <th className="w-auto px-3 py-4 font-extralight tracking-wide text-left">Mobile No.</th>
+              <th className="w-auto px-3 py-4 font-extralight tracking-wide text-center"></th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
@@ -148,7 +148,7 @@ const TableAlumni = () => {
               </td>
             </tr>
 
-            
+
             {/*{data.map((item, index) => (
                   <tr key={index} className={index === 0 ? 'bg-white' : index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
                     <td className="p-3 text-sm text-gray-700 whitespace-nowrap">A10000</td>
@@ -191,4 +191,4 @@ const TableAlumni = () => {
   );
 };
 
-export default TableAlumni;
+export default TracerAlumniTable;

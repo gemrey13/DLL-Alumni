@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import Breadcrumb from '../components/Breadcrumb';
-import TableAlumni from '../components/TableAlumni';
+import { Navbar, Breadcrumb, Footer, TracerAlumniTable } from '../index';
 
 const Tracer = () => {
   const data = [1];
@@ -38,7 +35,7 @@ const Tracer = () => {
           </div>
         </div>
 
-        <TableAlumni />
+        <TracerAlumniTable />
       </div>
 
       <Footer />

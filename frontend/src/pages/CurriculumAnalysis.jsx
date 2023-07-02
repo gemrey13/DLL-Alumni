@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar';
-import Card from '../components/Card';
-import { AreaChart, Area, Tooltip, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { Navbar, CustomBar, } from '../index';
+import { AreaChart, Area, Tooltip, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer, BarChart, Bar } from 'recharts';
 
 
 const CurriculumAnalysis = () => {
@@ -50,14 +49,81 @@ const CurriculumAnalysis = () => {
 	  }
 	]
 
+	const data2 = [
+	  { name: 'Category 1', value: 10 },
+	  { name: 'Category 2', value: 20 },
+	  { name: 'Category 3', value: 15 },
+	  { name: 'Category 4', value: 5 },
+	];
+
+
 	              
 
 	return (
 		<>
-			<Navbar />
+		<Navbar />
+		<div className='text-black dark:text-white ml-4 sm:mr-4 mt-20 sm:ml-24 sm:mt-24'>
+
+                <div className="flex flex-wrap mt-6">
+                    <div className="w-full lg:w-1/2 pr-0 lg:pr-2">
+                        <p className="text-xl pb-3 flex items-center">
+                            <i className="fas fa-plus mr-3"></i> Monthly Reports
+                        </p>
+                        <div className="pr-6 pl-0 pt-8 pb-4 bg-white dark:bg-gray-800 chart-container">
+                          <ResponsiveContainer width="100%" height={250}>
+                            <BarChart width={400} height={300} data={data2}>
+                              <CartesianGrid strokeDasharray="3 3" stroke="#ccc" />
+                              <XAxis dataKey="name" stroke="#ccc" />
+                              <YAxis stroke="#ccc" />
+                              <Tooltip contentStyle={{ backgroundColor: '#222', color: '#ccc' }} />
+                              <Legend />
+                              <Bar dataKey="value" fill="#8884d8" barSize={20} shape={<CustomBar />} />
+                            </BarChart>
+                          </ResponsiveContainer>
+                        </div>
+
+
+                    </div>
+
+
+                    <div className="w-full lg:w-1/2 pl-0 lg:pl-2 mt-12 lg:mt-0">
+                        <p className="text-xl pb-3 flex items-center">
+                            <i className="fas fa-check mr-3"></i> Resolved Reports
+                        </p>
+
+
+                        <div className="pr-6 pl-3 pt-8 pb-4 bg-white">
+                        <ResponsiveContainer width="100%" height={250}>
+                           <AreaChart width={580} height={250} data={data}
+                              margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                              <Legend />
+
+                              <defs>
+                                <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
+                                  <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8}/>
+                                  <stop offset="95%" stopColor="#8884d8" stopOpacity={0}/>
+                                </linearGradient>
+                                <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
+                                  <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8}/>
+                                  <stop offset="95%" stopColor="#82ca9d" stopOpacity={0}/>
+                                </linearGradient>
+                              </defs>
+                              <XAxis dataKey="name" />
+                              <YAxis />
+                              <CartesianGrid strokeDasharray="3 3" />
+                              <Tooltip />
+                              <Area type="monotone" dataKey="uv" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" />
+                              <Area type="monotone" dataKey="pv" stroke="#82ca9d" fillOpacity={1} fill="url(#colorPv)" />
+                              </AreaChart>
+                        </ResponsiveContainer>
+                        
+                        </div>
+                    </div>
+                </div>
+    	</div>
 			
-			{/*
-			<div className='grid grid-cols-2 gap-4 justify-items-stretchr'>
+			
+			{/*<div className='grid grid-cols-2 gap-4 justify-items-stretchr'>
 
 				<div className="text-black dark:text-white ml-4 sm:mr-4 my-20 sm:ml-28 sm:my-24 col-span-1">
 					<div className='flex flex-wrap sm:flex-nowrap'>
@@ -115,7 +181,6 @@ const CurriculumAnalysis = () => {
 					  <Card color='bg-amber-200' />
 					  <Card color='bg-amber-200' />
 				</div>*/}
-			{/*</div>*/}
 		</>
 	);
 };

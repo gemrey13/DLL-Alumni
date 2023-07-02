@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import Breadcrumb from '../components/Breadcrumb';
+import { Navbar, Breadcrumb, Footer } from '../index';
 
 const Dashboard = () => {
   return (

@@ -1,0 +1,7 @@
+.custom-bar {
+  fill: #8884d8; /* Light mode color */
+}
+
+.dark .custom-bar {
+  fill: #82ca9d; /* Dark mode color */
+}
