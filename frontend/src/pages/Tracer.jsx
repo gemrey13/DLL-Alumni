@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 import Breadcrumb from '../components/Breadcrumb';
 import TableAlumni from '../components/TableAlumni';
 
@@ -39,6 +40,8 @@ const Tracer = () => {
 
         <TableAlumni />
       </div>
+
+      <Footer />
     </>
   );
 };

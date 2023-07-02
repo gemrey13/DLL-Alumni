@@ -7,7 +7,7 @@ const Breadcrumb = (props) => {
     <nav className="text-sm font-semibold mb-6" aria-label="Breadcrumb">
       <ol className="list-none p-0 inline-flex">
         <li className="flex items-center text-blue-500">
-          <Link to="/#" className="text-gray-700">
+          <Link to="/#" className="text-gray-700 transition-transform duration-200 hover:scale-105">
             Home
           </Link>
           <svg className="fill-current w-3 h-3 mx-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
@@ -15,7 +15,7 @@ const Breadcrumb = (props) => {
           </svg>
         </li>
         <li className="flex items-center">
-          <Link to={`/${pageName}`} className="text-gray-500">
+          <Link to={`/${pageName}`} className="text-gray-500 transition-transform duration-200 hover:scale-105">
             {pageName}
           </Link>
         </li>
