@@ -184,9 +184,6 @@ class EmploymentRecord(models.Model):
         return f'{self.alumni}'
 
 
-
-
-
 class Graduate(models.Model):
     graduate_id = models.CharField(max_length=6, primary_key=True)
     alumni = models.ForeignKey(AlumniProfile, on_delete=models.CASCADE)
