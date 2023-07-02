@@ -15,8 +15,9 @@ const TimeTrendChart = () => {
 
 	return (
 		<>
-			<div className="flex flex-wrap mt-6 bg-white rounded-2xl">
+			<div className="flex flex-wrap mt-10 bg-white rounded-2xl">
           <div className="w-full lg:w-2/3 pl-0 lg:pl-2">
+
             <div className="w-full p-4 pl-0">
               <div className="w-full rounded-lg flex justify-between items-center px-4 py-2 mb-4">
                 <div>
@@ -24,7 +25,7 @@ const TimeTrendChart = () => {
                 </div>
                 <span className="text-green-500 font-semibold text-lg">$25.00</span>
               </div>
-              <div className="pr-6 pb-4 bg-white dark:bg-gray-800" style={{ width: '100%', height: '100%' }}>
+              <div className="pr-6 pb-4 bg-white dark:bg-gray-800 mt-20 " style={{ width: '100%', height: '100%' }}>
                 <ResponsiveContainer width="100%" height={350}>
                   <LineChart width={600} height={300} data={data5}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -36,8 +37,8 @@ const TimeTrendChart = () => {
                   </LineChart>
                 </ResponsiveContainer>
               </div>
-
             </div>
+
           </div>
 
           <div className="w-full xl:w-1/3 px-3 ">
@@ -110,6 +111,34 @@ const TimeTrendChart = () => {
                 </div>
                 <span className="text-gray-400 font-semibold text-sm">$44.99</span>
               </div>
+              <div className="w-full flex justify-between items-center px-4 mb-4 ">
+                <div>
+                  <p className="font-semibold text-gray-400  text-sm">Alex Mason</p>
+                </div>
+                <span className="text-gray-400 font-semibold text-sm">$44.99</span>
+              </div>
+
+              <div className="w-full flex justify-between items-center px-4 mb-4">
+                <div>
+                  <p className="font-semibold text-gray-400  text-sm">Joseph Brent</p>
+                </div>
+                <span className="text-gray-400  font-semibold text-sm">$74.99</span>
+              </div>
+
+              <div className="w-full flex justify-between items-center px-4 mb-4">
+                <div>
+                  <p className="font-semibold text-gray-400  text-sm">Jacob Bator</p>
+                </div>
+                <span className="text-gray-400 font-semibold text-sm">$14.95</span>
+              </div>
+
+              <div className="w-full flex justify-between items-center px-4 mb-4 ">
+                <div>
+                  <p className="font-semibold text-gray-400  text-sm">Alex Mason</p>
+                </div>
+                <span className="text-gray-400 font-semibold text-sm">$44.99</span>
+              </div>
+
 
 
 

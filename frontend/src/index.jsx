@@ -10,4 +10,9 @@ export { default as TracerAlumniTable } from './components/data/TracerAlumniTabl
 
 export { default as CustomBar } from './components/charts/CustomBar';
 export { default as TimeTrendChart } from './components/charts/TimeTrendChart';
+export { default as EmploymentRateChart } from './components/charts/EmploymentRateChart';
+export { default as SalaryDistribution } from './components/charts/SalaryDistribution';
+export { default as StakeholderEngagementChart } from './components/charts/StakeholderEngagementChart';
+
+
 

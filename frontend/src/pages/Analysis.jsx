@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Navbar, CustomBar, Footer, Breadcrumb, TimeTrendChart } from '../index';
+import { Navbar, CustomBar, Footer, Breadcrumb, TimeTrendChart, EmploymentRateChart, SalaryDistribution, StakeholderEngagementChart } from '../index';
 import { AreaChart, Area, Tooltip, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer, BarChart, Bar, LineChart, Line, ComposedChart } from 'recharts';
 
 const Analysis = () => {
@@ -86,8 +86,17 @@ const Analysis = () => {
     <>
       <Navbar />
       <div className="text-black dark:text-white ml-4 sm:mr-4 mt-20 sm:ml-24 sm:mt-24">
+
+
         <Breadcrumb url={'Analysis'} />
 
+        <div className='flex justify-between gap-4'>
+	        <SalaryDistribution />
+	        <StakeholderEngagementChart />
+	    </div>
+
+        <TimeTrendChart />
+	    
         <div className="flex flex-wrap mt-6">
           <div className="w-full lg:w-1/2 pr-0 lg:pr-2">
             <p className="font-black text-2xl pb-3 flex items-center">
@@ -108,36 +117,7 @@ const Analysis = () => {
             </div>
           </div>
 
-          <div className="w-full lg:w-1/2 pl-0 lg:pl-2 mt-12 lg:mt-0">
-            <p className="font-black text-2xl pb-3 flex items-center">
-              <i className="fas fa-check mr-3"></i> Salary Distribution
-            </p>
-
-            <div className="pr-6 pl-3 pt-8 pb-4 bg-white">
-              <ResponsiveContainer width="100%" height={250}>
-                <AreaChart width={580} height={250} data={data} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                  <Legend />
-
-                  <defs>
-                    <linearGradient id="colorUv" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-                      <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
-                    </linearGradient>
-                    <linearGradient id="colorPv" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
-                      <stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <XAxis dataKey="name" />
-                  <YAxis />
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <Tooltip />
-                  <Area type="monotone" dataKey="uv" stroke="#8884d8" fillOpacity={1} fill="url(#colorUv)" />
-                  <Area type="monotone" dataKey="pv" stroke="#82ca9d" fillOpacity={1} fill="url(#colorPv)" />
-                </AreaChart>
-              </ResponsiveContainer>
-            </div>
-          </div>
+         
         </div>
 
         <div className="w-full pl-0 lg:pl-2 mt-12 lg:mt-10">
@@ -174,7 +154,7 @@ const Analysis = () => {
           </ResponsiveContainer>
         </div>
 
-        <TimeTrendChart />
+        <EmploymentRateChart />
       </div>
 
       <Footer />

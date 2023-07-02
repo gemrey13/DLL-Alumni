@@ -93,7 +93,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="navbar dark:bg-gray-700 dark:bg-slate-900 bg-white transition-colors duration-500 shadow-gray-400 shadow-sm">
+      <nav className="navbar text-gray-900 bg-white dark:bg-slate-900 dark:text-white transition-colors duration-500 shadow-gray-400 shadow-sm">
         <div className="logo_item">
           <i className={`bx bx-menu ${!isMobileView ? 'hidden' : ''}`} id="sidebarOpen" onClick={() => setIsSidebarOpen(!isSidebarOpen)}></i>
           <img src="" alt="" />
@@ -108,8 +108,8 @@ const Navbar = () => {
         </div>
       </nav>
 
-      <nav className={`sidebar ${!isSidebarClosed ? 'close' : ''} bg-white dark:bg-gray-700 shadow-gray-900`}>
-        <div className={`menu_content ${isSidebarClosed ? 'my-12' : 'my-8'}`}>
+      <nav className={`sidebar text-gray-900 bg-white dark:bg-slate-800 dark:text-white shadow-gray-900`}>
+        <div className={`menu_content ${isSidebarClosed ? 'my-12' : 'my-8'} `}>
           {isSidebarClosed && <hr className="mt-5 border-slate-300 w-5 mx-auto" />}
           <ul className="menu_items ">
             <div className={`menu_title menu_dahsboard ${isSidebarClosed ? 'hidden' : ''}`}></div>
