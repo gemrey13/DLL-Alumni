@@ -15,3 +15,5 @@ admin.site.register(Barangay)
 admin.site.register(EmploymentRecord)
 admin.site.register(JobAddress)
 admin.site.register(AlumniAddress)
+admin.site.register(Region)
+

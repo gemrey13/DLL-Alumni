@@ -40,10 +40,16 @@ class Country(models.Model):
     def __str__(self):
         return self.country_name
 
+class Region(models.Model):
+    region_name = models.CharField(max_length=64)
+    country = models.ForeignKey(Country, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.region_name
 
 class Province(models.Model):
     province_name = models.CharField(max_length=64)
-    country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    region = models.ForeignKey(Region, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.province_name
@@ -111,6 +117,7 @@ class AlumniProfile(models.Model):
 class AlumniAddress(models.Model):
     alumni = models.ForeignKey(AlumniProfile, on_delete=models.CASCADE)
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    region = models.ForeignKey(Region, on_delete=models.CASCADE)
     province = models.ForeignKey(Province, on_delete=models.CASCADE)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE)
@@ -122,6 +129,7 @@ class AlumniAddress(models.Model):
 
 class JobAddress(models.Model):
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    region = models.ForeignKey(Region, on_delete=models.CASCADE)
     province = models.ForeignKey(Province, on_delete=models.CASCADE)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE)
