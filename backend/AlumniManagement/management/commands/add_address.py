@@ -6,8 +6,11 @@ from AlumniManagement.models import Country, Region, Province, City, Barangay
 class Command(BaseCommand):
     help = 'Import data from JSON file to database'
 
+    def add_arguments(self, parser):
+        parser.add_argument('file_path', type=str, help='Path to the JSON file')
+
     def handle(self, *args, **options):
-        file_path = os.path.join(os.path.dirname(__file__), 'ph-address.json')
+        file_path = options['file_path']
 
         with open(file_path, 'r') as json_file:
             data = json.load(json_file)
@@ -44,3 +47,7 @@ class Command(BaseCommand):
             Province.objects.bulk_create(provinces)
             City.objects.bulk_create(cities)
             Barangay.objects.bulk_create(barangays)
+
+        self.stdout.write(self.style.SUCCESS('Data imported successfully!'))
+
+
