@@ -55,24 +55,7 @@ const CurriculumAnalysis = () => {
 	return (
 		<>
 			<Navbar />
-			<div className="grid grid-cols-5 grid-rows-5 text-black dark:text-white ml-4 sm:mr-4 my-20 sm:ml-28 sm:my-24">
-
-			    <div className="col-span-4 row-span-5">
-
-			    	<div className='flex flex-wrap sm:flex-nowrap'>
-			    		<Card color='bg-fuchsia-300' />
-			    		<Card color='bg-rose-200' />
-			    		<Card color='bg-amber-200' />
-			    	</div>
-
-
-			    </div>
-			    <div className="col-span-2 row-span-2 col-start-5">
-			    	
-			    	<Card color='bg-amber-200' />
-
-			    </div>
-			</div>
+			
 			{/*
 			<div className='grid grid-cols-2 gap-4 justify-items-stretchr'>
 

@@ -1,0 +1,26 @@
+{
+  "indent": {
+    "value": "  "
+  },
+  "lineBreak": {
+    "before": {
+      "ArrayExpressionClosing": "ignore",
+      "ObjectExpressionClosing": "ignore"
+    }
+  },
+  "quotes": {
+    "type": "double"
+  },
+  "space": {
+    "after": {
+      "AnonymousFunction": 1,
+      "FunctionExpression": 1,
+      "arrow": 1
+    },
+    "before": {
+      "AnonymousFunction": 1,
+      "FunctionExpression": 1,
+      "arrow": 1
+    }
+  }
+}
