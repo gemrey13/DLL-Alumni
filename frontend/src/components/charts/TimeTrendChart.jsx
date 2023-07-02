@@ -15,22 +15,22 @@ const TimeTrendChart = () => {
 
 	return (
 		<>
-			<div className="flex flex-wrap mt-10 bg-white rounded-2xl">
+			<div className="flex flex-wrap mt-10 bg-white rounded-2xl dark:bg-slate-800 dark:border-t-2 dark:border-blue-300">
           <div className="w-full lg:w-2/3 pl-0 lg:pl-2">
 
             <div className="w-full p-4 pl-0">
-              <div className="w-full rounded-lg flex justify-between items-center px-4 py-2 mb-4">
+              <div className="w-full rounded-lg flex justify-between items-center px-4 py-2 mt-3 mb-4">
                 <div>
                   <p className="font-semibold text-xl ml-4">Trend Over Time </p>
                 </div>
                 <span className="text-green-500 font-semibold text-lg">$25.00</span>
               </div>
-              <div className="pr-6 pb-4 bg-white dark:bg-gray-800 mt-20 " style={{ width: '100%', height: '100%' }}>
+              <div className="pr-6 pb-4 mt-20 " style={{ width: '100%', height: '100%' }}>
                 <ResponsiveContainer width="100%" height={350}>
                   <LineChart width={600} height={300} data={data5}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="year" />
-                    <YAxis />
+                    <XAxis dataKey="year" axisLine={{ stroke: 'white' }} tick={{ fill: '#999999' }}/>
+                    <YAxis axisLine={{ stroke: 'white' }} tick={{ fill: '#999999' }}/>
                     <Tooltip />
                     <Legend />
                     <Line type="monotone" dataKey="howmany" stroke="#8884d8" />

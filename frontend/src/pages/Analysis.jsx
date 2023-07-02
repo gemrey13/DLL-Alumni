@@ -111,7 +111,7 @@ const Analysis = () => {
                   <YAxis stroke="#ccc" />
                   <Tooltip contentStyle={{ backgroundColor: '#222', color: '#ccc' }} />
                   <Legend />
-                  <Bar dataKey="value" fill="#8884d8" barSize={60} shape={<CustomBar />} />
+                  <Bar dataKey="value" fill="#8884d8" barSize={60} shape={<CustomBar fill='yellow'/>} />
                 </BarChart>
               </ResponsiveContainer>
             </div>

@@ -10,20 +10,21 @@ const data = [
 
 
 const StakeholderEngagementChart = () => {
+
   return (
 
-    <div className='bg-white rounded-md dark:bg-darker mt-2 w-2/5'>
+    <div className='bg-white rounded-md dark:bg-slate-700 mt-2 w-2/5'>
 
-      <div className='flex items-center justify-between p-4 border-b dark:border-primary'>
-        <h4 className='text-lg font-semibold text-gray-500 dark:text-light'>Stake Holder</h4>
+      <div className='flex items-center justify-between p-4 border-b'>
+        <h4 className='text-lg font-semibold text-gray-500 dark:text-gray-300'>Stake Holder</h4>
       </div>
 
-      <div className="pr-6 bg-white dark:bg-gray-800 mt-5 p-0">
+      <div className="pr-6 mt-5 p-0">
         <ResponsiveContainer width="100%" height={250}>
         <BarChart width={600} height={250} data={data}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="stakeholder" />
-              <YAxis />
+              <XAxis axisLine={{ stroke: 'white' }} tick={{ fill: '#999999' }} dataKey="stakeholder" />
+              <YAxis axisLine={{ stroke: 'white' }} tick={{ fill: '#999999' }}/>
               <Tooltip />
               <Legend />
               <Bar dataKey="relevance" stackId="stack" fill="#8884d8" />
