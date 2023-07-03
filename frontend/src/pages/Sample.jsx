@@ -1,52 +1,46 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar,  } from '../index';
-
+import { Navbar, useAxios } from '../index';
 
 const Sample = () => {
-   const [darkToggle, setDarkToggle] = React.useState(false)
+  
 
   return (
-    <div
-      className={`h-screen w-full flex items-center justify-center bg-gray-300 flex-col ${
-        darkToggle && 'dark'
-      }`}
-    >
-      <label className="toggleDarkBtn">
-        <input type="checkbox" onClick={() => setDarkToggle(!darkToggle)} />
-        <span className="slideBtnTg round"></span>
-      </label>
-      <div className="max-w-sm rounded overflow-hidden bg-gray-100 p-5 rounded-lg mt-4 text-white dark:bg-gray-900">
-        <img
-          className="w-full"
-          src="https://v1.tailwindcss.com/img/card-top.jpg"
-          alt="Sunset in the mountains"
-        />
-        <div className="px-6 py-4">
-          <div className="text-gray-800 dark:text-gray-200 font-bold text-xl mb-2">
-            The Coldest Sunset
+    <>
+      <div className='text-black dark:text-white ml-4 sm:mr-4 mt-20 sm:ml-24 sm:mt-24'>
+        <Navbar />
+        
+
+
+            <h1 class="w-1/2 mb-4 h-6 animate-pulse bg-gray-500"></h1>
+
+    
+      <div class="p-4 md:w-1/3">
+        <div class="h-full border-2 border-gray-200 rounded-lg overflow-hidden">
+          <div class="lg:h-48 bg-gray-400 md:h-36 w-full object-cover object-center"></div>
+          <div class="p-6">
+            <h2 class="bg-gray-400 animate-pulse h-4 w-1/4 mb-2"></h2>
+            <h1 class="w-1/2 mb-4 h-6 animate-pulse bg-gray-500"></h1>
+            <p class="leading-relaxed mb-3 w-full h-3 animate-pulse bg-gray-400"></p>
+            <p class="leading-relaxed mb-3 w-2/3 h-3 animate-pulse bg-gray-400"></p>
+            <p class="leading-relaxed mb-3 w-1/2 h-3 animate-pulse bg-gray-400"></p>
+            <div class="flex items-center flex-wrap ">
+              <a class="bg-indigo-300 h-4 animate-pulse mt-2 w-32 inline-flex items-center md:mb-2 lg:mb-0">
+                
+              </a>
+              <span class="bg-indigo-300 w-16 mt-2 h-4 animate-pulse mr-3 px-2 inline-flex items-center ml-auto leading-none text-sm pr-5 py-1">
+                
+              </span>
+              
+            </div>
           </div>
-          <p className="text-gray-800 dark:text-white">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-            Voluptatibus quia, nulla! Maiores et perferendis eaque,
-            exercitationem praesentium nihil.
-          </p>
-        </div>
-        <div className="px-6 pt-4 pb-2">
-          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            #photography
-          </span>
-          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            #travel
-          </span>
-          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-            #winter
-          </span>
         </div>
       </div>
 
-      <Navbar />
-    </div>
-  )
+
+
+      </div>
+    </>
+  );
 };
 
 export default Sample;

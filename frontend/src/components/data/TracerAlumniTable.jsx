@@ -1,6 +1,77 @@
 import React, { useState, useEffect } from 'react';
+import { useAxios } from '../../index';
 
 const TracerAlumniTable = () => {
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+  const { data, isLoading, error } = useAxios(`api/alumni-profile-data/?page=${page}`);
+  const { results, count } = data;
+
+  const [isLoadings, setLoadings] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading delay
+    const delay = 30000; // 3 seconds
+
+    // Start loading animation
+    setLoadings(true);
+
+    // Stop loading animation after the delay
+    const timeout = setTimeout(() => {
+      setLoadings(false);
+    }, delay);
+
+    // Clear the timeout if the component unmounts or the dependency array changes
+    return () => clearTimeout(timeout);
+  }, []);
+
+
+
+  const nextPage = () => {
+    setPage(page + 1);
+  };
+
+  const prevPage = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  };
+
+  useEffect(() => {
+    if (count && count > 0) {
+      const totalPages = Math.ceil(count / 10); // Assuming 10 results per page
+      setTotalPages(totalPages);
+    }
+  }, [count]);
+
+
+  const renderPageButtons = () => {
+    const buttons = [];
+
+    // Add current page button
+    let startPage = Math.max(1, page - 2);
+      let endPage = Math.min(page + 2, totalPages);
+
+      // Add page number buttons
+      for (let i = startPage; i <= endPage; i++) {
+        buttons.push(
+          <button
+            key={i}
+            className={`px-4 py-2 bg-blue-500 text-white rounded-md mr-2 ${
+              i === page ? 'bg-blue-700' : ''
+            }`}
+            onClick={() => setPage(i)}
+          >
+            {i}
+          </button>
+        );
+      
+    }
+
+    return buttons;
+  };
+
+
   return (
     <>
       <div className="overflow-auto rounded-lg shadow hidden sm:block mt-4" id="table-container">
@@ -18,160 +89,55 @@ const TracerAlumniTable = () => {
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100 dark:divide-slate-700">
-            <tr className="bg-white dark:bg-slate-700 dark:text-white text-gray-500  hover:-translate-y-1 transition-transform duration-200">
-              <td className="w-auto p-3 text-sm whitespace-nowrap">A10000</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">Gem Rey</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">Ranola</td>
-              <td className="w-auto whitespace-nowrap"><span className='inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-200 rounded-full'>Employed</span></td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">2017</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">gemreyranola@gmail.com</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">09**********</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap text-center">
-                <button className="px-4 py-1 bg-blue-500 rounded-md text-white hover:bg-blue-700 hover:-translate-y-1 transition-transform duration-200">Edit</button>
-                <button className="ml-2 py-1 bg-orange-500 px-3 rounded-md text-white hover:bg-orange-700 hover:-translate-y-1 transition-transform duration-200">Delete</button>
-              </td>
-            </tr>
+          {results && results.map((item, index) => (
+              <tr key={item.id} className="bg-white dark:bg-slate-700 dark:text-white text-gray-500  hover:-translate-y-1 transition-transform duration-200">
+                <td className="w-auto p-3 text-sm whitespace-nowrap">{item.alumni_id}</td>
+                <td className="w-auto p-3 text-sm whitespace-nowrap">{item.fname}</td>
+                <td className="w-auto p-3 text-sm whitespace-nowrap">{item.lname}</td>
+                <td className="w-auto whitespace-nowrap">
+                  <span className={`inline-flex px-2 text-xs font-semibold leading-5 ${index % 3 === 0? 'text-green-800 bg-green-200' : 'text-white bg-red-500'} rounded-full`}>
+                    {index % 3 === 0 ? 'Employed': 'Unemployed'}
+                  </span>
+                </td>
+                <td className="w-auto p-3 text-sm whitespace-nowrap">2017</td>
+                <td className="w-auto p-3 text-sm whitespace-nowrap">gemreyranola@gmail.com</td>
+                <td className="w-auto p-3 text-sm whitespace-nowrap">09**********</td>
+                <td className="w-auto p-3 text-sm whitespace-nowrap text-center">
+                  <button className="px-4 py-1 bg-blue-500 rounded-md text-white hover:bg-blue-700 hover:-translate-y-1 transition-transform duration-200">Edit</button>
+                  <button className="ml-2 py-1 bg-orange-500 px-3 rounded-md text-white hover:bg-orange-700 hover:-translate-y-1 transition-transform duration-200">Delete</button>
+                </td>
+              </tr>
+            ))
 
-            <tr className="bg-white dark:bg-slate-700 dark:text-white text-gray-500  hover:-translate-y-1 transition-transform duration-200">
-              <td className="w-auto p-3 text-sm whitespace-nowrap">A10000</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">Gem Rey</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">Ranola</td>
-              <td className="w-auto whitespace-nowrap"><span className='inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-200 rounded-full'>Employed</span></td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">2017</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">gemreyranola@gmail.com</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">09**********</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap text-center">
-                <button className="px-4 py-1 bg-blue-500 rounded-md text-white hover:bg-blue-700 hover:-translate-y-1 transition-transform duration-200">Edit</button>
-                <button className="ml-2 py-1 bg-orange-500 px-3 rounded-md text-white hover:bg-orange-700 hover:-translate-y-1 transition-transform duration-200">Delete</button>
-              </td>
-            </tr>
-
-            <tr className="bg-white dark:bg-slate-700 dark:text-white text-gray-500  hover:-translate-y-1 transition-transform duration-200">
-              <td className="w-auto p-3 text-sm whitespace-nowrap">A10000</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">Gem Rey</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">Ranola</td>
-              <td className="w-auto whitespace-nowrap"><span className='inline-flex px-2 text-xs font-semibold leading-5 text-white bg-red-500 rounded-full'>Unemployed</span></td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">2017</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">gemreyranola@gmail.com</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">09**********</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap text-center">
-                <button className="px-4 py-1 bg-blue-500 rounded-md text-white hover:bg-blue-700 hover:-translate-y-1 transition-transform duration-200">Edit</button>
-                <button className="ml-2 py-1 bg-orange-500 px-3 rounded-md text-white hover:bg-orange-700 hover:-translate-y-1 transition-transform duration-200">Delete</button>
-              </td>
-            </tr>
-            <tr className="bg-white dark:bg-slate-700 dark:text-white text-gray-500  hover:-translate-y-1 transition-transform duration-200">
-              <td className="w-auto p-3 text-sm whitespace-nowrap">A10000</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">Gem Rey</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">Ranola</td>
-              <td className="w-auto whitespace-nowrap"><span className='inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-200 rounded-full'>Employed</span></td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">2017</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">gemreyranola@gmail.com</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">09**********</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap text-center">
-                <button className="px-4 py-1 bg-blue-500 rounded-md text-white hover:bg-blue-700 hover:-translate-y-1 transition-transform duration-200">Edit</button>
-                <button className="ml-2 py-1 bg-orange-500 px-3 rounded-md text-white hover:bg-orange-700 hover:-translate-y-1 transition-transform duration-200">Delete</button>
-              </td>
-            </tr>
-
-            <tr className="bg-white dark:bg-slate-700 dark:text-white text-gray-500  hover:-translate-y-1 transition-transform duration-200">
-              <td className="w-auto p-3 text-sm whitespace-nowrap">A10000</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">Gem Rey</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">Ranola</td>
-              <td className="w-auto whitespace-nowrap"><span className='inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-200 rounded-full'>Employed</span></td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">2017</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">gemreyranola@gmail.com</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">09**********</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap text-center">
-                <button className="px-4 py-1 bg-blue-500 rounded-md text-white hover:bg-blue-700 hover:-translate-y-1 transition-transform duration-200">Edit</button>
-                <button className="ml-2 py-1 bg-orange-500 px-3 rounded-md text-white hover:bg-orange-700 hover:-translate-y-1 transition-transform duration-200">Delete</button>
-              </td>
-            </tr>
-
-            <tr className="bg-white dark:bg-slate-700 dark:text-white text-gray-500  hover:-translate-y-1 transition-transform duration-200">
-              <td className="w-auto p-3 text-sm whitespace-nowrap">A10000</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">Gem Rey</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">Ranola</td>
-              <td className="w-auto whitespace-nowrap"><span className='inline-flex px-2 text-xs font-semibold leading-5 text-white bg-red-500 rounded-full'>Unemployed</span></td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">2017</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">gemreyranola@gmail.com</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">09**********</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap text-center">
-                <button className="px-4 py-1 bg-blue-500 rounded-md text-white hover:bg-blue-700 hover:-translate-y-1 transition-transform duration-200">Edit</button>
-                <button className="ml-2 py-1 bg-orange-500 px-3 rounded-md text-white hover:bg-orange-700 hover:-translate-y-1 transition-transform duration-200">Delete</button>
-              </td>
-            </tr>
-            <tr className="bg-white dark:bg-slate-700 dark:text-white text-gray-500  hover:-translate-y-1 transition-transform duration-200">
-              <td className="w-auto p-3 text-sm whitespace-nowrap">A10000</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">Gem Rey</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">Ranola</td>
-              <td className="w-auto whitespace-nowrap"><span className='inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-200 rounded-full'>Employed</span></td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">2017</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">gemreyranola@gmail.com</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">09**********</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap text-center">
-                <button className="px-4 py-1 bg-blue-500 rounded-md text-white hover:bg-blue-700 hover:-translate-y-1 transition-transform duration-200">Edit</button>
-                <button className="ml-2 py-1 bg-orange-500 px-3 rounded-md text-white hover:bg-orange-700 hover:-translate-y-1 transition-transform duration-200">Delete</button>
-              </td>
-            </tr>
-
-            <tr className="bg-white dark:bg-slate-700 dark:text-white text-gray-500  hover:-translate-y-1 transition-transform duration-200">
-              <td className="w-auto p-3 text-sm whitespace-nowrap">A10000</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">Gem Rey</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">Ranola</td>
-              <td className="w-auto whitespace-nowrap"><span className='inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-200 rounded-full'>Employed</span></td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">2017</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">gemreyranola@gmail.com</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">09**********</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap text-center">
-                <button className="px-4 py-1 bg-blue-500 rounded-md text-white hover:bg-blue-700 hover:-translate-y-1 transition-transform duration-200">Edit</button>
-                <button className="ml-2 py-1 bg-orange-500 px-3 rounded-md text-white hover:bg-orange-700 hover:-translate-y-1 transition-transform duration-200">Delete</button>
-              </td>
-            </tr>
-
-            <tr className="bg-white dark:bg-slate-700 dark:text-white text-gray-500  hover:-translate-y-1 transition-transform duration-200">
-              <td className="w-auto p-3 text-sm whitespace-nowrap">A10000</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">Gem Rey</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">Ranola</td>
-              <td className="w-auto whitespace-nowrap"><span className='inline-flex px-2 text-xs font-semibold leading-5 text-white bg-red-500 rounded-full'>Unemployed</span></td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">2017</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">gemreyranola@gmail.com</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">09**********</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap text-center">
-                <button className="px-4 py-1 bg-blue-500 rounded-md text-white hover:bg-blue-700 hover:-translate-y-1 transition-transform duration-200">Edit</button>
-                <button className="ml-2 py-1 bg-orange-500 px-3 rounded-md text-white hover:bg-orange-700 hover:-translate-y-1 transition-transform duration-200">Delete</button>
-              </td>
-            </tr>
-            <tr className="bg-white dark:bg-slate-700 dark:text-white text-gray-500  hover:-translate-y-1 transition-transform duration-200">
-              <td className="w-auto p-3 text-sm whitespace-nowrap">A10000</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">Gem Rey</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">Ranola</td>
-              <td className="w-auto whitespace-nowrap"><span className='inline-flex px-2 text-xs font-semibold leading-5 text-white bg-red-500 rounded-full'>Unemployed</span></td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">2017</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">gemreyranola@gmail.com</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap">09**********</td>
-              <td className="w-auto p-3 text-sm whitespace-nowrap text-center">
-                <button className="px-4 py-1 bg-blue-500 rounded-md text-white hover:bg-blue-700 hover:-translate-y-1 transition-transform duration-200">Edit</button>
-                <button className="ml-2 py-1 bg-orange-500 px-3 rounded-md text-white hover:bg-orange-700 hover:-translate-y-1 transition-transform duration-200">Delete</button>
-              </td>
-            </tr>
-
-            {/*{data.map((item, index) => (
-                  <tr key={index} className={index === 0 ? 'bg-white' : index % 2 === 0 ? 'bg-gray-100' : 'bg-white'}>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">A10000</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">Employed</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">Gem Rey</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">Ranola</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">2017</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">gemreyranola@gmail.com</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">09**********</td>
-                    <td className="p-3 text-sm text-gray-700 whitespace-nowrap">
-                      <button>Edit</button>
-                      <button>Delete</button>
-                    </td>
-                  </tr>
-                ))}*/}
+          }
+          
           </tbody>
         </table>
+
+      </div>
+
+      <div className='text-center flex justify-center mt-4'>
+      <span> Showing {((page - 1) * 10) + 1}-{Math.min(page * 10, count)} of {count}; Page {page} of {totalPages}</span>
+      </div>
+      <div className='text-center flex justify-center mt-4'>
+
+        
+        <button
+                  onClick={prevPage}
+                  disabled={page === 1}
+                  className={`${page === 1 ? 'hidden' : ''} px-4 py-2 bg-blue-500 text-white rounded-md mr-2`}
+                >
+                  Previous
+                </button>
+                {renderPageButtons()}
+
+                <button
+                  onClick={nextPage}
+                  disabled={!results || results.length === 0}
+                  className={`${page === totalPages ? 'hidden' : ''} px-4 py-2 bg-blue-500 text-white rounded-md`}
+                >
+                  Next
+                </button>
       </div>
 
       <div className="bg-white sm:hidden space-y-2 p-4 rounded-lg shadow border-l-4 border-black hover:border-green  hover:-translate-y-1 transition-transform duration-200 mt-5 mr-5">

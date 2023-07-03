@@ -1,11 +1,7 @@
 import React from 'react';
 import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Tracer from './pages/Tracer';
-import Sample from './pages/Sample';
-import Dashboard from './pages/Dashboard';
-import Analysis from './pages/Analysis';
-
+import { Tracer, Sample, Dashboard, Analysis } from './index';
 
 const App = () => {
   return (
