@@ -15,5 +15,5 @@ export default {
     host: 'localhost',
     port: 3000,
   },
-  base: '/tracer/',
+  base: '/',
 };
