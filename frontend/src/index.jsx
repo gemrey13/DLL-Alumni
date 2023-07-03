@@ -19,6 +19,7 @@ export { default as Tracer } from './pages/Tracer';
 export { default as Sample } from './pages/Sample';
 export { default as Dashboard } from './pages/Dashboard';
 export { default as Analysis } from './pages/Analysis';
+export { default as Home } from './pages/Home';
 
 
 export { default as useAxios } from './hooks/useAxios';

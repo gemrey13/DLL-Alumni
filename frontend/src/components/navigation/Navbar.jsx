@@ -114,12 +114,12 @@ const Navbar = () => {
           <ul className="menu_items ">
             <div className={`menu_title menu_dahsboard ${isSidebarClosed ? 'hidden' : ''}`}></div>
 
-            <Link to="/#" className={`nav_link submenu_item hover:bg-indigo-700 ${isSidebarExpanded && location.pathname === '/#' ? 'bg-indigo-700 text-gray-200 hover:bg-indigo-700' : ''}`}>
-              <span className={`${loc === '/#' ? 'bg-indigo-700 text-white' : 'hover:text-white'} navlink_icon`}>
+            <Link to="/Home" className={`nav_link submenu_item hover:bg-indigo-700 ${isSidebarExpanded && location.pathname === '/Home' ? 'bg-indigo-700 text-gray-200 hover:bg-indigo-700' : ''}`}>
+              <span className={`${loc === '/Home' ? 'bg-indigo-700 text-white' : 'hover:text-white'} navlink_icon`}>
                 <i className="bx bx-home-alt"></i>
               </span>
-              <span className={`navlink ${loc === '/#' ? 'text-white' : 'hover:text-white'}`}>Home</span>
-              {location.pathname === '/#' && <i className={`${isSidebarExpanded ? 'text-gray-200' : 'text-black dark:text-white'} bx bx-chevron-right arrow-left  font-bold`}></i>}
+              <span className={`navlink ${loc === '/Home' ? 'text-white' : 'hover:text-white'}`}>Home</span>
+              {location.pathname === '/Home' && <i className={`${isSidebarExpanded ? 'text-gray-200' : 'text-black dark:text-white'} bx bx-chevron-right arrow-left  font-bold`}></i>}
             </Link>
 
             <Link to="/Dashboard" className={`nav_link submenu_item hover:bg-indigo-700 ${isSidebarExpanded && location.pathname === '/Dashboard' ? 'bg-indigo-700 text-gray-200 hover:bg-indigo-700' : ''}`}>
