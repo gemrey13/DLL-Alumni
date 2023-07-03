@@ -4,6 +4,8 @@ import { Navbar, Breadcrumb, Footer, TracerAlumniTable } from '../index';
 const Tracer = () => {
   const [ isModal, setIsModal ] = useState(false);
   console.log(isModal)
+
+  
   return (
     <>
       <Navbar />
