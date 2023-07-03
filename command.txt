@@ -1,2 +1,1 @@
 npx prettier --write ./src/pages/Dashboard.jsx
-
