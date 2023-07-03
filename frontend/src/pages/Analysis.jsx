@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar, CustomBar, Footer, Breadcrumb, TimeTrendChart, EmploymentRateChart, SalaryDistribution, StakeholderEngagementChart } from '../index';
 import { AreaChart, Area, Tooltip, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer, BarChart, Bar, LineChart, Line, ComposedChart } from 'recharts';
 

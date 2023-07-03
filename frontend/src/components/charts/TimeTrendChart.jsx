@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from 'react';
+
 import { Tooltip, XAxis, YAxis, CartesianGrid, Legend, ResponsiveContainer, LineChart, Line,  } from 'recharts';
 
 
