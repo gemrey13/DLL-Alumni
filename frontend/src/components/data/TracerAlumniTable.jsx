@@ -120,7 +120,7 @@ const TracerAlumniTable = () => {
           Next
         </button>
         <span className="ml-3 px-4 py-2 bg-blue-500 text-white rounded-md">
-          <i class="bx bx-fast-forward"></i>
+          <i className="bx bx-fast-forward"></i>
         </span>
       </div>
 
