@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+import json
 
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
@@ -7,7 +8,6 @@ from rest_framework.views import APIView
 
 from .models import *
 from .serializers import *
-
 
 
 class AlumniProfilePagination(PageNumberPagination):
@@ -21,6 +21,7 @@ class AlumniProfileAPIView(APIView):
 
     def get(self, request):
         queryset = AlumniProfile.objects.all()
+
         paginator = self.pagination_class()
         paginated_queryset = paginator.paginate_queryset(queryset, request)
         serializer = AlumniProfileSerializer(paginated_queryset, many=True)
