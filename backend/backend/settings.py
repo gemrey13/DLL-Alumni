@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-ww^--2p8tk9z15)z=@3+&k3$ex3fij84tv8*namn^qp7lpuiqo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://gemreytest.pythonanywhere.com']
 
 
 # Application definition
@@ -65,6 +65,7 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
+    'https://dll-alumni.vercel.app',
 ]
 
 ROOT_URLCONF = "backend.urls"
