@@ -20,7 +20,7 @@ class AlumniProfileAPIView(APIView):
     pagination_class = AlumniProfilePagination
 
     def get(self, request):
-        queryset = AlumniProfile.objects.all()
+        queryset = AlumniProfile.objects.all().order_by('alumni_id')
 
         paginator = self.pagination_class()
         paginated_queryset = paginator.paginate_queryset(queryset, request)
