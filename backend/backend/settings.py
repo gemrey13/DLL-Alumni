@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-ww^--2p8tk9z15)z=@3+&k3$ex3fij84tv8*namn^qp7lpuiqo
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://gemreytest.pythonanywhere.com']
+ALLOWED_HOSTS = ['gemreytest.pythonanywhere.com', '127.0.0.1']
 
 
 # Application definition
