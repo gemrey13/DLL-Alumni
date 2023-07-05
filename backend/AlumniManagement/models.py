@@ -1,5 +1,6 @@
 from datetime import date
 from django.contrib.auth.models import User
+from django.core.validators import RegexValidator
 from django.db import models
 
 
@@ -97,6 +98,16 @@ class AlumniProfile(models.Model):
     fname = models.CharField(max_length=64)
     lname = models.CharField(max_length=64)
     mi = models.CharField(max_length=2, blank=True)
+    email = models.Emailfield(max_length=255, unique=True)
+    contact_number = models.CharField(
+        max_length=11,
+        validators=[
+            RegexValidator(
+                regex=r'^09\d{9}$',
+                message='Please enter a valid contact number starting with 09.'
+            )
+        ]
+    )
     suffix = models.CharField(max_length=3, blank=True)
     sex = models.CharField(max_length=10, choices=SEX_CHOICES)
     religion = models.CharField(max_length=64)
