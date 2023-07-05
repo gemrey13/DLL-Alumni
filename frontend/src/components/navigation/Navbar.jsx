@@ -9,6 +9,7 @@ const Navbar = () => {
   const [isMobileView, setMobileView] = useState(false);
   const [isSidebarExpanded, setSidebarExpanded] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isMenuProfile, setMenuProfile] = useState(false);
   const location = useLocation();
   const loc = location.pathname;
 
@@ -91,6 +92,9 @@ const Navbar = () => {
     }
   }, [isSidebarClosed]);
 
+
+  console.log(isMenuProfile)
+
   return (
     <>
       <nav className="navbar text-gray-900 bg-white dark:bg-slate-900 dark:text-white transition-colors duration-500 shadow-gray-400 shadow-sm">
@@ -102,8 +106,23 @@ const Navbar = () => {
         <div className="navbar_content dark:text-white">
           <i className={`bx ${darkToggle ? 'bx-moon' : 'bx-sun'} hover: transition-transform duration-200 hover:scale-125`} id="darkLight" onClick={darkSwitch}></i>
           <i className="bx bx-bell hover: transition-transform duration-200 hover:scale-125"></i>
-          <span className="w-full h-10 border-2 border-blue-600 cursor-pointer transition-colors duration-500 animate-border-color rounded-full">
+          <span onClick={() => isMenuProfile? setMenuProfile(false) : setMenuProfile(true)} className="w-full h-10 border-2 border-blue-600 cursor-pointer transition-colors duration-500 animate-border-color rounded-full">
             <img src={avatarMale} alt="" className="relative mt-1" />
+
+            {isMenuProfile && (
+              <div className="relative transition-all duration-1000 max-h-0">
+                <div className="absolute right-0 w-40 mt-2 py-2 bg-white border rounded shadow-xl">   
+                  <a href="#" className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-900 rounded hover:bg-purple-500 hover:text-white">Settings</a>
+                  <div className="py-2">
+                    <hr></hr>
+                </div>
+                <a href="#" className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-900 rounded hover:bg-purple-500 hover:text-white">    
+                  Logout
+                </a>
+              </div>
+              </div>
+            )}
+
           </span>
         </div>
       </nav>
