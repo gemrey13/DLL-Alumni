@@ -10,18 +10,12 @@ const TracerAlumniTable = () => {
   const [isLoadings, setLoadings] = useState(true);
 
   useEffect(() => {
-    // Simulate loading delay
-    const delay = 30000; // 3 seconds
-
-    // Start loading animation
+    const delay = 30000; 
     setLoadings(true);
-
-    // Stop loading animation after the delay
     const timeout = setTimeout(() => {
       setLoadings(false);
     }, delay);
 
-    // Clear the timeout if the component unmounts or the dependency array changes
     return () => clearTimeout(timeout);
   }, []);
 
@@ -37,7 +31,7 @@ const TracerAlumniTable = () => {
 
   useEffect(() => {
     if (count && count > 0) {
-      const totalPages = Math.ceil(count / 10); // Assuming 10 results per page
+      const totalPages = Math.ceil(count / 10);
       setTotalPages(totalPages);
     }
   }, [count]);
