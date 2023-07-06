@@ -86,7 +86,7 @@ const TracerAlumniTable = () => {
                     <span className={`inline-flex px-2 text-xs font-semibold leading-5 ${index % 3 === 0 ? 'text-green-800 bg-green-200' : 'text-white bg-red-500'} rounded-full`}>{index % 3 === 0 ? 'Employed' : 'Unemployed'}</span>
                   </td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap">2017</td>
-                  <td className="w-auto p-3 text-sm whitespace-nowrap">gemreyranola@gmail.com</td>
+                  <td className="w-auto p-3 text-sm whitespace-nowrap">{item.email}</td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap">{item.contact_number}</td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap text-center">
                     <button className="px-4 py-1 bg-blue-500 rounded-md text-white hover:bg-blue-700 hover:-translate-y-1 transition-transform duration-200">Edit</button>
@@ -100,7 +100,6 @@ const TracerAlumniTable = () => {
 
       <div className="text-center flex justify-center mt-4">
         <span>
-          {' '}
           Showing {(page - 1) * 10 + 1}-{Math.min(page * 10, count)} of {count}; Page {page} of {totalPages}
         </span>
       </div>

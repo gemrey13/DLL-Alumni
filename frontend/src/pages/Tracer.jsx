@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Navbar, Breadcrumb, Footer, TracerAlumniTable } from '../index';
+import { Navbar, Breadcrumb, Footer, TracerAlumniTable, AlumniForm } from '../index';
 
 const Tracer = () => {
   const [isModal, setIsModal] = useState(false);
@@ -81,6 +81,8 @@ const Tracer = () => {
         )}
 
         <TracerAlumniTable />
+
+        <AlumniForm />
       </div>
 
       <Footer />

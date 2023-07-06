@@ -8,6 +8,9 @@ export { default as Navbar } from './components/navigation/Navbar';
 export { default as TracerAlumniTable } from './components/data/TracerAlumniTable';
 
 
+export { default as AlumniForm } from './components/forms/AlumniForm';
+
+
 export { default as CustomBar } from './components/charts/CustomBar';
 export { default as TimeTrendChart } from './components/charts/TimeTrendChart';
 export { default as EmploymentRateChart } from './components/charts/EmploymentRateChart';
