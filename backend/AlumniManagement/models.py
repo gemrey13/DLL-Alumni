@@ -98,7 +98,7 @@ class AlumniProfile(models.Model):
     fname = models.CharField(max_length=64)
     lname = models.CharField(max_length=64)
     mi = models.CharField(max_length=2, blank=True)
-    email = models.Emailfield(max_length=255, unique=True)
+    suffix = models.CharField(max_length=3, blank=True)
     contact_number = models.CharField(
         max_length=11,
         validators=[
@@ -108,7 +108,6 @@ class AlumniProfile(models.Model):
             )
         ]
     )
-    suffix = models.CharField(max_length=3, blank=True)
     sex = models.CharField(max_length=10, choices=SEX_CHOICES)
     religion = models.CharField(max_length=64)
     marital_status = models.CharField(max_length=64)
