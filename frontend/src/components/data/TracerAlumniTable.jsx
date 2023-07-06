@@ -81,7 +81,7 @@ const TracerAlumniTable = () => {
               <th className="w-auto px-3 py-4 font-extralight tracking-wide text-center"></th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-100 dark:divide-slate-700">
+          <tbody className=" divide-gray-100 dark:divide-slate-700">
             {results &&
               results.map((item, index) => (
                 <tr key={index} className="bg-white dark:bg-slate-700 dark:text-white text-gray-500 hover:-translate-y-1 hover:delay-700 transition-transform duration-200">
