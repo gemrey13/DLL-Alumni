@@ -1,35 +1,65 @@
-import os
-import json
 from django.core.management.base import BaseCommand
+from django.contrib.auth.models import User
+from django.contrib.auth.hashers import make_password
 from AlumniManagement.models import AlumniProfile
+import random
+from faker import Faker
+
+fake = Faker(['fil_PH'])
 
 class Command(BaseCommand):
-    help = 'Import alumni data from JSON file'
+    help = 'Generate alumni profiles and user accounts'
 
     def add_arguments(self, parser):
-        parser.add_argument('file_path', type=str, help='Path to the JSON file')
+        parser.add_argument('num_profiles', type=int, help='Number of alumni profiles to generate')
 
     def handle(self, *args, **options):
-        file_path = options['file_path']
+        num_profiles = options['num_profiles']
+        self.generate_alumni_profiles(num_profiles)
 
-        with open(file_path, 'r') as json_file:
-            data = json.load(json_file)
+    def generate_alumni_profiles(self, num_profiles):
+        alumni_profiles = []
+        for i in range(num_profiles):
+            first_name = fake.first_name()
+            last_name = fake.last_name()
+            username = f"{first_name.lower()}.{last_name.lower()}"
+            password = fake.password()
+            email = fake.email()
 
-            alumni_profiles = []
-            for item in data:
-                alumni_profile = AlumniProfile(
-                    alumni_id=item['alumni_id'],
-                    fname=item['fname'],
-                    lname=item['lname'],
-                    mi=item['mi'],
-                    suffix=item['suffix'],
-                    sex=item['sex'],
-                    religion=item['religion'],
-                    marital_status=item['marital_status'],
-                    date_of_birth=item['date_of_birth']
-                )
-                alumni_profiles.append(alumni_profile)
+            user = User(username=username, password=make_password(password), email=email)
+            user.save()
 
-            AlumniProfile.objects.bulk_create(alumni_profiles)
+            alumni_id = f'A{i:05d}'
 
+            fname = first_name
+            lname = last_name
+            mi = fake.random_letter().upper()
+            suffix = fake.random_element(["Jr.", "Sr.", "II", "III"])
+
+            contact_number = f'09{fake.random_number(digits=9)}'
+
+            sex = fake.random_element(["Male", "Female"])
+            religion = fake.random_element(["Christian", "Muslim", "Jewish", "Buddhist", "Other"])
+            marital_status = fake.random_element(["Single", "Married", "Divorced", "Widowed"])
+            date_of_birth = fake.date_of_birth(minimum_age=22, maximum_age=45)
+
+            alumni_profile = AlumniProfile(
+                user=user,
+                alumni_id=alumni_id,
+                fname=fname,
+                lname=lname,
+                mi=mi,
+                suffix=suffix,
+                contact_number=contact_number,
+                sex=sex,
+                religion=religion,
+                marital_status=marital_status,
+                date_of_birth=date_of_birth
+            )
+            alumni_profiles.append(alumni_profile)
+
+        # Bulk create alumni profiles
+        AlumniProfile.objects.bulk_create(alumni_profiles)
+
+            
         self.stdout.write(self.style.SUCCESS('Alumni data imported successfully!'))
