@@ -215,10 +215,10 @@ const Navbar = () => {
 
           <div className="bottom_content">
             <div className="bottom expand_sidebar" style={{ display: !isSidebarExpanded ? 'block' : 'none' }} onClick={handleExpandSidebar}>
-              <i className="bx bx-log-in"></i>
+              <i class='bx bx-expand-horizontal' ></i>
             </div>
             <div className="bottom collapse_sidebar" style={{ display: isSidebarExpanded ? 'block' : 'none' }} onClick={handleCloseSidebar}>
-              <i className="bx bx-log-out"></i>
+             <i class='bx bx-collapse-horizontal'></i>
             </div>
           </div>
         </div>

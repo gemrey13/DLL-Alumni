@@ -84,7 +84,7 @@ const TracerAlumniTable = () => {
           <tbody className="divide-y divide-gray-100 dark:divide-slate-700">
             {results &&
               results.map((item, index) => (
-                <tr key={index} className="bg-white dark:bg-slate-700 dark:text-white text-gray-500  hover:-translate-y-1 transition-transform duration-200">
+                <tr key={index} className="bg-white dark:bg-slate-700 dark:text-white text-gray-500 hover:-translate-y-1 hover:delay-700 transition-transform duration-200">
                   <td className="w-auto p-3 text-sm whitespace-nowrap">{item.alumni_id}</td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap">{item.fname}</td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap">{item.lname}</td>
