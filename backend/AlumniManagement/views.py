@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 import json
+from rest_framework.decorators import api_view
 
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
@@ -37,22 +38,36 @@ class AlumniProfileAPIView(APIView):
 
 
 
-class CountryViewSet(viewsets.ModelViewSet):
-    queryset = Country.objects.all()
-    serializer_class = CountrySerializer
+@api_view(['GET'])
+def country_list(request):
+    countries = Country.objects.all()
+    serializer = CountrySerializer(countries, many=True)
+    return Response(serializer.data)
 
-class RegionViewSet(viewsets.ModelViewSet):
-    queryset = Region.objects.all()
-    serializer_class = RegionSerializer
 
-class ProvinceViewSet(viewsets.ModelViewSet):
-    queryset = Province.objects.all()
-    serializer_class = ProvinceSerializer
+@api_view(['GET'])
+def region_list(request, country_id):
+    regions = Region.objects.filter(country_id=country_id)
+    serializer = RegionSerializer(regions, many=True)
+    return Response(serializer.data)
 
-class CityViewSet(viewsets.ModelViewSet):
-    queryset = City.objects.all()
-    serializer_class = CitySerializer
 
-class BarangayViewSet(viewsets.ModelViewSet):
-    queryset = Barangay.objects.all()
-    serializer_class = BarangaySerializer
+@api_view(['GET'])
+def province_list(request, region_id):
+    provinces = Province.objects.filter(region_id=region_id)
+    serializer = ProvinceSerializer(provinces, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def city_list(request, province_id):
+    cities = City.objects.filter(province_id=province_id)
+    serializer = CitySerializer(cities, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def barangay_list(request, city_id):
+    barangays = Barangay.objects.filter(city_id=city_id)
+    serializer = BarangaySerializer(barangays, many=True)
+    return Response(serializer.data)
