@@ -6,7 +6,7 @@ const useAxios = (url) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   // const baseUrl = 'http://127.0.0.1:8000/';
-  const baseUrl = 'https://gemreytest.pythonanywhere.com/'
+  const baseUrl = 'https://gemreytest.pythonanywhere.com/';
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
@@ -14,7 +14,7 @@ const useAxios = (url) => {
       try {
         const response = await axios.get(`${baseUrl}${url}`);
         setData(response.data);
-        console.log(response.data)
+        console.log(response.data);
       } catch (error) {
         setError(error);
         console.log(error);
