@@ -6,6 +6,7 @@ import json
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework import viewsets
 
 from .models import *
 from .serializers import *
@@ -34,23 +35,24 @@ class AlumniProfileAPIView(APIView):
             'prev':    paginator.get_previous_link()
             })
 
-# Create your views here.
-def get_barangays(request):
-    city_id = request.GET.get('city_id')
-    barangays = Barangay.objects.filter(city_id=city_id).values('id', 'barangay_name')
 
-    return JsonResponse({'barangays': list(barangays)})
 
-def get_provinces(request):
-    country_id = request.GET.get('country_id')
-    jobcountry_id = request.GET.get('jobcountry_id')
-    provinces = Province.objects.filter(country_id=country_id).values('id', 'province_name')
-    jobprovinces = Province.objects.filter(country_id=jobcountry_id).values('id', 'province_name')
+class CountryViewSet(viewsets.ModelViewSet):
+    queryset = Country.objects.all()
+    serializer_class = CountrySerializer
 
-    return JsonResponse({'provinces': list(provinces), 'jobprovinces': list(jobprovinces)})
+class RegionViewSet(viewsets.ModelViewSet):
+    queryset = Region.objects.all()
+    serializer_class = RegionSerializer
 
-def get_cities(request):
-    province_id = request.GET.get('province_id')
-    cities = City.objects.filter(province_id=province_id).values('id', 'city_name')
+class ProvinceViewSet(viewsets.ModelViewSet):
+    queryset = Province.objects.all()
+    serializer_class = ProvinceSerializer
 
-    return JsonResponse({'cities': list(cities)})
+class CityViewSet(viewsets.ModelViewSet):
+    queryset = City.objects.all()
+    serializer_class = CitySerializer
+
+class BarangayViewSet(viewsets.ModelViewSet):
+    queryset = Barangay.objects.all()
+    serializer_class = BarangaySerializer

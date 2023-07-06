@@ -24,7 +24,7 @@ class Command(BaseCommand):
             last_name = fake.last_name()
             username = f"{first_name.lower()}.{last_name.lower()}"
             password = fake.password()
-            email = fake.email()
+            email = fake.email(domain='gmail.com')
 
             user = User(username=username, password=make_password(password), email=email)
             user.save()
