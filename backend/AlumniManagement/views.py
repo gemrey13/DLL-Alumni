@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.models import User
 from django.http import JsonResponse
 import json
 
@@ -25,6 +26,7 @@ class AlumniProfileAPIView(APIView):
         paginator = self.pagination_class()
         paginated_queryset = paginator.paginate_queryset(queryset, request)
         serializer = AlumniProfileSerializer(paginated_queryset, many=True)
+        
         return Response({
             'results': serializer.data,
             'count':   paginator.page.paginator.count,
