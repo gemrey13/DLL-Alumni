@@ -87,7 +87,7 @@ const TracerAlumniTable = () => {
                   </td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap">2017</td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap">gemreyranola@gmail.com</td>
-                  <td className="w-auto p-3 text-sm whitespace-nowrap">09**********</td>
+                  <td className="w-auto p-3 text-sm whitespace-nowrap">{item.contact_number}</td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap text-center">
                     <button className="px-4 py-1 bg-blue-500 rounded-md text-white hover:bg-blue-700 hover:-translate-y-1 transition-transform duration-200">Edit</button>
                     <button className="ml-2 py-1 bg-orange-500 px-3 rounded-md text-white hover:bg-orange-700 hover:-translate-y-1 transition-transform duration-200">Delete</button>
