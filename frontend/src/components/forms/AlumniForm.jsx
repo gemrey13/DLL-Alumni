@@ -85,7 +85,7 @@ const AlumniForm = () => {
   };
 
   return (
-    <div>
+    <div className='mt-10'>
       <select onChange={handleCountryChange}>
         <option value="">Select Country</option>
         {countries.map((country) => (
