@@ -19,29 +19,31 @@ const AlumniForm = () => {
   const { data: barangaysData, isLoading: barangaysLoading, error: barangaysError } = useAxios(`api/address/cities/${selectedCity}/barangays/`);
 
   useEffect(() => {
-    setCountries(countriesData);
-  }, [countriesData]);
+    if (!selectedCountry && countriesData.length > 0) {
+      setCountries(countriesData);
+    }
+  }, [countriesData, selectedCountry]);
 
   useEffect(() => {
-    if (selectedCountry) {
+    if (selectedCountry && !selectedRegion && regionsData.length > 0) {
       setRegions(regionsData);
     }
-  }, [regionsData, selectedCountry]);
+  }, [regionsData, selectedCountry, selectedRegion]);
 
   useEffect(() => {
-    if (selectedRegion) {
+    if (selectedRegion && !selectedProvince && provincesData.length > 0) {
       setProvinces(provincesData);
     }
-  }, [provincesData, selectedRegion]);
+  }, [provincesData, selectedRegion, selectedProvince]);
 
   useEffect(() => {
-    if (selectedProvince) {
+    if (selectedProvince && !selectedCity && citiesData.length > 0) {
       setCities(citiesData);
     }
-  }, [citiesData, selectedProvince]);
+  }, [citiesData, selectedProvince, selectedCity]);
 
   useEffect(() => {
-    if (selectedCity) {
+    if (selectedCity && barangaysData.length > 0) {
       setBarangays(barangaysData);
     }
   }, [barangaysData, selectedCity]);
@@ -93,49 +95,42 @@ const AlumniForm = () => {
         ))}
       </select>
 
-      {selectedCountry && (
-        <select onChange={handleRegionChange}>
-          <option value="">Select Region</option>
-          {regions.map((region) => (
-            <option key={region.id} value={region.id}>
-              {region.region_name}
-            </option>
-          ))}
-        </select>
-      )}
+      <select onChange={handleRegionChange}>
+        <option value="">Select Region</option>
+        {regions.map((region) => (
+          <option key={region.id} value={region.id}>
+            {region.region_name}
+          </option>
+        ))}
+      </select>
 
-      {selectedRegion && (
-        <select onChange={handleProvinceChange}>
-          <option value="">Select Province</option>
-          {provinces.map((province) => (
-            <option key={province.id} value={province.id}>
-              {province.province_name}
-            </option>
-          ))}
-        </select>
-      )}
 
-      {selectedProvince && (
-        <select onChange={handleCityChange}>
-          <option value="">Select City</option>
-          {cities.map((city) => (
-            <option key={city.id} value={city.id}>
-              {city.city_name}
-            </option>
-          ))}
-        </select>
-      )}
+      <select onChange={handleProvinceChange}>
+        <option value="">Select Province</option>
+        {provinces.map((province) => (
+          <option key={province.id} value={province.id}>
+            {province.province_name}
+          </option>
+        ))}
+      </select>
 
-      {selectedCity && (
-        <select>
-          <option value="">Select Barangay</option>
-          {barangays.map((barangay) => (
-            <option key={barangay.id} value={barangay.id}>
-              {barangay.barangay_name}
-            </option>
-          ))}
-        </select>
-      )}
+      <select onChange={handleCityChange}>
+        <option value="">Select City</option>
+        {cities.map((city) => (
+          <option key={city.id} value={city.id}>
+            {city.city_name}
+          </option>
+        ))}
+      </select>
+
+      <select>
+        <option value="">Select Barangay</option>
+        {barangays.map((barangay) => (
+          <option key={barangay.id} value={barangay.id}>
+            {barangay.barangay_name}
+          </option>
+        ))}
+      </select>
     </div>
   );
 };

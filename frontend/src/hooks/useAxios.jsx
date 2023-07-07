@@ -17,7 +17,6 @@ const useAxios = (url) => {
         console.log(response.data);
       } catch (error) {
         setError(error);
-        console.log(error);
       } finally {
         setIsLoading(false);
       }
