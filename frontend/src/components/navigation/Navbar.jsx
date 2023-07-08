@@ -111,15 +111,10 @@ const Navbar = () => {
 
             {isMenuProfile && (
               <div className="relative transition-all duration-1000 max-h-0">
-                <div className="absolute right-0 w-40 mt-2 py-2 bg-white border rounded shadow-xl">   
-                  <a href="#" className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-900 rounded hover:bg-purple-500 hover:text-white">Settings</a>
-                  <div className="py-2">
-                    <hr></hr>
+                <div className="absolute right-0 z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">   
+                  <a href="#" className="transition-colors duration-200 block px-4 py-3 text-normal text-gray-900 rounded hover:bg-purple-500 hover:text-white">Settings</a>
+                  <a href="#" className="transition-colors duration-200 block px-4 py-3 text-normal text-gray-900 rounded hover:bg-purple-500 hover:text-white">Logout</a>
                 </div>
-                <a href="#" className="transition-colors duration-200 block px-4 py-2 text-normal text-gray-900 rounded hover:bg-purple-500 hover:text-white">    
-                  Logout
-                </a>
-              </div>
               </div>
             )}
 
