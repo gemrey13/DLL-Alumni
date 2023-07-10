@@ -128,36 +128,36 @@ const Navbar = () => {
           <ul className="menu_items ">
             <div className={`menu_title menu_dahsboard ${isSidebarClosed ? 'hidden' : ''}`}></div>
 
-            <Link to="/Home" className={`nav_link submenu_item hover:bg-indigo-700 ${isSidebarExpanded && location.pathname === '/Home' ? 'bg-indigo-700 text-gray-200 hover:bg-indigo-700' : ''}`}>
-              <span className={`${loc === '/Home' ? 'bg-indigo-700 text-white' : 'hover:text-white'} navlink_icon`}>
+            <Link to="/home" className={`nav_link submenu_item hover:bg-indigo-700 ${isSidebarExpanded && location.pathname === '/home' ? 'bg-indigo-700 text-gray-200 hover:bg-indigo-700' : ''}`}>
+              <span className={`${loc === '/home' ? 'bg-indigo-700 text-white' : 'hover:text-white'} navlink_icon`}>
                 <i className="bx bx-home-alt"></i>
               </span>
-              <span className={`navlink ${loc === '/Home' ? 'text-white' : 'hover:text-white'}`}>Home</span>
-              {location.pathname === '/Home' && <i className={`${isSidebarExpanded ? 'text-gray-200' : 'text-black dark:text-white'} bx bx-chevron-right arrow-left  font-bold`}></i>}
+              <span className={`navlink ${loc === '/home' ? 'text-white' : 'hover:text-white'}`}>Home</span>
+              {location.pathname === '/home' && <i className={`${isSidebarExpanded ? 'text-gray-200' : 'text-black dark:text-white'} bx bx-chevron-right arrow-left  font-bold`}></i>}
             </Link>
 
-            <Link to="/Dashboard" className={`nav_link submenu_item hover:bg-indigo-700 ${isSidebarExpanded && location.pathname === '/Dashboard' ? 'bg-indigo-700 text-gray-200 hover:bg-indigo-700' : ''}`}>
-              <span className={`${loc === '/Dashboard' ? 'bg-indigo-700 text-white' : 'hover:text-white'} navlink_icon`}>
+            <Link to="/dashboard" className={`nav_link submenu_item hover:bg-indigo-700 ${isSidebarExpanded && location.pathname === '/dashboard' ? 'bg-indigo-700 text-gray-200 hover:bg-indigo-700' : ''}`}>
+              <span className={`${loc === '/dashboard' ? 'bg-indigo-700 text-white' : 'hover:text-white'} navlink_icon`}>
                 <i className="bx bx-grid-alt"></i>
               </span>
-              <span className={`navlink ${loc === '/Dashboard' ? 'text-white' : 'hover:text-white'}`}>Dashboard</span>
-              {location.pathname === '/Dashboard' && <i className={`${isSidebarExpanded ? 'text-gray-200' : 'text-black dark:text-white'} bx bx-chevron-right arrow-left  font-bold`}></i>}
+              <span className={`navlink ${loc === '/dashboard' ? 'text-white' : 'hover:text-white'}`}>Dashboard</span>
+              {location.pathname === '/dashboard' && <i className={`${isSidebarExpanded ? 'text-gray-200' : 'text-black dark:text-white'} bx bx-chevron-right arrow-left  font-bold`}></i>}
             </Link>
 
-            <Link to="/Tracer" className={`nav_link submenu_item hover:bg-indigo-700 ${isSidebarExpanded && location.pathname === '/Tracer' ? 'bg-indigo-700 text-gray-200 hover:bg-indigo-700' : ''}`}>
-              <span className={`${loc === '/Tracer' ? 'bg-indigo-700 text-white' : 'hover:text-white'} navlink_icon`}>
+            <Link to="/tracer" className={`nav_link submenu_item hover:bg-indigo-700 ${isSidebarExpanded && location.pathname === '/tracer' ? 'bg-indigo-700 text-gray-200 hover:bg-indigo-700' : ''}`}>
+              <span className={`${loc === '/tracer' ? 'bg-indigo-700 text-white' : 'hover:text-white'} navlink_icon`}>
                 <i className="bx bx-user"></i>
               </span>
-              <span className={`navlink ${loc === '/Tracer' ? 'text-white' : 'hover:text-white'}`}>Tracer</span>
-              {location.pathname === '/Tracer' && <i className={`${isSidebarExpanded ? 'text-gray-200' : 'text-black dark:text-white'} bx bx-chevron-right arrow-left  font-bold`}></i>}
+              <span className={`navlink ${loc === '/tracer' ? 'text-white' : 'hover:text-white'}`}>Tracer</span>
+              {location.pathname === '/tracer' && <i className={`${isSidebarExpanded ? 'text-gray-200' : 'text-black dark:text-white'} bx bx-chevron-right arrow-left  font-bold`}></i>}
             </Link>
 
-            <Link to="/Analysis" className={`nav_link submenu_item hover:bg-indigo-700 ${isSidebarExpanded && location.pathname === '/Analysis' ? 'bg-indigo-700 text-gray-200 hover:bg-indigo-700' : ''}`}>
-              <span className={`${loc === '/Analysis' ? 'bg-indigo-700 text-white' : 'hover:text-white'} navlink_icon`}>
+            <Link to="/analysis" className={`nav_link submenu_item hover:bg-indigo-700 ${isSidebarExpanded && location.pathname === '/analysis' ? 'bg-indigo-700 text-gray-200 hover:bg-indigo-700' : ''}`}>
+              <span className={`${loc === '/analysis' ? 'bg-indigo-700 text-white' : 'hover:text-white'} navlink_icon`}>
                 <i className="bx bx-book-bookmark"></i>
               </span>
-              <span className={`navlink ${loc === '/Analysis' ? 'text-white' : 'hover:text-white'}`}>Analysis</span>
-              {location.pathname === '/Analysis' && <i className={`${isSidebarExpanded ? 'text-gray-200' : 'text-black dark:text-white'} bx bx-chevron-right arrow-left  font-bold`}></i>}
+              <span className={`navlink ${loc === '/analysis' ? 'text-white' : 'hover:text-white'}`}>Analysis</span>
+              {location.pathname === '/analysis' && <i className={`${isSidebarExpanded ? 'text-gray-200' : 'text-black dark:text-white'} bx bx-chevron-right arrow-left  font-bold`}></i>}
             </Link>
 
             <Link to="/#" className={`nav_link submenu_item hover:bg-indigo-700 ${isSidebarExpanded && location.pathname === '/#' ? 'bg-indigo-700 text-gray-200 hover:bg-indigo-700' : ''}`}>

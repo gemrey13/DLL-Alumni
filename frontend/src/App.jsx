@@ -7,11 +7,11 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/Tracer" element={<Tracer />} />
-        <Route path="/Analysis" element={<Analysis />} />
-        <Route path="/Dashboard" element={<Dashboard />} />
-        <Route path="/alumni/profile/" element={<AlumniProfile />} />
-        <Route path="/Home" element={<Home />} />
+        <Route path="/tracer" element={<Tracer />} />
+        <Route path="/tracer/profile/" element={<AlumniProfile />} />
+        <Route path="/analysis" element={<Analysis />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/home" element={<Home />} />
         <Route path="/sample" element={<Sample />} />
       </Routes>
     </BrowserRouter>
