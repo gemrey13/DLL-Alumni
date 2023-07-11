@@ -86,6 +86,20 @@ const AlumniForm = () => {
 
   return (
     <>
+      <div>
+        <label htmlFor="fname">First Name</label>
+        <input type="text" id="fname" />
+
+        <label htmlFor="lname">Last Name</label>
+        <input type="text" id="lname" />
+
+        <label htmlFor="mi">Middle Initial</label>
+        <input type="text" id="mi" />
+
+        <label htmlFor="suffix">First Name</label>
+        <input type="text" id="suffix" />
+      </div>
+
       <div className="flex justify-center items-center">
         <select onChange={handleCountryChange} className=" dark:bg-gray-700 dark:text-white">
           <option value="">Select Country</option>
