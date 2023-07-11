@@ -86,66 +86,119 @@ const AlumniForm = () => {
 
   return (
     <>
-      <div>
-        <label htmlFor="fname">First Name</label>
-        <input type="text" id="fname" />
 
-        <label htmlFor="lname">Last Name</label>
-        <input type="text" id="lname" />
+    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
 
-        <label htmlFor="mi">Middle Initial</label>
-        <input type="text" id="mi" />
+      <div className="relative top-20 mx-auto p-5 border w-3/4 shadow-lg rounded-md bg-white">
+        <div className="mt-3 text-center">
+          
+          <div className="mt-2 px-7 py-3">
 
-        <label htmlFor="suffix">First Name</label>
-        <input type="text" id="suffix" />
+            <div className='rid grid-cols-5 grid-rows-5 gap-4'>
+              <div className='flex flex-nowrap text-left'>
+                <label htmlFor="fname" className='w-1/4'>First Name</label>
+                <label htmlFor="lname" className='w-1/4'>Last Name</label>
+                <label htmlFor="mi" className='w-1/4'>Middle Initial</label>
+                <label htmlFor="suffix" className='w-1/4'>Suffix</label>
+              </div>
+              <div className="row-start-2">
+                <input type="text" id="fname" className='h-10 w-1/4'/>
+                <input type="text" id="lname" className='w-1/4'/>
+                <input type="text" id="mi" className='w-1/4'/>
+                <input type="text" id="suffix" className='w-1/4'/>
+              </div>
+            </div>
+
+            <div className='rid grid-cols-5 grid-rows-5 gap-4'>
+              <div className='flex flex-nowrap text-left'>
+                <label htmlFor="fname" className='w-2/6'>Contact Number</label>
+                <label htmlFor="lname" className='w-2/6'>Sex</label>
+                <label htmlFor="mi" className='w-2/6'>Religion</label>
+              </div>
+              <div className="row-start-2">
+                <input type="text" id="fname" className='h-10 w-2/6'/>
+                <input type="text" id="lname" className='w-2/6'/>
+                <input type="text" id="mi" className='w-2/6'/>
+              </div>
+            </div>
+
+            <div className='rid grid-cols-5 grid-rows-5 gap-4'>
+              <div className='flex flex-nowrap text-left'>
+                <label htmlFor="fname" className='w-2/5'>Marital Status</label>
+                <label htmlFor="lname" className='w-2/5'>Date of Birth</label>
+              </div>
+              <div className="row-start-2">
+                <input type="text" id="fname" className='h-10 w-2/5'/>
+                <input type="date" id="lname" className='w-2/5'/>
+              </div>
+            </div>
+
+
+            <div className="grid-cols-5 grid-rows-5 gap-4">
+              <div className="">
+                <select onChange={handleCountryChange} className="w-1/5 dark:bg-gray-700 dark:text-white">
+                  <option value="">Select Country</option>
+                  {countries.map((country) => (
+                    <option key={country.id} value={country.id}>
+                      {country.country_name}
+                    </option>
+                  ))}
+                </select>
+
+                <select onChange={handleRegionChange} className="w-1/5 dark:bg-gray-700 dark:text-white">
+                  <option value="">Select Region</option>
+                  {regions.map((region) => (
+                    <option key={region.id} value={region.id}>
+                      {region.region_name}
+                    </option>
+                  ))}
+                </select>
+
+                <select onChange={handleProvinceChange} className="w-1/5 dark:bg-gray-700 dark:text-white">
+                  <option value="">Select Province</option>
+                  {provinces.map((province) => (
+                    <option key={province.id} value={province.id}>
+                      {province.province_name}
+                    </option>
+                  ))}
+                </select>
+
+                <select onChange={handleCityChange} className="w-1/5 dark:bg-gray-700 dark:text-white">
+                  <option value="">Select City</option>
+                  {cities.map((city) => (
+                    <option key={city.id} value={city.id}>
+                      {city.city_name}
+                    </option>
+                  ))}
+                </select>
+
+                <select className="w-1/5 dark:bg-gray-700 dark:text-white">
+                  <option value="">Select Barangay</option>
+                  {barangays.map((barangay) => (
+                    <option key={barangay.id} value={barangay.id}>
+                      {barangay.barangay_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+          </div>
+
+
+          <div className="items-center px-4 py-3">
+            <button className="px-4 py-2 bg-orange-500 text-white text-base font-medium rounded-md w-1/5 mr-10 shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
+              Cancel
+            </button>
+            <button className="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-1/5 shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
+              Save
+            </button>
+          </div>
+        </div>
       </div>
 
-      <div className="flex justify-center items-center">
-        <select onChange={handleCountryChange} className=" dark:bg-gray-700 dark:text-white">
-          <option value="">Select Country</option>
-          {countries.map((country) => (
-            <option key={country.id} value={country.id}>
-              {country.country_name}
-            </option>
-          ))}
-        </select>
+    </div>
 
-        <select onChange={handleRegionChange} className="dark:bg-gray-700 dark:text-white">
-          <option value="">Select Region</option>
-          {regions.map((region) => (
-            <option key={region.id} value={region.id}>
-              {region.region_name}
-            </option>
-          ))}
-        </select>
-
-        <select onChange={handleProvinceChange} className="dark:bg-gray-700 dark:text-white">
-          <option value="">Select Province</option>
-          {provinces.map((province) => (
-            <option key={province.id} value={province.id}>
-              {province.province_name}
-            </option>
-          ))}
-        </select>
-
-        <select onChange={handleCityChange} className="dark:bg-gray-700 dark:text-white">
-          <option value="">Select City</option>
-          {cities.map((city) => (
-            <option key={city.id} value={city.id}>
-              {city.city_name}
-            </option>
-          ))}
-        </select>
-
-        <select className="dark:bg-gray-700 dark:text-white">
-          <option value="">Select Barangay</option>
-          {barangays.map((barangay) => (
-            <option key={barangay.id} value={barangay.id}>
-              {barangay.barangay_name}
-            </option>
-          ))}
-        </select>
-      </div>
     </>
   );
 };
