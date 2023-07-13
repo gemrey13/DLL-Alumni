@@ -86,7 +86,6 @@ class Course(models.Model):
     course_name = models.CharField(max_length=64, blank=False)
     course_desc = models.CharField(max_length=255, blank=True)
     field_type = models.CharField(max_length=64, choices=FIELD_CHOICES, default='technology')
-    curriculum = models.ForeignKey(Curriculum, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.course_id}'
@@ -199,5 +198,6 @@ class Graduate(models.Model):
     alumni = models.ForeignKey(AlumniProfile, on_delete=models.CASCADE)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     graduation_date = models.DateField()
+    curriculum = models.ForeignKey(Curriculum, on_delete=models.CASCADE)
     honor = models.CharField(max_length=64, blank=True)
 

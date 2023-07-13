@@ -2,7 +2,6 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from AlumniManagement.models import AlumniProfile
-import random
 from faker import Faker
 
 fake = Faker(['fil_PH'])
@@ -19,6 +18,8 @@ class Command(BaseCommand):
 
     def generate_alumni_profiles(self, num_profiles):
         alumni_profiles = []
+        users = []
+
         for i in range(num_profiles):
             first_name = fake.first_name()
             last_name = fake.last_name()
@@ -27,7 +28,7 @@ class Command(BaseCommand):
             email = fake.email(domain='gmail.com')
 
             user = User(username=username, password=make_password(password), email=email)
-            user.save()
+            users.append(user)
 
             alumni_id = f'A{i:05d}'
 
@@ -44,7 +45,6 @@ class Command(BaseCommand):
             date_of_birth = fake.date_of_birth(minimum_age=22, maximum_age=45)
 
             alumni_profile = AlumniProfile(
-                user=user,
                 alumni_id=alumni_id,
                 fname=fname,
                 lname=lname,
@@ -58,8 +58,14 @@ class Command(BaseCommand):
             )
             alumni_profiles.append(alumni_profile)
 
-        # Bulk create alumni profiles
+        # Bulk create User objects
+        User.objects.bulk_create(users)
+
+        # Assign User objects to AlumniProfile objects
+        for user, alumni_profile in zip(users, alumni_profiles):
+            alumni_profile.user = user
+
+        # Bulk create AlumniProfile objects
         AlumniProfile.objects.bulk_create(alumni_profiles)
 
-            
         self.stdout.write(self.style.SUCCESS('Alumni data imported successfully!'))
