@@ -103,13 +103,13 @@ const AlumniForm = () => {
               </div>
               <div className="row-start-2">
                 <input type="text" id="fname" className='h-10 w-1/4'/>
-                <input type="text" id="lname" className='w-1/4'/>
-                <input type="text" id="mi" className='w-1/4'/>
-                <input type="text" id="suffix" className='w-1/4'/>
+                <input type="text" id="lname" className='h-10 w-1/4'/>
+                <input type="text" id="mi" className='h-10 w-1/4'/>
+                <input type="text" id="suffix" className='h-10 w-1/4'/>
               </div>
             </div>
 
-            <div className='rid grid-cols-5 grid-rows-5 gap-4'>
+            <div className='rid grid-cols-5 grid-rows-5 gap-4 mt-6'>
               <div className='flex flex-nowrap text-left'>
                 <label htmlFor="fname" className='w-2/6'>Contact Number</label>
                 <label htmlFor="lname" className='w-2/6'>Sex</label>
@@ -117,25 +117,26 @@ const AlumniForm = () => {
               </div>
               <div className="row-start-2">
                 <input type="text" id="fname" className='h-10 w-2/6'/>
-                <input type="text" id="lname" className='w-2/6'/>
-                <input type="text" id="mi" className='w-2/6'/>
+                <input type="text" id="lname" className='h-10 w-2/6'/>
+                <input type="text" id="mi" className='h-10 w-2/6'/>
               </div>
             </div>
 
-            <div className='rid grid-cols-5 grid-rows-5 gap-4'>
+            <div className='grid-cols-5 grid-rows-5 gap-4 mt-6'>
               <div className='flex flex-nowrap text-left'>
                 <label htmlFor="fname" className='w-2/5'>Marital Status</label>
                 <label htmlFor="lname" className='w-2/5'>Date of Birth</label>
               </div>
-              <div className="row-start-2">
+              <div className="row-start-2 text-left">
                 <input type="text" id="fname" className='h-10 w-2/5'/>
-                <input type="date" id="lname" className='w-2/5'/>
+                <input type="date" id="lname" className='h-10 w-2/5'/>
               </div>
             </div>
 
 
-            <div className="grid-cols-5 grid-rows-5 gap-4">
-              <div className="">
+            <div className="grid-cols-5 grid-rows-5 gap-4 mt-5">
+              <label htmlFor='address' className='justify-start'>Address</label>
+              <div className="" id='address'>
                 <select onChange={handleCountryChange} className="w-1/5 dark:bg-gray-700 dark:text-white">
                   <option value="">Select Country</option>
                   {countries.map((country) => (

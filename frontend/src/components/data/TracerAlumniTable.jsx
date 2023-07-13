@@ -69,6 +69,7 @@ const TracerAlumniTable = () => {
               <th className="w-auto px-3 py-4 font-extralight tracking-wide text-left">First Name</th>
               <th className="w-auto px-3 py-4 font-extralight tracking-wide text-left">Last Name</th>
               <th className="w-auto px-3 py-4 font-extralight tracking-wide text-left">Staus</th>
+              <th className="w-auto px-3 py-4 font-extralight tracking-wide text-left">Course</th>
               <th className="w-auto px-3 py-4 font-extralight tracking-wide text-left">Grad Year</th>
               <th className="w-auto px-3 py-4 font-extralight tracking-wide text-left">Email</th>
               <th className="w-auto px-3 py-4 font-extralight tracking-wide text-left">Mobile No.</th>
@@ -85,6 +86,7 @@ const TracerAlumniTable = () => {
                   <td className="w-auto whitespace-nowrap">
                     <span className={`inline-flex px-2 text-xs font-semibold leading-5 ${index % 3 === 0 ? 'text-green-800 bg-green-200' : 'text-white bg-red-500'} rounded-full`}>{index % 3 === 0 ? 'Employed' : 'Unemployed'}</span>
                   </td>
+                  <td className="w-auto p-3 text-sm whitespace-nowrap">BSIT</td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap">2017</td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap">{item.email}</td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap">{item.contact_number}</td>
