@@ -5,11 +5,14 @@ const Breadcrumb = (props) => {
   const pageName1 = props.url;
   const pageName2 = props.url2;
 
+  const lowercasePageName1 = pageName1 ? pageName1.toLowerCase() : '';
+  const lowercasePageName2 = pageName2 ? pageName2.toLowerCase() : '';
+
   return (
     <nav className="text-sm font-semibold mb-6" aria-label="Breadcrumb">
       <ol className="list-none p-0 inline-flex">
         <li className="flex items-center text-blue-500">
-          <Link to="/Home" className="text-gray-600 dark:text-gray-300 transition-transform duration-200 hover:scale-105">
+          <Link to="/home" className="text-gray-600 dark:text-gray-300 transition-transform duration-200 hover:scale-105">
             Home
           </Link>
           <svg className={`${pageName1? '': 'hidden'} fill-current w-3 h-3 mx-3`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
@@ -17,7 +20,7 @@ const Breadcrumb = (props) => {
           </svg>
         </li>
         <li className={`${pageName1? '': 'hidden'} flex items-center`}>
-          <Link to={`/${pageName1}`} className="text-gray-500 dark:text-gray-400 transition-transform duration-200 hover:scale-105">
+          <Link to={`/${lowercasePageName1}`} className="text-gray-500 dark:text-gray-400 transition-transform duration-200 hover:scale-105">
             {pageName1}
           </Link>
           <svg className={`${pageName2? '': 'hidden'} fill-current w-3 h-3 mx-3`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
@@ -25,7 +28,7 @@ const Breadcrumb = (props) => {
           </svg>
         </li>
         <li className={`${pageName2? '': 'hidden'} flex items-center`}>
-          <Link to={`/${pageName1}/${pageName2}`} className="text-gray-500 dark:text-gray-400 transition-transform duration-200 hover:scale-105">
+          <Link to={`/${lowercasePageName1}/${lowercasePageName2}`} className="text-gray-500 dark:text-gray-400 transition-transform duration-200 hover:scale-105">
             {pageName2}
           </Link>
         </li>
