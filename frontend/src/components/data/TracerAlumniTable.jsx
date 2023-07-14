@@ -133,9 +133,7 @@ const TracerAlumniTable = () => {
         <button onClick={nextPage} disabled={!results || results.length === 0} className={`${page === totalPages ? 'hidden' : ''} px-4 py-2 bg-blue-500 text-white rounded-md`}>
           Next
         </button>
-        <span className="ml-3 px-4 py-2 bg-blue-500 text-white rounded-md">
-          <i className="bx bx-fast-forward"></i>
-        </span>
+        
       </div>
 
       <div className="bg-white sm:hidden space-y-2 p-4 rounded-lg shadow border-l-4 border-black hover:border-green  hover:-translate-y-1 transition-transform duration-200 mt-5 mr-5">
