@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 import json
@@ -71,6 +71,14 @@ def alumni_form(request):
         return Response({'message': 'Alumni profile created successfully'})
     except KeyError:
         return Response({'error': 'Invalid data provided'}, status=400)
+
+
+@api_view(['DELETE'])
+def delete_alumni(request, alumni_id):
+    alumni = get_object_or_404(AlumniProfile, alumni_id=alumni_id)
+    alumni.delete()
+    return Response({'message': 'Alumni deleted successfully'})
+
 
 
 @api_view(['GET'])
