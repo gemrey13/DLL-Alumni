@@ -8,6 +8,9 @@ app_name = "AlumniManagement"
 
 urlpatterns = [
     path('alumni-profile-data/', AlumniProfileAPIView.as_view(), name='PaginatedAlumniData'),
+    path('alumni-form/', alumni_form, name='alumni_form'),
+
+
     path('address/countries/', country_list, name='countries'),
     path('address/countries/<int:country_id>/regions/', region_list, name='regions'),
     path('address/regions/<int:region_id>/provinces/', province_list, name='provinces'),

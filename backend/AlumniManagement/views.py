@@ -37,6 +37,41 @@ class AlumniProfileAPIView(APIView):
             })
 
 
+@api_view(['POST'])
+def alumni_form(request):
+    data = request.data
+    try:
+        # Extract the form data from the request
+        alumni_id = data['alumni_id']
+        fname = data['fname']
+        lname = data['lname']
+        mi = data['mi']
+        suffix = data['suffix']
+        contact_number = data['contact_number']
+        sex = data['sex']
+        religion = data['religion']
+        marital_status = data['marital_status']
+        date_of_birth = data['date_of_birth']
+
+        # Create an AlumniProfile object and save it to the database
+        alumni_profile = AlumniProfile(
+            alumni_id=alumni_id,
+            fname=fname,
+            lname=lname,
+            mi=mi,
+            suffix=suffix,
+            contact_number=contact_number,
+            sex=sex,
+            religion=religion,
+            marital_status=marital_status,
+            date_of_birth=date_of_birth
+        )
+        alumni_profile.save()
+
+        return Response({'message': 'Alumni profile created successfully'})
+    except KeyError:
+        return Response({'error': 'Invalid data provided'}, status=400)
+
 
 @api_view(['GET'])
 def country_list(request):
