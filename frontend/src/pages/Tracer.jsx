@@ -12,7 +12,7 @@ const Tracer = () => {
     <>
       <Navbar />
       <div className="text-black dark:text-white ml-4 sm:mr-4 my-20 sm:ml-24 sm:my-24">
-        <Breadcrumb url="Tracer" />
+        <Breadcrumb url="Tracer"/>
 
         <div>
           <div className="flex mt-3 flex-row-reverse sm:flex-row">
