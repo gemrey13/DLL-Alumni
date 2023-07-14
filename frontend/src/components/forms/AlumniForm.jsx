@@ -108,15 +108,20 @@ const AlumniForm = () => {
       barangay: e.target.barangay.value,
     };
 
-    // Make an HTTP POST request to your Django backend
-    axios.post('/api/your-endpoint', formData)
+    axios.post('http://127.0.0.1:8000/api/alumni-form/', formData)
       .then(response => {
-        // Handle successful response
-        console.log('Form submitted successfully');
+        console.log('Alumni profile created successfully');
+        // Handle any further actions or UI updates after successful submission
       })
       .catch(error => {
-        // Handle error
         console.error('Form submission failed:', error);
+        if (error.response) {
+          console.log('Server Error:', error.response.data);
+        } else if (error.request) {
+          console.log('Request Error:', error.request);
+        } else {
+          console.log('Error:', error.message);
+        }
       });
   };
 
