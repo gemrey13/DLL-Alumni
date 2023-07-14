@@ -87,7 +87,6 @@ const AlumniForm = ({ closeModal }) => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
 
     // Create a JavaScript object containing the form data
     const formData = {

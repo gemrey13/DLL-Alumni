@@ -62,15 +62,20 @@ const TracerAlumniTable = () => {
   }
 
   const deleteAlumni = (alumniId) => {
-    axios.delete(`http://127.0.0.1:8000/api/delete-alumni/${alumniId}/`)
+    let result = confirm('Are you sure you want to delete this alumni?');
+
+    if (result) {
+      axios.delete(`http://127.0.0.1:8000/api/delete-alumni/${alumniId}/`)
       .then(response => {
         console.log('Alumni deleted successfully');
-        // Handle any further actions or UI updates after successful deletion
       })
       .catch(error => {
         console.error('Alumni deletion failed:', error);
-        // Handle error cases or display error messages to the user
       });
+
+      location.reload();
+    }
+    
   };
 
   return (
