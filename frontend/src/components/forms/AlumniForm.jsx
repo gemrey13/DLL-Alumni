@@ -3,7 +3,7 @@ import { useAxios } from '../../index';
 import axios from 'axios';
 
 
-const AlumniForm = () => {
+const AlumniForm = ({ closeModal }) => {
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedRegion, setSelectedRegion] = useState('');
   const [selectedProvince, setSelectedProvince] = useState('');
@@ -125,6 +125,10 @@ const AlumniForm = () => {
       });
   };
 
+  const handleCancel = () => {
+    closeModal();
+  };
+
 
   return (
     <>
@@ -233,7 +237,7 @@ const AlumniForm = () => {
 
 
           <div className="items-center px-4 py-3">
-            <button className="px-4 py-2 bg-orange-500 text-white text-base font-medium rounded-md w-1/5 mr-10 shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
+            <button onClick={handleCancel} className="px-4 py-2 bg-orange-500 text-white text-base font-medium rounded-md w-1/5 mr-10 shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
               Cancel
             </button>
             <button type="submit" className="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-1/5 shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">

@@ -4,6 +4,10 @@ import { Navbar, Breadcrumb, Footer, TracerAlumniTable, AlumniForm } from '../in
 const Tracer = () => {
   const [isModal, setIsModal] = useState(false);
 
+  const closeModal = () => {
+    setIsModal(false);
+  };
+
   return (
     <>
       <Navbar />
@@ -35,7 +39,7 @@ const Tracer = () => {
         </div>
 
         {isModal && (
-          <AlumniForm />
+          <AlumniForm closeModal={closeModal} />
         )}
 
         <TracerAlumniTable />
