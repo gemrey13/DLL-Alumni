@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAxios } from '../../index';
+import axios from 'axios';
+
 
 const TracerAlumniTable = () => {
   const [page, setPage] = useState(1);
@@ -59,6 +61,18 @@ const TracerAlumniTable = () => {
     return <div className="text-black dark:text-gray-500">LOADING..............</div>;
   }
 
+  const deleteAlumni = (alumniId) => {
+    axios.delete(`http://127.0.0.1:8000/api/delete-alumni/${alumniId}/`)
+      .then(response => {
+        console.log('Alumni deleted successfully');
+        // Handle any further actions or UI updates after successful deletion
+      })
+      .catch(error => {
+        console.error('Alumni deletion failed:', error);
+        // Handle error cases or display error messages to the user
+      });
+  };
+
   return (
     <>
       <div className="overflow-auto rounded-lg shadow hidden sm:block mt-4" id="table-container">
@@ -92,7 +106,7 @@ const TracerAlumniTable = () => {
                   <td className="w-auto p-3 text-sm whitespace-nowrap">{item.contact_number}</td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap text-center">
                     <button className="px-4 py-1 bg-blue-500 rounded-md text-white hover:bg-blue-700 hover:-translate-y-1 transition-transform duration-200">Edit</button>
-                    <button className="ml-2 py-1 bg-orange-500 px-3 rounded-md text-white hover:bg-orange-700 hover:-translate-y-1 transition-transform duration-200">Delete</button>
+                    <button onClick={() => deleteAlumni(item.alumni_id)} className="ml-2 py-1 bg-orange-500 px-3 rounded-md text-white hover:bg-orange-700 hover:-translate-y-1 transition-transform duration-200">Delete</button>
                   </td>
                 </tr>
               ))}
