@@ -12,12 +12,11 @@ const ProfileLeft = () => {
         <h1>Work</h1>
         <hr />
         <p>
-          {' '}
           Lorem, ipsum dolor sit amet consectetur <br /> adipisicing elit.Aut minima maxime,
           <br /> aliquid, excepturi pariatur amet voluptatem fugit
           <br /> corrupti debitis similique omnis nam laudantium <br />
           ex atque corporis consectetur praesentium,
-          <br /> repellendus modi.{' '}
+          <br /> repellendus modi.
         </p>
         <br />
         <br />
