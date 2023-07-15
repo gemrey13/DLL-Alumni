@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../../styles/navbar.css';
 import avatarMale from '../../assets/avatar-male.jpg';
+import alumniLogo from '../../assets/alumni-logo.png';
 
 const Navbar = () => {
   const [darkToggle, setDarkToggle] = useState(false);
@@ -100,7 +101,7 @@ const Navbar = () => {
       <nav className="navbar text-gray-900 bg-white dark:bg-slate-900 dark:text-white transition-colors duration-500 shadow-gray-400 shadow-sm">
         <div className="logo_item">
           <i className={`bx bx-menu ${!isMobileView ? 'hidden' : ''}`} id="sidebarOpen" onClick={() => setIsSidebarOpen(!isSidebarOpen)}></i>
-          <img src="" alt="" />
+          <img src={alumniLogo} alt="" className='bg-white rounded-sm'/>
           <span className="navbar-text dark:text-white">DLL Alumni Office</span>
         </div>
         <div className="navbar_content dark:text-white">
