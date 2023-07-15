@@ -1,4 +1,6 @@
 export { default as Footer } from './components/layout/Footer';
+export { default as ProfileLeft } from './components/layout/ProfileLeft';
+export { default as ProfileRight } from './components/layout/ProfileRight';
 
 
 export { default as Breadcrumb } from './components/navigation/Breadcrumb';
