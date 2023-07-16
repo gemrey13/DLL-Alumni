@@ -107,7 +107,7 @@ const ProfileRight = () => {
           <h5 className="mr-10">Facebook</h5>
           <h5>Twitter</h5>
         </div>
-        <div className="flex mt-12 ">
+        <div className="flex mt-12 cursor-pointer">
           <h1 className="mr-6" onClick={() => setTab(1)}>
             Personal Info
           </h1>
@@ -122,64 +122,79 @@ const ProfileRight = () => {
         <hr />
 
         {tab === 1 && (
-          <div>
-            <h5>Basic Information</h5>
-            <label htmlFor="fname" className="w-2/6">
+          <div className='mt-10'>
+            <h5 className='text-sm text-gray-600 mb-5'>Basic Information</h5>
+
+            <div className='flex'>
+              <label htmlFor="fname" className="w-1/3 mb-3">
               First Name
-            </label>
-            <input type="text" name="fname" id="fname" className="h-10 w-2/6" />
-
-            <label htmlFor="lname" className="w-2/6">
+              </label>
+              <input type="text" name="fname" id="fname" className="h-8 w-2/6 mb-3" /><br/>
+            </div>
+            <div className='flex'>
+              <label htmlFor="lname" className="w-1/3 mb-3">
               Last Name
-            </label>
-            <input type="text" name="lname" id="lname" className="h-10 w-2/6" />
-
-            <label htmlFor="mi" className="w-2/6">
+              </label>
+              <input type="text" name="lname" id="lname" className="h-8 w-2/6 mb-3" /><br/>
+            </div>
+            <div className='flex'>
+              <label htmlFor="mi" className="w-1/3 mb-3">
               M.I.
-            </label>
-            <input type="text" name="mi" id="mi" className="h-10 w-2/6" />
-
-            <label htmlFor="suffix" className="w-2/6">
+              </label>
+              <input type="text" name="mi" id="mi" className="h-8 w-2/6 mb-3" /><br/>
+            </div>
+            <div className='flex'>
+              <label htmlFor="suffix" className="w-1/3 mb-3">
               Suffix
-            </label>
-            <input type="text" name="suffix" id="suffix" className="h-10 w-2/6" />
-
-            <label htmlFor="gender" className="w-2/6">
+              </label>
+              <input type="text" name="suffix" id="suffix" className="h-8 w-2/6 mb-3" /><br/>
+            </div>
+            <div className='flex'>
+              <label htmlFor="gender" className="w-1/3 mb-3">
               Gender
-            </label>
-            <input type="text" name="gender" id="gender" className="h-10 w-2/6" />
-
-            <label htmlFor="date_of_birth" className="w-2/6">
+              </label>
+              <input type="text" name="gender" id="gender" className="h-8 w-2/6 mb-3" /><br/>
+            </div>
+            <div className='flex'>
+              <label htmlFor="date_of_birth" className="w-1/3 mb-3">
               Birthdate
-            </label>
-            <input type="date" name="date_of_birth" id="date_of_birth" className="h-10 w-2/6" />
-
-            <label htmlFor="marital_status" className="w-2/6">
-              Martial Status
-            </label>
-            <input type="text" name="marital_status" id="marital_status" className="h-10 w-2/6" />
-
-            <label htmlFor="religion" className="w-2/6">
+              </label>
+              <input type="date" name="date_of_birth" id="date_of_birth" className="h-8 w-2/6 mb-3" /><br/>
+            </div>
+            <div className='flex'>
+              <label htmlFor="marital_status" className="w-1/3 mb-3">
+              Marital Status
+              </label>
+              <input type="text" name="marital_status" id="marital_status" className="h-8 w-2/6 mb-3" /><br/>
+            </div>
+            <div className='flex'>
+              <label htmlFor="religion" className="w-1/3 mb-3">
               Religion
-            </label>
-            <input type="text" name="religion" id="religion" className="h-10 w-2/6" />
+              </label>
+              <input type="text" name="religion" id="religion" className="h-8 w-2/6 mb-3" /><br/>
+            </div>
+            
+            <h5 className='text-sm text-gray-600 mb-5 mt-7'>Contact Information</h5>
 
-            <hr />
-
-            <h5>Contact Information</h5>
-            <label htmlFor="contact_number" className="w-2/6">
+            <div className='flex'>
+              <label htmlFor="contact_number" className="w-1/3 mb-3">
               Phone Number
-            </label>
-            <input type="text" name="contact_number" id="contact_number" className="h-10 w-2/6" />
+              </label>
+              <input type="text" name="contact_number" id="contact_number" className="h-8 w-2/6 mb-3" /><br/>
+            </div>
 
-            <label htmlFor="email" className="w-2/6">
+           <div className='flex'>
+              <label htmlFor="email" className="w-1/3 mb-3">
               Email
-            </label>
-            <input type="text" name="email" id="email" className="h-10 w-2/6" />
-
-            <label htmlFor="address" className="justify-start">
+              </label>
+              <input type="text" name="email" id="email" className="h-8 w-2/6 mb-3" /><br/>
+            </div>
+           
+           <div className='flex'>
+            <label htmlFor="address" className="justify-start flex-grow">
               Address
             </label>
+
             <div className="" id="address">
               <select name="country" onChange={handleCountryChange} className="w-1/5 dark:bg-gray-700 dark:text-white">
                 <option value="">Select Country</option>
@@ -225,6 +240,7 @@ const ProfileRight = () => {
                   </option>
                 ))}
               </select>
+            </div>
             </div>
 
             <hr />
