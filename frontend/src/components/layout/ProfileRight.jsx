@@ -88,7 +88,7 @@ const ProfileRight = () => {
 
   return (
     <>
-      <div className="grow">
+      <div className="w-2/3">
         Right Side
         <div className="flex justify-between">
           <div>
@@ -120,9 +120,30 @@ const ProfileRight = () => {
           <h1 onClick={() => setTab(4)}>Account</h1>
         </div>
         <hr />
+
         {tab === 1 && (
           <div>
             <h5>Basic Information</h5>
+            <label htmlFor="fname" className="w-2/6">
+              First Name
+            </label>
+            <input type="text" name="fname" id="fname" className="h-10 w-2/6" />
+
+            <label htmlFor="lname" className="w-2/6">
+              Last Name
+            </label>
+            <input type="text" name="lname" id="lname" className="h-10 w-2/6" />
+
+            <label htmlFor="mi" className="w-2/6">
+              M.I.
+            </label>
+            <input type="text" name="mi" id="mi" className="h-10 w-2/6" />
+
+            <label htmlFor="suffix" className="w-2/6">
+              Suffix
+            </label>
+            <input type="text" name="suffix" id="suffix" className="h-10 w-2/6" />
+
             <label htmlFor="gender" className="w-2/6">
               Gender
             </label>

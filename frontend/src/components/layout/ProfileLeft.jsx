@@ -4,7 +4,7 @@ import avatarMale from '../../assets/avatar-male.jpg';
 const ProfileLeft = () => {
   return (
     <>
-      <div className="mr-20">
+      <div className="mr-20 w-1/3">
         Left Side
         <img src={avatarMale} alt="" width="250" className="relative mx-auto" />
         <br />
