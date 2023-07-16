@@ -191,12 +191,12 @@ const ProfileRight = () => {
             </div>
            
            <div className='flex'>
-            <label htmlFor="address" className="justify-start flex-grow">
+            <label htmlFor="address" className="justify-start mr-40">
               Address
             </label>
 
-            <div className="" id="address">
-              <select name="country" onChange={handleCountryChange} className="w-1/5 dark:bg-gray-700 dark:text-white">
+            <div className="flex flex-wrap " id="address">
+              <select name="country" onChange={handleCountryChange} className="mr-3 h-9 text-sm dark:bg-gray-700 dark:text-white">
                 <option value="">Select Country</option>
                 {countries.map((country) => (
                   <option key={country.id} value={country.id}>
@@ -205,7 +205,7 @@ const ProfileRight = () => {
                 ))}
               </select>
 
-              <select name="region" onChange={handleRegionChange} className="w-1/5 dark:bg-gray-700 dark:text-white">
+              <select name="region" onChange={handleRegionChange} className="mr-3 h-9 text-sm dark:bg-gray-700 dark:text-white">
                 <option value="">Select Region</option>
                 {regions.map((region) => (
                   <option key={region.id} value={region.id}>
@@ -214,7 +214,7 @@ const ProfileRight = () => {
                 ))}
               </select>
 
-              <select name="province" onChange={handleProvinceChange} className="w-1/5 dark:bg-gray-700 dark:text-white">
+              <select name="province" onChange={handleProvinceChange} className="mr-3 h-9 text-sm dark:bg-gray-700 dark:text-white">
                 <option value="">Select Province</option>
                 {provinces.map((province) => (
                   <option key={province.id} value={province.id}>
@@ -223,7 +223,7 @@ const ProfileRight = () => {
                 ))}
               </select>
 
-              <select name="city" onChange={handleCityChange} className="w-1/5 dark:bg-gray-700 dark:text-white">
+              <select name="city" onChange={handleCityChange} className="mr-3 h-9 text-sm dark:bg-gray-700 dark:text-white">
                 <option value="">Select City</option>
                 {cities.map((city) => (
                   <option key={city.id} value={city.id}>
@@ -232,7 +232,7 @@ const ProfileRight = () => {
                 ))}
               </select>
 
-              <select name="barangay" className="w-1/5 dark:bg-gray-700 dark:text-white">
+              <select name="barangay" className="mr-3 h-9 text-sm dark:bg-gray-700 dark:text-white">
                 <option value="">Select Barangay</option>
                 {barangays.map((barangay) => (
                   <option key={barangay.id} value={barangay.id}>
