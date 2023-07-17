@@ -73,11 +73,13 @@ def alumni_form(request):
         return Response({'error': 'Invalid data provided'}, status=400)
 
 
+
 @api_view(['DELETE'])
 def delete_alumni(request, alumni_id):
     alumni = get_object_or_404(AlumniProfile, alumni_id=alumni_id)
     alumni.delete()
     return Response({'message': 'Alumni deleted successfully'})
+
 
 
 
