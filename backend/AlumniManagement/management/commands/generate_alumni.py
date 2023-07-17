@@ -1,4 +1,5 @@
 from django.core.management.base import BaseCommand
+from django.utils.crypto import get_random_string
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
 from AlumniManagement.models import AlumniProfile
@@ -20,43 +21,49 @@ class Command(BaseCommand):
         alumni_profiles = []
         users = []
 
-        for i in range(num_profiles):
-            first_name = fake.first_name()
-            last_name = fake.last_name()
-            username = f"{first_name.lower()}.{last_name.lower()}"
-            password = fake.password()
-            email = fake.email(domain='gmail.com')
+        # Generate all the required data beforehand
+        fake_data = [
+            {
+                'first_name': fake.first_name(),
+                'last_name': fake.last_name(),
+                'password': fake.password(),
+                'email': fake.email(domain='gmail.com'),
+                'alumni_id': f'A{i:05d}',
+                'mi': fake.random_letter().upper(),
+                'suffix': fake.random_element(["Jr.", "Sr.", "II", "III"]),
+                'contact_number': f'09{fake.random_number(digits=9)}',
+                'sex': fake.random_element(["Male", "Female"]),
+                'religion': fake.random_element(["Christian", "Muslim", "Jewish", "Buddhist", "Other"]),
+                'marital_status': fake.random_element(["Single", "Married", "Divorced", "Widowed"]),
+                'date_of_birth': fake.date_of_birth(minimum_age=22, maximum_age=45),
+            }
+            for i in range(num_profiles)
+        ]
 
-            user = User(username=username, password=make_password(password), email=email)
+        for data in fake_data:
+            user = User(
+                username=f"{data['first_name'].lower()}.{data['last_name'].lower()}_{get_random_string(length=8)}",
+                password=make_password(data['password']),
+                email=data['email']
+            )
             users.append(user)
 
-            alumni_id = f'A{i:05d}'
-
-            fname = first_name
-            lname = last_name
-            mi = fake.random_letter().upper()
-            suffix = fake.random_element(["Jr.", "Sr.", "II", "III"])
-
-            contact_number = f'09{fake.random_number(digits=9)}'
-
-            sex = fake.random_element(["Male", "Female"])
-            religion = fake.random_element(["Christian", "Muslim", "Jewish", "Buddhist", "Other"])
-            marital_status = fake.random_element(["Single", "Married", "Divorced", "Widowed"])
-            date_of_birth = fake.date_of_birth(minimum_age=22, maximum_age=45)
-
             alumni_profile = AlumniProfile(
-                alumni_id=alumni_id,
-                fname=fname,
-                lname=lname,
-                mi=mi,
-                suffix=suffix,
-                contact_number=contact_number,
-                sex=sex,
-                religion=religion,
-                marital_status=marital_status,
-                date_of_birth=date_of_birth
+                alumni_id=data['alumni_id'],
+                fname=data['first_name'],
+                lname=data['last_name'],
+                mi=data['mi'],
+                suffix=data['suffix'],
+                contact_number=data['contact_number'],
+                sex=data['sex'],
+                religion=data['religion'],
+                marital_status=data['marital_status'],
+                date_of_birth=data['date_of_birth']
             )
             alumni_profiles.append(alumni_profile)
+
+            print(f'{alumni_profile} and {user}')
+
 
         # Bulk create User objects
         User.objects.bulk_create(users)
