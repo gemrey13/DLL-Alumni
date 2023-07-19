@@ -150,7 +150,7 @@ class JobAddress(models.Model):
 
 
 class CurrentJob(models.Model):
-    current_job_id = models.CharField(primary_key=True, max_length=6)
+    current_job_id = models.CharField(primary_key=True, max_length=10)
     job_type = models.CharField(max_length=64, choices=FIELD_CHOICES, default='technology')
     job_title = models.CharField(max_length=64)
     salary = models.IntegerField()
@@ -161,7 +161,7 @@ class CurrentJob(models.Model):
 
 
     def __str__(self):
-        return f'{self.current_job_id} {self.job_title} {self.alumni}'
+        return f'{self.current_job_id} - {self.job_title} {self.alumni}'
 
 class PreviousJob(models.Model):
     previous_job_id = models.CharField(primary_key=True, max_length=10)
@@ -175,22 +175,8 @@ class PreviousJob(models.Model):
     address = models.ForeignKey(JobAddress, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.alumni}'
+        return f'{self.previous_job_id} - {self.job_title} {self.alumni}'
 
-
-class EmploymentRecord(models.Model):
-    employment_record_id = models.CharField(primary_key=True, max_length=10)
-    job_type = models.CharField(max_length=64, choices=FIELD_CHOICES, default='current')
-    job_title = models.CharField(max_length=64)
-    salary = models.IntegerField()
-    start_date = models.DateField()
-    end_date = models.DateField(null=True, blank=True)
-    company_name = models.CharField(max_length=64)
-    alumni = models.ForeignKey(AlumniProfile, on_delete=models.CASCADE, null=True, blank=True)
-    address = models.ForeignKey(JobAddress, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f'{self.alumni}'
 
 
 class Graduate(models.Model):
@@ -200,4 +186,7 @@ class Graduate(models.Model):
     graduation_date = models.DateField()
     curriculum = models.ForeignKey(Curriculum, on_delete=models.CASCADE)
     honor = models.CharField(max_length=64, blank=True)
+
+    def __str__(self):
+        return f'{self.alumni} - {self.graduation_date} - {self.course} '
 
