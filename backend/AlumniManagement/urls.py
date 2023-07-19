@@ -12,6 +12,9 @@ urlpatterns = [
     path('delete-alumni/<str:alumni_id>/', delete_alumni, name='delete_alumni'),
 
 
+    path('table-data/', table_data, name='table_data'),
+
+
     path('address/countries/', country_list, name='countries'),
     path('address/countries/<int:country_id>/regions/', region_list, name='regions'),
     path('address/regions/<int:region_id>/provinces/', province_list, name='provinces'),

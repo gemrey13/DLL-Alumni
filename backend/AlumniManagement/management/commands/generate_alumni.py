@@ -22,17 +22,21 @@ class Command(BaseCommand):
         users = []
 
         # Generate all the required data beforehand
+
+        fname = fake.first_name()
+        lname = fake.last_name()
         fake_data = [
             {
-                'first_name': fake.first_name(),
-                'last_name': fake.last_name(),
+                'first_name': fname,
+                'last_name': lname,
                 'password': fake.password(),
-                'email': fake.email(domain='gmail.com'),
+                # 'email': fake.email(domain='gmail.com'),
+                'email': f'{fname}.{lname}@gmail.com',
                 'alumni_id': f'A{i:05d}',
                 'mi': fake.random_letter().upper(),
                 'suffix': fake.random_element(["Jr.", "Sr.", "II", "III"]),
                 'contact_number': f'09{fake.random_number(digits=9)}',
-                'sex': fake.random_element(["Male", "Female"]),
+                'sex': fake.random_element(["male", "female"]),
                 'religion': fake.random_element(["Christian", "Muslim", "Jewish", "Buddhist", "Other"]),
                 'marital_status': fake.random_element(["Single", "Married", "Divorced", "Widowed"]),
                 'date_of_birth': fake.date_of_birth(minimum_age=22, maximum_age=45),

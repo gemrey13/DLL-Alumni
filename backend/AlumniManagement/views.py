@@ -73,6 +73,20 @@ def alumni_form(request):
         return Response({'error': 'Invalid data provided'}, status=400)
 
 
+@api_view(['GET'])
+def table_data(request):
+    # Retrieve the desired fields from your models
+    data = Graduate.objects.all().values('graduate_id', 'alumni__fname', 'alumni__lname',  'course__course_id', 'graduation_date', 'alumni__user__email', 'alumni__contact_number')
+
+    for item in data:
+        graduation_date = item['graduation_date']
+        year = graduation_date.year
+        item['graduation_year'] = year
+
+    # Return the data as a JSON response
+    return Response(data, status=200)
+
+
 
 @api_view(['DELETE'])
 def delete_alumni(request, alumni_id):
