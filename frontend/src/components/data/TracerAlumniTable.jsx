@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useAxios } from '../../index';
 import axios from 'axios';
 
-
-
 const TracerAlumniTable = ({ selectedYear, selectedCourse }) => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -15,26 +13,25 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse }) => {
     if (selectedYear !== '' || selectedCourse !== '') {
       const apiUrl = `http://127.0.0.1:8000/api/table-data/?year=${selectedYear}&course=${selectedCourse}`;
 
-      axios.get(apiUrl)
-        .then(response => {
+      axios
+        .get(apiUrl)
+        .then((response) => {
           setResults(response.data);
-          console.log(response.data.length)
+          console.log(response.data.length);
           const totalPages = Math.ceil(response.data.length / itemsPerPage);
           setTotalPages(totalPages);
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
         });
     }
   }, [selectedYear, selectedCourse]);
-
 
   useEffect(() => {
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     setDisplayedResults(results.slice(startIndex, endIndex));
   }, [page, results]);
-
 
   const nextPage = () => {
     setPage(page + 1);
@@ -45,7 +42,6 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse }) => {
       setPage(page - 1);
     }
   };
-
 
   const renderPageButtons = () => {
     const buttons = [];
@@ -75,24 +71,22 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse }) => {
   const hasNextPage = page < totalPages;
   const hasDataForNextPage = results.length > page * itemsPerPage;
 
-
-
   const deleteAlumni = (alumniId) => {
     let result = confirm('Are you sure you want to delete this alumni?');
 
     if (result) {
-      axios.delete(`http://127.0.0.1:8000/api/delete-alumni/${alumniId}/`)
-      .then(response => {
-        console.log('Alumni deleted successfully');
-      })
-      .catch(error => {
-        console.error('Alumni deletion failed:', error);
-      });
+      axios
+        .delete(`http://127.0.0.1:8000/api/delete-alumni/${alumniId}/`)
+        .then((response) => {
+          console.log('Alumni deleted successfully');
+        })
+        .catch((error) => {
+          console.error('Alumni deletion failed:', error);
+        });
 
       location.reload();
     }
   };
-
 
   return (
     <>
@@ -119,15 +113,21 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse }) => {
                   <td className="w-auto p-3 text-sm whitespace-nowrap">{item.alumni__fname}</td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap">{item.alumni__lname}</td>
                   <td className="w-auto whitespace-nowrap">
-                    <span className={`inline-flex px-2 text-xs font-semibold leading-5 ${item.employment_status === 'Employed' ? 'text-green-800 bg-green-200' : 'text-white bg-red-500'} rounded-full`}>{item.employment_status === 'Employed' ? 'Employed' : 'Unemployed'}</span>
+                    <span className={`inline-flex px-2 text-xs font-semibold leading-5 ${item.employment_status === 'Employed' ? 'text-green-800 bg-green-200' : 'text-white bg-red-500'} rounded-full`}>
+                      {item.employment_status === 'Employed' ? 'Employed' : 'Unemployed'}
+                    </span>
                   </td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap">{item.course__course_id}</td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap">{item.graduation_year}</td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap">{item.alumni__user__email}</td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap">{item.alumni__contact_number}</td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap text-center">
-                    <button className="px-4 py-1 bg-blue-500 rounded-md text-white hover:bg-blue-700 hover:-translate-y-1 transition-transform duration-200"><i className='bx bxs-edit'></i></button>
-                    <button onClick={() => deleteAlumni(item.alumni__alumni_id)} className="ml-2 py-1 bg-orange-500 px-3 rounded-md text-white hover:bg-orange-700 hover:-translate-y-1 transition-transform duration-200"><i className='bx bx-trash'></i></button>
+                    <button className="px-4 py-1 bg-blue-500 rounded-md text-white hover:bg-blue-700 hover:-translate-y-1 transition-transform duration-200">
+                      <i className="bx bxs-edit"></i>
+                    </button>
+                    <button onClick={() => deleteAlumni(item.alumni__alumni_id)} className="ml-2 py-1 bg-orange-500 px-3 rounded-md text-white hover:bg-orange-700 hover:-translate-y-1 transition-transform duration-200">
+                      <i className="bx bx-trash"></i>
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -150,26 +150,6 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse }) => {
             Next
           </button>
         )}
-      </div>
-
-      <div className="bg-white sm:hidden space-y-2 p-4 rounded-lg shadow border-l-4 border-black hover:border-green  hover:-translate-y-1 transition-transform duration-200 mt-5 mr-5">
-        <div className="text-lg font-bold text-black flex justify-between ">
-          <span>Gem Rey Ranola</span>
-          <span>2017</span>
-        </div>
-
-        <div className="text-gray-700 text-md font-semibold">
-          A10000 <span>Employed</span>
-        </div>
-        <hr className="border-gray-400" />
-        <div className="text-sm text-gray-700 flex justify-between">
-          <span>gemreyranola@gmail.com</span>
-          <button className="px-4 py-1 bg-blue-500 rounded-md text-white">Edit</button>
-        </div>
-        <div className="text-sm text-gray-700 flex justify-between">
-          <span>09**********</span>
-          <button className="ml-2 py-1 bg-orange-500 px-3 rounded-md text-white">Delete</button>
-        </div>
       </div>
     </>
   );
