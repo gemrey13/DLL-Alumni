@@ -13,6 +13,8 @@ urlpatterns = [
 
 
     path('table-data/', table_data, name='table_data'),
+    path('graduation-years/', graduation_years_view, name='graduation_years'),
+    path('course-view/', course_view, name='course_view'),
 
 
     path('address/countries/', country_list, name='countries'),

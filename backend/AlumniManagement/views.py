@@ -75,8 +75,20 @@ def alumni_form(request):
 
 @api_view(['GET'])
 def table_data(request):
-    # Retrieve the desired fields from your models
-    data = Graduate.objects.all().values('graduate_id', 'alumni__fname', 'alumni__lname',  'course__course_id', 'graduation_date', 'alumni__user__email', 'alumni__contact_number')
+    year = request.GET.get('year')
+    course = request.GET.get('course')
+
+    # Filter the data based on the year and course, if provided
+    data = Graduate.objects.all()
+
+    if year:
+        data = data.filter(graduation_date__year=year)
+
+    if course:
+        data = data.filter(course__course_id=course)
+
+    # Retrieve the desired fields and add graduation_year field
+    data = data.values('alumni__alumni_id', 'alumni__fname', 'alumni__lname', 'course__course_id', 'graduation_date', 'alumni__user__email', 'alumni__contact_number')
 
     for item in data:
         graduation_date = item['graduation_date']
@@ -85,6 +97,20 @@ def table_data(request):
 
     # Return the data as a JSON response
     return Response(data, status=200)
+
+
+@api_view(['GET'])
+def graduation_years_view(request):
+    queryset = Graduate.objects.values_list('graduation_date', flat=True).distinct()
+    years = {date.year for date in queryset if date}
+    return Response(list(years))
+
+
+@api_view(['GET'])
+def course_view(request):
+    queryset = Course.objects.values_list('course_id', flat=True).distinct()
+    courses = {course for course in queryset if course}
+    return Response(list(courses))
 
 
 

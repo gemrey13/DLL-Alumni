@@ -14,6 +14,12 @@ class AlumniProfileSerializer(serializers.ModelSerializer):
         fields = ['alumni_id', 'fname', 'lname', 'mi', 'suffix', 'contact_number', 'sex', 'religion', 'marital_status', 'date_of_birth', 'email']
 
 
+class GraduateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Graduate
+        fields = ('graduation_date',)
+
+
 class BarangaySerializer(serializers.ModelSerializer):
     class Meta:
         model = Barangay
