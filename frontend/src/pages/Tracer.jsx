@@ -1,8 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Navbar, Breadcrumb, Footer, TracerAlumniTable, AlumniForm } from '../index';
+import axios from 'axios';
+
 
 const Tracer = () => {
   const [isModal, setIsModal] = useState(false);
+  const [selectedYear, setSelectedYear] = useState('');
+  const [selectedCourse, setSelectedCourse] = useState('');
+  const [years, setYears] = useState([]);
+  const [courses, setCourses] = useState([]);
+
+
+
+  useEffect(() => {
+    const yearsUrl = 'http://127.0.0.1:8000/api/graduation-years/';
+    const coursesUrl = 'http://127.0.0.1:8000/api/course-view/';
+
+    axios.get(yearsUrl)
+      .then(response => {
+        setYears(response.data.sort((a, b) => a - b));
+      })
+      .catch(error => {
+        console.error(error);
+      })
+
+    axios.get(coursesUrl)
+      .then(response => {
+        setCourses(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      })
+  }, []);
+
+
 
   const closeModal = () => {
     setIsModal(false);
@@ -38,11 +69,45 @@ const Tracer = () => {
           </div>
         </div>
 
+        <div>
+          <div className="flex mt-3 flex-row-reverse sm:flex-row">
+            <form>
+              <span className="flex">
+                <select
+                  className="sm:focus:w-32 p-2 rounded-md bg-gray-200 text-gray-600 dark:bg-slate-700 dark:text-white transition-width duration-500"
+                  onChange={(e) => setSelectedYear(e.target.value)}
+                  value={selectedYear}
+                >
+                  <option value="">Year Graduated</option>
+                  {years.map((item, index) => (
+                    <option value={item} key={index}>{item}</option>
+                    ))}
+                  {/* ... */}
+                </select>
+                <select
+                  className="sm:focus:w-44 p-2 rounded-md bg-gray-200 text-gray-600 dark:bg-slate-700 dark:text-white transition-width duration-500 ml-2"
+                  onChange={(e) => setSelectedCourse(e.target.value)}
+                  value={selectedCourse}
+                >
+                  <option value="">Course</option>
+                  {courses.map((item, index) => (
+                    <option value={item} key={index}>{item}</option>
+                    ))}
+                </select>
+                <button className="relative top-auto right-10">
+                  <i className="bx bx-search text-blue-600 text-2xl "></i>
+                </button>
+              </span>
+            </form>
+            {/* ... other elements ... */}
+          </div>
+        </div>
+
         {isModal && (
           <AlumniForm closeModal={closeModal} />
         )}
 
-        <TracerAlumniTable />
+        <TracerAlumniTable selectedYear={selectedYear} selectedCourse={selectedCourse} />
       </div>
 
       <Footer />

@@ -3,23 +3,44 @@ import { useAxios } from '../../index';
 import axios from 'axios';
 
 
-const TracerAlumniTable = () => {
+
+const TracerAlumniTable = ({ selectedYear, selectedCourse }) => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const { data, isLoading, error } = useAxios(`api/alumni-profile-data/?page=${page}`);
-  const { results, count } = data;
+  // const { data, isLoading, error } = useAxios(`api/table-data/?year=${selectedYear}&course=${selectedCourse}`);
+  // const { results, count } = data;
 
-  const [isLoadings, setLoadings] = useState(true);
+  const [results, setResults] = useState([]);
+  const [count, setCount] = useState(0);
 
   useEffect(() => {
-    const delay = 30000; 
-    setLoadings(true);
-    const timeout = setTimeout(() => {
-      setLoadings(false);
-    }, delay);
+    if (selectedYear !== '' || selectedCourse !== '') {
+      const apiUrl = `http://127.0.0.1:8000/api/table-data/?year=${selectedYear}&course=${selectedCourse}`;
 
-    return () => clearTimeout(timeout);
-  }, []);
+      axios.get(apiUrl)
+        .then(response => {
+          // Assuming the API response has a property 'results'
+          setResults(response.data);
+          setCount(response.data.count);
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    }
+  }, [selectedYear, selectedCourse]);
+
+
+  // const [isLoadings, setLoadings] = useState(true);
+
+  // useEffect(() => {
+  //   const delay = 30000; 
+  //   setLoadings(true);
+  //   const timeout = setTimeout(() => {
+  //     setLoadings(false);
+  //   }, delay);
+
+  //   return () => clearTimeout(timeout);
+  // }, []);
 
   const nextPage = () => {
     setPage(page + 1);
@@ -57,9 +78,9 @@ const TracerAlumniTable = () => {
     return buttons;
   };
 
-  if (isLoading) {
-    return <div className="text-black dark:text-gray-500">LOADING..............</div>;
-  }
+  // if (isLoading) {
+  //   return <div className="text-black dark:text-gray-500">LOADING..............</div>;
+  // }
 
   const deleteAlumni = (alumniId) => {
     let result = confirm('Are you sure you want to delete this alumni?');
@@ -77,6 +98,7 @@ const TracerAlumniTable = () => {
     }
     
   };
+
 
   return (
     <>
@@ -99,19 +121,19 @@ const TracerAlumniTable = () => {
             {results &&
               results.map((item, index) => (
                 <tr key={index} className="bg-white dark:bg-slate-700 dark:text-white text-gray-500 hover:-translate-y-1 hover:delay-700 transition-transform duration-200">
-                  <td className="w-auto p-3 text-sm whitespace-nowrap">{item.alumni_id}</td>
-                  <td className="w-auto p-3 text-sm whitespace-nowrap">{item.fname}</td>
-                  <td className="w-auto p-3 text-sm whitespace-nowrap">{item.lname}</td>
+                  <td className="w-auto p-3 text-sm whitespace-nowrap">{item.alumni__alumni_id}</td>
+                  <td className="w-auto p-3 text-sm whitespace-nowrap">{item.alumni__fname}</td>
+                  <td className="w-auto p-3 text-sm whitespace-nowrap">{item.alumni__lname}</td>
                   <td className="w-auto whitespace-nowrap">
                     <span className={`inline-flex px-2 text-xs font-semibold leading-5 ${index % 3 === 0 ? 'text-green-800 bg-green-200' : 'text-white bg-red-500'} rounded-full`}>{index % 3 === 0 ? 'Employed' : 'Unemployed'}</span>
                   </td>
-                  <td className="w-auto p-3 text-sm whitespace-nowrap">BSIT</td>
-                  <td className="w-auto p-3 text-sm whitespace-nowrap">2017</td>
-                  <td className="w-auto p-3 text-sm whitespace-nowrap">{item.email}</td>
-                  <td className="w-auto p-3 text-sm whitespace-nowrap">{item.contact_number}</td>
+                  <td className="w-auto p-3 text-sm whitespace-nowrap">{item.course__course_id}</td>
+                  <td className="w-auto p-3 text-sm whitespace-nowrap">{item.graduation_year}</td>
+                  <td className="w-auto p-3 text-sm whitespace-nowrap">{item.alumni__user__email}</td>
+                  <td className="w-auto p-3 text-sm whitespace-nowrap">{item.alumni__contact_number}</td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap text-center">
-                    <button className="px-4 py-1 bg-blue-500 rounded-md text-white hover:bg-blue-700 hover:-translate-y-1 transition-transform duration-200"><i class='bx bxs-edit'></i></button>
-                    <button onClick={() => deleteAlumni(item.alumni_id)} className="ml-2 py-1 bg-orange-500 px-3 rounded-md text-white hover:bg-orange-700 hover:-translate-y-1 transition-transform duration-200"><i class='bx bx-trash'></i></button>
+                    <button className="px-4 py-1 bg-blue-500 rounded-md text-white hover:bg-blue-700 hover:-translate-y-1 transition-transform duration-200"><i className='bx bxs-edit'></i></button>
+                    <button onClick={() => deleteAlumni(item.alumni__alumni_id)} className="ml-2 py-1 bg-orange-500 px-3 rounded-md text-white hover:bg-orange-700 hover:-translate-y-1 transition-transform duration-200"><i className='bx bx-trash'></i></button>
                   </td>
                 </tr>
               ))}
