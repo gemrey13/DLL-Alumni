@@ -125,7 +125,7 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse }) => {
                   <td className="w-auto p-3 text-sm whitespace-nowrap">{item.alumni__fname}</td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap">{item.alumni__lname}</td>
                   <td className="w-auto whitespace-nowrap">
-                    <span className={`inline-flex px-2 text-xs font-semibold leading-5 ${index % 3 === 0 ? 'text-green-800 bg-green-200' : 'text-white bg-red-500'} rounded-full`}>{index % 3 === 0 ? 'Employed' : 'Unemployed'}</span>
+                    <span className={`inline-flex px-2 text-xs font-semibold leading-5 ${item.employment_status === 'Employed' ? 'text-green-800 bg-green-200' : 'text-white bg-red-500'} rounded-full`}>{item.employment_status === 'Employed' ? 'Employed' : 'Unemployed'}</span>
                   </td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap">{item.course__course_id}</td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap">{item.graduation_year}</td>
