@@ -6,22 +6,21 @@ import axios from 'axios';
 
 const TracerAlumniTable = ({ selectedYear, selectedCourse }) => {
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  // const { data, isLoading, error } = useAxios(`api/table-data/?year=${selectedYear}&course=${selectedCourse}`);
-  // const { results, count } = data;
-
+  const [totalPages, setTotalPages] = useState(1);
   const [results, setResults] = useState([]);
-  const [count, setCount] = useState(0);
+  const [displayedResults, setDisplayedResults] = useState([]);
 
   useEffect(() => {
+    setPage(1);
     if (selectedYear !== '' || selectedCourse !== '') {
       const apiUrl = `http://127.0.0.1:8000/api/table-data/?year=${selectedYear}&course=${selectedCourse}`;
 
       axios.get(apiUrl)
         .then(response => {
-          // Assuming the API response has a property 'results'
           setResults(response.data);
-          setCount(response.data.count);
+          console.log(response.data.length)
+          const totalPages = Math.ceil(response.data.length / itemsPerPage);
+          setTotalPages(totalPages);
         })
         .catch(error => {
           console.error(error);
@@ -30,17 +29,12 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse }) => {
   }, [selectedYear, selectedCourse]);
 
 
-  // const [isLoadings, setLoadings] = useState(true);
+  useEffect(() => {
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    setDisplayedResults(results.slice(startIndex, endIndex));
+  }, [page, results]);
 
-  // useEffect(() => {
-  //   const delay = 30000; 
-  //   setLoadings(true);
-  //   const timeout = setTimeout(() => {
-  //     setLoadings(false);
-  //   }, delay);
-
-  //   return () => clearTimeout(timeout);
-  // }, []);
 
   const nextPage = () => {
     setPage(page + 1);
@@ -52,21 +46,13 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse }) => {
     }
   };
 
-  useEffect(() => {
-    if (count && count > 0) {
-      const totalPages = Math.ceil(count / 10);
-      setTotalPages(totalPages);
-    }
-  }, [count]);
 
   const renderPageButtons = () => {
     const buttons = [];
 
-    // Add current page button
     let startPage = Math.max(1, page - 2);
     let endPage = Math.min(page + 2, totalPages);
 
-    // Add page number buttons
     for (let i = startPage; i <= endPage; i++) {
       buttons.push(
         <button key={i} className={`px-4 py-2 bg-blue-500 text-white rounded-md mr-2 ${i === page ? 'bg-blue-700' : ''}`} onClick={() => setPage(i)}>
@@ -78,9 +64,18 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse }) => {
     return buttons;
   };
 
-  // if (isLoading) {
-  //   return <div className="text-black dark:text-gray-500">LOADING..............</div>;
-  // }
+  const itemsPerPage = 15;
+
+  useEffect(() => {
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    setDisplayedResults(results.slice(startIndex, endIndex));
+  }, [page, results]);
+
+  const hasNextPage = page < totalPages;
+  const hasDataForNextPage = results.length > page * itemsPerPage;
+
+
 
   const deleteAlumni = (alumniId) => {
     let result = confirm('Are you sure you want to delete this alumni?');
@@ -96,7 +91,6 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse }) => {
 
       location.reload();
     }
-    
   };
 
 
@@ -119,7 +113,7 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse }) => {
           </thead>
           <tbody className=" divide-gray-100 dark:divide-slate-700">
             {results &&
-              results.map((item, index) => (
+              displayedResults.map((item, index) => (
                 <tr key={index} className="bg-white dark:bg-slate-700 dark:text-white text-gray-500 hover:-translate-y-1 hover:delay-700 transition-transform duration-200">
                   <td className="w-auto p-3 text-sm whitespace-nowrap">{item.alumni__alumni_id}</td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap">{item.alumni__fname}</td>
@@ -143,7 +137,7 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse }) => {
 
       <div className="text-center flex justify-center mt-4">
         <span>
-          Showing {(page - 1) * 10 + 1}-{Math.min(page * 10, count)} of {count}; Page {page} of {totalPages}
+          Showing {(page - 1) * itemsPerPage + 1}-{Math.min(page * itemsPerPage, results.length)} of {results.length}; Page {page} of {totalPages}
         </span>
       </div>
       <div className="text-center flex justify-center mt-4">
@@ -151,11 +145,11 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse }) => {
           Previous
         </button>
         {renderPageButtons()}
-
-        <button onClick={nextPage} disabled={!results || results.length === 0} className={`${page === totalPages ? 'hidden' : ''} px-4 py-2 bg-blue-500 text-white rounded-md`}>
-          Next
-        </button>
-        
+        {page < totalPages && (
+          <button onClick={nextPage} className="px-4 py-2 bg-blue-500 text-white rounded-md">
+            Next
+          </button>
+        )}
       </div>
 
       <div className="bg-white sm:hidden space-y-2 p-4 rounded-lg shadow border-l-4 border-black hover:border-green  hover:-translate-y-1 transition-transform duration-200 mt-5 mr-5">
