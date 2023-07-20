@@ -74,7 +74,7 @@ const Tracer = () => {
             <form>
               <span className="flex">
                 <select
-                  className="sm:focus:w-32 p-2 rounded-md bg-gray-200 text-gray-600 dark:bg-slate-700 dark:text-white transition-width duration-500"
+                  className="sm:w-32 p-2 rounded-md bg-gray-200 text-gray-600 dark:bg-slate-700 dark:text-white transition-width duration-500"
                   onChange={(e) => setSelectedYear(e.target.value)}
                   value={selectedYear}
                 >
@@ -85,7 +85,7 @@ const Tracer = () => {
                   {/* ... */}
                 </select>
                 <select
-                  className="sm:focus:w-44 p-2 rounded-md bg-gray-200 text-gray-600 dark:bg-slate-700 dark:text-white transition-width duration-500 ml-2"
+                  className="sm:w-32 p-2 rounded-md bg-gray-200 text-gray-600 dark:bg-slate-700 dark:text-white transition-width duration-500 ml-2"
                   onChange={(e) => setSelectedCourse(e.target.value)}
                   value={selectedCourse}
                 >
@@ -94,12 +94,8 @@ const Tracer = () => {
                     <option value={item} key={index}>{item}</option>
                     ))}
                 </select>
-                <button className="relative top-auto right-10">
-                  <i className="bx bx-search text-blue-600 text-2xl "></i>
-                </button>
               </span>
             </form>
-            {/* ... other elements ... */}
           </div>
         </div>
 
