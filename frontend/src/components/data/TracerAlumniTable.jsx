@@ -2,11 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { useAxios } from '../../index';
 import axios from 'axios';
 
-const TracerAlumniTable = ({ selectedYear, selectedCourse }) => {
+const TracerAlumniTable = ({ selectedYear, selectedCourse, searchQuery, setSearchQuery }) => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [results, setResults] = useState([]);
   const [displayedResults, setDisplayedResults] = useState([]);
+  const [fetchedData, setFetchedData] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+
 
   useEffect(() => {
     setPage(1);
@@ -16,7 +19,7 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse }) => {
       axios
         .get(apiUrl)
         .then((response) => {
-          setResults(response.data);
+          setFetchedData(response.data);
           console.log(response.data.length);
           const totalPages = Math.ceil(response.data.length / itemsPerPage);
           setTotalPages(totalPages);
@@ -25,13 +28,41 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse }) => {
           console.error(error);
         });
     }
-  }, [selectedYear, selectedCourse]);
+  }, [selectedYear, selectedCourse, searchQuery]);
+
 
   useEffect(() => {
+    // Update the searchResults whenever the fetchedData or searchQuery changes
+    const filtered = fetchedData.filter((item) => {
+      // Assuming you want to search in the alumni__fname and alumni__lname fields
+      return (
+        item.alumni__fname.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.alumni__lname.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    });
+    setSearchResults(filtered);
+  }, [fetchedData, searchQuery]);
+
+
+  const itemsPerPage = 15;
+
+  useEffect(() => {
+    // Update the displayedResults whenever the page or searchResults changes
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    setDisplayedResults(results.slice(startIndex, endIndex));
-  }, [page, results]);
+    setDisplayedResults((prevDisplayedResults) => searchResults.slice(startIndex, endIndex));
+  }, [page, searchResults]);
+
+
+  useEffect(() => {
+    // Update the results whenever the searchResults change
+    setResults(searchResults);
+  }, [searchResults]);
+
+
+  const hasNextPage = page < totalPages;
+  const hasDataForNextPage = results.length > page * itemsPerPage;
+
 
   const nextPage = () => {
     setPage(page + 1);
@@ -59,17 +90,6 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse }) => {
 
     return buttons;
   };
-
-  const itemsPerPage = 15;
-
-  useEffect(() => {
-    const startIndex = (page - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    setDisplayedResults(results.slice(startIndex, endIndex));
-  }, [page, results]);
-
-  const hasNextPage = page < totalPages;
-  const hasDataForNextPage = results.length > page * itemsPerPage;
 
   const deleteAlumni = (alumniId) => {
     let result = confirm('Are you sure you want to delete this alumni?');
@@ -137,9 +157,14 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse }) => {
 
       <div className="text-center flex justify-center mt-4">
         <span>
-          Showing {(page - 1) * itemsPerPage + 1}-{Math.min(page * itemsPerPage, results.length)} of {results.length}; Page {page} of {totalPages}
+          {results.length > 0 ? (
+            `Showing ${(page - 1) * itemsPerPage + 1}-${Math.min((page - 1) * itemsPerPage + displayedResults.length, results.length)} of ${results.length}; Page ${page} of ${totalPages}`
+          ) : (
+            'No data found'
+          )}
         </span>
       </div>
+
       <div className="text-center flex justify-center mt-4">
         <button onClick={prevPage} disabled={page === 1} className={`${page === 1 ? 'hidden' : ''} px-4 py-2 bg-blue-500 text-white rounded-md mr-2`}>
           Previous
