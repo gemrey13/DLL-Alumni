@@ -95,6 +95,10 @@ def table_data(request):
         year = graduation_date.year
         item['graduation_year'] = year
 
+        alumni_id = item['alumni__alumni_id']
+        has_current_job = CurrentJob.objects.filter(alumni__alumni_id=alumni_id).exists()
+        item['employment_status'] = 'Employed' if has_current_job else 'Unemployed'
+
     # Return the data as a JSON response
     return Response(data, status=200)
 
