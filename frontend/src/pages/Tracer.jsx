@@ -8,6 +8,7 @@ const Tracer = () => {
   const [selectedCourse, setSelectedCourse] = useState('');
   const [years, setYears] = useState([]);
   const [courses, setCourses] = useState([]);
+  const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
     const yearsUrl = 'http://127.0.0.1:8000/api/graduation-years/';
@@ -69,7 +70,7 @@ const Tracer = () => {
 
           <form className="flex">
             <span className="flex">
-              <input type="text" className="sm:focus:w-72 w-52 p-2 rounded-md bg-gray-200 text-gray-600 dark:bg-slate-700 dark:text-white transition-width duration-500" placeholder="Search Alumni . . . ." />
+              <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="sm:focus:w-72 w-52 p-2 rounded-md bg-gray-200 text-gray-600 dark:bg-slate-700 dark:text-white transition-width duration-500" placeholder="Search Alumni . . . ." />
               <button className="relative top-auto right-10">
                 <i className="bx bx-search text-blue-600 text-2xl "></i>
               </button>
@@ -90,7 +91,7 @@ const Tracer = () => {
 
         {isModal && <AlumniForm closeModal={closeModal} />}
 
-        <TracerAlumniTable selectedYear={selectedYear} selectedCourse={selectedCourse} />
+        <TracerAlumniTable selectedYear={selectedYear} selectedCourse={selectedCourse} searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
       </div>
 
       <Footer />
