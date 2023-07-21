@@ -47,7 +47,7 @@ class Command(BaseCommand):
         provinces = JobAddress.objects.values_list('province', flat=True).distinct()
         cities = JobAddress.objects.values_list('city', flat=True).distinct()
         barangays = JobAddress.objects.values_list('barangay', flat=True).distinct()
-
+        prev_id = 100000
         for alumni in alumni_profiles:
             generate_prev_job = random.random() > no_prev_job_prob
 
@@ -88,7 +88,7 @@ class Command(BaseCommand):
                         street=street
                     )
 
-                    unique_previous_job_id = self.generate_unique_previous_job_id()
+                    unique_previous_job_id = prev_id
                     job_type = random.choice([choice[0] for choice in FIELD_CHOICES])
                     job_title = fake.job()
                     salary = random.randint(1000, 100000)
@@ -105,7 +105,7 @@ class Command(BaseCommand):
                         alumni=alumni,
                         address=job_address
                     )
-
+                    prev_id += 1
                     self.stdout.write(self.style.SUCCESS(f'Successfully created PreviousJob: {previous_job}'))
 
             self.stdout.write(self.style.SUCCESS(f'Successfully processed AlumniProfile: {alumni}'))
