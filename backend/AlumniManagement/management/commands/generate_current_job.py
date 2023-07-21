@@ -41,7 +41,7 @@ class Command(BaseCommand):
         provinces = Province.objects.all()
         cities = City.objects.all()
         barangays = Barangay.objects.all()
-
+        current_id = 100000
         for alumni in alumni_profiles:
             graduation = Graduate.objects.get(alumni=alumni)
 
@@ -67,7 +67,8 @@ class Command(BaseCommand):
 
             if job_address:
                 # Generate data for CurrentJob model
-                current_job_id = fake.random_int(min=100000, max=999999)
+                current_job_id = current_id
+                current_id += 1
                 job_type = fake.random_element(elements=self.FIELD_CHOICES)
                 job_title = fake.job()
                 salary = random.randint(1000, 10000)
