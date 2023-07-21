@@ -9,7 +9,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         min_alumni_id = 0
-        max_alumni_id = 499
+        max_alumni_id = 4999
         graduation_years = list(range(2015, 2024))
         courses = Course.objects.all()
         curriculums = Curriculum.objects.all()
@@ -36,5 +36,7 @@ class Command(BaseCommand):
             graduate.curriculum = choice(curriculums)
 
             graduate.save()
+
+            print(f'{alumni_id}')
 
         self.stdout.write(self.style.SUCCESS('Graduate instances generated successfully.'))
