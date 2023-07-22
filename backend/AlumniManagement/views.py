@@ -37,6 +37,13 @@ class AlumniProfileAPIView(APIView):
             })
 
 
+@api_view(['GET'])
+def check_alumni_id_existence(request, alumni_id):
+    exists = AlumniProfile.objects.filter(alumni_id=alumni_id).exists()
+
+    return Response({'exists': exists})
+
+
 @api_view(['POST'])
 def alumni_form(request):
     data = request.data

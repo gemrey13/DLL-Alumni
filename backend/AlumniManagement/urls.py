@@ -9,6 +9,7 @@ app_name = "AlumniManagement"
 urlpatterns = [
     path('alumni-profile-data/', AlumniProfileAPIView.as_view(), name='PaginatedAlumniData'),
     path('alumni-form/', alumni_form, name='alumni_form'),
+    path('check-alumni-id/<str:alumni_id>/', check_alumni_id_existence, name='check-alumni-id'),
     path('delete-alumni/<str:alumni_id>/', delete_alumni, name='delete_alumni'),
 
 
