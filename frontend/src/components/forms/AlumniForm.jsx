@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAxios } from '../../index';
 import axios from 'axios';
-
+import API_URL from "../../../config";
 
 const AlumniForm = ({ closeModal }) => {
   const [selectedCountry, setSelectedCountry] = useState('');
@@ -13,6 +13,8 @@ const AlumniForm = ({ closeModal }) => {
   const [provinces, setProvinces] = useState([]);
   const [cities, setCities] = useState([]);
   const [barangays, setBarangays] = useState([]);
+  const [alumniIdExists, setAlumniIdExists] = useState(false);
+  const [selectedAlumniId, setSelectedAlumniId] = useState('');
 
   const { data: countriesData, isLoading: countriesLoading, error: countriesError } = useAxios('api/address/countries/');
   const { data: regionsData, isLoading: regionsLoading, error: regionsError } = useAxios(`api/address/countries/${selectedCountry}/regions/`);
@@ -87,168 +89,201 @@ const AlumniForm = ({ closeModal }) => {
   };
 
   const handleSubmit = (e) => {
+    e.preventDefault();
+    if (alumniIdExists) {
+      console.log('Alumni ID already exists.');
+      alert('Alumni ID already exists.');
+    } else {
+      const formData = {
+        fname: e.target.fname.value,
+        lname: e.target.lname.value,
+        mi: e.target.mi.value,
+        suffix: e.target.suffix.value,
+        contact_number: e.target.contact_number.value,
+        sex: e.target.sex.value,
+        religion: e.target.religion.value,
+        alumni_id: e.target.alumni_id.value,
+        marital_status: e.target.marital_status.value,
+        date_of_birth: e.target.date_of_birth.value,
+        country: e.target.country.value,
+        region: e.target.region.value,
+        province: e.target.province.value,
+        city: e.target.city.value,
+        barangay: e.target.barangay.value,
+      };
 
-    // Create a JavaScript object containing the form data
-    const formData = {
-      fname: e.target.fname.value,
-      lname: e.target.lname.value,
-      mi: e.target.mi.value,
-      suffix: e.target.suffix.value,
-      contact_number: e.target.contact_number.value,
-      sex: e.target.sex.value,
-      religion: e.target.religion.value,
-      alumni_id: e.target.alumni_id.value,
-      marital_status: e.target.marital_status.value,
-      date_of_birth: e.target.date_of_birth.value,
-      country: e.target.country.value,
-      region: e.target.region.value,
-      province: e.target.province.value,
-      city: e.target.city.value,
-      barangay: e.target.barangay.value,
-    };
+      axios
+        .post(`${API_URL}api/alumni-form/`, formData)
+        .then((response) => {
+          console.log('Alumni profile created successfully');
+          // Handle any further actions or UI updates after successful submission
+        })
+        .catch((error) => {
+          console.error('Form submission failed:', error);
+          if (error.response) {
+            console.log('Server Error:', error.response.data);
+          } else if (error.request) {
+            console.log('Request Error:', error.request);
+          } else {
+            console.log('Error:', error.message);
+          }
+        });
+    }
+  };
 
-    axios.post('https://gemreytest.pythonanywhere.com/api/alumni-form/', formData)
-      .then(response => {
-        console.log('Alumni profile created successfully');
-        // Handle any further actions or UI updates after successful submission
+  const checkAlumniId = (alumniId) => {
+    axios
+      .get(`${API_URL}api/check-alumni-id/${alumniId}/`)
+      .then((res) => {
+        setAlumniIdExists(res.data.exists);
       })
-      .catch(error => {
-        console.error('Form submission failed:', error);
-        if (error.response) {
-          console.log('Server Error:', error.response.data);
-        } else if (error.request) {
-          console.log('Request Error:', error.request);
-        } else {
-          console.log('Error:', error.message);
-        }
+      .catch((error) => {
+        console.error('Alumni ID check failed:', error);
       });
+  };
+
+  const handleAlumniIdChange = (event) => {
+    const alumniId = event.target.value;
+    setSelectedAlumniId(alumniId);
+    checkAlumniId(alumniId);
   };
 
   const handleCancel = () => {
     closeModal();
   };
 
-
   return (
     <>
-
-    <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-
-      <div className="relative top-20 mx-auto p-5 border w-3/4 shadow-lg rounded-md bg-white">
-
-        <form onSubmit={handleSubmit} className="mt-3 text-center">
-          <div className="mt-2 px-7 py-3">
-
-            <div className='rid grid-cols-5 grid-rows-5 gap-4'>
-              <div className='flex flex-nowrap text-left'>
-                <label htmlFor="fname" className='w-1/4'>First Name</label>
-                <label htmlFor="lname" className='w-1/4'>Last Name</label>
-                <label htmlFor="mi" className='w-1/4'>Middle Initial</label>
-                <label htmlFor="suffix" className='w-1/4'>Suffix</label>
+      <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div className="relative top-20 mx-auto p-5 border w-3/4 shadow-lg rounded-md bg-white">
+          <form onSubmit={handleSubmit} className="mt-3 text-center">
+            <div className="mt-2 px-7 py-3">
+              <div className="rid grid-cols-5 grid-rows-5 gap-4">
+                <div className="flex flex-nowrap text-left">
+                  <label htmlFor="fname" className="w-1/4">
+                    First Name
+                  </label>
+                  <label htmlFor="lname" className="w-1/4">
+                    Last Name
+                  </label>
+                  <label htmlFor="mi" className="w-1/4">
+                    Middle Initial
+                  </label>
+                  <label htmlFor="suffix" className="w-1/4">
+                    Suffix
+                  </label>
+                </div>
+                <div className="row-start-2">
+                  <input type="text" name="fname" id="fname" className="h-10 w-1/4" />
+                  <input type="text" name="lname" id="lname" className="h-10 w-1/4" />
+                  <input type="text" name="mi" id="mi" className="h-10 w-1/4" />
+                  <input type="text" name="suffix" id="suffix" className="h-10 w-1/4" />
+                </div>
               </div>
-              <div className="row-start-2">
-                <input type="text" name='fname' id="fname" className='h-10 w-1/4'/>
-                <input type="text" name='lname' id="lname" className='h-10 w-1/4'/>
-                <input type="text" name='mi' id="mi" className='h-10 w-1/4'/>
-                <input type="text" name='suffix' id="suffix" className='h-10 w-1/4'/>
+
+              <div className="rid grid-cols-5 grid-rows-5 gap-4 mt-6">
+                <div className="flex flex-nowrap text-left">
+                  <label htmlFor="contact_number" className="w-2/6">
+                    Contact Number
+                  </label>
+                  <label htmlFor="sex" className="w-2/6">
+                    Sex
+                  </label>
+                  <label htmlFor="religion" className="w-2/6">
+                    Religion
+                  </label>
+                </div>
+                <div className="row-start-2">
+                  <input type="text" name="contact_number" id="contact_number" className="h-10 w-2/6" />
+                  <input type="text" name="sex" id="sex" className="h-10 w-2/6" />
+                  <input type="text" name="religion" id="religion" className="h-10 w-2/6" />
+                </div>
+              </div>
+
+              <div className="rid grid-cols-5 grid-rows-5 gap-4 mt-6">
+                <div className="flex flex-nowrap text-left">
+                  <label htmlFor="alumni_id" className="w-2/6">
+                    Alumni ID
+                  </label>
+                  <label htmlFor="marital_status" className="w-2/6">
+                    Marital Status
+                  </label>
+                  <label htmlFor="date_of_birth" className="w-2/6">
+                    Date of Birth
+                  </label>
+                </div>
+                <div className="row-start-2">
+                  <input type="text" name="alumni_id" id="alumni_id" value={selectedAlumniId} onChange={handleAlumniIdChange} className="h-10 w-2/6" />
+                  {alumniIdExists && <p className="text-red-500">Alumni ID already exists.</p>}
+                  <input type="text" name="marital_status" id="marital_status" className="h-10 w-2/6" />
+                  <input type="date" name="date_of_birth" id="date_of_birth" className="h-10 w-2/6" />
+                </div>
+              </div>
+
+              <div className="grid-cols-5 grid-rows-5 gap-4 mt-5">
+                <label htmlFor="address" className="justify-start">
+                  Address
+                </label>
+                <div className="" id="address">
+                  <select name="country" onChange={handleCountryChange} className="w-1/5 dark:bg-gray-700 dark:text-white">
+                    <option value="">Select Country</option>
+                    {countries.map((country) => (
+                      <option key={country.id} value={country.id}>
+                        {country.country_name}
+                      </option>
+                    ))}
+                  </select>
+
+                  <select name="region" onChange={handleRegionChange} className="w-1/5 dark:bg-gray-700 dark:text-white">
+                    <option value="">Select Region</option>
+                    {regions.map((region) => (
+                      <option key={region.id} value={region.id}>
+                        {region.region_name}
+                      </option>
+                    ))}
+                  </select>
+
+                  <select name="province" onChange={handleProvinceChange} className="w-1/5 dark:bg-gray-700 dark:text-white">
+                    <option value="">Select Province</option>
+                    {provinces.map((province) => (
+                      <option key={province.id} value={province.id}>
+                        {province.province_name}
+                      </option>
+                    ))}
+                  </select>
+
+                  <select name="city" onChange={handleCityChange} className="w-1/5 dark:bg-gray-700 dark:text-white">
+                    <option value="">Select City</option>
+                    {cities.map((city) => (
+                      <option key={city.id} value={city.id}>
+                        {city.city_name}
+                      </option>
+                    ))}
+                  </select>
+
+                  <select name="barangay" className="w-1/5 dark:bg-gray-700 dark:text-white">
+                    <option value="">Select Barangay</option>
+                    {barangays.map((barangay) => (
+                      <option key={barangay.id} value={barangay.id}>
+                        {barangay.barangay_name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
             </div>
 
-            <div className='rid grid-cols-5 grid-rows-5 gap-4 mt-6'>
-              <div className='flex flex-nowrap text-left'>
-                <label htmlFor="contact_number" className='w-2/6'>Contact Number</label>
-                <label htmlFor="sex" className='w-2/6'>Sex</label>
-                <label htmlFor="religion" className='w-2/6'>Religion</label>
-              </div>
-              <div className="row-start-2">
-                <input type="text" name='contact_number' id="contact_number" className='h-10 w-2/6'/>
-                <input type="text" name='sex' id="sex" className='h-10 w-2/6'/>
-                <input type="text" name='religion' id="religion" className='h-10 w-2/6'/>
-              </div>
+            <div className="items-center px-4 py-3">
+              <button onClick={handleCancel} className="px-4 py-2 bg-orange-500 text-white text-base font-medium rounded-md w-1/5 mr-10 shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
+                Cancel
+              </button>
+              <button type="submit" className="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-1/5 shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
+                Save
+              </button>
             </div>
-
-            <div className='rid grid-cols-5 grid-rows-5 gap-4 mt-6'>
-              <div className='flex flex-nowrap text-left'>
-                <label htmlFor="alumni_id" className='w-2/6'>Alumni ID</label>
-                <label htmlFor="marital_status" className='w-2/6'>Marital Status</label>
-                <label htmlFor="date_of_birth" className='w-2/6'>Date of Birth</label>
-              </div>
-              <div className="row-start-2">
-                <input type="text" name='alumni_id' id="alumni_id" className='h-10 w-2/6'/>
-                <input type="text" name='marital_status' id="marital_status" className='h-10 w-2/6'/>
-                <input type="date" name='date_of_birth' id="date_of_birth" className='h-10 w-2/6'/>
-              </div>
-            </div>
-
-
-            <div className="grid-cols-5 grid-rows-5 gap-4 mt-5">
-              <label htmlFor='address' className='justify-start'>Address</label>
-              <div className="" id='address'>
-
-                <select name='country' onChange={handleCountryChange} className="w-1/5 dark:bg-gray-700 dark:text-white">
-                  <option value="">Select Country</option>
-                  {countries.map((country) => (
-                    <option key={country.id} value={country.id}>
-                      {country.country_name}
-                    </option>
-                  ))}
-                </select>
-
-                <select name='region' onChange={handleRegionChange} className="w-1/5 dark:bg-gray-700 dark:text-white">
-                  <option value="">Select Region</option>
-                  {regions.map((region) => (
-                    <option key={region.id} value={region.id}>
-                      {region.region_name}
-                    </option>
-                  ))}
-                </select>
-
-                <select name='province' onChange={handleProvinceChange} className="w-1/5 dark:bg-gray-700 dark:text-white">
-                  <option value="">Select Province</option>
-                  {provinces.map((province) => (
-                    <option key={province.id} value={province.id}>
-                      {province.province_name}
-                    </option>
-                  ))}
-                </select>
-
-                <select name='city' onChange={handleCityChange} className="w-1/5 dark:bg-gray-700 dark:text-white">
-                  <option value="">Select City</option>
-                  {cities.map((city) => (
-                    <option key={city.id} value={city.id}>
-                      {city.city_name}
-                    </option>
-                  ))}
-                </select>
-
-                <select name='barangay' className="w-1/5 dark:bg-gray-700 dark:text-white">
-                  <option value="">Select Barangay</option>
-                  {barangays.map((barangay) => (
-                    <option key={barangay.id} value={barangay.id}>
-                      {barangay.barangay_name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-          </div>
-
-
-          <div className="items-center px-4 py-3">
-            <button onClick={handleCancel} className="px-4 py-2 bg-orange-500 text-white text-base font-medium rounded-md w-1/5 mr-10 shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
-              Cancel
-            </button>
-            <button type="submit" className="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-1/5 shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
-              Save
-            </button>
-          </div>
-        </form>
-
+          </form>
+        </div>
       </div>
-
-    </div>
-
     </>
   );
 };
