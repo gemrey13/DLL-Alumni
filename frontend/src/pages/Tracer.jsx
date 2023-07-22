@@ -11,8 +11,8 @@ const Tracer = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    const yearsUrl = 'http://gemreytest.pythonanywhere.com/api/graduation-years/';
-    const coursesUrl = 'http://gemreytest.pythonanywhere.com/api/course-view/';
+    const yearsUrl = 'https://gemreytest.pythonanywhere.com/api/graduation-years/';
+    const coursesUrl = 'https://gemreytest.pythonanywhere.com/api/course-view/';
 
     axios
       .get(yearsUrl)

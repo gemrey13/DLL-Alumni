@@ -14,7 +14,7 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse, searchQuery, setSearc
   useEffect(() => {
     setPage(1);
     if (selectedYear !== '' || selectedCourse !== '') {
-      const apiUrl = `http://gemreytest.pythonanywhere.com/api/table-data/?year=${selectedYear}&course=${selectedCourse}`;
+      const apiUrl = `https://gemreytest.pythonanywhere.com/api/table-data/?year=${selectedYear}&course=${selectedCourse}`;
 
       axios
         .get(apiUrl)
@@ -96,7 +96,7 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse, searchQuery, setSearc
 
     if (result) {
       axios
-        .delete(`http://gemreytest.pythonanywhere.com/api/delete-alumni/${alumniId}/`)
+        .delete(`https://gemreytest.pythonanywhere.com/api/delete-alumni/${alumniId}/`)
         .then((response) => {
           console.log('Alumni deleted successfully');
         })
