@@ -107,7 +107,7 @@ const AlumniForm = ({ closeModal }) => {
       barangay: e.target.barangay.value,
     };
 
-    axios.post('http://127.0.0.1:8000/api/alumni-form/', formData)
+    axios.post('http://gemreytest.pythonanywhere.com/api/alumni-form/', formData)
       .then(response => {
         console.log('Alumni profile created successfully');
         // Handle any further actions or UI updates after successful submission
