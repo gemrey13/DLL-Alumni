@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navbar, Breadcrumb, Footer, TracerAlumniTable, AlumniForm } from '../index';
 import axios from 'axios';
+import API_URL from "../../config";
 
 const Tracer = () => {
   const [isModal, setIsModal] = useState(false);
@@ -11,8 +12,8 @@ const Tracer = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   useEffect(() => {
-    const yearsUrl = 'https://gemreytest.pythonanywhere.com/api/graduation-years/';
-    const coursesUrl = 'https://gemreytest.pythonanywhere.com/api/course-view/';
+    const yearsUrl = `${API_URL}api/graduation-years/`;
+    const coursesUrl = `${API_URL}api/course-view/`;
 
     axios
       .get(yearsUrl)

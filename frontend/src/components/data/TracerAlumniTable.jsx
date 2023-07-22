@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAxios } from '../../index';
+import API_URL from "../../../config";
 import axios from 'axios';
 
 const TracerAlumniTable = ({ selectedYear, selectedCourse, searchQuery, setSearchQuery }) => {
@@ -14,7 +15,7 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse, searchQuery, setSearc
   useEffect(() => {
     setPage(1);
     if (selectedYear !== '' || selectedCourse !== '') {
-      const apiUrl = `https://gemreytest.pythonanywhere.com/api/table-data/?year=${selectedYear}&course=${selectedCourse}`;
+      const apiUrl = `${API_URL}api/table-data/?year=${selectedYear}&course=${selectedCourse}`;
 
       axios
         .get(apiUrl)
@@ -96,7 +97,7 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse, searchQuery, setSearc
 
     if (result) {
       axios
-        .delete(`https://gemreytest.pythonanywhere.com/api/delete-alumni/${alumniId}/`)
+        .delete(`${API_URL}api/delete-alumni/${alumniId}/`)
         .then((response) => {
           console.log('Alumni deleted successfully');
         })
