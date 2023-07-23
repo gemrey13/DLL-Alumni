@@ -158,13 +158,11 @@ const AlumniForm = ({ closeModal }) => {
         <div className="relative top-20 mx-auto p-5 border w-3/4 shadow-lg rounded-md bg-white">
           <form onSubmit={handleSubmit} className="mt-3">
             <div className="mt-2 px-7 py-3">
-
               <div>
                 <h1 className='text-lg font-semibold'>Alumni Form</h1>
                 <p>Fill the registration form below keenly to submit the alumni form.</p>
               </div>
               <hr />
-
               <div className='mt-6' >
 
                 <div className='flex'>
@@ -176,19 +174,19 @@ const AlumniForm = ({ closeModal }) => {
                 <div className='flex mt-6'>
                   <h1 className='mr-20 font-bold'>Name</h1>
                   <div className='flex flex-col'>
-                    <input required type="text" name="fname" id="fname" maxlength='50' className="h-8 border-gray-400 w-48 mr-5" />
+                    <input required type="text" name="fname" id="fname" maxLength='50' className="h-8 border-gray-400 w-48 mr-5" />
                     <label htmlFor="fname" className='text-gray-400 text-sm'>First Name</label>
                   </div>
                   <div className='flex flex-col'>
-                    <input required type="text" name="lname" id="lname" maxlength='50' className="h-8 border-gray-400 w-48 mr-5" />
+                    <input required type="text" name="lname" id="lname" maxLength='50' className="h-8 border-gray-400 w-48 mr-5" />
                     <label htmlFor="lname" className='text-gray-400 text-sm'>Last Name</label>
                   </div>
                   <div className='flex flex-col'>
-                    <input required type="text" name="mi" id="mi" maxlength='1' className="h-8 border-gray-400 w-16 mr-5" />
+                    <input required type="text" name="mi" id="mi" maxLength='1' className="h-8 border-gray-400 w-16 mr-5" />
                     <label htmlFor="mi" className='text-gray-400 text-sm'>M.I.</label>
                   </div>
                   <div className='flex flex-col'>
-                    <input required type="text" name="suffix" id="suffix" maxlength='4' className="h-8 border-gray-400 w-16" />
+                    <input required type="text" name="suffix" id="suffix" maxLength='4' className="h-8 border-gray-400 w-16" />
                     <label htmlFor="suffix" className='text-gray-400 text-sm'>Suffix</label>
                   </div>
                 </div>
@@ -203,7 +201,7 @@ const AlumniForm = ({ closeModal }) => {
                 <div className='flex mt-6'>
                   <label htmlFor='sex' className='mr-[70px] font-bold'>Gender</label>
                   <select name="sex" id="sex" className='h-8 text-sm py-0'>
-                    <option disabled selected>Select Gender</option>
+                    <option defaultValue>Select Gender</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                   </select>
@@ -219,15 +217,9 @@ const AlumniForm = ({ closeModal }) => {
                   <input required type="date" name="date_of_birth" id="date_of_birth" className="h-8 border-gray-400 w-[12em]"/>
                 </div>
 
-              </div>
-
-
-              <div className="grid-cols-5 grid-rows-5 gap-4 mt-5">
-                <label htmlFor="address" className="justify-start">
-                  Address
-                </label>
-                <div className="" id="address">
-                  <select name="country" onChange={handleCountryChange} className="w-1/5 dark:bg-gray-700 dark:text-white">
+                <div className='flex mt-6'>
+                  <h1 className='mr-[4.1em] font-bold'>Address</h1>
+                  <select name="country" onChange={handleCountryChange} className="mr-[20px] w-1/5 h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
                     <option value="">Select Country</option>
                     {countries.map((country) => (
                       <option key={country.id} value={country.id}>
@@ -236,7 +228,7 @@ const AlumniForm = ({ closeModal }) => {
                     ))}
                   </select>
 
-                  <select name="region" onChange={handleRegionChange} className="w-1/5 dark:bg-gray-700 dark:text-white">
+                  <select  name="region" onChange={handleRegionChange} className="mr-[20px] w-1/5 h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
                     <option value="">Select Region</option>
                     {regions.map((region) => (
                       <option key={region.id} value={region.id}>
@@ -245,7 +237,7 @@ const AlumniForm = ({ closeModal }) => {
                     ))}
                   </select>
 
-                  <select name="province" onChange={handleProvinceChange} className="w-1/5 dark:bg-gray-700 dark:text-white">
+                  <select name="province" onChange={handleProvinceChange} className="mr-[20px] w-1/5 h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
                     <option value="">Select Province</option>
                     {provinces.map((province) => (
                       <option key={province.id} value={province.id}>
@@ -254,7 +246,7 @@ const AlumniForm = ({ closeModal }) => {
                     ))}
                   </select>
 
-                  <select name="city" onChange={handleCityChange} className="w-1/5 dark:bg-gray-700 dark:text-white">
+                  <select name="city" onChange={handleCityChange} className="mr-[20px] w-1/5 h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
                     <option value="">Select City</option>
                     {cities.map((city) => (
                       <option key={city.id} value={city.id}>
@@ -263,7 +255,7 @@ const AlumniForm = ({ closeModal }) => {
                     ))}
                   </select>
 
-                  <select name="barangay" className="w-1/5 dark:bg-gray-700 dark:text-white">
+                  <select name="barangay" className="w-1/5 h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
                     <option value="">Select Barangay</option>
                     {barangays.map((barangay) => (
                       <option key={barangay.id} value={barangay.id}>
@@ -283,6 +275,8 @@ const AlumniForm = ({ closeModal }) => {
                 Save
               </button>
             </div>
+
+
           </form>
         </div>
       </div>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useAxios } from '../../index';
 import API_URL from "../../../config";
 import axios from 'axios';
 
