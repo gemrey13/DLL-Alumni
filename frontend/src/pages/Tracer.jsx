@@ -10,6 +10,12 @@ const Tracer = () => {
   const [years, setYears] = useState([]);
   const [courses, setCourses] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedEmploymentStatus, setSelectedEmploymentStatus] = useState('');
+
+
+  const handleEmploymentStatusChange = (e) => {
+  setSelectedEmploymentStatus(e.target.value); // Use setSelectedEmploymentStatus to update selectedEmploymentStatus
+};
 
   useEffect(() => {
     const yearsUrl = `${API_URL}api/graduation-years/`;
@@ -66,6 +72,17 @@ const Tracer = () => {
                   </option>
                 ))}
               </select>
+              <select
+                name="employment_status"
+                id="employment_status"
+                value={selectedEmploymentStatus}
+                onChange={handleEmploymentStatusChange}
+                className="sm:w-40 p-2 rounded-md bg-gray-200 text-gray-600 dark:bg-slate-700 dark:text-white transition-width duration-500 ml-2"
+              >
+                <option value="">Select Employment Status</option>
+                <option value="Employed">Employed</option>
+                <option value="Unemployed">Unemployed</option>
+              </select>
             </span>
           </form>
 
@@ -92,7 +109,10 @@ const Tracer = () => {
 
         {isModal && <AlumniForm closeModal={closeModal} />}
 
-        <TracerAlumniTable selectedYear={selectedYear} selectedCourse={selectedCourse} searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        {selectedYear && (
+          <TracerAlumniTable selectedYear={selectedYear} selectedCourse={selectedCourse} searchQuery={searchQuery} setSearchQuery={setSearchQuery} selectedEmploymentStatus={selectedEmploymentStatus}/>
+        )}
+
       </div>
 
       <Footer />

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import API_URL from "../../../config";
 import axios from 'axios';
 
-const TracerAlumniTable = ({ selectedYear, selectedCourse, searchQuery, setSearchQuery }) => {
+const TracerAlumniTable = ({ selectedYear, selectedCourse, searchQuery, setSearchQuery, selectedEmploymentStatus }) => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [results, setResults] = useState([]);
@@ -14,7 +14,7 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse, searchQuery, setSearc
   useEffect(() => {
     setPage(1);
     if (selectedYear !== '' || selectedCourse !== '') {
-      const apiUrl = `${API_URL}api/table-data/?year=${selectedYear}&course=${selectedCourse}`;
+      const apiUrl = `${API_URL}api/table-data/?year=${selectedYear}&course=${selectedCourse}&employment_status=${selectedEmploymentStatus}`;
 
       axios
         .get(apiUrl)
@@ -28,26 +28,23 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse, searchQuery, setSearc
           console.error(error);
         });
     }
-  }, [selectedYear, selectedCourse, searchQuery]);
+  }, [selectedYear, selectedCourse, searchQuery, selectedEmploymentStatus]);
 
 
   useEffect(() => {
-    // Update the searchResults whenever the fetchedData or searchQuery changes
     const filtered = fetchedData.filter((item) => {
-      // Assuming you want to search in the alumni__fname and alumni__lname fields
       return (
         item.alumni__fname.toLowerCase().includes(searchQuery.toLowerCase()) ||
         item.alumni__lname.toLowerCase().includes(searchQuery.toLowerCase())
       );
     });
     setSearchResults(filtered);
-  }, [fetchedData, searchQuery]);
+  }, [fetchedData, searchQuery, selectedEmploymentStatus]);
 
 
   const itemsPerPage = 15;
 
   useEffect(() => {
-    // Update the displayedResults whenever the page or searchResults changes
     const startIndex = (page - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     setDisplayedResults((prevDisplayedResults) => searchResults.slice(startIndex, endIndex));
@@ -55,7 +52,6 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse, searchQuery, setSearc
 
 
   useEffect(() => {
-    // Update the results whenever the searchResults change
     setResults(searchResults);
   }, [searchResults]);
 
@@ -107,6 +103,10 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse, searchQuery, setSearc
       location.reload();
     }
   };
+
+  const filteredResults = selectedEmploymentStatus
+    ? results.filter((item) => item.employment_status === selectedEmploymentStatus)
+    : results;
 
   return (
     <>
