@@ -3,9 +3,34 @@ import { useAxios } from '../../index';
 import axios from 'axios';
 import API_URL from '../../../config';
 
+const FIELD_CHOICES = [
+  ['technology', 'Technology'],
+  ['medical', 'Medical/Healthcare'],
+  ['mechanical', 'Mechanical Engineering'],
+  ['electrical', 'Electrical Engineering'],
+  ['finance', 'Finance/Accounting'],
+  ['education', 'Education/Teaching'],
+  ['marketing', 'Marketing/Advertising'],
+  ['sales', 'Sales'],
+  ['business', 'Business Development'],
+  ['hr', 'Human Resources'],
+  ['law', 'Law/Legal'],
+  ['consulting', 'Consulting'],
+  ['manufacturing', 'Manufacturing'],
+  ['hospitality', 'Hospitality/Travel'],
+  ['retail', 'Retail'],
+  ['media', 'Media/Entertainment'],
+  ['art', 'Art/Design'],
+  ['architecture', 'Architecture'],
+  ['nonprofit', 'Nonprofit/Volunteering'],
+  ['government', 'Government/Public Administration'],
+];
+
 
 const ProfileRight = () => {
   const [tab, setTab] = useState(1);
+  const [courses, setCourses] = useState([]);
+  const [curriculum, setCurriculum] = useState([]);
 
   const [selectedCountry, setSelectedCountry] = useState('');
   const [selectedRegion, setSelectedRegion] = useState('');
@@ -19,6 +44,33 @@ const ProfileRight = () => {
 
   useEffect(() => {
     const source = axios.CancelToken.source();
+
+    axios
+      .get(`${API_URL}api/course-data/`, { cancelToken: source.token })
+      .then((response) => {
+        setCourses(response.data);
+      })
+      .catch((error) => {
+        if (axios.isCancel(error)) {
+          console.log('Request canceled:', error.message);
+        } else {
+          console.error('Error fetching data:', error);
+        }
+      });
+
+      axios
+      .get(`${API_URL}api/curriculum-data/`, { cancelToken: source.token })
+      .then((response) => {
+        setCurriculum(response.data);
+      })
+      .catch((error) => {
+        if (axios.isCancel(error)) {
+          console.log('Request canceled:', error.message);
+        } else {
+          console.error('Error fetching data:', error);
+        }
+      });
+
     axios
       .get(`${API_URL}api/address/countries/`, { cancelToken: source.token })
       .then((response) => {
@@ -134,6 +186,115 @@ const ProfileRight = () => {
   };
 
 
+
+  const [currentJobSelectedCountry, setCurrentJobSelectedCountry] = useState('');
+  const [currentJobSelectedRegion, setCurrentJobSelectedRegion] = useState('');
+  const [currentJobSelectedProvince, setCurrentJobSelectedProvince] = useState('');
+  const [currentJobSelectedCity, setCurrentJobSelectedCity] = useState('');
+  const [currentJobCountry, setCurrentJobCountry] = useState([]);
+  const [currentJobRegion, setCurrentJobRegion] = useState([]);
+  const [currentJobProvince, setCurrentJobProvince] = useState([]);
+  const [currentJobCity, setCurrentJobCity] = useState([]);
+  const [currentJobBarangay, setCurrentJobBarangay] = useState([]);
+  
+  useEffect(() => {
+    if (currentJobSelectedCountry) {
+      axios
+        .get(`${API_URL}api/address/countries/${currentJobSelectedCountry}/regions/`)
+        .then((response) => {
+          setCurrentJobRegion(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      setCurrentJobRegion([]);
+    }
+  }, [currentJobSelectedCountry]);
+
+  useEffect(() => {
+    if (currentJobSelectedRegion) {
+      axios
+        .get(`${API_URL}api/address/regions/${currentJobSelectedRegion}/provinces/`)
+        .then((response) => {
+          setCurrentJobProvince(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      setCurrentJobProvince([]);
+    }
+  }, [currentJobSelectedRegion]);
+
+  useEffect(() => {
+    if (currentJobSelectedProvince) {
+      axios
+        .get(`${API_URL}api/address/provinces/${currentJobSelectedProvince}/cities/`)
+        .then((response) => {
+          setCurrentJobCity(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      setCurrentJobCity([]);
+    }
+  }, [currentJobSelectedProvince]);
+
+  useEffect(() => {
+    if (currentJobSelectedCity) {
+      axios
+        .get(`${API_URL}api/address/cities/${currentJobSelectedCity}/barangays/`)
+        .then((response) => {
+          setCurrentJobBarangay(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      setCurrentJobBarangay([]);
+    }
+  }, [currentJobSelectedCity]);
+
+
+  const handleCurrentJobCountryChange = (event) => {
+    const currentJobSelectedCountry = event.target.value;
+    setCurrentJobSelectedCountry(currentJobSelectedCountry);
+    setCurrentJobSelectedRegion('');
+    setCurrentJobSelectedProvince('');
+    setCurrentJobSelectedCity('');
+    setCurrentJobRegion([]);
+    setCurrentJobProvince([]);
+    setCurrentJobCity([]);
+    setCurrentJobBarangay([]);
+  };
+
+  const handleCurrentJobRegionChange = (event) => {
+    const currentJobSelectedRegion = event.target.value;
+    setCurrentJobSelectedRegion(currentJobSelectedRegion);
+    setCurrentJobSelectedProvince('');
+    setCurrentJobSelectedCity('');
+    setCurrentJobProvince([]);
+    setCurrentJobCity([]);
+    setCurrentJobBarangay([]);
+  };
+
+  const handleCurrentJobProvinceChange = (event) => {
+    const currentJobSelectedProvince = event.target.value;
+    setCurrentJobSelectedProvince(currentJobSelectedProvince);
+    setCurrentJobSelectedCity('');
+    setCurrentJobCity([]);
+    setCurrentJobBarangay([]);
+  };
+
+  const handleCurrentJobCityChange = (event) => {
+    const currentJobSelectedCity = event.target.value;
+    setCurrentJobSelectedCity(currentJobSelectedCity);
+    setCurrentJobBarangay([]);
+  };
+
+
   const personalInfoRef = useRef(null);
 
   const handlePersonalInfo = (e) => {
@@ -175,11 +336,6 @@ const ProfileRight = () => {
             </h1>
             <p className="text-blue-600">Software Developer</p>
           </div>
-        </div>
-        <div className="flex mt-10 text-lg">
-          <h5 className="mr-10">Send Message</h5>
-          <h5 className="mr-10">Facebook</h5>
-          <h5>Twitter</h5>
         </div>
         <div className="flex mt-12 cursor-pointer">
           <h1 className="mr-6" onClick={() => setTab(1)}>
@@ -259,11 +415,15 @@ const ProfileRight = () => {
                 </div>
 
                 <div className="flex mt-6">
-                  <h1 className="-mr-1 font-bold">Marital Status</h1>
+                  <h1 className="mr-16 font-bold">Marital Status</h1>
                   <input required maxLength="50" type="text" name="marital_status" id="marital_status" className="h-8 border-gray-400 w-[15em] mr-[5.2em]" />
-                  <h1 className="mr-[5.2em] font-bold">Birthdate</h1>
+                </div>
+
+                <div className="flex mt-6">
+                  <h1 className="mr-[6.3em] font-bold">Birthdate</h1>
                   <input required type="date" name="date_of_birth" id="date_of_birth" className="h-8 border-gray-400 w-[12em]" />
                 </div>
+
 
                 <div className="flex mt-6">
                   <h1 className="mr-[4.1em] font-bold">Address</h1>
@@ -328,8 +488,157 @@ const ProfileRight = () => {
           </form>
           </>
         )}
-        {tab === 2 && <div>Educational Attainment</div>}
-        {tab === 3 && <div>Job Record</div>}
+        {tab === 2 && (
+          <>
+          <form>
+            <div className="flex mt-6">
+                  <h1 className="mr-[74px] font-bold">Course</h1>
+
+                  <select required name="course" id="course" className="h-8 mr-[4em] w-1/5 text-sm py-0 dark:bg-gray-700 dark:text-white">
+                    <option value="">Select Course</option>
+                    {courses.map((course) => (
+                      <option key={course.course_id} value={course.course_id}>
+                        {course.course_name}
+                      </option>
+                    ))}
+                  </select>
+
+                  <h1 className="mr-[60px] font-bold">Graduation Date</h1>
+                  <input required type="date" name="graduation_date" id="graduation_date" className="h-8 border-gray-400 w-[12em]" />
+                </div>
+
+                <div className="flex mt-6">
+                  <h1 className="mr-[73px] font-bold">Honor</h1>
+                  <textarea name="honor" id="" cols="59" rows="2"></textarea>
+                </div>
+
+                <div className="flex mt-6">
+                  <h1 className="mr-[33px] font-bold">Curriculum</h1>
+                  <select required name="curriculum" id="curriculum" className="h-8 mr-[13.5em] w-1/5 text-sm py-0 dark:bg-gray-700 dark:text-white">
+                    <option value="">Select Curriculum</option>
+                    {curriculum.map((curri) => (
+                      <option key={curri.curriculum_id} value={curri.curriculum_id} title={curri.description}>
+                        {curri.curriculum_id}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <button type="submit" className="p-2 mt-5 absolute right-[5%] bg-blue-500 text-white text-base font-medium rounded-md w-24 shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
+                  Save
+                </button>
+          </form>
+          </>
+        )}
+        {tab === 3 && (
+          <>
+          <form>
+            <div className="flex mt-3">
+                      <div className="flex flex-col">
+                        <input required type="text" name="job_title" id="job_title" maxLength="50" className="h-8 border-gray-400 w-48 mr-5" />
+                        <label htmlFor="job_title" className="text-gray-400 text-sm">
+                          Job Title
+                        </label>
+                      </div>
+
+                      <div className="flex flex-col">
+                        <input required type="text" name="company_name" id="company_name" maxLength="50" className="h-8 border-gray-400 w-48 mr-5" />
+                        <label htmlFor="company_name" className="text-gray-400 text-sm">
+                          Company Name
+                        </label>
+                      </div>
+
+                      <div className="flex flex-col">
+                        <input required type="number" name="salary" id="salary" maxLength="50" className="h-8 border-gray-400 w-48 mr-5" />
+                        <label htmlFor="salary" className="text-gray-400 text-sm">
+                          Salary
+                        </label>
+                      </div>
+                      
+                    </div>
+
+                    <div className="flex mt-3">
+                      <div className="flex flex-col">
+                        <select required name="job_type" id="job_type" className='h-8 text-sm py-0 w-1/2 mr-[5em] dark:bg-gray-700 dark:text-white'>
+                          <option value="">Select Job Type</option>
+                            {FIELD_CHOICES.map((choice) => (
+                              <option key={choice[0]} value={choice[0]}>
+                                {choice[1]}
+                              </option>
+                            ))}
+                        </select>
+                      </div>
+
+                      <div className="flex flex-col">
+                        <input required type="date" name="start_date" id="start_date" maxLength="50" className="h-8 border-gray-400 w-48 mr-5" />
+                        <label htmlFor="start_date" className="text-gray-400 text-sm">
+                          Start Date
+                        </label>
+                      </div>
+                    </div>
+
+                    <div className="flex mt-6">
+                      <h1 className="mr-[3em] text-gray-400 text-sm">Job Address</h1>
+
+                      <div className="flex flex-col w-1/5 mr-[4em]">
+                        <select required name="current_job_country" onChange={handleCurrentJobCountryChange} className="h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
+                          <option value="">Select Country</option>
+                          {currentJobCountry.map((country) => (
+                            <option key={country.id} value={country.id}>
+                              {country.country_name}
+                            </option>
+                          ))}
+                        </select>
+
+                        <select required name="current_job_city" onChange={handleCurrentJobCityChange} className="mt-4 h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
+                          <option value="">Select City</option>
+                          {currentJobCity.map((city) => (
+                            <option key={city.id} value={city.id}>
+                              {city.city_name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="flex flex-col w-1/5 mr-[4em]">
+                        <select required name="current_job_region" onChange={handleCurrentJobRegionChange} className="h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
+                          <option value="">Select Region</option>
+                          {currentJobRegion.map((region) => (
+                            <option key={region.id} value={region.id}>
+                              {region.region_name}
+                            </option>
+                          ))}
+                        </select>
+
+                        <select required name="current_job_barangay" className="mt-4 h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
+                          <option value="">Select Barangay</option>
+                          {currentJobBarangay.map((barangay) => (
+                            <option key={barangay.id} value={barangay.id}>
+                              {barangay.barangay_name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+
+                      <div className="flex flex-col w-1/5">
+                        <select name="current_job_province" onChange={handleCurrentJobProvinceChange} className="h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
+                          <option value="">Select Province</option>
+                          {currentJobProvince.map((province) => (
+                            <option key={province.id} value={province.id}>
+                              {province.province_name}
+                            </option>
+                          ))}
+                        </select>
+
+                        <input type="text" name="street" id="street" className="mt-4 w-full h-8 border-gray-400" placeholder="street" />
+                      </div>
+                    </div>
+                    <button type="submit" className="p-2 mt-5 absolute right-[5%] bg-blue-500 text-white text-base font-medium rounded-md w-24 shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
+                  Save
+                </button>
+          </form>            
+          </>
+        )}
         {tab === 4 && <div>Account</div>}
         </div>
       </div>

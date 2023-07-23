@@ -11,13 +11,10 @@ const AlumniProfile = () => {
                 <Navbar />
                 <Breadcrumb url='Tracer' url2='Profile'/>
 
-                <div className='flex'>
-                    
+                <div className='flex'>                    
                     <ProfileLeft />
                     <ProfileRight />
-
                 </div>
-
             </div>
         </>
     )
