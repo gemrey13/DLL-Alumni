@@ -5,89 +5,118 @@ import API_URL from "../../../config";
 
 const AlumniForm = ({ closeModal }) => {
   const [selectedCountry, setSelectedCountry] = useState('');
-  const [selectedRegion, setSelectedRegion] = useState('');
-  const [selectedProvince, setSelectedProvince] = useState('');
-  const [selectedCity, setSelectedCity] = useState('');
-  const [countries, setCountries] = useState([]);
-  const [regions, setRegions] = useState([]);
-  const [provinces, setProvinces] = useState([]);
-  const [cities, setCities] = useState([]);
-  const [barangays, setBarangays] = useState([]);
-  const [alumniIdExists, setAlumniIdExists] = useState(false);
-  const [selectedAlumniId, setSelectedAlumniId] = useState('');
+    const [selectedRegion, setSelectedRegion] = useState('');
+    const [selectedProvince, setSelectedProvince] = useState('');
+    const [selectedCity, setSelectedCity] = useState('');
+    const [countries, setCountries] = useState([]);
+    const [regions, setRegions] = useState([]);
+    const [provinces, setProvinces] = useState([]);
+    const [cities, setCities] = useState([]);
+    const [barangays, setBarangays] = useState([]);
+    const [alumniIdExists, setAlumniIdExists] = useState(false);
+    const [selectedAlumniId, setSelectedAlumniId] = useState('');
 
-  const { data: countriesData, isLoading: countriesLoading, error: countriesError } = useAxios('api/address/countries/');
-  const { data: regionsData, isLoading: regionsLoading, error: regionsError } = useAxios(`api/address/countries/${selectedCountry}/regions/`);
-  const { data: provincesData, isLoading: provincesLoading, error: provincesError } = useAxios(`api/address/regions/${selectedRegion}/provinces/`);
-  const { data: citiesData, isLoading: citiesLoading, error: citiesError } = useAxios(`api/address/provinces/${selectedProvince}/cities/`);
-  const { data: barangaysData, isLoading: barangaysLoading, error: barangaysError } = useAxios(`api/address/cities/${selectedCity}/barangays/`);
+    useEffect(() => {
+      axios.get(`${API_URL}api/address/countries/`)
+        .then((response) => {
+          setCountries(response.data);
+        })
+        .catch((error) => {
+          // Handle error if necessary
+        });
+    }, []);
 
-  useEffect(() => {
-    if (!selectedCountry && countriesData.length > 0) {
-      setCountries(countriesData);
-    }
-  }, [countriesData, selectedCountry]);
+    useEffect(() => {
+      if (selectedCountry) {
+        axios.get(`${API_URL}api/address/countries/${selectedCountry}/regions/`)
+          .then((response) => {
+            setRegions(response.data);
+          })
+          .catch((error) => {
+            // Handle error if necessary
+          });
+      } else {
+        setRegions([]);
+      }
+    }, [selectedCountry]);
 
-  useEffect(() => {
-    if (selectedCountry && !selectedRegion && regionsData.length > 0) {
-      setRegions(regionsData);
-    }
-  }, [regionsData, selectedCountry, selectedRegion]);
+    useEffect(() => {
+      if (selectedRegion) {
+        axios.get(`${API_URL}api/address/regions/${selectedRegion}/provinces/`)
+          .then((response) => {
+            setProvinces(response.data);
+          })
+          .catch((error) => {
+            // Handle error if necessary
+          });
+      } else {
+        setProvinces([]);
+      }
+    }, [selectedRegion]);
 
-  useEffect(() => {
-    if (selectedRegion && !selectedProvince && provincesData.length > 0) {
-      setProvinces(provincesData);
-    }
-  }, [provincesData, selectedRegion, selectedProvince]);
+    useEffect(() => {
+      if (selectedProvince) {
+        axios.get(`${API_URL}api/address/provinces/${selectedProvince}/cities/`)
+          .then((response) => {
+            setCities(response.data);
+          })
+          .catch((error) => {
+            // Handle error if necessary
+          });
+      } else {
+        setCities([]);
+      }
+    }, [selectedProvince]);
 
-  useEffect(() => {
-    if (selectedProvince && !selectedCity && citiesData.length > 0) {
-      setCities(citiesData);
-    }
-  }, [citiesData, selectedProvince, selectedCity]);
+    useEffect(() => {
+      if (selectedCity) {
+        axios.get(`${API_URL}api/address/cities/${selectedCity}/barangays/`)
+          .then((response) => {
+            setBarangays(response.data);
+          })
+          .catch((error) => {
+            // Handle error if necessary
+          });
+      } else {
+        setBarangays([]);
+      }
+    }, [selectedCity]);
 
-  useEffect(() => {
-    if (selectedCity && barangaysData.length > 0) {
-      setBarangays(barangaysData);
-    }
-  }, [barangaysData, selectedCity]);
+    const handleCountryChange = (event) => {
+      const selectedCountry = event.target.value;
+      setSelectedCountry(selectedCountry);
+      setSelectedRegion('');
+      setSelectedProvince('');
+      setSelectedCity('');
+      setRegions([]);
+      setProvinces([]);
+      setCities([]);
+      setBarangays([]);
+    };
 
-  const handleCountryChange = (event) => {
-    const selectedCountry = event.target.value;
-    setSelectedCountry(selectedCountry);
-    setSelectedRegion('');
-    setSelectedProvince('');
-    setSelectedCity('');
-    setRegions([]);
-    setProvinces([]);
-    setCities([]);
-    setBarangays([]);
-  };
+    const handleRegionChange = (event) => {
+      const selectedRegion = event.target.value;
+      setSelectedRegion(selectedRegion);
+      setSelectedProvince('');
+      setSelectedCity('');
+      setProvinces([]);
+      setCities([]);
+      setBarangays([]);
+    };
 
-  const handleRegionChange = (event) => {
-    const selectedRegion = event.target.value;
-    setSelectedRegion(selectedRegion);
-    setSelectedProvince('');
-    setSelectedCity('');
-    setProvinces([]);
-    setCities([]);
-    setBarangays([]);
-  };
+    const handleProvinceChange = (event) => {
+      const selectedProvince = event.target.value;
+      setSelectedProvince(selectedProvince);
+      setSelectedCity('');
+      setCities([]);
+      setBarangays([]);
+    };
 
-  const handleProvinceChange = (event) => {
-    const selectedProvince = event.target.value;
-    setSelectedProvince(selectedProvince);
-    setSelectedCity('');
-    setCities([]);
-    setBarangays([]);
-  };
-
-  const handleCityChange = (event) => {
-    const selectedCity = event.target.value;
-    setSelectedCity(selectedCity);
-    setBarangays([]);
-  };
-
+    const handleCityChange = (event) => {
+      const selectedCity = event.target.value;
+      setSelectedCity(selectedCity);
+      setBarangays([]);
+    };
   const handleSubmit = (e) => {
     e.preventDefault();
     if (alumniIdExists) {
