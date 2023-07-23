@@ -22,7 +22,7 @@ const AlumniForm = ({ closeModal }) => {
           setCountries(response.data);
         })
         .catch((error) => {
-          // Handle error if necessary
+          console.log(error)
         });
     }, []);
 
@@ -33,7 +33,7 @@ const AlumniForm = ({ closeModal }) => {
             setRegions(response.data);
           })
           .catch((error) => {
-            // Handle error if necessary
+            console.log(error)
           });
       } else {
         setRegions([]);
@@ -47,7 +47,8 @@ const AlumniForm = ({ closeModal }) => {
             setProvinces(response.data);
           })
           .catch((error) => {
-            // Handle error if necessary
+            console.log(error)
+
           });
       } else {
         setProvinces([]);
@@ -61,7 +62,7 @@ const AlumniForm = ({ closeModal }) => {
             setCities(response.data);
           })
           .catch((error) => {
-            // Handle error if necessary
+            console.log(error)
           });
       } else {
         setCities([]);
@@ -75,7 +76,7 @@ const AlumniForm = ({ closeModal }) => {
             setBarangays(response.data);
           })
           .catch((error) => {
-            // Handle error if necessary
+            console.log(error)
           });
       } else {
         setBarangays([]);
@@ -248,50 +249,64 @@ const AlumniForm = ({ closeModal }) => {
 
                 <div className='flex mt-6'>
                   <h1 className='mr-[4.1em] font-bold'>Address</h1>
-                  <select name="country" onChange={handleCountryChange} className="mr-[20px] w-1/5 h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
-                    <option value="">Select Country</option>
-                    {countries.map((country) => (
-                      <option key={country.id} value={country.id}>
-                        {country.country_name}
-                      </option>
-                    ))}
-                  </select>
 
-                  <select  name="region" onChange={handleRegionChange} className="mr-[20px] w-1/5 h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
-                    <option value="">Select Region</option>
-                    {regions.map((region) => (
-                      <option key={region.id} value={region.id}>
-                        {region.region_name}
-                      </option>
-                    ))}
-                  </select>
+                  <div className='flex flex-col w-1/5 mr-[4em]'>
+                    <select name="country" onChange={handleCountryChange} className="h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
+                      <option value="">Select Country</option>
+                      {countries.map((country) => (
+                        <option key={country.id} value={country.id}>
+                          {country.country_name}
+                        </option>
+                      ))}
+                    </select>
 
-                  <select name="province" onChange={handleProvinceChange} className="mr-[20px] w-1/5 h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
-                    <option value="">Select Province</option>
-                    {provinces.map((province) => (
-                      <option key={province.id} value={province.id}>
-                        {province.province_name}
-                      </option>
-                    ))}
-                  </select>
+                    <select name="city" onChange={handleCityChange} className="mt-4 h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
+                      <option value="">Select City</option>
+                      {cities.map((city) => (
+                        <option key={city.id} value={city.id}>
+                          {city.city_name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
-                  <select name="city" onChange={handleCityChange} className="mr-[20px] w-1/5 h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
-                    <option value="">Select City</option>
-                    {cities.map((city) => (
-                      <option key={city.id} value={city.id}>
-                        {city.city_name}
-                      </option>
-                    ))}
-                  </select>
+                  <div className='flex flex-col w-1/5 mr-[4em]'>
+                    <select  name="region" onChange={handleRegionChange} className="h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
+                      <option value="">Select Region</option>
+                      {regions.map((region) => (
+                        <option key={region.id} value={region.id}>
+                          {region.region_name}
+                        </option>
+                      ))}
+                    </select>
 
-                  <select name="barangay" className="w-1/5 h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
-                    <option value="">Select Barangay</option>
-                    {barangays.map((barangay) => (
-                      <option key={barangay.id} value={barangay.id}>
-                        {barangay.barangay_name}
-                      </option>
-                    ))}
-                  </select>
+                    <select name="barangay" className="mt-4 h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
+                      <option value="">Select Barangay</option>
+                      {barangays.map((barangay) => (
+                        <option key={barangay.id} value={barangay.id}>
+                          {barangay.barangay_name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className='flex flex-col w-1/5'>
+                    <select name="province" onChange={handleProvinceChange} className="h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
+                      <option value="">Select Province</option>
+                      {provinces.map((province) => (
+                        <option key={province.id} value={province.id}>
+                          {province.province_name}
+                        </option>
+                      ))}
+                    </select>
+
+                    <input type="text" name="street" id="street" className="mt-4 w-full h-8 border-gray-400" placeholder='street'/>
+                  </div>
+                  
+
+                  
+
+
                 </div>
               </div>
             </div>
