@@ -84,6 +84,7 @@ def alumni_form(request):
 def table_data(request):
     year = request.GET.get('year')
     course = request.GET.get('course')
+    employment_status = request.GET.get('employment_status')
 
     # Filter the data based on the year and course, if provided
     data = Graduate.objects.all()
@@ -105,6 +106,9 @@ def table_data(request):
         alumni_id = item['alumni__alumni_id']
         has_current_job = CurrentJob.objects.filter(alumni__alumni_id=alumni_id).exists()
         item['employment_status'] = 'Employed' if has_current_job else 'Unemployed'
+
+    if employment_status:
+        data = [item for item in data if item['employment_status'] == employment_status]
 
     # Return the data as a JSON response
     return Response(data, status=200)
