@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import API_URL from "../../../config";
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const TracerAlumniTable = ({ selectedYear, selectedCourse, searchQuery, setSearchQuery, selectedEmploymentStatus }) => {
   const [page, setPage] = useState(1);
@@ -104,6 +105,12 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse, searchQuery, setSearc
     }
   };
 
+  const editAlumni = (alumniId) => {
+    const alumniProfileUrl = `/tracer/profile/${alumniId}`;
+    console.log('click')
+    return <Link to={alumniProfileUrl} />;
+  };
+
   const filteredResults = selectedEmploymentStatus
     ? results.filter((item) => item.employment_status === selectedEmploymentStatus)
     : results;
@@ -142,9 +149,11 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse, searchQuery, setSearc
                   <td className="w-auto p-3 text-sm whitespace-nowrap">{item.alumni__user__email}</td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap">{item.alumni__contact_number}</td>
                   <td className="w-auto p-3 text-sm whitespace-nowrap text-center">
+                  <Link to={`/tracer/profile/${item.alumni__alumni_id}`}>
                     <button className="px-4 py-1 bg-blue-500 rounded-md text-white hover:bg-blue-700 hover:-translate-y-1 transition-transform duration-200">
                       <i className="bx bxs-edit"></i>
                     </button>
+                  </Link>
                     <button onClick={() => deleteAlumni(item.alumni__alumni_id)} className="ml-2 py-1 bg-orange-500 px-3 rounded-md text-white hover:bg-orange-700 hover:-translate-y-1 transition-transform duration-200">
                       <i className="bx bx-trash"></i>
                     </button>

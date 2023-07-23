@@ -27,7 +27,14 @@ const FIELD_CHOICES = [
 ];
 
 
-const ProfileRight = () => {
+const ProfileRight = ({alumniData}) => {
+  if (!alumniData) {
+    // Return some placeholder content or a loading message when alumniData is null
+    return <div>Loading...</div>;
+  }
+
+
+  
   const [tab, setTab] = useState(1);
   const [courses, setCourses] = useState([]);
   const [curriculum, setCurriculum] = useState([]);
@@ -41,6 +48,8 @@ const ProfileRight = () => {
   const [provinces, setProvinces] = useState([]);
   const [cities, setCities] = useState([]);
   const [barangays, setBarangays] = useState([]);
+
+
 
   useEffect(() => {
     const source = axios.CancelToken.source();
@@ -332,7 +341,7 @@ const ProfileRight = () => {
         <div className="flex justify-between">
           <div>
             <h1 className="text-3xl">
-              Gem Rey B. Ranola<sup className="text-sm"> | Philippines</sup>
+              {alumniData.fname} {alumniData.mi} {alumniData.lname} {alumniData.suffix}<sup className="text-sm"> | Philippines</sup>
             </h1>
             <p className="text-blue-600">Software Developer</p>
           </div>
