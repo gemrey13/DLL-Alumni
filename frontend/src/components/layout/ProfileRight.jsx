@@ -1,5 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAxios } from '../../index';
+import axios from 'axios';
+import API_URL from '../../../config';
+
 
 const ProfileRight = () => {
   const [tab, setTab] = useState(1);
@@ -14,41 +17,85 @@ const ProfileRight = () => {
   const [cities, setCities] = useState([]);
   const [barangays, setBarangays] = useState([]);
 
-  const { data: countriesData, isLoading: countriesLoading, error: countriesError } = useAxios('api/address/countries/');
-  const { data: regionsData, isLoading: regionsLoading, error: regionsError } = useAxios(`api/address/countries/${selectedCountry}/regions/`);
-  const { data: provincesData, isLoading: provincesLoading, error: provincesError } = useAxios(`api/address/regions/${selectedRegion}/provinces/`);
-  const { data: citiesData, isLoading: citiesLoading, error: citiesError } = useAxios(`api/address/provinces/${selectedProvince}/cities/`);
-  const { data: barangaysData, isLoading: barangaysLoading, error: barangaysError } = useAxios(`api/address/cities/${selectedCity}/barangays/`);
+  useEffect(() => {
+    const source = axios.CancelToken.source();
+    axios
+      .get(`${API_URL}api/address/countries/`, { cancelToken: source.token })
+      .then((response) => {
+        setCountries(response.data);
+      })
+      .catch((error) => {
+        if (axios.isCancel(error)) {
+          console.log('Request canceled:', error.message);
+        } else {
+          console.error('Error fetching data:', error);
+        }
+      });
+
+    return () => {
+      source.cancel('Operation canceled by user.');
+    };
+  }, []);
 
   useEffect(() => {
-    if (!selectedCountry && countriesData.length > 0) {
-      setCountries(countriesData);
+    if (selectedCountry) {
+      axios
+        .get(`${API_URL}api/address/countries/${selectedCountry}/regions/`)
+        .then((response) => {
+          setRegions(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      setRegions([]);
     }
-  }, [countriesData, selectedCountry]);
+  }, [selectedCountry]);
 
   useEffect(() => {
-    if (selectedCountry && !selectedRegion && regionsData.length > 0) {
-      setRegions(regionsData);
+    if (selectedRegion) {
+      axios
+        .get(`${API_URL}api/address/regions/${selectedRegion}/provinces/`)
+        .then((response) => {
+          setProvinces(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      setProvinces([]);
     }
-  }, [regionsData, selectedCountry, selectedRegion]);
+  }, [selectedRegion]);
 
   useEffect(() => {
-    if (selectedRegion && !selectedProvince && provincesData.length > 0) {
-      setProvinces(provincesData);
+    if (selectedProvince) {
+      axios
+        .get(`${API_URL}api/address/provinces/${selectedProvince}/cities/`)
+        .then((response) => {
+          setCities(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      setCities([]);
     }
-  }, [provincesData, selectedRegion, selectedProvince]);
+  }, [selectedProvince]);
 
   useEffect(() => {
-    if (selectedProvince && !selectedCity && citiesData.length > 0) {
-      setCities(citiesData);
+    if (selectedCity) {
+      axios
+        .get(`${API_URL}api/address/cities/${selectedCity}/barangays/`)
+        .then((response) => {
+          setBarangays(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      setBarangays([]);
     }
-  }, [citiesData, selectedProvince, selectedCity]);
-
-  useEffect(() => {
-    if (selectedCity && barangaysData.length > 0) {
-      setBarangays(barangaysData);
-    }
-  }, [barangaysData, selectedCity]);
+  }, [selectedCity]);
 
   const handleCountryChange = (event) => {
     const selectedCountry = event.target.value;
@@ -86,6 +133,37 @@ const ProfileRight = () => {
     setBarangays([]);
   };
 
+
+  const personalInfoRef = useRef(null);
+
+  const handlePersonalInfo = (e) => {
+    e.preventDefault();
+    const formData = {};
+    for (const element of e.target.elements) {
+      if (element.name) {
+        formData[element.name] = element.value;
+      }
+    }
+    console.log(formData);
+    personalInfoRef.current.reset();
+    // axios
+    //   .post(`${API_URL}api/alumni-form/`, formData)
+    //   .then((response) => {
+    //     console.log('Alumni profile created successfully');
+    //     // Handle any further actions or UI updates after successful submission
+    //   })
+    //   .catch((error) => {
+    //     console.error('Form submission failed:', error);
+    //     if (error.response) {
+    //       console.log('Server Error:', error.response.data);
+    //     } else if (error.request) {
+    //       console.log('Request Error:', error.request);
+    //     } else {
+    //       console.log('Error:', error.message);
+    //     }
+    //   });
+  };
+
   return (
     <>
       <div className="w-2/3">
@@ -96,10 +174,6 @@ const ProfileRight = () => {
               Gem Rey B. Ranola<sup className="text-sm"> | Philippines</sup>
             </h1>
             <p className="text-blue-600">Software Developer</p>
-          </div>
-          <div className="flex flex-nowrap">
-            <h1 className="mr-6">Save</h1>
-            <h1>Delete</h1>
           </div>
         </div>
         <div className="flex mt-10 text-lg">
@@ -121,134 +195,143 @@ const ProfileRight = () => {
         </div>
         <hr />
 
+        <div className='mt-10'>
         {tab === 1 && (
-          <div className='mt-10'>
-            <h5 className='text-sm text-gray-600 mb-5'>Basic Information</h5>
+          <>
+          <form ref={personalInfoRef} onSubmit={handlePersonalInfo}>
+            <div className="flex mt-6">
+                  <h1 className="mr-9 font-bold">Name</h1>
+                  <div className="flex flex-col">
+                    <input required type="text" name="fname" id="fname" maxLength="50" className="h-8 border-gray-400 w-48 mr-5" />
+                    <label htmlFor="fname" className="text-gray-400 text-sm">
+                      First Name
+                    </label>
+                  </div>
+                  <div className="flex flex-col">
+                    <input required type="text" name="lname" id="lname" maxLength="50" className="h-8 border-gray-400 w-48 mr-5" />
+                    <label htmlFor="lname" className="text-gray-400 text-sm">
+                      Last Name
+                    </label>
+                  </div>
+                  <div className="flex flex-col">
+                    <input type="text" name="mi" id="mi" maxLength="1" className="h-8 border-gray-400 w-16 mr-5" />
+                    <label htmlFor="mi" className="text-gray-400 text-sm">
+                      M.I.
+                    </label>
+                  </div>
+                  <div className="flex flex-col">
+                    <input type="text" name="suffix" id="suffix" maxLength="4" className="h-8 border-gray-400 w-16" />
+                    <label htmlFor="suffix" className="text-gray-400 text-sm">
+                      Suffix
+                    </label>
+                  </div>
+                </div>
 
-            <div className='flex'>
-              <label htmlFor="fname" className="w-1/3 mb-3">
-              First Name
-              </label>
-              <input type="text" name="fname" id="fname" className="h-8 w-2/6 mb-3" /><br/>
-            </div>
-            <div className='flex'>
-              <label htmlFor="lname" className="w-1/3 mb-3">
-              Last Name
-              </label>
-              <input type="text" name="lname" id="lname" className="h-8 w-2/6 mb-3" /><br/>
-            </div>
-            <div className='flex'>
-              <label htmlFor="mi" className="w-1/3 mb-3">
-              M.I.
-              </label>
-              <input type="text" name="mi" id="mi" className="h-8 w-2/6 mb-3" /><br/>
-            </div>
-            <div className='flex'>
-              <label htmlFor="suffix" className="w-1/3 mb-3">
-              Suffix
-              </label>
-              <input type="text" name="suffix" id="suffix" className="h-8 w-2/6 mb-3" /><br/>
-            </div>
-            <div className='flex'>
-              <label htmlFor="gender" className="w-1/3 mb-3">
-              Gender
-              </label>
-              <input type="text" name="gender" id="gender" className="h-8 w-2/6 mb-3" /><br/>
-            </div>
-            <div className='flex'>
-              <label htmlFor="date_of_birth" className="w-1/3 mb-3">
-              Birthdate
-              </label>
-              <input type="date" name="date_of_birth" id="date_of_birth" className="h-8 w-2/6 mb-3" /><br/>
-            </div>
-            <div className='flex'>
-              <label htmlFor="marital_status" className="w-1/3 mb-3">
-              Marital Status
-              </label>
-              <input type="text" name="marital_status" id="marital_status" className="h-8 w-2/6 mb-3" /><br/>
-            </div>
-            <div className='flex'>
-              <label htmlFor="religion" className="w-1/3 mb-3">
-              Religion
-              </label>
-              <input type="text" name="religion" id="religion" className="h-8 w-2/6 mb-3" /><br/>
-            </div>
-            
-            <h5 className='text-sm text-gray-600 mb-5 mt-7'>Contact Information</h5>
+                <div className="flex mt-4">
+                  <h1 className="mr-10 font-bold">Email</h1>
+                  <input required maxLength="64" type="email" name="email" id="email" className="h-8 border-gray-400 w-[18em] mr-10" placeholder="ex: thomas.shelby@example.com" />
+                  <h1 className="mr-10 font-bold">Phone Number</h1>
+                  <input
+                    required
+                    type="tel"
+                    name="contact_number"
+                    id="contact_number"
+                    className="h-8 border-gray-400 w-[12em]"
+                    maxLength="11"
+                    pattern="09\d{9}"
+                    title="Please enter a valid phone number starting with 09 followed by 9 more digits."
+                    placeholder="ex: 09******235"
+                  />
+                </div>
 
-            <div className='flex'>
-              <label htmlFor="contact_number" className="w-1/3 mb-3">
-              Phone Number
-              </label>
-              <input type="text" name="contact_number" id="contact_number" className="h-8 w-2/6 mb-3" /><br/>
-            </div>
+                <div className="flex mt-6">
+                  <label htmlFor="sex" className="mr-7 font-bold">
+                    Gender
+                  </label>
+                  <select required name="sex" id="sex" className="mr-[12.9em] h-8 text-sm py-0">
+                    <option value=''>Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                  </select>
 
-           <div className='flex'>
-              <label htmlFor="email" className="w-1/3 mb-3">
-              Email
-              </label>
-              <input type="text" name="email" id="email" className="h-8 w-2/6 mb-3" /><br/>
-            </div>
-           
-           <div className='flex'>
-            <label htmlFor="address" className="justify-start mr-40">
-              Address
-            </label>
+                  <h1 className="mr-[6em] font-bold">Religion</h1>
+                  <input required maxLength="50" type="tel" name="religion" id="religion" className="h-8 border-gray-400 w-[12em]" />
+                </div>
 
-            <div className="flex flex-wrap " id="address">
-              <select name="country" onChange={handleCountryChange} className="mr-3 h-9 text-sm dark:bg-gray-700 dark:text-white">
-                <option value="">Select Country</option>
-                {countries.map((country) => (
-                  <option key={country.id} value={country.id}>
-                    {country.country_name}
-                  </option>
-                ))}
-              </select>
+                <div className="flex mt-6">
+                  <h1 className="-mr-1 font-bold">Marital Status</h1>
+                  <input required maxLength="50" type="text" name="marital_status" id="marital_status" className="h-8 border-gray-400 w-[15em] mr-[5.2em]" />
+                  <h1 className="mr-[5.2em] font-bold">Birthdate</h1>
+                  <input required type="date" name="date_of_birth" id="date_of_birth" className="h-8 border-gray-400 w-[12em]" />
+                </div>
 
-              <select name="region" onChange={handleRegionChange} className="mr-3 h-9 text-sm dark:bg-gray-700 dark:text-white">
-                <option value="">Select Region</option>
-                {regions.map((region) => (
-                  <option key={region.id} value={region.id}>
-                    {region.region_name}
-                  </option>
-                ))}
-              </select>
+                <div className="flex mt-6">
+                  <h1 className="mr-[4.1em] font-bold">Address</h1>
 
-              <select name="province" onChange={handleProvinceChange} className="mr-3 h-9 text-sm dark:bg-gray-700 dark:text-white">
-                <option value="">Select Province</option>
-                {provinces.map((province) => (
-                  <option key={province.id} value={province.id}>
-                    {province.province_name}
-                  </option>
-                ))}
-              </select>
+                  <div className="flex flex-col w-1/5 mr-[4em]">
+                    <select required name="country" onChange={handleCountryChange} className="h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
+                      <option value="">Select Country</option>
+                      {countries.map((country) => (
+                        <option key={country.id} value={country.id}>
+                          {country.country_name}
+                        </option>
+                      ))}
+                    </select>
 
-              <select name="city" onChange={handleCityChange} className="mr-3 h-9 text-sm dark:bg-gray-700 dark:text-white">
-                <option value="">Select City</option>
-                {cities.map((city) => (
-                  <option key={city.id} value={city.id}>
-                    {city.city_name}
-                  </option>
-                ))}
-              </select>
+                    <select required name="city" onChange={handleCityChange} className="mt-4 h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
+                      <option value="">Select City</option>
+                      {cities.map((city) => (
+                        <option key={city.id} value={city.id}>
+                          {city.city_name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
-              <select name="barangay" className="mr-3 h-9 text-sm dark:bg-gray-700 dark:text-white">
-                <option value="">Select Barangay</option>
-                {barangays.map((barangay) => (
-                  <option key={barangay.id} value={barangay.id}>
-                    {barangay.barangay_name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            </div>
+                  <div className="flex flex-col w-1/5 mr-[4em]">
+                    <select required name="region" onChange={handleRegionChange} className="h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
+                      <option value="">Select Region</option>
+                      {regions.map((region) => (
+                        <option key={region.id} value={region.id}>
+                          {region.region_name}
+                        </option>
+                      ))}
+                    </select>
 
-            <hr />
-          </div>
+                    <select required name="barangay" className="mt-4 h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
+                      <option value="">Select Barangay</option>
+                      {barangays.map((barangay) => (
+                        <option key={barangay.id} value={barangay.id}>
+                          {barangay.barangay_name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className="flex flex-col w-1/5">
+                    <select name="province" onChange={handleProvinceChange} className="h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
+                      <option value="">Select Province</option>
+                      {provinces.map((province) => (
+                        <option key={province.id} value={province.id}>
+                          {province.province_name}
+                        </option>
+                      ))}
+                    </select>
+
+                    <input type="text" name="street" id="street" className="mt-4 w-full h-8 border-gray-400" placeholder="street" />
+                  </div>
+                </div>
+
+                <button type="submit" className="p-2 mt-5 absolute right-[5%] bg-blue-500 text-white text-base font-medium rounded-md w-24 shadow-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-300">
+                  Save
+                </button>
+          </form>
+          </>
         )}
         {tab === 2 && <div>Educational Attainment</div>}
         {tab === 3 && <div>Job Record</div>}
         {tab === 4 && <div>Account</div>}
+        </div>
       </div>
     </>
   );

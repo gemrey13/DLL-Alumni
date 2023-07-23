@@ -440,8 +440,8 @@ const AlumniForm = ({ closeModal }) => {
                   <label htmlFor="sex" className="mr-[70px] font-bold">
                     Gender
                   </label>
-                  <select name="sex" id="sex" className="h-8 text-sm py-0">
-                    <option defaultValue>Select Gender</option>
+                  <select required name="sex" id="sex" className="h-8 text-sm py-0">
+                    <option value=''>Select Gender</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                   </select>
