@@ -156,69 +156,71 @@ const AlumniForm = ({ closeModal }) => {
     <>
       <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
         <div className="relative top-20 mx-auto p-5 border w-3/4 shadow-lg rounded-md bg-white">
-          <form onSubmit={handleSubmit} className="mt-3 text-center">
+          <form onSubmit={handleSubmit} className="mt-3">
             <div className="mt-2 px-7 py-3">
-              <div className="rid grid-cols-5 grid-rows-5 gap-4">
-                <div className="flex flex-nowrap text-left">
-                  <label htmlFor="fname" className="w-1/4">
-                    First Name
-                  </label>
-                  <label htmlFor="lname" className="w-1/4">
-                    Last Name
-                  </label>
-                  <label htmlFor="mi" className="w-1/4">
-                    Middle Initial
-                  </label>
-                  <label htmlFor="suffix" className="w-1/4">
-                    Suffix
-                  </label>
+
+              <div>
+                <h1 className='text-lg font-semibold'>Alumni Form</h1>
+                <p>Fill the registration form below keenly to submit the alumni form.</p>
+              </div>
+              <hr />
+
+              <div className='mt-6' >
+
+                <div className='flex'>
+                  <h1 className='mr-[50px] font-bold'>Alumni ID</h1>
+                  <input required type="text" name="alumni_id" id="alumni_id" value={selectedAlumniId} onChange={handleAlumniIdChange} className="h-8 border-gray-400 w-[12em]"/>
+                  {alumniIdExists && <span className="text-red-500 ml-[20px]">Alumni ID already exists.</span>}
                 </div>
-                <div className="row-start-2">
-                  <input type="text" name="fname" id="fname" className="h-10 w-1/4" />
-                  <input type="text" name="lname" id="lname" className="h-10 w-1/4" />
-                  <input type="text" name="mi" id="mi" className="h-10 w-1/4" />
-                  <input type="text" name="suffix" id="suffix" className="h-10 w-1/4" />
+
+                <div className='flex mt-6'>
+                  <h1 className='mr-20 font-bold'>Name</h1>
+                  <div className='flex flex-col'>
+                    <input required type="text" name="fname" id="fname" maxlength='50' className="h-8 border-gray-400 w-48 mr-5" />
+                    <label htmlFor="fname" className='text-gray-400 text-sm'>First Name</label>
+                  </div>
+                  <div className='flex flex-col'>
+                    <input required type="text" name="lname" id="lname" maxlength='50' className="h-8 border-gray-400 w-48 mr-5" />
+                    <label htmlFor="lname" className='text-gray-400 text-sm'>Last Name</label>
+                  </div>
+                  <div className='flex flex-col'>
+                    <input required type="text" name="mi" id="mi" maxlength='1' className="h-8 border-gray-400 w-16 mr-5" />
+                    <label htmlFor="mi" className='text-gray-400 text-sm'>M.I.</label>
+                  </div>
+                  <div className='flex flex-col'>
+                    <input required type="text" name="suffix" id="suffix" maxlength='4' className="h-8 border-gray-400 w-16" />
+                    <label htmlFor="suffix" className='text-gray-400 text-sm'>Suffix</label>
+                  </div>
                 </div>
+
+                <div className='flex mt-4'>
+                  <h1 className='mr-[83px] font-bold'>Email</h1>
+                  <input required type="text" name="email" id="email" className="h-8 border-gray-400 w-[18em] mr-[83px]" placeholder='ex: thomas.shelby@example.com'/>
+                  <h1 className='mr-[72px] font-bold'>Phone Number</h1>
+                  <input required type="tel" name="contact_number" id="contact_number" className="h-8 border-gray-400 w-[12em]" pattern="09\d{9}" title="Please enter a valid phone number starting with 09 followed by 9 more digits." placeholder='ex: 09******235'/>
+                </div>
+
+                <div className='flex mt-6'>
+                  <label htmlFor='sex' className='mr-[70px] font-bold'>Gender</label>
+                  <select name="sex" id="sex" className='h-8 text-sm py-0'>
+                    <option disabled selected>Select Gender</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                  </select>
+
+                  <h1 className='mr-[8em] ml-[14em] font-bold'>Religion</h1>
+                  <input required type="tel" name="religion" id="religion" className="h-8 border-gray-400 w-[12em]"/>
+                </div>
+
+                <div className='flex mt-6'>
+                  <h1 className='mr-[16px] font-bold'>Marital Status</h1>
+                  <input required type="text" name="marital_status" id="marital_status" className="h-8 border-gray-400 w-[15em] mr-[8.1em]"/>
+                  <h1 className='mr-[7.3em] font-bold'>Birthdate</h1>
+                  <input required type="date" name="date_of_birth" id="date_of_birth" className="h-8 border-gray-400 w-[12em]"/>
+                </div>
+
               </div>
 
-              <div className="rid grid-cols-5 grid-rows-5 gap-4 mt-6">
-                <div className="flex flex-nowrap text-left">
-                  <label htmlFor="contact_number" className="w-2/6">
-                    Contact Number
-                  </label>
-                  <label htmlFor="sex" className="w-2/6">
-                    Sex
-                  </label>
-                  <label htmlFor="religion" className="w-2/6">
-                    Religion
-                  </label>
-                </div>
-                <div className="row-start-2">
-                  <input type="text" name="contact_number" id="contact_number" className="h-10 w-2/6" />
-                  <input type="text" name="sex" id="sex" className="h-10 w-2/6" />
-                  <input type="text" name="religion" id="religion" className="h-10 w-2/6" />
-                </div>
-              </div>
-
-              <div className="rid grid-cols-5 grid-rows-5 gap-4 mt-6">
-                <div className="flex flex-nowrap text-left">
-                  <label htmlFor="alumni_id" className="w-2/6">
-                    Alumni ID
-                  </label>
-                  <label htmlFor="marital_status" className="w-2/6">
-                    Marital Status
-                  </label>
-                  <label htmlFor="date_of_birth" className="w-2/6">
-                    Date of Birth
-                  </label>
-                </div>
-                <div className="row-start-2">
-                  <input type="text" name="alumni_id" id="alumni_id" value={selectedAlumniId} onChange={handleAlumniIdChange} className="h-10 w-2/6" />
-                  {alumniIdExists && <p className="text-red-500">Alumni ID already exists.</p>}
-                  <input type="text" name="marital_status" id="marital_status" className="h-10 w-2/6" />
-                  <input type="date" name="date_of_birth" id="date_of_birth" className="h-10 w-2/6" />
-                </div>
-              </div>
 
               <div className="grid-cols-5 grid-rows-5 gap-4 mt-5">
                 <label htmlFor="address" className="justify-start">
