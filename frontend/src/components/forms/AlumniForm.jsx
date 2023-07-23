@@ -1,7 +1,31 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useAxios } from '../../index';
 import axios from 'axios';
 import API_URL from '../../../config';
+
+const FIELD_CHOICES = [
+  ['technology', 'Technology'],
+  ['medical', 'Medical/Healthcare'],
+  ['mechanical', 'Mechanical Engineering'],
+  ['electrical', 'Electrical Engineering'],
+  ['finance', 'Finance/Accounting'],
+  ['education', 'Education/Teaching'],
+  ['marketing', 'Marketing/Advertising'],
+  ['sales', 'Sales'],
+  ['business', 'Business Development'],
+  ['hr', 'Human Resources'],
+  ['law', 'Law/Legal'],
+  ['consulting', 'Consulting'],
+  ['manufacturing', 'Manufacturing'],
+  ['hospitality', 'Hospitality/Travel'],
+  ['retail', 'Retail'],
+  ['media', 'Media/Entertainment'],
+  ['art', 'Art/Design'],
+  ['architecture', 'Architecture'],
+  ['nonprofit', 'Nonprofit/Volunteering'],
+  ['government', 'Government/Public Administration'],
+];
+
 
 const AlumniForm = ({ closeModal }) => {
   const [selectedCountry, setSelectedCountry] = useState('');
@@ -287,6 +311,7 @@ const AlumniForm = ({ closeModal }) => {
   };
 
 
+  const formRef = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -294,40 +319,32 @@ const AlumniForm = ({ closeModal }) => {
       console.log('Alumni ID already exists.');
       alert('Alumni ID already exists.');
     } else {
-      const formData = {
-        fname: e.target.fname.value,
-        lname: e.target.lname.value,
-        mi: e.target.mi.value,
-        suffix: e.target.suffix.value,
-        contact_number: e.target.contact_number.value,
-        sex: e.target.sex.value,
-        religion: e.target.religion.value,
-        alumni_id: e.target.alumni_id.value,
-        marital_status: e.target.marital_status.value,
-        date_of_birth: e.target.date_of_birth.value,
-        country: e.target.country.value,
-        region: e.target.region.value,
-        province: e.target.province.value,
-        city: e.target.city.value,
-        barangay: e.target.barangay.value,
-      };
+      const formData = {};
 
-      axios
-        .post(`${API_URL}api/alumni-form/`, formData)
-        .then((response) => {
-          console.log('Alumni profile created successfully');
-          // Handle any further actions or UI updates after successful submission
-        })
-        .catch((error) => {
-          console.error('Form submission failed:', error);
-          if (error.response) {
-            console.log('Server Error:', error.response.data);
-          } else if (error.request) {
-            console.log('Request Error:', error.request);
-          } else {
-            console.log('Error:', error.message);
-          }
-        });
+      for (const element of e.target.elements) {
+        if (element.name) {
+          formData[element.name] = element.value;
+        }
+      }
+      console.log(formData);
+      formRef.current.reset();
+      // axios
+      //   .post(`${API_URL}api/alumni-form/`, formData)
+      //   .then((response) => {
+      //     console.log('Alumni profile created successfully');
+      //     // Handle any further actions or UI updates after successful submission
+      //   })
+      //   .catch((error) => {
+      //     console.error('Form submission failed:', error);
+      //     if (error.response) {
+      //       console.log('Server Error:', error.response.data);
+      //     } else if (error.request) {
+      //       console.log('Request Error:', error.request);
+      //     } else {
+      //       console.log('Error:', error.message);
+      //     }
+      //   });
+
     }
   };
 
@@ -360,7 +377,7 @@ const AlumniForm = ({ closeModal }) => {
     <>
       <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
         <div className="relative top-20 mx-auto p-5 border w-3/4 shadow-lg rounded-md bg-white">
-          <form onSubmit={handleSubmit} className="mt-3">
+          <form ref={formRef} onSubmit={handleSubmit} className="mt-3">
             <div className="mt-2 px-7 py-3">
               <div>
                 <h1 className="text-lg font-semibold">Alumni Form</h1>
@@ -564,10 +581,14 @@ const AlumniForm = ({ closeModal }) => {
 
                     <div className="flex mt-3 ml-[7.2em]">
                       <div className="flex flex-col">
-                        <input required type="number" name="job_type" id="job_type" maxLength="50" className="h-8 border-gray-400 w-48 mr-5" />
-                        <label htmlFor="job_type" className="text-gray-400 text-sm">
-                          Job Type
-                        </label>
+                        <select required name="job_type" id="job_type" className='h-8 text-sm py-0 w-1/2 mr-[5em] dark:bg-gray-700 dark:text-white'>
+                          <option value="">Select Job Type</option>
+                            {FIELD_CHOICES.map((choice) => (
+                              <option key={choice[0]} value={choice[0]}>
+                                {choice[1]}
+                              </option>
+                            ))}
+                        </select>
                       </div>
 
                       <div className="flex flex-col">
