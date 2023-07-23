@@ -77,9 +77,9 @@ const Tracer = () => {
                 id="employment_status"
                 value={selectedEmploymentStatus}
                 onChange={handleEmploymentStatusChange}
-                className="sm:w-40 p-2 rounded-md bg-gray-200 text-gray-600 dark:bg-slate-700 dark:text-white transition-width duration-500 ml-2"
+                className="sm:w-52 p-2 rounded-md bg-gray-200 text-gray-600 dark:bg-slate-700 dark:text-white transition-width duration-500 ml-2"
               >
-                <option value="">Select Employment Status</option>
+                <option value="">Employment Status</option>
                 <option value="Employed">Employed</option>
                 <option value="Unemployed">Unemployed</option>
               </select>
@@ -109,8 +109,12 @@ const Tracer = () => {
 
         {isModal && <AlumniForm closeModal={closeModal} />}
 
-        {selectedYear && (
+        {selectedYear ? (
           <TracerAlumniTable selectedYear={selectedYear} selectedCourse={selectedCourse} searchQuery={searchQuery} setSearchQuery={setSearchQuery} selectedEmploymentStatus={selectedEmploymentStatus}/>
+        ) : (
+          <div>
+            <h1 className='text-center text-xl mt-10'>Select a filter</h1>
+          </div>
         )}
 
       </div>

@@ -160,7 +160,7 @@ const TracerAlumniTable = ({ selectedYear, selectedCourse, searchQuery, setSearc
           {results.length > 0 ? (
             `Showing ${(page - 1) * itemsPerPage + 1}-${Math.min((page - 1) * itemsPerPage + displayedResults.length, results.length)} of ${results.length}; Page ${page} of ${totalPages}`
           ) : (
-            'No data found'
+            'Loading Data'
           )}
         </span>
       </div>
