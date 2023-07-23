@@ -124,6 +124,19 @@ def course_view(request):
     return Response(list(courses))
 
 
+@api_view(['GET'])
+def courses_data(request):
+    courses = Course.objects.all()
+    serializer = CourseSerializer(courses, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def curriculum_data(request):
+    curriculum = Curriculum.objects.all()
+    serializer = CurriculumSerializer(curriculum, many=True)
+    return Response(serializer.data)
+
 
 @api_view(['DELETE'])
 def delete_alumni(request, alumni_id):
