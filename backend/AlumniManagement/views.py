@@ -38,6 +38,17 @@ class AlumniProfileAPIView(APIView):
 
 
 @api_view(['GET'])
+def alumni_profile_details(request, alumni_id):
+    try:
+        alumni_profile = AlumniProfile.objects.get(alumni_id=alumni_id)
+    except AlumniProfile.DoesNotExist:
+        return Response(status=404)
+
+    if request.method == 'GET':
+        serializer = AlumniProfileSerializer(alumni_profile)
+        return Response(serializer.data)
+
+@api_view(['GET'])
 def check_alumni_id_existence(request, alumni_id):
     exists = AlumniProfile.objects.filter(alumni_id=alumni_id).exists()
 

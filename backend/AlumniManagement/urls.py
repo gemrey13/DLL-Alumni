@@ -20,6 +20,8 @@ urlpatterns = [
     path('curriculum-data/', curriculum_data, name='curriculum_data'),
 
 
+    path('alumni-profile/<alumni_id>/', alumni_profile_details, name='alumni_profile_details'),
+
     path('address/countries/', country_list, name='countries'),
     path('address/countries/<int:country_id>/regions/', region_list, name='regions'),
     path('address/regions/<int:region_id>/provinces/', province_list, name='provinces'),
