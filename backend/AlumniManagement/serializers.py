@@ -3,6 +3,17 @@ from .models import *
 from django.contrib.auth.models import User
 
 
+class CourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = '__all__'
+
+class CurriculumSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Curriculum
+        fields = '__all__'
+
+
 class AlumniProfileSerializer(serializers.ModelSerializer):
     email = serializers.SerializerMethodField()
 
