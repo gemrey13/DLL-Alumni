@@ -339,7 +339,7 @@ const AlumniForm = ({ closeModal }) => {
           console.error('Error ; ', error)
         })
 
-      // formRef.current.reset();
+      formRef.current.reset();
     }
   };
 
