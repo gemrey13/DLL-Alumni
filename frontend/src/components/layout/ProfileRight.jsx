@@ -34,10 +34,10 @@ const ProfileRight = ({alumniData}) => {
   const [courses, setCourses] = useState([]);
   const [curriculum, setCurriculum] = useState([]);
 
-  const [selectedCountry, setSelectedCountry] = useState('');
-  const [selectedRegion, setSelectedRegion] = useState('');
-  const [selectedProvince, setSelectedProvince] = useState('');
-  const [selectedCity, setSelectedCity] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState(alumniData?.alumniaddress_country_id || '');
+  const [selectedRegion, setSelectedRegion] = useState(alumniData?.alumniaddress_region_id || '');
+  const [selectedProvince, setSelectedProvince] = useState(alumniData?.alumniaddress_province_id || '');
+  const [selectedCity, setSelectedCity] = useState(alumniData?.alumniaddress_city_id || '');
   const [countries, setCountries] = useState([]);
   const [regions, setRegions] = useState([]);
   const [provinces, setProvinces] = useState([]);
@@ -330,6 +330,8 @@ const ProfileRight = ({alumniData}) => {
   };
 
 
+
+
   if (!alumniData) {
   return <div>Loading...</div>;
 }
@@ -417,8 +419,8 @@ const ProfileRight = ({alumniData}) => {
                   </label>
                   <select defaultValue={alumniData.sex} required name="sex" id="sex" className="mr-[12.9em] h-8 text-sm py-0">
                     <option defaultValue=''>Select Gender</option>
-                    <option defaultValue="male">Male</option>
-                    <option defaultValue="female">Female</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
                   </select>
 
                   <h1 className="mr-[6em] font-bold">Religion</h1>
@@ -440,10 +442,10 @@ const ProfileRight = ({alumniData}) => {
                   <h1 className="mr-[4.1em] font-bold">Address</h1>
 
                   <div className="flex flex-col w-1/5 mr-[4em]">
-                    <select required name="country" onChange={handleCountryChange} className="h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
+                    <select defaultValue={selectedCountry} required name="country" onChange={handleCountryChange} className="h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
                       <option defaultValue="">Select Country</option>
                       {countries.map((country) => (
-                        <option key={country.id} defaultValue={country.id}>
+                        <option key={country.id} value={country.id}>
                           {country.country_name}
                         </option>
                       ))}
@@ -452,7 +454,7 @@ const ProfileRight = ({alumniData}) => {
                     <select required name="city" onChange={handleCityChange} className="mt-4 h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
                       <option defaultValue="">Select City</option>
                       {cities.map((city) => (
-                        <option key={city.id} defaultValue={city.id}>
+                        <option key={city.id} value={city.id}>
                           {city.city_name}
                         </option>
                       ))}
@@ -463,7 +465,7 @@ const ProfileRight = ({alumniData}) => {
                     <select required name="region" onChange={handleRegionChange} className="h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
                       <option defaultValue="">Select Region</option>
                       {regions.map((region) => (
-                        <option key={region.id} defaultValue={region.id}>
+                        <option key={region.id} value={region.id}>
                           {region.region_name}
                         </option>
                       ))}
@@ -472,7 +474,7 @@ const ProfileRight = ({alumniData}) => {
                     <select required name="barangay" className="mt-4 h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
                       <option defaultValue="">Select Barangay</option>
                       {barangays.map((barangay) => (
-                        <option key={barangay.id} defaultValue={barangay.id}>
+                        <option key={barangay.id} value={barangay.id}>
                           {barangay.barangay_name}
                         </option>
                       ))}
@@ -480,10 +482,10 @@ const ProfileRight = ({alumniData}) => {
                   </div>
 
                   <div className="flex flex-col w-1/5">
-                    <select name="province" onChange={handleProvinceChange} className="h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
+                    <select  name="province" onChange={handleProvinceChange} className="h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
                       <option defaultValue="">Select Province</option>
                       {provinces.map((province) => (
-                        <option key={province.id} defaultValue={province.id}>
+                        <option key={province.id} value={province.id}>
                           {province.province_name}
                         </option>
                       ))}
