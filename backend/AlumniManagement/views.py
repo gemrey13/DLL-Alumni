@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.models import User
+from django.utils.crypto import get_random_string
+from django.contrib.auth.hashers import make_password
 from django.http import JsonResponse
 import json
 from rest_framework.decorators import api_view
@@ -59,20 +61,55 @@ def check_alumni_id_existence(request, alumni_id):
 def alumni_form(request):
     data = request.data
     try:
-        # Extract the form data from the request
-        alumni_id = data['alumni_id']
-        fname = data['fname']
-        lname = data['lname']
-        mi = data['mi']
-        suffix = data['suffix']
-        contact_number = data['contact_number']
-        sex = data['sex']
-        religion = data['religion']
-        marital_status = data['marital_status']
-        date_of_birth = data['date_of_birth']
+        alumni_id = data.get('alumni_id')
+        fname = data.get('fname')
+        lname = data.get('lname')
+        mi = data.get('mi')
+        suffix = data.get('suffix')
+        contact_number = data.get('contact_number')
+        date_of_birth = data.get('date_of_birth')
+        marital_status = data.get('marital_status')
+        sex = data.get('sex')
+        religion = data.get('religion')
+        country = data.get('country')
+        region = data.get('region')
+        province = data.get('province')
+        city = data.get('city')
+        barangay = data.get('barangay')
+        street = data.get('street')
 
-        # Create an AlumniProfile object and save it to the database
+        course = data.get('course')
+        curriculum = data.get('curriculum')
+        graduation_date = data.get('graduation_date')
+        honor = data.get('honor')
+
+        username = f"{fname.lower()}.{lname.lower()}_{get_random_string(length=8)}"
+        email = data.get('email')
+        password = f"{fname.lower()}.{lname.lower()}"
+
+        
+
+        jobRecordCheckbox = data.get('jobRecordCheckbox')
+
+        course = Course.objects.filter(course_id=course).first()
+        curriculum = Curriculum.objects.filter(curriculum_id=curriculum).first()
+
+        country = Country.objects.get(id=country)
+        region = Region.objects.get(id=region)
+        province = Province.objects.get(id=province)
+        city = City.objects.get(id=city)
+        barangay = Barangay.objects.get(id=barangay)
+
+        alumni_account = User(
+            username=username,
+            password=make_password(password),
+            email=email
+        )
+
+        alumni_account.save()
+
         alumni_profile = AlumniProfile(
+            user=alumni_account,
             alumni_id=alumni_id,
             fname=fname,
             lname=lname,
@@ -85,6 +122,74 @@ def alumni_form(request):
             date_of_birth=date_of_birth
         )
         alumni_profile.save()
+
+        alumni_address = AlumniAddress(
+            alumni=alumni_profile,
+            country=country,
+            region=region,
+            province=province,
+            city=city,
+            barangay=barangay,
+            street=street,
+        )
+
+        alumni_address.save()
+
+        graduate = Graduate(
+            graduate_id=alumni_id,
+            alumni=alumni_profile,
+            course=course,
+            graduation_date=graduation_date,
+            curriculum=curriculum,
+            honor=honor
+        )
+        graduate.save()
+
+        if jobRecordCheckbox == 'on':
+            job_title = data.get('job_title')
+            job_type = data.get('job_type')
+            salary = data.get('salary')
+            start_date = data.get('start_date')
+            company_name = data.get('company_name')
+            current_job_country = data.get('current_job_country')
+            current_job_region = data.get('current_job_region')
+            current_job_province = data.get('current_job_province')
+            current_job_city = data.get('current_job_city')
+            current_job_barangay = data.get('current_job_barangay')
+            current_job_street = data.get('current_job_street')
+
+            current_job_id = f"C_{get_random_string(length=8)}"
+
+            current_job_country = Country.objects.get(id=current_job_country)
+            current_job_region = Region.objects.get(id=current_job_region)
+            current_job_province = Province.objects.get(id=current_job_province)
+            current_job_city = City.objects.get(id=current_job_city)
+            current_job_barangay = Barangay.objects.get(id=current_job_barangay)
+
+            job_address = JobAddress(
+                country=current_job_country,
+                region=current_job_region,
+                province=current_job_province,
+                city=current_job_city,
+                barangay=current_job_barangay,
+                street=current_job_street,
+            )
+            job_address.save()
+
+
+            current_job = CurrentJob(
+                current_job_id=current_job_id,
+                job_type=job_type,
+                job_title=job_title,
+                salary=salary,
+                start_date=start_date,
+                company_name=company_name,
+                alumni=alumni_profile,
+                address=job_address,
+            )
+
+            current_job.save()
+
 
         return Response({'message': 'Alumni profile created successfully'})
     except KeyError:
