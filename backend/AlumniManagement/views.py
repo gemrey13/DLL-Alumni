@@ -15,28 +15,28 @@ from .models import *
 from .serializers import *
 
 
-class AlumniProfilePagination(PageNumberPagination):
-    page_size = 10
-    page_size_query_param = 'page_size'
-    max_page_size = 100
+# class AlumniProfilePagination(PageNumberPagination):
+#     page_size = 10
+#     page_size_query_param = 'page_size'
+#     max_page_size = 100
 
  
-class AlumniProfileAPIView(APIView):
-    pagination_class = AlumniProfilePagination
+# class AlumniProfileAPIView(APIView):
+#     pagination_class = AlumniProfilePagination
 
-    def get(self, request):
-        queryset = AlumniProfile.objects.all().order_by('alumni_id')
+#     def get(self, request):
+#         queryset = AlumniProfile.objects.all().order_by('alumni_id')
 
-        paginator = self.pagination_class()
-        paginated_queryset = paginator.paginate_queryset(queryset, request)
-        serializer = AlumniProfileSerializer(paginated_queryset, many=True)
+#         paginator = self.pagination_class()
+#         paginated_queryset = paginator.paginate_queryset(queryset, request)
+#         serializer = AlumniProfileSerializer(paginated_queryset, many=True)
         
-        return Response({
-            'results': serializer.data,
-            'count':   paginator.page.paginator.count,
-            'next':    paginator.get_next_link(),
-            'prev':    paginator.get_previous_link()
-            })
+#         return Response({
+#             'results': serializer.data,
+#             'count':   paginator.page.paginator.count,
+#             'next':    paginator.get_next_link(),
+#             'prev':    paginator.get_previous_link()
+#             })
 
 
 @api_view(['GET'])
