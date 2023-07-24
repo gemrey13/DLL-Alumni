@@ -326,25 +326,20 @@ const AlumniForm = ({ closeModal }) => {
           formData[element.name] = element.value;
         }
       }
-      console.log(formData);
-      formRef.current.reset();
-      // axios
-      //   .post(`${API_URL}api/alumni-form/`, formData)
-      //   .then((response) => {
-      //     console.log('Alumni profile created successfully');
-      //     // Handle any further actions or UI updates after successful submission
-      //   })
-      //   .catch((error) => {
-      //     console.error('Form submission failed:', error);
-      //     if (error.response) {
-      //       console.log('Server Error:', error.response.data);
-      //     } else if (error.request) {
-      //       console.log('Request Error:', error.request);
-      //     } else {
-      //       console.log('Error:', error.message);
-      //     }
-      //   });
 
+      axios.post(`${API_URL}api/alumni-form/`, formData)
+        .then((response) => {
+          console.log('Success! : ', response.data)
+          console.log(formData);
+          setSelectedAlumniId('');
+          alert('Form Submitted Successfully!');
+          closeModal();
+        })
+        .catch((error) => {
+          console.error('Error ; ', error)
+        })
+
+      // formRef.current.reset();
     }
   };
 
@@ -652,7 +647,7 @@ const AlumniForm = ({ closeModal }) => {
                           ))}
                         </select>
 
-                        <input type="text" name="street" id="street" className="mt-4 w-full h-8 border-gray-400" placeholder="street" />
+                        <input type="text" name="current_job_street" id="street" className="mt-4 w-full h-8 border-gray-400" placeholder="street" />
                       </div>
                     </div>
                   </>

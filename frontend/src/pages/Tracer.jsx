@@ -86,7 +86,7 @@ const Tracer = () => {
             </span>
           </form>
 
-          <form className="flex">
+          <div className="flex">
             <span className="flex">
               <input type="text" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="sm:focus:w-72 w-52 p-2 rounded-md bg-gray-200 text-gray-600 dark:bg-slate-700 dark:text-white transition-width duration-500" placeholder="Search Alumni . . . ." />
               <button className="relative top-auto right-10">
@@ -104,7 +104,7 @@ const Tracer = () => {
                 <i className="bx bx-filter text-black dark:text-white hover:font-black text-4xl"></i>
               </span>
             </span>
-          </form>
+          </div>
         </div>
 
         {isModal && <AlumniForm closeModal={closeModal} />}
