@@ -10,6 +10,8 @@ from .serializers import *
 from .models import *
 
 
+import pandas as pd
+
 @api_view(['GET'])
 def alumni_profile_details(request, alumni_id):
     try:
@@ -262,3 +264,26 @@ def barangay_list(request, city_id):
     barangays = Barangay.objects.filter(city_id=city_id)
     serializer = BarangaySerializer(barangays, many=True)
     return Response(serializer.data)
+
+
+
+@api_view(['GET'])
+def salary_dist(request):
+    current_jobs = CurrentJob.objects.all()
+
+    current_jobs_data = []
+    for job in current_jobs:
+        current_jobs_data.append({
+            'job_type': job.job_type,
+            'average_salary': job.salary,
+            'highest_salary': 'sa'
+        })
+
+    current_jobs_df = pd.DataFrame(current_jobs_data)
+
+    average_salary_by_field = current_jobs_df.groupby('job_type')['average_salary'].mean().reset_index()
+    average_salary_by_field['average_salary'] = average_salary_by_field['average_salary'].round(2)
+
+    analysis_result = average_salary_by_field.to_dict(orient='records')
+    print(current_jobs_data[0])
+    return Response(analysis_result)

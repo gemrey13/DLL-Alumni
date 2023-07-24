@@ -18,6 +18,9 @@ urlpatterns = [
     path('course-data/', courses_data, name='courses_data'),
     path('curriculum-data/', curriculum_data, name='curriculum_data'),
 
+    path('salary-dist/', salary_dist, name='salary_dist'),
+
+
 
     path('alumni-profile/<alumni_id>/', alumni_profile_details, name='alumni_profile_details'),
 
