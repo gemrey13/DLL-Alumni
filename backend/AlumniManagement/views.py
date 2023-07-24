@@ -1,42 +1,13 @@
-from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.models import User
-from django.utils.crypto import get_random_string
 from django.contrib.auth.hashers import make_password
-from django.http import JsonResponse
-import json
+from django.utils.crypto import get_random_string
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
+
 from rest_framework.decorators import api_view
-
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
-from rest_framework.views import APIView
-from rest_framework import viewsets
 
-from .models import *
 from .serializers import *
-
-
-# class AlumniProfilePagination(PageNumberPagination):
-#     page_size = 10
-#     page_size_query_param = 'page_size'
-#     max_page_size = 100
-
- 
-# class AlumniProfileAPIView(APIView):
-#     pagination_class = AlumniProfilePagination
-
-#     def get(self, request):
-#         queryset = AlumniProfile.objects.all().order_by('alumni_id')
-
-#         paginator = self.pagination_class()
-#         paginated_queryset = paginator.paginate_queryset(queryset, request)
-#         serializer = AlumniProfileSerializer(paginated_queryset, many=True)
-        
-#         return Response({
-#             'results': serializer.data,
-#             'count':   paginator.page.paginator.count,
-#             'next':    paginator.get_next_link(),
-#             'prev':    paginator.get_previous_link()
-#             })
+from .models import *
 
 
 @api_view(['GET'])
@@ -87,8 +58,6 @@ def alumni_form(request):
         email = data.get('email')
         password = f"{fname.lower()}.{lname.lower()}"
 
-        
-
         jobRecordCheckbox = data.get('jobRecordCheckbox')
 
         course = Course.objects.filter(course_id=course).first()
@@ -105,7 +74,6 @@ def alumni_form(request):
             password=make_password(password),
             email=email
         )
-
         alumni_account.save()
 
         alumni_profile = AlumniProfile(
@@ -176,7 +144,6 @@ def alumni_form(request):
             )
             job_address.save()
 
-
             current_job = CurrentJob(
                 current_job_id=current_job_id,
                 job_type=job_type,
@@ -187,9 +154,7 @@ def alumni_form(request):
                 alumni=alumni_profile,
                 address=job_address,
             )
-
             current_job.save()
-
 
         return Response({'message': 'Alumni profile created successfully'})
     except KeyError:
@@ -202,7 +167,6 @@ def table_data(request):
     course = request.GET.get('course')
     employment_status = request.GET.get('employment_status')
 
-    # Filter the data based on the year and course, if provided
     data = Graduate.objects.all()
 
     if year:
@@ -211,7 +175,6 @@ def table_data(request):
     if course:
         data = data.filter(course__course_id=course)
 
-    # Retrieve the desired fields and add graduation_year field
     data = data.values('alumni__alumni_id', 'alumni__fname', 'alumni__lname', 'course__course_id', 'graduation_date', 'alumni__user__email', 'alumni__contact_number')
 
     for item in data:
@@ -226,7 +189,6 @@ def table_data(request):
     if employment_status:
         data = [item for item in data if item['employment_status'] == employment_status]
 
-    # Return the data as a JSON response
     return Response(data, status=200)
 
 

@@ -28,11 +28,6 @@ const FIELD_CHOICES = [
 
 
 const ProfileRight = ({alumniData}) => {
-  if (!alumniData) {
-    // Return some placeholder content or a loading message when alumniData is null
-    return <div>Loading...</div>;
-  }
-
 
   
   const [tab, setTab] = useState(1);
@@ -334,6 +329,13 @@ const ProfileRight = ({alumniData}) => {
     //   });
   };
 
+
+  if (!alumniData) {
+  return <div>Loading...</div>;
+}
+
+
+
   return (
     <>
       <div className="w-2/3">
@@ -341,7 +343,7 @@ const ProfileRight = ({alumniData}) => {
         <div className="flex justify-between">
           <div>
             <h1 className="text-3xl">
-              {alumniData.fname} {alumniData.mi} {alumniData.lname} {alumniData.suffix}<sup className="text-sm"> | Philippines</sup>
+              {alumniData.fname} {alumniData.mi} {alumniData.lname} {alumniData.suffix}<sup className="text-sm"> | {alumniData.alumniaddress_country_name}</sup>
             </h1>
             <p className="text-blue-600">Software Developer</p>
           </div>
@@ -367,25 +369,25 @@ const ProfileRight = ({alumniData}) => {
             <div className="flex mt-6">
                   <h1 className="mr-9 font-bold">Name</h1>
                   <div className="flex flex-col">
-                    <input required type="text" name="fname" id="fname" maxLength="50" className="h-8 border-gray-400 w-48 mr-5" />
+                    <input defaultValue={alumniData.fname} required type="text" name="fname" id="fname" maxLength="50" className="h-8 border-gray-400 w-48 mr-5" />
                     <label htmlFor="fname" className="text-gray-400 text-sm">
                       First Name
                     </label>
                   </div>
                   <div className="flex flex-col">
-                    <input required type="text" name="lname" id="lname" maxLength="50" className="h-8 border-gray-400 w-48 mr-5" />
+                    <input defaultValue={alumniData.lname} required type="text" name="lname" id="lname" maxLength="50" className="h-8 border-gray-400 w-48 mr-5" />
                     <label htmlFor="lname" className="text-gray-400 text-sm">
                       Last Name
                     </label>
                   </div>
                   <div className="flex flex-col">
-                    <input type="text" name="mi" id="mi" maxLength="1" className="h-8 border-gray-400 w-16 mr-5" />
+                    <input defaultValue={alumniData.mi} type="text" name="mi" id="mi" maxLength="1" className="h-8 border-gray-400 w-16 mr-5" />
                     <label htmlFor="mi" className="text-gray-400 text-sm">
                       M.I.
                     </label>
                   </div>
                   <div className="flex flex-col">
-                    <input type="text" name="suffix" id="suffix" maxLength="4" className="h-8 border-gray-400 w-16" />
+                    <input defaultValue={alumniData.suffix} type="text" name="suffix" id="suffix" maxLength="4" className="h-8 border-gray-400 w-16" />
                     <label htmlFor="suffix" className="text-gray-400 text-sm">
                       Suffix
                     </label>
@@ -394,9 +396,9 @@ const ProfileRight = ({alumniData}) => {
 
                 <div className="flex mt-4">
                   <h1 className="mr-10 font-bold">Email</h1>
-                  <input required maxLength="64" type="email" name="email" id="email" className="h-8 border-gray-400 w-[18em] mr-10" placeholder="ex: thomas.shelby@example.com" />
+                  <input defaultValue={alumniData.email} required maxLength="64" type="email" name="email" id="email" className="h-8 border-gray-400 w-[18em] mr-10" placeholder="ex: thomas.shelby@example.com" />
                   <h1 className="mr-10 font-bold">Phone Number</h1>
-                  <input
+                  <input defaultValue={alumniData.contact_number} 
                     required
                     type="tel"
                     name="contact_number"
@@ -413,24 +415,24 @@ const ProfileRight = ({alumniData}) => {
                   <label htmlFor="sex" className="mr-7 font-bold">
                     Gender
                   </label>
-                  <select required name="sex" id="sex" className="mr-[12.9em] h-8 text-sm py-0">
-                    <option value=''>Select Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
+                  <select defaultValue={alumniData.sex} required name="sex" id="sex" className="mr-[12.9em] h-8 text-sm py-0">
+                    <option defaultValue=''>Select Gender</option>
+                    <option defaultValue="male">Male</option>
+                    <option defaultValue="female">Female</option>
                   </select>
 
                   <h1 className="mr-[6em] font-bold">Religion</h1>
-                  <input required maxLength="50" type="tel" name="religion" id="religion" className="h-8 border-gray-400 w-[12em]" />
+                  <input defaultValue={alumniData.religion} required maxLength="50" type="tel" name="religion" id="religion" className="h-8 border-gray-400 w-[12em]" />
                 </div>
 
                 <div className="flex mt-6">
                   <h1 className="mr-16 font-bold">Marital Status</h1>
-                  <input required maxLength="50" type="text" name="marital_status" id="marital_status" className="h-8 border-gray-400 w-[15em] mr-[5.2em]" />
+                  <input defaultValue={alumniData.marital_status} required maxLength="50" type="text" name="marital_status" id="marital_status" className="h-8 border-gray-400 w-[15em] mr-[5.2em]" />
                 </div>
 
                 <div className="flex mt-6">
                   <h1 className="mr-[6.3em] font-bold">Birthdate</h1>
-                  <input required type="date" name="date_of_birth" id="date_of_birth" className="h-8 border-gray-400 w-[12em]" />
+                  <input defaultValue={alumniData.date_of_birth} required type="date" name="date_of_birth" id="date_of_birth" className="h-8 border-gray-400 w-[12em]" />
                 </div>
 
 
@@ -439,18 +441,18 @@ const ProfileRight = ({alumniData}) => {
 
                   <div className="flex flex-col w-1/5 mr-[4em]">
                     <select required name="country" onChange={handleCountryChange} className="h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
-                      <option value="">Select Country</option>
+                      <option defaultValue="">Select Country</option>
                       {countries.map((country) => (
-                        <option key={country.id} value={country.id}>
+                        <option key={country.id} defaultValue={country.id}>
                           {country.country_name}
                         </option>
                       ))}
                     </select>
 
                     <select required name="city" onChange={handleCityChange} className="mt-4 h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
-                      <option value="">Select City</option>
+                      <option defaultValue="">Select City</option>
                       {cities.map((city) => (
-                        <option key={city.id} value={city.id}>
+                        <option key={city.id} defaultValue={city.id}>
                           {city.city_name}
                         </option>
                       ))}
@@ -459,18 +461,18 @@ const ProfileRight = ({alumniData}) => {
 
                   <div className="flex flex-col w-1/5 mr-[4em]">
                     <select required name="region" onChange={handleRegionChange} className="h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
-                      <option value="">Select Region</option>
+                      <option defaultValue="">Select Region</option>
                       {regions.map((region) => (
-                        <option key={region.id} value={region.id}>
+                        <option key={region.id} defaultValue={region.id}>
                           {region.region_name}
                         </option>
                       ))}
                     </select>
 
                     <select required name="barangay" className="mt-4 h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
-                      <option value="">Select Barangay</option>
+                      <option defaultValue="">Select Barangay</option>
                       {barangays.map((barangay) => (
-                        <option key={barangay.id} value={barangay.id}>
+                        <option key={barangay.id} defaultValue={barangay.id}>
                           {barangay.barangay_name}
                         </option>
                       ))}
@@ -479,9 +481,9 @@ const ProfileRight = ({alumniData}) => {
 
                   <div className="flex flex-col w-1/5">
                     <select name="province" onChange={handleProvinceChange} className="h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
-                      <option value="">Select Province</option>
+                      <option defaultValue="">Select Province</option>
                       {provinces.map((province) => (
-                        <option key={province.id} value={province.id}>
+                        <option key={province.id} defaultValue={province.id}>
                           {province.province_name}
                         </option>
                       ))}
@@ -504,9 +506,9 @@ const ProfileRight = ({alumniData}) => {
                   <h1 className="mr-[74px] font-bold">Course</h1>
 
                   <select required name="course" id="course" className="h-8 mr-[4em] w-1/5 text-sm py-0 dark:bg-gray-700 dark:text-white">
-                    <option value="">Select Course</option>
+                    <option defaultValue="">Select Course</option>
                     {courses.map((course) => (
-                      <option key={course.course_id} value={course.course_id}>
+                      <option key={course.course_id} defaultValue={course.course_id}>
                         {course.course_name}
                       </option>
                     ))}
@@ -524,9 +526,9 @@ const ProfileRight = ({alumniData}) => {
                 <div className="flex mt-6">
                   <h1 className="mr-[33px] font-bold">Curriculum</h1>
                   <select required name="curriculum" id="curriculum" className="h-8 mr-[13.5em] w-1/5 text-sm py-0 dark:bg-gray-700 dark:text-white">
-                    <option value="">Select Curriculum</option>
+                    <option defaultValue="">Select Curriculum</option>
                     {curriculum.map((curri) => (
-                      <option key={curri.curriculum_id} value={curri.curriculum_id} title={curri.description}>
+                      <option key={curri.curriculum_id} defaultValue={curri.curriculum_id} title={curri.description}>
                         {curri.curriculum_id}
                       </option>
                     ))}
@@ -569,9 +571,9 @@ const ProfileRight = ({alumniData}) => {
                     <div className="flex mt-3">
                       <div className="flex flex-col">
                         <select required name="job_type" id="job_type" className='h-8 text-sm py-0 w-1/2 mr-[5em] dark:bg-gray-700 dark:text-white'>
-                          <option value="">Select Job Type</option>
+                          <option defaultValue="">Select Job Type</option>
                             {FIELD_CHOICES.map((choice) => (
-                              <option key={choice[0]} value={choice[0]}>
+                              <option key={choice[0]} defaultValue={choice[0]}>
                                 {choice[1]}
                               </option>
                             ))}
@@ -591,18 +593,18 @@ const ProfileRight = ({alumniData}) => {
 
                       <div className="flex flex-col w-1/5 mr-[4em]">
                         <select required name="current_job_country" onChange={handleCurrentJobCountryChange} className="h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
-                          <option value="">Select Country</option>
+                          <option defaultValue="">Select Country</option>
                           {currentJobCountry.map((country) => (
-                            <option key={country.id} value={country.id}>
+                            <option key={country.id} defaultValue={country.id}>
                               {country.country_name}
                             </option>
                           ))}
                         </select>
 
                         <select required name="current_job_city" onChange={handleCurrentJobCityChange} className="mt-4 h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
-                          <option value="">Select City</option>
+                          <option defaultValue="">Select City</option>
                           {currentJobCity.map((city) => (
-                            <option key={city.id} value={city.id}>
+                            <option key={city.id} defaultValue={city.id}>
                               {city.city_name}
                             </option>
                           ))}
@@ -611,18 +613,18 @@ const ProfileRight = ({alumniData}) => {
 
                       <div className="flex flex-col w-1/5 mr-[4em]">
                         <select required name="current_job_region" onChange={handleCurrentJobRegionChange} className="h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
-                          <option value="">Select Region</option>
+                          <option defaultValue="">Select Region</option>
                           {currentJobRegion.map((region) => (
-                            <option key={region.id} value={region.id}>
+                            <option key={region.id} defaultValue={region.id}>
                               {region.region_name}
                             </option>
                           ))}
                         </select>
 
                         <select required name="current_job_barangay" className="mt-4 h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
-                          <option value="">Select Barangay</option>
+                          <option defaultValue="">Select Barangay</option>
                           {currentJobBarangay.map((barangay) => (
-                            <option key={barangay.id} value={barangay.id}>
+                            <option key={barangay.id} defaultValue={barangay.id}>
                               {barangay.barangay_name}
                             </option>
                           ))}
@@ -631,9 +633,9 @@ const ProfileRight = ({alumniData}) => {
 
                       <div className="flex flex-col w-1/5">
                         <select name="current_job_province" onChange={handleCurrentJobProvinceChange} className="h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
-                          <option value="">Select Province</option>
+                          <option defaultValue="">Select Province</option>
                           {currentJobProvince.map((province) => (
-                            <option key={province.id} value={province.id}>
+                            <option key={province.id} defaultValue={province.id}>
                               {province.province_name}
                             </option>
                           ))}
