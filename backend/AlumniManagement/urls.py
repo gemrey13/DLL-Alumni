@@ -10,6 +10,7 @@ urlpatterns = [
     path('alumni-form/', alumni_form, name='alumni_form'),
     path('check-alumni-id/<str:alumni_id>/', check_alumni_id_existence, name='check-alumni-id'),
     path('delete-alumni/<str:alumni_id>/', delete_alumni, name='delete_alumni'),
+    path('update-alumni-profile/<str:alumni_id>/', update_alumni_profile, name='update_alumni_profile'),
 
 
     path('table-data/', table_data, name='table_data'),

@@ -163,6 +163,49 @@ def alumni_form(request):
         return Response({'error': 'Invalid data provided'}, status=400)
 
 
+@api_view(['PUT'])
+def update_alumni_profile(request, alumni_id):
+    data = request.data
+
+    try:
+        alumni = AlumniProfile.objects.get(alumni_id=alumni_id)
+        alumni_address = AlumniAddress.objects.get(alumni=alumni)
+    except Alumni.DoesNotExist:
+        return Response({'error': 'Alumni Does Not Exist'}, status=404)
+
+    
+    alumni.fname = data.get('fname', alumni.fname)
+    alumni.lname = data.get('lname', alumni.lname)
+    alumni.mi = data.get('mi', alumni.mi)
+    alumni.suffix = data.get('suffix', alumni.suffix)
+    alumni.contact_number = data.get('contact_number', alumni.contact_number)
+    alumni.sex = data.get('sex', alumni.sex)
+    alumni.religion = data.get('religion', alumni.religion)
+    alumni.marital_status = data.get('marital_status', alumni.marital_status)
+    alumni.date_of_birth = data.get('date_of_birth', alumni.date_of_birth)
+
+    alumni.save()
+
+    alumni_country = Country.objects.get(id=data.get('country'))
+    alumni_region = Region.objects.get(id=data.get('region'))
+    alumni_province = Province.objects.get(id=data.get('province'))
+    alumni_city = City.objects.get(id=data.get('city'))
+    alumni_barangay = Barangay.objects.get(id=data.get('barangay'))
+
+    alumni_address.country = alumni_country
+    alumni_address.region = alumni_region
+    alumni_address.province = alumni_province
+    alumni_address.city = alumni_city
+    alumni_address.barangay = alumni_barangay
+    alumni_address.street = data.get('street')
+
+    alumni_address.save()
+
+    return Response({'message': 'Updated successfully!'})
+
+
+
+
 @api_view(['GET'])
 def table_data(request):
     year = request.GET.get('year')
