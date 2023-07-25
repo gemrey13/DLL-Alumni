@@ -314,7 +314,8 @@ const ProfileRight = ({alumniData}) => {
     axios
       .put(`${API_URL}api/update-alumni-profile/${alumniData.alumni_id}/`, formData)
       .then((response) => {
-        console.log(response.data.message);
+        alert(`${alumniData.fname} - ${response.data.message}`)
+        console.log();
         window.location.reload()
       })
       .catch((error) => {
