@@ -310,26 +310,17 @@ const ProfileRight = ({alumniData}) => {
       }
     }
     console.log(formData);
-    personalInfoRef.current.reset();
-    // axios
-    //   .post(`${API_URL}api/alumni-form/`, formData)
-    //   .then((response) => {
-    //     console.log('Alumni profile created successfully');
-    //     // Handle any further actions or UI updates after successful submission
-    //   })
-    //   .catch((error) => {
-    //     console.error('Form submission failed:', error);
-    //     if (error.response) {
-    //       console.log('Server Error:', error.response.data);
-    //     } else if (error.request) {
-    //       console.log('Request Error:', error.request);
-    //     } else {
-    //       console.log('Error:', error.message);
-    //     }
-    //   });
+
+    axios
+      .put(`${API_URL}api/update-alumni-profile/${alumniData.alumni_id}/`, formData)
+      .then((response) => {
+        console.log(response.data.message);
+        window.location.reload()
+      })
+      .catch((error) => {
+        console.error(error)
+      })
   };
-
-
 
 
   if (!alumniData) {
@@ -437,13 +428,13 @@ const ProfileRight = ({alumniData}) => {
                   <input defaultValue={alumniData.date_of_birth} required type="date" name="date_of_birth" id="date_of_birth" className="h-8 border-gray-400 w-[12em]" />
                 </div>
 
-
-                <div className="flex mt-6">
+                <p className='mt-6 text-red-400'>Leave for Default</p>
+                <div className="flex">
                   <h1 className="mr-[4.1em] font-bold">Address</h1>
 
                   <div className="flex flex-col w-1/5 mr-[4em]">
-                    <select defaultValue={selectedCountry} required name="country" onChange={handleCountryChange} className="h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
-                      <option defaultValue="">Select Country</option>
+                    <select required name="country" onChange={handleCountryChange} className="h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
+                      <option value={alumniData.alumniaddress_country_id}>Select Country</option>
                       {countries.map((country) => (
                         <option key={country.id} value={country.id}>
                           {country.country_name}
@@ -452,7 +443,7 @@ const ProfileRight = ({alumniData}) => {
                     </select>
 
                     <select required name="city" onChange={handleCityChange} className="mt-4 h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
-                      <option defaultValue="">Select City</option>
+                      <option value={alumniData.alumniaddress_city_id}>Select City</option>
                       {cities.map((city) => (
                         <option key={city.id} value={city.id}>
                           {city.city_name}
@@ -463,7 +454,7 @@ const ProfileRight = ({alumniData}) => {
 
                   <div className="flex flex-col w-1/5 mr-[4em]">
                     <select required name="region" onChange={handleRegionChange} className="h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
-                      <option defaultValue="">Select Region</option>
+                      <option value={alumniData.alumniaddress_region_id}>Select Region</option>
                       {regions.map((region) => (
                         <option key={region.id} value={region.id}>
                           {region.region_name}
@@ -472,7 +463,7 @@ const ProfileRight = ({alumniData}) => {
                     </select>
 
                     <select required name="barangay" className="mt-4 h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
-                      <option defaultValue="">Select Barangay</option>
+                      <option value={alumniData.alumniaddress_barangay_id}>Select Barangay</option>
                       {barangays.map((barangay) => (
                         <option key={barangay.id} value={barangay.id}>
                           {barangay.barangay_name}
@@ -483,7 +474,7 @@ const ProfileRight = ({alumniData}) => {
 
                   <div className="flex flex-col w-1/5">
                     <select  name="province" onChange={handleProvinceChange} className="h-8 text-sm py-0 dark:bg-gray-700 dark:text-white">
-                      <option defaultValue="">Select Province</option>
+                      <option value={alumniData.alumniaddress_province_id}>Select Province</option>
                       {provinces.map((province) => (
                         <option key={province.id} value={province.id}>
                           {province.province_name}
