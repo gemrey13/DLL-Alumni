@@ -333,7 +333,6 @@ const ProfileRight = ({alumniData}) => {
   return (
     <>
       <div className="w-2/3">
-        Right Side
         <div className="flex justify-between">
           <div>
             <h1 className="text-3xl">
