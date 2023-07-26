@@ -339,7 +339,6 @@ const ProfileRight = ({alumniData}) => {
             <h1 className="text-3xl">
               {alumniData.fname} {alumniData.mi} {alumniData.lname} {alumniData.suffix}<sup className="text-sm"> | {alumniData.alumniaddress_country_name}</sup>
             </h1>
-            <p className="text-blue-600">Software Developer</p>
           </div>
         </div>
         <div className="flex mt-12 cursor-pointer">
