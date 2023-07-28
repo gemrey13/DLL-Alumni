@@ -8,7 +8,7 @@ const Nav = () => {
 				<span>Logo</span>
 				<span>Home</span>
 				<span>About</span>
-				<span>News & Announcement</span>
+				<span>News & Update</span>
 				<span>Sign In</span>
 			</nav>
 		</>
