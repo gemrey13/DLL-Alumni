@@ -20,6 +20,11 @@ export { default as SalaryDistribution } from './components/charts/SalaryDistrib
 export { default as StakeholderEngagementChart } from './components/charts/StakeholderEngagementChart';
 
 
+export { default as Landing } from './pages/default/Landing';
+export { default as About } from './pages/default/About';
+export { default as News } from './pages/default/News';
+
+
 export { default as Tracer } from './pages/Tracer';
 export { default as Sample } from './pages/Sample';
 export { default as Dashboard } from './pages/Dashboard';
