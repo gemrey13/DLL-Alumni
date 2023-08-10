@@ -4,6 +4,7 @@ const NewsUpdate = () => {
   return (
     <>
       <div>
+      NewsUpdate
       </div>
     </>
   );
