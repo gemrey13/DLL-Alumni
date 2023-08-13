@@ -3,6 +3,7 @@ export { default as ProfileLeft } from './components/layout/ProfileLeft';
 export { default as ProfileRight } from './components/layout/ProfileRight';
 export { default as Hero } from './components/layout/Hero';
 export { default as NewsUpdate } from './components/layout/NewsUpdate';
+export { default as FAQ } from './components/layout/FAQ';
 
 
 export { default as Breadcrumb } from './components/navigation/Breadcrumb';
