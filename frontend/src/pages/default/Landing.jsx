@@ -1,6 +1,6 @@
 import React from 'react';
 import Nav from './Nav';
-import { Hero, NewsUpdate, FAQ } from '../../index';
+import { Hero, NewsUpdate, FAQ, Footer } from '../../index';
 
 const Landing = () => {
 	return (
@@ -9,6 +9,7 @@ const Landing = () => {
 			<Hero />
 			<NewsUpdate />
 			<FAQ />
+			<Footer />
 		</>
 	)
 };
