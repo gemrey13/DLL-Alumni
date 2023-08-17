@@ -6,7 +6,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      textColor: {
+        'black-1': '#302F39'
+      }
+    },
   },
   plugins: [
     require('@tailwindcss/forms'),
