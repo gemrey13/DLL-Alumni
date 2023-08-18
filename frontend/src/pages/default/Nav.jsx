@@ -11,7 +11,7 @@ const Nav = () => {
 					<h5>About</h5>
 					<h5>News & Update</h5>
 				</div>
-				<h5 className='w-1/5 text-black text-lg'>Sign In</h5>
+				<h5 className='w-1/5 text-black text-lg items-end'>Sign In</h5>
 			</nav>
 		</>
 	)
