@@ -1,7 +1,7 @@
 import subprocess
 
 # Prompt the user for a commit message
-commit_message = 'design hero section'
+commit_message = 'design FAQ section'
 
 # Run git commands
 try:
