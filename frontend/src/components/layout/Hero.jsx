@@ -5,7 +5,7 @@ const Hero = () => {
     <>
       <div className='flex px-[4em] py-[4em] items-center'>
         <div className='w-1/2'>
-          <h1 className='text-3xl text-black font-bold'>Welcome to Alumni Web Portal - <br/>Empowering Education, Connecting<br/> Alumni!</h1>
+          <h1 className='text-3xl text-black font-bold font-mono'>Welcome to Alumni Web Portal - <br/>Empowering Education, Connecting<br/> Alumni!</h1>
           <p className='pt-4'>Your All-in-One Online Portal and Alumni Office Information <br/>System with Tracer Study for Curriculum Analysis</p>
           <button className='relative bottom-0 left-[50%] mt-[2em]'>Get Started</button>
         </div>
