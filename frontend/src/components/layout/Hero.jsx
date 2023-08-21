@@ -10,8 +10,8 @@ const Hero = () => {
           <button className=''>Get Started</button>
         </div>
         <div>
-          <div className='w-[500px] h-[400px] bg-green-700'>
-            <div className='w-[500px] h-[400px] bg-green-600 relative -left-10 -bottom-10'></div>
+          <div className='w-[600px] h-[400px] bg-green-700'>
+            <div className='w-[600px] h-[400px] bg-green-600 relative -left-12 -bottom-12'></div>
           </div>
         </div>
       </div>
