@@ -3,8 +3,13 @@ import React from 'react';
 const NewsUpdate = () => {
   return (
     <>
-      <div>
-        <div>Slide</div>
+      <div className='px-[4em]'>
+        <h1 className='text-center text-xl font-semibold pb-10'>News and Updates</h1>
+        <div className='flex mb-10 justify-center'>
+          <div className='bg-green-500 w-[450px] h-[350px]'></div>
+          <div className='bg-green-700 w-[500px] scale-110 h-[350px]'></div>
+          <div className='bg-green-500 w-[450px] h-[350px]'></div>
+        </div>
         <div>
           <h3>Celebrating a Milestone - 100,000 Strong Alumni Network!</h3>
           <h6>August 21, 2023</h6>
