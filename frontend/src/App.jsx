@@ -1,7 +1,6 @@
 import React from 'react';
-import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Tracer, Sample, Dashboard, Analysis, Home, AlumniProfile, Landing, About, News } from './index';
+import { Tracer, Sample, Dashboard, Analysis, Home, AlumniProfile, Landing } from './index';
 
 const App = () => {
   return (
@@ -9,8 +8,8 @@ const App = () => {
       <Routes>
         <Route path="/">
           <Route index element={<Landing />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/news" element={<News />} />
+          {/* <Route path="/about" element={<About />} />
+          <Route path="/news" element={<News />} /> */}
         </Route>
         
         <Route path="/tracer" element={<Tracer />} />

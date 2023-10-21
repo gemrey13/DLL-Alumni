@@ -1,11 +1,12 @@
 import React from 'react'
-import { Nav } from '../component'
+import Header from '../component/Header.jsx'
+
 
 
 export default function Landing() {
   return (
     <>
-      <Nav />
+      <Header />
       <div>Landing</div>
     </>
   )
