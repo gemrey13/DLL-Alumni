@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Nav() {
+export default function Header() {
   return (
 	<div className="navbar bg-slate-100">
 		<div className="navbar-start">
