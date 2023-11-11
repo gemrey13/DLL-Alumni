@@ -1,5 +1,4 @@
 from django.test import TestCase
-from django.contrib.auth import get_user_model
 from datetime import date
 from .models import (
     AlumniProfile,
@@ -14,20 +13,17 @@ from .models import (
     Region,
     Province,
     City,
-    Barangay
+    Barangay,
+    CustomUser
 )
 
 class ModelTests(TestCase):
     def setUp(self):
-        User = get_user_model()
-        # Create a sample user for testing
-        self.user = User.objects.create_user(
-            name='John Doe',
+        self.user = CustomUser.objects.create_user(
             email='john@example.com',
             password='testpassword'
         )
 
-        self.assertEqual(self.user.name, 'John Doe')
         self.assertEqual(self.user.email, 'john@example.com')
         self.assertTrue(self.user.check_password('testpassword'))
 
@@ -35,7 +31,7 @@ class ModelTests(TestCase):
         self.sample_region = Region.objects.create(region_name='Sample Region', country=self.sample_country)
         self.sample_province = Province.objects.create(province_name='Sample Province', region=self.sample_region)
         self.sample_city = City.objects.create(city_name='Sample City', province=self.sample_province)
-        self.sample_barangay = Barangay.objects.create(barangay_name='Sample Barangay', city=self.sample_city)
+        self.sample_barangay = Barangay.objects.create(barangay_name='Sample    Barangay', city=self.sample_city)
 
 
         self.sample_address = Address.objects.create(
@@ -117,19 +113,23 @@ class ModelTests(TestCase):
         )
 
     def test_alumni_profile_str(self):
-        self.assertEqual(str(self.alumni_profile), 'ID: A12345 - John Doe')
+        expected_str = f'ID: {self.alumni_profile.alumni_id} - {self.alumni_profile.fname} {self.alumni_profile.lname}'
+        self.assertEqual(str(self.alumni_profile), expected_str)
 
     def test_course_str(self):
-        self.assertEqual(str(self.course), 'C1234567')
+        self.assertEqual(str(self.course), self.course.course_id)
 
     def test_curriculum_str(self):
-        self.assertEqual(str(self.curriculum), 'CMO123')
+        self.assertEqual(str(self.curriculum), self.curriculum.cmo_no)
 
     def test_current_job_str(self):
-        self.assertEqual(str(self.current_job), 'John Doe - Software Engineer')
+        expected_str = f'{self.current_job.alumni.fname} {self.current_job.alumni.lname} - {self.current_job.job_title}'
+        self.assertEqual(str(self.current_job), expected_str)
 
     def test_previous_job_str(self):
-        self.assertEqual(str(self.previous_job), 'John Doe - Intern')
+        expected_str = f'{self.previous_job.alumni.fname} {self.previous_job.alumni.lname} - {self.previous_job.job_title}'
+        self.assertEqual(str(self.previous_job), expected_str)
 
     def test_alumni_count_property(self):
-        self.assertEqual(self.course.alumni_count, 1)
+        expected_count = 1
+        self.assertEqual(self.course.alumni_count, expected_count)
