@@ -1,5 +1,5 @@
 from django.test import TestCase
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from datetime import date
 from .models import (
     AlumniProfile,
@@ -19,11 +19,17 @@ from .models import (
 
 class ModelTests(TestCase):
     def setUp(self):
+        User = get_user_model()
         # Create a sample user for testing
         self.user = User.objects.create_user(
-            username='testuser',
+            name='John Doe',
+            email='john@example.com',
             password='testpassword'
         )
+
+        self.assertEqual(self.user.name, 'John Doe')
+        self.assertEqual(self.user.email, 'john@example.com')
+        self.assertTrue(self.user.check_password('testpassword'))
 
         self.sample_country = Country.objects.create(country_name='Sample Country')
         self.sample_region = Region.objects.create(region_name='Sample Region', country=self.sample_country)
