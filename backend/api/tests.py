@@ -1,8 +1,21 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 from datetime import date
-from .models import AlumniProfile, GraduateInformation, Curriculum, Course, Department, CurrentJob, PreviousJob
-
+from .models import (
+    AlumniProfile,
+    GraduateInformation,
+    Curriculum,
+    Course,
+    Department,
+    CurrentJob,
+    PreviousJob,
+    Address,
+    Country,
+    Region,
+    Province,
+    City,
+    Barangay
+)
 
 class ModelTests(TestCase):
     def setUp(self):
@@ -10,6 +23,22 @@ class ModelTests(TestCase):
         self.user = User.objects.create_user(
             username='testuser',
             password='testpassword'
+        )
+
+        self.sample_country = Country.objects.create(country_name='Sample Country')
+        self.sample_region = Region.objects.create(region_name='Sample Region', country=self.sample_country)
+        self.sample_province = Province.objects.create(province_name='Sample Province', region=self.sample_region)
+        self.sample_city = City.objects.create(city_name='Sample City', province=self.sample_province)
+        self.sample_barangay = Barangay.objects.create(barangay_name='Sample Barangay', city=self.sample_city)
+
+
+        self.sample_address = Address.objects.create(
+            country=self.sample_country,
+            region=self.sample_region,
+            province=self.sample_province,
+            city=self.sample_city,
+            barangay=self.sample_barangay,
+            street='123 Sample St'
         )
 
         # Create a sample curriculum
@@ -41,7 +70,7 @@ class ModelTests(TestCase):
             religion='Christian',
             marital_status='Single',
             date_of_birth=date(1990, 1, 1),
-            address='123 Sample St'
+            address=self.sample_address
         )
 
         # Create a sample graduate information
@@ -66,7 +95,7 @@ class ModelTests(TestCase):
             salary=80000,
             start_date=date(2022, 1, 1),
             company_name='Tech Company',
-            address='456 Tech St'
+            address=self.sample_address
         )
 
         # Create a sample previous job
@@ -78,7 +107,7 @@ class ModelTests(TestCase):
             start_date=date(2020, 1, 1),
             end_date=date(2021, 1, 1),
             company_name='Old Company',
-            address='789 Old St'
+            address=self.sample_address
         )
 
     def test_alumni_profile_str(self):
