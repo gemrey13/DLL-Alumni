@@ -31,6 +31,9 @@ class Curriculum(models.Model):
     description = models.CharField(max_length=64)
     curriculum_year = models.IntegerField()
 
+    def __str__(self):
+        return self.cmo_no
+
 
 class Course(models.Model):
     course_id = models.CharField(primary_key=True, max_length=8)
@@ -38,14 +41,13 @@ class Course(models.Model):
     course_desc = models.CharField(max_length=255)
     field_type = models.CharField(max_length=64)
     no_units = models.IntegerField()
-    alumni_count = models.IntegerField()
 
     def __str__(self):
         return self.course_id
     
     @property
     def alumni_count(self):
-        return AlumniProfile.objects.filter(course=self.course_id).count()
+        return AlumniProfile.objects.filter(course=self).count()
 
 
 class Department(models.Model):
@@ -63,6 +65,9 @@ class CurrentJob(models.Model):
     company_name = models.CharField(max_length=64)
     address = models.CharField(max_length=255, blank=True)
 
+    def __str__(self):
+        return f'{self.alumni.fname} {self.alumni.lname} - {self.job_title}'
+
 
 class PreviousJob(models.Model):
     alumni = models.ForeignKey(AlumniProfile, on_delete=models.CASCADE)
@@ -73,3 +78,6 @@ class PreviousJob(models.Model):
     end_date = models.DateField()
     company_name = models.CharField(max_length=64)
     address = models.CharField(max_length=255, blank=True)
+
+    def __str__(self):
+        return f'{self.alumni.fname} {self.alumni.lname} - {self.job_title}'
