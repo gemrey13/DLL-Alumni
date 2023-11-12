@@ -43,7 +43,7 @@ class Country(models.Model):
     country_name = models.CharField(max_length=64)
 
     def __str__(self):
-        return self.country_name
+        return self.country_name.title()
 
 
 class Region(models.Model):
@@ -51,7 +51,7 @@ class Region(models.Model):
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.region_name
+        return self.region_name.title()
 
 
 class Province(models.Model):
@@ -59,7 +59,7 @@ class Province(models.Model):
     region = models.ForeignKey(Region, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.province_name
+        return self.province_name.title()
 
 
 class City(models.Model):
@@ -67,7 +67,7 @@ class City(models.Model):
     province = models.ForeignKey(Province, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.city_name
+        return self.city_name.title()
 
 
 class Barangay(models.Model):
@@ -75,7 +75,7 @@ class Barangay(models.Model):
     city = models.ForeignKey(City, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.barangay_name
+        return self.barangay_name.title()
     
 
 class Address(models.Model):
@@ -99,10 +99,11 @@ class AlumniProfile(models.Model):
     mi = models.CharField(max_length=2, blank=True, null=True)
     suffix = models.CharField(max_length=3, blank=True, null=True)
     sex = models.CharField(max_length=10)
+    contact_number = models.CharField(max_length=11)
     religion = models.CharField(max_length=64)
     marital_status = models.CharField(max_length=64)
     date_of_birth = models.DateField()
-    address = models.ForeignKey(Address, on_delete=models.SET_NULL, blank=True, null=True)
+    address = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return f'ID: {self.alumni_id} - {self.fname} {self.lname}'
@@ -124,6 +125,7 @@ class Curriculum(models.Model):
 
 
 class Course(models.Model):
+    curriculum = models.ForeignKey(Curriculum, on_delete=models.CASCADE)
     course_id = models.CharField(primary_key=True, max_length=8)
     course_name = models.CharField(max_length=64)
     course_desc = models.CharField(max_length=255)
@@ -138,12 +140,6 @@ class Course(models.Model):
         return AlumniProfile.objects.filter(course=self).count()
 
 
-class Department(models.Model):
-    department_name = models.CharField(max_length=64)
-    curriculum_year = models.DateField()
-    course = models.ForeignKey(Course, on_delete=models.CASCADE)
-
-
 class CurrentJob(models.Model):
     alumni = models.ForeignKey(AlumniProfile, on_delete=models.CASCADE)
     job_type = models.CharField(max_length=64)
@@ -151,7 +147,7 @@ class CurrentJob(models.Model):
     salary = models.IntegerField()
     start_date = models.DateField()
     company_name = models.CharField(max_length=64)
-    address = models.ForeignKey(Address, on_delete=models.SET_NULL, blank=True, null=True)
+    address = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return f'{self.alumni.fname} {self.alumni.lname} - {self.job_title}'
@@ -165,7 +161,7 @@ class PreviousJob(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     company_name = models.CharField(max_length=64)
-    address = models.ForeignKey(Address, on_delete=models.SET_NULL, blank=True, null=True)
+    address = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True, null=True)
 
     def __str__(self):
         return f'{self.alumni.fname} {self.alumni.lname} - {self.job_title}'

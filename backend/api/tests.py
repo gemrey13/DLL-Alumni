@@ -5,7 +5,6 @@ from .models import (
     GraduateInformation,
     Curriculum,
     Course,
-    Department,
     CurrentJob,
     PreviousJob,
     Address,
@@ -52,6 +51,7 @@ class ModelTests(TestCase):
 
         # Create a sample course
         self.course = Course.objects.create(
+            curriculum=self.curriculum,
             course_id='C1234567',
             course_name='Sample Course',
             course_desc='Sample Course Description',
@@ -80,13 +80,6 @@ class ModelTests(TestCase):
             alumni=self.alumni_profile,
             graduation_date=date(2012, 5, 15),
             honor='Cum Laude'
-        )
-
-        # Create a sample department
-        self.department = Department.objects.create(
-            department_name='Sample Department',
-            curriculum_year=date(2023, 1, 1),
-            course=self.course
         )
 
         # Create a sample current job

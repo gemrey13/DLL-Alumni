@@ -15,7 +15,7 @@ class Command(BaseCommand):
             self.import_data(data)
 
     def import_data(self, data):
-        country = Country.objects.get_or_create(country_name='Philippines')
+        country = Country.objects.create(country_name='Philippines')
 
         for region_code, region_data in data.items():
             region_name = region_data['region_name']
