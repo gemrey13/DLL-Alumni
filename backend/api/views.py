@@ -73,3 +73,13 @@ class GraduateInformationView(APIView):
         serializer = GraduateInformationSerializer(info, many=True).data
         return Response(data=serializer, status=status.HTTP_200_OK)
     
+
+
+class JWTView(APIView):
+    def get(self, request, *args, **kwargs):
+        """returns a view containing all the possible routes"""
+        routes = [
+            '/api/token',
+            '/api/token/refresh'
+        ]
+        return Response(routes)

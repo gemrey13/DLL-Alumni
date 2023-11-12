@@ -5,7 +5,14 @@ from .views import (
     SingleProfileView,
     CourseView,
     CurriculumView,
-    CurrentCoursesView
+    CurrentCoursesView,
+
+    JWTView,
+)
+
+from rest_framework_simplejwt.views import (
+    TokenObtainPairView,
+    TokenRefreshView,
 )
 
 urlpatterns = [
@@ -15,5 +22,9 @@ urlpatterns = [
     path('courses/', CourseView.as_view()),
     path('course/<str:course_id>', CurrentCoursesView.as_view()),
 
-    path('curriculum/', CurriculumView.as_view())
+    path('curriculum/', CurriculumView.as_view()),
+
+    path('routes/', JWTView.as_view()),
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
