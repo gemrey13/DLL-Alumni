@@ -12,7 +12,8 @@ from .serializers import (
     CourseSerializer,
     CurrentJobSerializer,
     PreviousJobSerializer,
-    GetProfileSerializer
+    GetProfileSerializer,
+    CourseWithCurriculumSerializer
 )
 from .models import (
     AlumniProfile,
@@ -42,13 +43,6 @@ class SingleProfileView(APIView):
             return Response(data={'error': "No profile found"}, status=status.HTTP_404_NOT_FOUND)
 
 
-class GraduateInformationView(APIView):
-    def get(self, request):
-        info = GraduateInformation.objects.all()
-        serializer = GraduateInformationSerializer(info, many=True).data
-        return Response(data=serializer, status=status.HTTP_200_OK)
-    
-
 class CurriculumView(APIView):
     def get(self, request):
         curriculum = Curriculum.objects.all()
@@ -60,5 +54,21 @@ class CourseView(APIView):
     def get(self, request):
         course = Course.objects.all()
         serializer = CourseSerializer(course, many=True).data
+        return Response(data=serializer, status=status.HTTP_200_OK)
+    
+
+class CurrentCoursesView(APIView):
+    def get(self, request, *args, **kwargs):
+        try:
+            course = Course.objects.get(course_id=kwargs.get('course_id'))
+            serializer = CourseWithCurriculumSerializer(course).data
+            return Response(data=serializer, status=status.HTTP_200_OK)
+        except ObjectDoesNotExist:
+            return Response(data={'error': "No course found"}, status=status.HTTP_404_NOT_FOUND)
+
+class GraduateInformationView(APIView):
+    def get(self, request):
+        info = GraduateInformation.objects.all()
+        serializer = GraduateInformationSerializer(info, many=True).data
         return Response(data=serializer, status=status.HTTP_200_OK)
     
