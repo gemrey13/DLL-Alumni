@@ -56,6 +56,8 @@ class CurriculumSerializer(serializers.ModelSerializer):
         fields = ['cmo_no', 'description', 'curriculum_year', 'courses']
 
 
+
+###############################################################################
 class CurrentJobSerializer(serializers.ModelSerializer):
     class Meta:
         model = CurrentJob
