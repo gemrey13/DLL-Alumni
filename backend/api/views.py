@@ -66,6 +66,7 @@ class CurrentCoursesView(APIView):
         except ObjectDoesNotExist:
             return Response(data={'error': "No course found"}, status=status.HTTP_404_NOT_FOUND)
 
+
 class GraduateInformationView(APIView):
     def get(self, request):
         info = GraduateInformation.objects.all()

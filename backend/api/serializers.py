@@ -28,12 +28,6 @@ class CourseSerializer(serializers.ModelSerializer):
         return obj.alumni_count
 
 
-class GraduateInformationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = GraduateInformation
-        fields = '__all__'
-
-
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
@@ -71,4 +65,10 @@ class CurrentJobSerializer(serializers.ModelSerializer):
 class PreviousJobSerializer(serializers.ModelSerializer):
     class Meta:
         model = PreviousJob
+        fields = '__all__'
+
+
+class GraduateInformationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GraduateInformation
         fields = '__all__'
