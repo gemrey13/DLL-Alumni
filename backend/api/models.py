@@ -124,7 +124,7 @@ class Curriculum(models.Model):
 
 
 class Course(models.Model):
-    curriculum = models.ForeignKey(Curriculum, on_delete=models.CASCADE)
+    curriculum = models.ForeignKey(Curriculum, on_delete=models.CASCADE, related_name='courses')
     course_id = models.CharField(primary_key=True, max_length=8)
     course_name = models.CharField(max_length=64)
     course_desc = models.CharField(max_length=255)

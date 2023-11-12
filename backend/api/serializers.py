@@ -48,10 +48,18 @@ class GetProfileSerializer(serializers.ModelSerializer):
         fields = ['alumni_id', 'course', 'fname', 'lname', 'mi', 'suffix', 'sex', 'contact_number', 'religion', 'marital_status', 'date_of_birth', 'address']
 
 
+class CourseWithCurriculumSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = '__all__'
+
+
 class CurriculumSerializer(serializers.ModelSerializer):
+    courses = CourseWithCurriculumSerializer(many=True, read_only=True)
+
     class Meta:
         model = Curriculum
-        fields = '__all__'
+        fields = ['cmo_no', 'description', 'curriculum_year', 'courses']
 
 
 class CurrentJobSerializer(serializers.ModelSerializer):
