@@ -19,27 +19,44 @@ class Command(BaseCommand):
         self.generateprofile(num_profiles)
 
     def generateprofile(self, num_profiles):
-        cmo_no = 'CMO123'
-        description = 'Sample Curriculum'
-        curriculum_year = 2023
 
-        course_id = 'C1234567'
-        course_name = 'Sample Course'
-        course_desc = 'Sample Course Description'
-        field_type = 'Sample Field'
-        no_units = 4
+        # courses_data = [
+        #     {'course_id': 'C1234567', 'course_name': 'Computer Science', 'course_desc': 'Computer Science Description', 'field_type': 'Engineering', 'no_units': 4},
+        #     {'course_id': 'C2345678', 'course_name': 'Electrical Engineering', 'course_desc': 'Electrical Engineering Description', 'field_type': 'Engineering', 'no_units': 5},
+        #     {'course_id': 'C3456789', 'course_name': 'Business Administration', 'course_desc': 'Business Admin Description', 'field_type': 'Business', 'no_units': 4},
+        #     {'course_id': 'C4567890', 'course_name': 'Psychology', 'course_desc': 'Psychology Description', 'field_type': 'Social Science', 'no_units': 4},
+        # ]
 
-        # Create or get the Curriculum
-        curriculum, created = Curriculum.objects.get_or_create(
-            cmo_no=cmo_no,
-            defaults={'description': description, 'curriculum_year': curriculum_year}
-        )
+        curricula_years = [2005, 2010, 2015, 2020]
+        courses_per_curriculum = 4
+        curricula_years = [2005, 2010, 2015, 2020]
+        courses_per_curriculum = 4
 
-        # Create or get the Course
-        course, created = Course.objects.get_or_create(
-            course_id=course_id,
-            defaults={'curriculum':curriculum, 'course_name': course_name, 'course_desc': course_desc, 'field_type': field_type, 'no_units': no_units}
-        )
+        for year in curricula_years:
+            cmo_no = f'CMO{year}'
+            description = f'Sample Curriculum {year}'
+            curriculum_year = year
+            curriculum, created = Curriculum.objects.get_or_create(
+                cmo_no=cmo_no,
+                defaults={'description': description, 'curriculum_year': curriculum_year}
+            )
+
+            # Create or get four courses for each curriculum year
+            courses = []
+            for i in range(1, courses_per_curriculum + 1):
+                course_id = f'C{year}_{year * 100 + i}'
+                course_name = f'Course {year * 100 + i}'
+                course_desc = f'Description {year * 100 + i}'
+                field_type = f'Field {year * 100 + i}'
+                no_units = 4
+
+                course, created = Course.objects.get_or_create(
+                    curriculum=curriculum,
+                    course_id=course_id,
+                    defaults={'course_name': course_name, 'course_desc': course_desc, 'field_type': field_type, 'no_units': no_units}
+                )
+
+                courses.append(course)
 
         for i in range(num_profiles):
             fname = fake.first_name()
