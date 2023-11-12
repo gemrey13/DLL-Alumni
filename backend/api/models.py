@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, Group, Permission
 
-
 class CustomUserManager(BaseUserManager):
 
     use_in_migrations = True
@@ -22,7 +21,6 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault('is_superuser', True)
         return self.create_user(email, password, **extra_fields)
 
-
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     is_active = models.BooleanField(default=True)
@@ -37,13 +35,11 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
 
-
 class Country(models.Model):
     country_name = models.CharField(max_length=64)
 
     def __str__(self):
         return self.country_name.title()
-
 
 class Region(models.Model):
     region_name = models.CharField(max_length=64)
@@ -52,14 +48,12 @@ class Region(models.Model):
     def __str__(self):
         return self.region_name.title()
 
-
 class Province(models.Model):
     province_name = models.CharField(max_length=64)
     region = models.ForeignKey(Region, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.province_name.title()
-
 
 class City(models.Model):
     city_name = models.CharField(max_length=64)
@@ -68,14 +62,12 @@ class City(models.Model):
     def __str__(self):
         return self.city_name.title()
 
-
 class Barangay(models.Model):
     barangay_name = models.CharField(max_length=64)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.barangay_name.title()
-    
 
 class Address(models.Model):
     country = models.ForeignKey(Country, on_delete=models.CASCADE)
@@ -88,7 +80,6 @@ class Address(models.Model):
     def __str__(self):
         return f'{self.country}, {self.region}, {self.province}, {self.city}'
     
-
 class AlumniProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
     alumni_id = models.CharField(primary_key=True, max_length=6)
@@ -107,12 +98,10 @@ class AlumniProfile(models.Model):
     def __str__(self):
         return f'ID: {self.alumni_id} - {self.fname} {self.lname}'
 
-
 class GraduateInformation(models.Model):
     alumni = models.OneToOneField(AlumniProfile, on_delete=models.CASCADE, primary_key=True)
     graduation_date = models.DateField()
     honor = models.CharField(max_length=64)
-
 
 class Curriculum(models.Model):
     cmo_no = models.CharField(primary_key=True, max_length=10)
@@ -121,7 +110,6 @@ class Curriculum(models.Model):
 
     def __str__(self):
         return self.cmo_no
-
 
 class Course(models.Model):
     curriculum = models.ForeignKey(Curriculum, on_delete=models.CASCADE, related_name='courses')
@@ -138,7 +126,6 @@ class Course(models.Model):
     def alumni_count(self):
         return AlumniProfile.objects.filter(course=self).count()
 
-
 class CurrentJob(models.Model):
     alumni = models.ForeignKey(AlumniProfile, on_delete=models.CASCADE)
     job_type = models.CharField(max_length=64)
@@ -150,7 +137,6 @@ class CurrentJob(models.Model):
 
     def __str__(self):
         return f'{self.alumni.fname} {self.alumni.lname} - {self.job_title}'
-
 
 class PreviousJob(models.Model):
     alumni = models.ForeignKey(AlumniProfile, on_delete=models.CASCADE)
@@ -164,5 +150,3 @@ class PreviousJob(models.Model):
 
     def __str__(self):
         return f'{self.alumni.fname} {self.alumni.lname} - {self.job_title}'
-
-

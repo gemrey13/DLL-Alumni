@@ -25,13 +25,11 @@ from .models import (
     CustomUser
 )
 
-
 class AlumniProfilesView(APIView):
     def get(self, request):
         profiles = AlumniProfile.objects.all()
         serializer = AlumniProfileSerializer(profiles, many=True).data
         return Response(data=serializer, status=status.HTTP_200_OK)
-    
 
 class SingleProfileView(APIView):
     def get(self, request, *args, **kwargs):
@@ -42,13 +40,11 @@ class SingleProfileView(APIView):
         except ObjectDoesNotExist:  
             return Response(data={'error': "No profile found"}, status=status.HTTP_404_NOT_FOUND)
 
-
 class CurriculumView(APIView):
     def get(self, request):
         curriculum = Curriculum.objects.all()
         serializer = CurriculumSerializer(curriculum, many=True).data
         return Response(data=serializer, status=status.HTTP_200_OK)
-    
 
 class CourseView(APIView):
     def get(self, request):
@@ -56,7 +52,6 @@ class CourseView(APIView):
         serializer = CourseSerializer(course, many=True).data
         return Response(data=serializer, status=status.HTTP_200_OK)
     
-
 class CurrentCoursesView(APIView):
     def get(self, request, *args, **kwargs):
         try:
@@ -66,15 +61,12 @@ class CurrentCoursesView(APIView):
         except ObjectDoesNotExist:
             return Response(data={'error': "No course found"}, status=status.HTTP_404_NOT_FOUND)
 
-
 class GraduateInformationView(APIView):
     def get(self, request):
         info = GraduateInformation.objects.all()
         serializer = GraduateInformationSerializer(info, many=True).data
         return Response(data=serializer, status=status.HTTP_200_OK)
     
-
-
 class JWTView(APIView):
     def get(self, request, *args, **kwargs):
         """returns a view containing all the possible routes"""

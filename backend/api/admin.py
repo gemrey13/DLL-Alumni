@@ -20,7 +20,6 @@ class AlumniProfileAdmin(admin.ModelAdmin):
 class AddressAdmin(admin.ModelAdmin):
     list_display = ['country', 'region', 'province', 'city', 'barangay']
 
-
 admin.site.register(AlumniProfile, AlumniProfileAdmin)
 admin.site.register(GraduateInformation)
 admin.site.register(Curriculum)

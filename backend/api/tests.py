@@ -32,7 +32,6 @@ class ModelTests(TestCase):
         self.sample_city = City.objects.create(city_name='Sample City', province=self.sample_province)
         self.sample_barangay = Barangay.objects.create(barangay_name='Sample    Barangay', city=self.sample_city)
 
-
         self.sample_address = Address.objects.create(
             country=self.sample_country,
             region=self.sample_region,
@@ -42,14 +41,12 @@ class ModelTests(TestCase):
             street='123 Sample St'
         )
 
-        # Create a sample curriculum
         self.curriculum = Curriculum.objects.create(
             cmo_no='CMO123',
             description='Sample Curriculum',
             curriculum_year=2023
         )
 
-        # Create a sample course
         self.course = Course.objects.create(
             curriculum=self.curriculum,
             course_id='C1234567',
@@ -59,7 +56,6 @@ class ModelTests(TestCase):
             no_units=4,
         )
 
-        # Create a sample alumni profile
         self.alumni_profile = AlumniProfile.objects.create(
             user=self.user,
             alumni_id='A12345',
@@ -76,14 +72,12 @@ class ModelTests(TestCase):
             address=self.sample_address
         )
 
-        # Create a sample graduate information
         self.graduate_info = GraduateInformation.objects.create(
             alumni=self.alumni_profile,
             graduation_date=date(2012, 5, 15),
             honor='Cum Laude'
         )
 
-        # Create a sample current job
         self.current_job = CurrentJob.objects.create(
             alumni=self.alumni_profile,
             job_type='Full-time',
@@ -94,7 +88,6 @@ class ModelTests(TestCase):
             address=self.sample_address
         )
 
-        # Create a sample previous job
         self.previous_job = PreviousJob.objects.create(
             alumni=self.alumni_profile,
             job_type='Part-time',
