@@ -1,4 +1,5 @@
 from rest_framework import serializers
+
 from .models import (
     AlumniProfile,
     GraduateInformation,
@@ -9,15 +10,22 @@ from .models import (
     Address
 )
 
+
 class AlumniProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = AlumniProfile
         fields = '__all__'
 
+
 class CourseSerializer(serializers.ModelSerializer):
+    alumni_count = serializers.SerializerMethodField()
+
     class Meta:
         model = Course
         fields = '__all__'
+
+    def get_alumni_count(self, obj):
+        return obj.alumni_count
 
 
 class GraduateInformationSerializer(serializers.ModelSerializer):
@@ -39,6 +47,7 @@ class GetProfileSerializer(serializers.ModelSerializer):
         model = AlumniProfile
         fields = ['alumni_id', 'course', 'fname', 'lname', 'mi', 'suffix', 'sex', 'contact_number', 'religion', 'marital_status', 'date_of_birth', 'address']
 
+
 class CurriculumSerializer(serializers.ModelSerializer):
     class Meta:
         model = Curriculum
@@ -49,6 +58,7 @@ class CurrentJobSerializer(serializers.ModelSerializer):
     class Meta:
         model = CurrentJob
         fields = '__all__'
+
 
 class PreviousJobSerializer(serializers.ModelSerializer):
     class Meta:

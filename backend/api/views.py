@@ -38,7 +38,7 @@ class SingleProfileView(APIView):
             user = AlumniProfile.objects.get(alumni_id=kwargs.get('alumni_id'))
             serializer = GetProfileSerializer(user).data
             return Response(data=serializer, status=status.HTTP_200_OK)
-        except ObjectDoesNotExist:
+        except ObjectDoesNotExist:  
             return Response(data={'error': "No profile found"}, status=status.HTTP_404_NOT_FOUND)
 
 
@@ -53,5 +53,12 @@ class CurriculumView(APIView):
     def get(self, request):
         curriculum = Curriculum.objects.all()
         serializer = CurriculumSerializer(curriculum, many=True).data
+        return Response(data=serializer, status=status.HTTP_200_OK)
+    
+
+class CourseView(APIView):
+    def get(self, request):
+        course = Course.objects.all()
+        serializer = CourseSerializer(course, many=True).data
         return Response(data=serializer, status=status.HTTP_200_OK)
     
