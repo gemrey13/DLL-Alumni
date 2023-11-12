@@ -64,6 +64,7 @@ class ModelTests(TestCase):
             user=self.user,
             alumni_id='A12345',
             course=self.course,
+            contact_number='09258749673',
             fname='John',
             lname='Doe',
             mi='M',
