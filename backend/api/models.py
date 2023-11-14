@@ -19,18 +19,22 @@ class CustomUserManager(BaseUserManager):
     def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_admin', True)
         return self.create_user(email, password, **extra_fields)
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
     groups = models.ManyToManyField(Group, blank=True, related_name='customuser_set')
     user_permissions = models.ManyToManyField(Permission, blank=True, related_name='customuser_set')
 
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
+    EMAIL_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
     def __str__(self):
         return self.email

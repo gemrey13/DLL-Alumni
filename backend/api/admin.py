@@ -13,7 +13,8 @@ from .models import (
     City,
     Barangay,
     Affiliation,
-    Certification
+    Certification,
+    CustomUser
 )
 
 class AlumniProfileAdmin(admin.ModelAdmin):
@@ -36,3 +37,4 @@ admin.site.register(City)
 admin.site.register(Barangay)
 admin.site.register(Affiliation)
 admin.site.register(Certification)
+admin.site.register(CustomUser)
