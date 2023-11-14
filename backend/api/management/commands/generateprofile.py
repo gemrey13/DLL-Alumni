@@ -70,7 +70,8 @@ class Command(BaseCommand):
             sex = fake.random_element(["male", "female"])
             religion = fake.random_element(["Christian", "Muslim", "Jewish", "Buddhist", "Other"])
             marital_status = fake.random_element(["Single", "Married", "Divorced", "Widowed"])
-            date_of_birth = fake.date_of_birth(minimum_age=22, maximum_age=45)
+            date_of_birth = fake.date_of_birth(minimum_age=22, maximum_age=45),
+            facebook_account_name = f'{fname} {lname}'
 
             # Create User object
             user = CustomUser.objects.create(
@@ -112,7 +113,8 @@ class Command(BaseCommand):
                 religion=religion,
                 marital_status=marital_status,
                 date_of_birth=date_of_birth,
-                address=address
+                address=address,
+                facebook_account_name=facebook_account_name
             )
 
             print(f'{alumni_profile} | {user} | {address}')
