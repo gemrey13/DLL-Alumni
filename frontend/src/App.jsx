@@ -6,6 +6,7 @@ import './App.css'
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
 import Header from './components/Header'
+import LandingPage from './pages/LandingPage'
 
 import PrivateRoute from './utils/PrivateRoute'
 
@@ -14,13 +15,15 @@ function App() {
         <div className="App">
             <Router>
                 <AuthProvider>
-                    <Header/>
+                    {/* <Header/> */}
                     <Routes>
-                        <Route path="/" element={
+                        {/* <Route path="/" element={
                             <PrivateRoute>
                                 <HomePage/>
-                            </PrivateRoute>} />
+                            </PrivateRoute>} /> */}
                         <Route path="/login" element={<LoginPage/>}/>
+
+                        <Route path="/" exact element={<LandingPage/>}/>
                     </Routes>
                 </AuthProvider>
             </Router>
