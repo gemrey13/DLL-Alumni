@@ -8,7 +8,7 @@ function LandingPage() {
     <>
         <div className="w-full h-[720px] md:h-[820px] md:px-16  sm:px-0 z-[-2] bg-gradient-to-r from-slate-800 via-slate-900 to-slate-950">
             <Navbar />
-            <img src={blob_hero} alt='Blob 1' className='absolute -left-72'/>
+            <img src={blob_hero} alt='Blob 1' className='absolute -left-72 hidden lg:block'/>
             
             <Hero />
         </div>
