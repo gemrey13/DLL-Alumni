@@ -11,19 +11,19 @@ function News() {
         <h2 className='w-[83%]'>Latest News</h2>
         <h2 className='w-[18%]'>System Updates</h2>
     </div>
-    <section className='block lg:flex px-7 lg:px-20 mt-10 md:mt-0'>
+    <section className='block lg:flex px-7 lg:px-20 mt-10 lg:mt-0'>
         <div className='block lg:flex bg-gray-950 justify-between lg:mr-11'>
             <div className='w-[100%] lg:w-[30%] p-5'>
                 <h2 className='text-white text-2xl'>New Feature Alert: Introducing Alumni Mentorship Program!</h2>
                 <p className='text-red-600'>November 1, 2023</p>
                 <p className='text-gray-400 text-xl'>As part of our commitment to empowering our students and recent graduates, this program connects them with experienced alumni mentors in their chosen fields.</p>
             </div>
-            <div className='w-[70%]'>
+            <div className='w-full lg:w-[70%]'>
                 <img src={news_1} alt="News 1" className=''/>
             </div>
         </div>
         <aside>
-            <div className='flex mb-7'>
+            <div className='flex mb-7 mt-8 lg:mt-0'>
                 <div className='text-3xl underline mr-4'>1</div>
                 <div>
                     <h2 className='text-red-700 font-bold'>Enhancing Your Experience</h2>
