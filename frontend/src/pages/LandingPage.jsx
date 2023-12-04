@@ -2,6 +2,7 @@ import React from 'react'
 import Navbar from '../components/shared/Navbar'
 import blob_hero from '../images/blob_hero.png'
 import Hero from '../components/landing/Hero'
+import News from '../components/landing/News'
 
 function LandingPage() {
   return (
@@ -12,6 +13,8 @@ function LandingPage() {
             
             <Hero />
         </div>
+
+        <News />
     </>
   )
 }
