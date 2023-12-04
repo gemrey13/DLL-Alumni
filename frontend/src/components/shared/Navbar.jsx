@@ -1,4 +1,5 @@
 import React from 'react'
+import icon_alumni from '../../images/icon-alumni.png'
 
 function Navbar() {
   return (
@@ -14,7 +15,7 @@ function Navbar() {
                 <li><a>News and Update</a></li>
             </ul>
             </div>
-            <a className="btn btn-ghost text-xl text-white">DLL Alumni Association</a>
+            <a className="btn btn-ghost text-xl text-white"> <img src={icon_alumni} alt='Icon Alumni' className='hidden md:block'/>DLL Alumni Association</a>
         </div>
         
         <div className="navbar-end">
