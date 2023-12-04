@@ -47,30 +47,31 @@ function News() {
             
         </aside>
     </section>
-    <section className='flex px-20 mt-8 justify-evenly'>
-        <div className='flex-col'>
-            <div className='w-[70%]'>
+
+    <section className='block md:flex px-7 md:px-20 mt-14 lg:mt-8 justify-evenly'>
+        <div className='flex-col mb-6 lg:mb-0'>
+            <div className='w-[100%] md:w-[70%]'>
                 <img src={news_2} alt='News 2'></img>
             </div>
-            <div className='w-[70%]'>
+            <div className='w-[100%] md:w-[70%]'>
                 <p className='text-gray-800 font-semibold mt-2'>Debating for a Brighter Tomorrow: Exploring Contemporary Issues</p>
                 <p>October 26, 2023 • 3:28 PM</p>
             </div>
         </div>
-        <div className='flex-col'>
-            <div className='w-[70%]'>
+        <div className='flex-col mb-6 lg:mb-0'>
+            <div className='w-[100%] md:w-[70%]'>
                 <img src={news_3} alt='News 3'></img>
             </div>
-            <div className='w-[70%]'>
+            <div className='w-[100%] md:w-[70%]'>
                 <p className='text-gray-800 font-semibold mt-2'>Culinary Creations: A Flavorful Showdown</p>
                 <p>October 26, 2023 • 3:28 PM</p>
             </div>
         </div>
-        <div className='flex-col'>
-            <div className='w-[70%]'>
+        <div className='flex-col mb-6 lg:mb-0'>
+            <div className='w-[100%] md:w-[70%]'>
                 <img src={news_4} alt='News 4'></img>
             </div>
-            <div className='w-[70%]'>
+            <div className='w-[100%] md:w-[70%]'>
                 <p className='text-gray-800 font-semibold mt-2'>Stride for Success: School Fun Run Extravaganza</p>
                 <p>October 26, 2023 • 3:28 PM</p>
             </div>
