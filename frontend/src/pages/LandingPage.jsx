@@ -3,6 +3,7 @@ import Navbar from '../components/shared/Navbar'
 import blob_hero from '../images/blob_hero.png'
 import Hero from '../components/landing/Hero'
 import News from '../components/landing/News'
+import Carousel from '../components/landing/Carousel'
 
 function LandingPage() {
   return (
@@ -15,6 +16,7 @@ function LandingPage() {
         </div>
 
         <News />
+        <Carousel />
     </>
   )
 }
