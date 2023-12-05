@@ -3,6 +3,8 @@ import news_1 from '../../images/news-1.png'
 import news_2 from '../../images/news-2.png'
 import news_3 from '../../images/news-3.png'
 import news_4 from '../../images/news-4.png'
+import block_cage_1 from '../../images/Block_Cage_1.png'
+
 
 function News() {
   return (
@@ -44,11 +46,10 @@ function News() {
                     <p>Explore our latest feature additions that enhance your experience and provide even more capabilities.</p>
                 </div>
             </div>
-            
         </aside>
     </section>
 
-    <section className='block md:flex px-7 md:px-20 mt-14 lg:mt-8 justify-evenly'>
+    <section className='block md:flex px-7 md:px-20 mt-14 lg:mt-8 justify-evenly relative overflow-hidden'>
         <div className='flex-col mb-6 lg:mb-0'>
             <div className='w-[100%] md:w-[70%]'>
                 <img src={news_2} alt='News 2'></img>
@@ -76,6 +77,7 @@ function News() {
                 <p>October 26, 2023 • 3:28 PM</p>
             </div>
         </div>
+        <img className="w-96 h-80 absolute -z-10 -right-36 -bottom-10" src={block_cage_1} />
     </section>
     </>
   )

@@ -4,6 +4,7 @@ import blob_hero from '../images/blob_hero.png'
 import Hero from '../components/landing/Hero'
 import News from '../components/landing/News'
 import Carousel from '../components/landing/Carousel'
+import AboutDLL from '../components/landing/AboutDLL'
 
 function LandingPage() {
   return (
@@ -17,6 +18,7 @@ function LandingPage() {
 
         <News />
         <Carousel />
+        <AboutDLL />
     </>
   )
 }
