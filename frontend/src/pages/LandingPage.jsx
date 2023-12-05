@@ -7,6 +7,7 @@ import Carousel from '../components/landing/Carousel'
 import AboutDLL from '../components/landing/AboutDLL'
 import Location from '../components/landing/Location'
 import FAQ from '../components/landing/FAQ'
+import Footer from '../components/shared/Footer'
 
 function LandingPage() {
   return (
@@ -23,6 +24,7 @@ function LandingPage() {
         <Location />
         <Carousel />
         <FAQ />
+        <Footer />
     </>
   )
 }
