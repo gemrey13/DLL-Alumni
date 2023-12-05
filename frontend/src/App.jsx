@@ -23,9 +23,9 @@ function App() {
                                 <HomePage/>
                             </PrivateRoute>} /> */}
                         <Route path="/login" element={<LoginPage/>}/>
-
                         <Route path="/" exact element={<LandingPage/>}/>
                         <Route path="/admin" element={<Dashboard/>}/>
+
                     </Routes>
                 </AuthProvider>
             </Router>
