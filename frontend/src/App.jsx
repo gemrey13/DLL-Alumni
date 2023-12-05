@@ -9,6 +9,7 @@ import Header from './components/Header'
 import LandingPage from './pages/LandingPage'
 
 import PrivateRoute from './utils/PrivateRoute'
+import Dashboard from './pages/admin/Dashboard'
 
 function App() {
     return (
@@ -24,6 +25,7 @@ function App() {
                         <Route path="/login" element={<LoginPage/>}/>
 
                         <Route path="/" exact element={<LandingPage/>}/>
+                        <Route path="/admin" exact element={<Dashboard/>}/>
                     </Routes>
                 </AuthProvider>
             </Router>
