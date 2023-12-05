@@ -5,9 +5,9 @@ import Togglestarborder from '../../images/Togglestarborder.png'
 
 function AboutDLL() {
   return (
-    <section className='mt-16 lg:mt-24 relative overflow-hidden'>
+    <section className='mt-16 lg:mt-24 relative overflow-hidden pb-8'>
         <img className="w-80 h-60 absolute -left-32 top-24" src={Action1}/>
-        <img className="w-80 h-60 absolute -right-20 -bottom-20 -rotate-45" src={Togglestarborder}/>
+        <img className="w-80 h-60 absolute -right-20 -bottom-12 -rotate-45" src={Togglestarborder}/>
         
         <div className='flex justify-center flex-col items-center'>
             <hr className='border-gray-800 border-t-2 w-[70%] justify-self-center my-2'/>
