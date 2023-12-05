@@ -25,7 +25,7 @@ function App() {
                         <Route path="/login" element={<LoginPage/>}/>
 
                         <Route path="/" exact element={<LandingPage/>}/>
-                        <Route path="/admin" exact element={<Dashboard/>}/>
+                        <Route path="/admin" element={<Dashboard/>}/>
                     </Routes>
                 </AuthProvider>
             </Router>
