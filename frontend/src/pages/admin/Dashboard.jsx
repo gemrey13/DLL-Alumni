@@ -1,5 +1,11 @@
 import React from 'react'
 import icon_alumni from '../../images/icon-alumni.png'
+import me from '../../images/me.png'
+import importdata_icon from '../../images/importdata_icon.png'
+import dashboard_icon from '../../images/dashboard_icon.png'
+import visualization_icon from '../../images/visualization_icon.png'
+import trace_icon from '../../images/trace_icon.png'
+import settings_icon from '../../images/settings_icon.png'
 
 
 function Dashboard() {
@@ -26,17 +32,17 @@ function Dashboard() {
                 </div>
                 {/* Sidebar content here */}
                 <div className='text-base'>
-                    <li><a>Dashboard</a></li>
-                    <li><a>Trace Alumni</a></li>
-                    <li><a>Visualization</a></li>
-                    <li><a>Import Data</a></li>
-                    <li><a>Settings</a></li>
+                    <li><a><img src={dashboard_icon} alt="dashboard_icon" className='w-6'/>Dashboard</a></li>
+                    <li><a><img src={trace_icon} alt="dashboard_icon" className='w-6'/>Trace Alumni</a></li>
+                    <li><a><img src={visualization_icon} alt="dashboard_icon" className='w-6'/>Visualization</a></li>
+                    <li><a><img src={importdata_icon} alt="dashboard_icon" className='w-6'/>Import Data</a></li>
+                    <li><a><img src={settings_icon} alt="dashboard_icon" className='w-6'/>Settings</a></li>
                 </div>
 
                 <div className='flex justify-evenly'>
                     <div className="avatar">
                         <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                            <img src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                            <img src={me} />
                         </div>
                     </div>
 
