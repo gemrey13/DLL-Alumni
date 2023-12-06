@@ -15,7 +15,7 @@ function News() {
     </div>
     <section className='block lg:flex px-7 lg:px-20 mt-10 lg:mt-0'>
         <div className='block lg:flex bg-gray-950 justify-between lg:mr-11'>
-            <div className='w-[100%] lg:w-[30%] p-5'>
+            <div className='w-[100%] lg:w-[30%] p-8'>
                 <h2 className='text-white text-2xl'>New Feature Alert: Introducing Alumni Mentorship Program!</h2>
                 <p className='text-red-600'>November 1, 2023</p>
                 <p className='text-gray-400 text-xl'>As part of our commitment to empowering our students and recent graduates, this program connects them with experienced alumni mentors in their chosen fields.</p>
