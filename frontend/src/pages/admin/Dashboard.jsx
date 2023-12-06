@@ -6,6 +6,7 @@ import dashboard_icon from '../../images/dashboard_icon.png'
 import visualization_icon from '../../images/visualization_icon.png'
 import trace_icon from '../../images/trace_icon.png'
 import settings_icon from '../../images/settings_icon.png'
+import FAQ from '../../components/landing/FAQ'
 
 
 function Dashboard() {
@@ -17,7 +18,7 @@ function Dashboard() {
             <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
             </label>
-            {/* Page content here */}dsfds 
+            {/* Page content here */}<FAQ />
 
         </div> 
         <div className="drawer-side">
