@@ -9,7 +9,7 @@ import Header from './components/Header'
 import LandingPage from './pages/LandingPage'
 
 import PrivateRoute from './utils/PrivateRoute'
-import Dashboard from './pages/admin/Dashboard'
+import AdminPage from './pages/admin/AdminPage'
 
 function App() {
     return (
@@ -24,7 +24,7 @@ function App() {
                             </PrivateRoute>} /> */}
                         <Route path="/login" element={<LoginPage/>}/>
                         <Route exact path="/"  element={<LandingPage/>}/>
-                        <Route exact path="/admin" element={<Dashboard/>}/>
+                        <Route exact path="/admin" element={<AdminPage/>}/>
                     </Routes>
                 </AuthProvider>
             </Router>
