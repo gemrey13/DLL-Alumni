@@ -20,7 +20,7 @@ function AdminPage() {
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
             </label>
             {/* Page content here */}
-            <section className='lg:flex block'>
+            <section className='lg:flex block h-full'>
                 <Dashboard />
                 <RightBar />
             </section>
@@ -30,7 +30,7 @@ function AdminPage() {
         
         <div className="drawer-side">
             <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label> 
-            <ul className="menu flex justify-between p-4 w-72 md:w-64 min-h-full bg-slate-200 border-r border-r-gray-300 text-base-content">
+            <ul className="menu flex justify-between p-6 w-72 md:w-64 min-h-full bg-slate-200 border-r border-r-gray-300 text-base-content">
 
                 <div className='flex justify-center items-center'>
                     <div className='w-[40%] flex justify-center'>
@@ -47,9 +47,9 @@ function AdminPage() {
                     <li><a><img src={settings_icon} alt="dashboard_icon" className='w-6'/>Settings</a></li>
                 </div>
 
-                <div className='flex justify-evenly'>
+                <div className='flex justify-evenly items-center'>
                     <div className="avatar">
-                        <div className="w-12 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
+                        <div className="w-10 h-10 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                             <img src={me} />
                         </div>
                     </div>
