@@ -20,7 +20,7 @@ function AdminPage() {
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
             </label>
             {/* Page content here */}
-            <section className='lg:flex block h-full'>
+            <section className='lg:flex block'>
                 <Dashboard />
                 <RightBar />
             </section>
@@ -41,10 +41,10 @@ function AdminPage() {
                 {/* Sidebar content here */}
                 <div className='text-base'>
                     <li><a className='font-semibold text-purple-800 text-xl'><img src={dashboard_icon} alt="dashboard_icon" className='w-6 mr-3'/>Dashboard</a></li>
-                    <li><a><img src={trace_icon} alt="dashboard_icon" className='w-6'/>Trace Alumni</a></li>
-                    <li><a><img src={visualization_icon} alt="dashboard_icon" className='w-6'/>Visualization</a></li>
-                    <li><a><img src={importdata_icon} alt="dashboard_icon" className='w-6'/>Import Data</a></li>
-                    <li><a><img src={settings_icon} alt="dashboard_icon" className='w-6'/>Settings</a></li>
+                    <li><a className='text-xl text-slate-600'><img src={trace_icon} alt="dashboard_icon" className='w-6 mr-3'/>Trace Alumni</a></li>
+                    <li><a className='text-xl text-slate-600'><img src={visualization_icon} alt="dashboard_icon" className='w-6 mr-3'/>Visualization</a></li>
+                    <li><a className='text-xl text-slate-600'><img src={importdata_icon} alt="dashboard_icon" className='w-6 mr-3'/>Import Data</a></li>
+                    <li><a className='text-xl text-slate-600'><img src={settings_icon} alt="dashboard_icon" className='w-6 mr-3'/>Settings</a></li>
                 </div>
 
                 <div className='flex justify-evenly items-center'>
