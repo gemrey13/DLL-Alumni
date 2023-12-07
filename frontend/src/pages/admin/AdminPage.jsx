@@ -21,8 +21,8 @@ function AdminPage() {
                 <label htmlFor="my-drawer-2" className="drawer-button">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
                 </label>
-                
-                <h1 className='text-2xl text-purple-900 font-semibold block lg:hidden'>Dashboard</h1>
+
+                <h1 className='text-2xl text-purple-900 font-semibold block lg:hidden btn btn-ghost btn-sm'>Dashboard</h1>
 
                 <button type='submit' className='w-6 right-2 top-2'>
                     <img src={notif} alt="notif"/>

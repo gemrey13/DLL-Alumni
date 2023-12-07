@@ -3,6 +3,8 @@ import MiniBox from '../../components/admin/MiniBox'
 import MiniAnalysis from '../../components/admin/MiniAnalysis'
 import magnify from '../../images/magnify.png'
 import notif from '../../images/notif.png'
+import CourseTrendsBox from '../../components/admin/CourseTrendsBox'
+import EmploymentRateBox from '../../components/admin/EmploymentRateBox'
 
 function Dashboard() {
   return (
@@ -13,7 +15,7 @@ function Dashboard() {
             <section className='flex w-[100%] lg:w-[33%] justify-center lg:justify-between items-center'>
                 <div className='flex relative text-gray-600'>
                     <input className="border-2 border-gray-300 bg-white h-12 lg:h-10 px-5 lg:px-4 lg:pr-9 pr-10 rounded-lg lg:text-sm focus:outline-none" type="search" name="search" placeholder="Search" />
-                    <button type='submit' className='w-6 absolute right-2 top-2'>
+                    <button type='submit' className='w-6 absolute right-2 top-3 lg:top-2'>
                         <img src={magnify} alt="magnify"/>
                     </button>
                 </div>
@@ -27,6 +29,10 @@ function Dashboard() {
 
         <MiniBox />
         <MiniAnalysis />
+
+
+        <EmploymentRateBox />
+        <CourseTrendsBox />
     </section>
   )
 }
