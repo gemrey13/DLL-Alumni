@@ -8,6 +8,7 @@ import trace_icon from '../../images/trace_icon.png'
 import settings_icon from '../../images/settings_icon.png'
 import Dashboard from './Dashboard'
 import RightBar from '../../components/admin/RightBar'
+import notif from '../../images/notif.png'
 
 
 function AdminPage() {
@@ -16,10 +17,19 @@ function AdminPage() {
     <div className="drawer lg:drawer-open">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content bg-slate-200">
-            <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
-            </label>
+            <header className='flex justify-between items-center p-4 lg:hidden'>
+                <label htmlFor="my-drawer-2" className="drawer-button">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+                </label>
+                
+                <h1 className='text-2xl text-purple-900 font-semibold block lg:hidden'>Dashboard</h1>
+
+                <button type='submit' className='w-6 right-2 top-2'>
+                    <img src={notif} alt="notif"/>
+                </button>
+            </header>
             {/* Page content here */}
+            
             <section className='lg:flex block'>
                 <Dashboard />
                 <RightBar />
