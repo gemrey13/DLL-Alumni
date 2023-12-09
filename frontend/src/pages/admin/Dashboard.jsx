@@ -3,8 +3,7 @@ import MiniBox from '../../components/admin/MiniBox'
 import MiniAnalysis from '../../components/admin/MiniAnalysis'
 import magnify from '../../images/magnify.png'
 import notif from '../../images/notif.png'
-import CourseTrendsBox from '../../components/admin/CourseTrendsBox'
-import EmploymentRateBox from '../../components/admin/EmploymentRateBox'
+
 
 function Dashboard() {
   return (
@@ -31,8 +30,6 @@ function Dashboard() {
         <MiniAnalysis />
 
 
-        <EmploymentRateBox />
-        <CourseTrendsBox />
     </section>
   )
 }
