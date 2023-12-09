@@ -3,13 +3,14 @@ import MiniBox from '../../components/admin/MiniBox'
 import MiniAnalysis from '../../components/admin/MiniAnalysis'
 import magnify from '../../images/magnify.png'
 import notif from '../../images/notif.png'
+import RecentHistory from '../../components/admin/RecentHistory'
 
 
 function Dashboard() {
   return (
-    <section className='w-full lg:w-[70%] px-8 pt-3 md:pt-9'>
+    <section className='w-full lg:w-[70%] px-8 pt-3 md:pt-9 min-h-screen'>
         <header className='flex lg:flex-row justify-between items-center'>
-            <div className='text-3xl text-purple-900 font-semibold hidden lg:block'>Dashboard</div>
+            <h2 className='text-3xl text-purple-900 font-semibold hidden lg:block'>Dashboard</h2>
 
             <section className='flex w-[100%] lg:w-[33%] justify-center lg:justify-between items-center'>
                 <div className='flex relative text-gray-600'>
@@ -27,8 +28,10 @@ function Dashboard() {
         </header>
 
         <MiniBox />
+
         <MiniAnalysis />
 
+        <RecentHistory />
 
     </section>
   )
