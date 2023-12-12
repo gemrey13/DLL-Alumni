@@ -3,9 +3,9 @@ import React from 'react'
 function RecentHistory() {
   return (
     <>
-    <div className='flex justify-between items-center mb-3 mt-4'>
+    <div className='flex justify-between items-end mb-3 mt-4'>
         <h2 className='text-2xl text-purple-900 font-semibold '>Recent History</h2>
-        <p className='text-sm text-purple-900 font-semibold btn btn-ghost btn-sm'><a>SEE ALL</a></p>
+        <p className='text-sm text-purple-900 font-semibold btn btn-ghost btn-xs'><a>SEE ALL</a></p>
     </div>
 
 

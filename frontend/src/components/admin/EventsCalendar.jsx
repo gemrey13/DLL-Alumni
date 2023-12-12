@@ -9,15 +9,15 @@ function EventsCalendar() {
         changeDate(val)
     }
     return (
-        <div>EventsCalendar
+        <div className="mt-10">
             <Calendar
             onChange = {changeValue}
             value = {date}
             minDate = {new Date(2022, 8, 21)} // To set minimum date
             maxDate = {new Date(2025, 12, 22)} // To set maximum date
-            showWeekNumbers = {true} // TO show week numbers
+            // showWeekNumbers = {true} // TO show week numbers
             showNeighboringMonth = {true} 
-            calendarType = "US" // Changing the calender type
+            calendarType = "gregory" // Changing the calender type
             tileDisabled = {({ date }) => date.getDay() === 0} // Disabaling the sunday
          />
         </div>

@@ -1,4 +1,7 @@
 import React from 'react'
+import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
+
+
 import icon_alumni from '../../images/icon-alumni.png'
 import me from '../../images/me.png'
 import importdata_icon from '../../images/importdata_icon.png'
@@ -9,9 +12,12 @@ import settings_icon from '../../images/settings_icon.png'
 import Dashboard from './Dashboard'
 import RightBar from '../../components/admin/RightBar'
 import notif from '../../images/notif.png'
+import TraceAlumni from './TraceAlumni';
+
 
 
 function AdminPage() {
+
   return (
     <>
     <div className="drawer lg:drawer-open">
@@ -31,8 +37,14 @@ function AdminPage() {
             {/* Page content here */}
             
             <section className='lg:flex block'>
-                <Dashboard />
-                <RightBar />
+            <Routes>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/trace-alumni" element={<TraceAlumni />} />
+              {/* Add more routes for other components/pages */}
+            </Routes>
+
+            <RightBar />
+                
             </section>
         </div> 
 
@@ -50,8 +62,8 @@ function AdminPage() {
                 </div>
                 {/* Sidebar content here */}
                 <div className='text-base'>
-                    <li><a className='font-semibold text-purple-800 text-xl'><img src={dashboard_icon} alt="dashboard_icon" className='w-6 mr-3'/>Dashboard</a></li>
-                    <li><a className='text-xl text-slate-600'><img src={trace_icon} alt="dashboard_icon" className='w-6 mr-3'/>Trace Alumni</a></li>
+                    <li><Link to="/dashboard" className='font-semibold text-purple-800 text-xl'><img src={dashboard_icon} alt="dashboard_icon" className='w-6 mr-3'/>Dashboard</Link></li>
+                    <li><Link to="/trace-alumni" className='text-xl text-slate-600'><img src={trace_icon} alt="dashboard_icon" className='w-6 mr-3'/>Trace Alumni</Link></li>
                     <li><a className='text-xl text-slate-600'><img src={visualization_icon} alt="dashboard_icon" className='w-6 mr-3'/>Visualization</a></li>
                     <li><a className='text-xl text-slate-600'><img src={importdata_icon} alt="dashboard_icon" className='w-6 mr-3'/>Import Data</a></li>
                     <li><a className='text-xl text-slate-600'><img src={settings_icon} alt="dashboard_icon" className='w-6 mr-3'/>Settings</a></li>

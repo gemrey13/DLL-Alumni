@@ -1,5 +1,6 @@
 import React from 'react'
 import EventsCalendar from './EventsCalendar'
+import Activities from './Activities'
 
 function RightBar() {
   return (
@@ -7,6 +8,7 @@ function RightBar() {
         <h2 className='text-3xl text-purple-900 font-semibold hidden lg:block'>Events</h2>
 
         <EventsCalendar />
+        <Activities />
         
     </aside>
   )
