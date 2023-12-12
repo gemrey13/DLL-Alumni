@@ -23,14 +23,15 @@ function App() {
                             <PrivateRoute>
                                 <HomePage/>
                             </PrivateRoute>} /> */}
-                        <Route path="/login" element={<LoginPage/>}/>
-                        <Route exact path="/"  element={<LandingPage/>}/>
-                        
-                        
+                        <Route path="/login" element={<LoginPage />} />
+                        <Route exact path="/" element={<LandingPage />} />
                     </Routes>
                 </AuthProvider>
+
+            </Router>
+            <Router basename='/admin'>
                 <AdminPage />
-            </Router>   
+            </Router>
         </div>
     );
 }
