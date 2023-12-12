@@ -32,34 +32,34 @@ function SidebarLinks() {
           </Link>
         </li>
         <li>
-          <a className="text-xl text-slate-600">
+          <Link to="/analysis" className="text-xl text-slate-600">
             <img
               src={visualization_icon}
               alt="dashboard_icon"
               className="w-6 mr-3"
             />
             Visualization
-          </a>
+          </Link>
         </li>
         <li>
-          <a className="text-xl text-slate-600">
+          <Link to="/import-data" className="text-xl text-slate-600">
             <img
               src={importdata_icon}
               alt="dashboard_icon"
               className="w-6 mr-3"
             />
             Import Data
-          </a>
+          </Link>
         </li>
         <li>
-          <a className="text-xl text-slate-600">
+          <Link to="/settings" className="text-xl text-slate-600">
             <img
               src={settings_icon}
               alt="dashboard_icon"
               className="w-6 mr-3"
             />
             Settings
-          </a>
+          </Link>
         </li>
       </div>
     </>
