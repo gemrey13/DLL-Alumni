@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, Link, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import icon_alumni from "../../images/icon-alumni.png";
 import me from "../../images/me.png";
@@ -8,6 +8,9 @@ import Dashboard from "./Dashboard";
 import RightBar from "../../components/admin/RightBar";
 import notif from "../../images/notif.png";
 import TraceAlumni from "./TraceAlumni";
+import Visualization from "./Visualization";
+import ImportData from "./ImportData";
+import Settings from "./Settings";
 import SidebarLinks from "../../components/admin/SidebarLinks";
 
 function AdminPage() {
@@ -46,9 +49,11 @@ function AdminPage() {
 
           <section className="lg:flex block">
             <Routes>
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/trace-alumni" element={<TraceAlumni />} />
-              {/* Add more routes for other components/pages */}
+              <Route exact path="/dashboard" element={<Dashboard />} />
+              <Route exact path="/trace-alumni" element={<TraceAlumni />} />
+              <Route exact path="/visualization" element={<Visualization />} />
+              <Route exact path="/import-data" element={<ImportData />} />
+              <Route exact path="/settings" element={<Settings />} />
             </Routes>
 
             <RightBar />

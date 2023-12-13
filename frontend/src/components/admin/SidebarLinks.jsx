@@ -14,7 +14,7 @@ function SidebarLinks() {
       <div className="text-base">
         <li>
           <Link
-            to="/dashboard"
+            to="/admin/dashboard"
             className="font-semibold text-purple-800 text-xl"
           >
             <img
@@ -26,13 +26,13 @@ function SidebarLinks() {
           </Link>
         </li>
         <li>
-          <Link to="/trace-alumni" className="text-xl text-slate-600">
+          <Link to="/admin/trace-alumni" className="text-xl text-slate-600">
             <img src={trace_icon} alt="dashboard_icon" className="w-6 mr-3" />
             Trace Alumni
           </Link>
         </li>
         <li>
-          <Link to="/analysis" className="text-xl text-slate-600">
+          <Link to="/admin/visualization" className="text-xl text-slate-600">
             <img
               src={visualization_icon}
               alt="dashboard_icon"
@@ -42,7 +42,7 @@ function SidebarLinks() {
           </Link>
         </li>
         <li>
-          <Link to="/import-data" className="text-xl text-slate-600">
+          <Link to="/admin/import-data" className="text-xl text-slate-600">
             <img
               src={importdata_icon}
               alt="dashboard_icon"
@@ -52,7 +52,7 @@ function SidebarLinks() {
           </Link>
         </li>
         <li>
-          <Link to="/settings" className="text-xl text-slate-600">
+          <Link to="/admin/settings" className="text-xl text-slate-600">
             <img
               src={settings_icon}
               alt="dashboard_icon"
