@@ -1,5 +1,6 @@
 import React from 'react'
 import icon_alumni from '../../images/icon-alumni.png'
+import LoginModal from '../landing/LoginModal'
 
 function Navbar() {
   return (
@@ -26,7 +27,9 @@ function Navbar() {
                     <li className="px-3"><a>News and Update</a></li>
                 </ul>
             </div>
-            <a className="btn bg-[#FFC700] btn-sm">Login</a>
+            {/* <a className="">Login</a> */}
+            <button className="btn bg-[#FFC700] btn-sm" onClick={()=>document.getElementById('my_modal_3').showModal()}>Login</button>
+            <LoginModal/>
         </div>
     </div>
   )

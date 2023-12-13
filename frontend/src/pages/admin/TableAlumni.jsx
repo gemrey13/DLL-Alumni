@@ -9,8 +9,8 @@ function TableAlumni() {
             <th></th>
             <th>Name</th>
             <th>Job</th>
-            <th>company</th>
-            <th>location</th>
+            <th>Company</th>
+            <th>Location</th>
             <th>Last Login</th>
             <th>Favorite Color</th>
           </tr>
