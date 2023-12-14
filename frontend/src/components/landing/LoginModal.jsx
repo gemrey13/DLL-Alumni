@@ -1,9 +1,12 @@
-import React from 'react'
+import React, {useContext} from 'react'
+import AuthContext from '../../context/AuthContext'
+
 
 function LoginModal() {
+  let {loginUser} = useContext(AuthContext)
+
   return (
     <>
-      {/* You can open the modal using document.getElementById('ID').showModal() method */}
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box p-8">
           <form method="dialog">
@@ -14,7 +17,7 @@ function LoginModal() {
           </div>
 
           <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-            <form className="space-y-6" action="#" method="POST">
+            <form className="space-y-6" onSubmit={loginUser}>
               <div>
                 <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">Username</label>
                 <div className="mt-2">
