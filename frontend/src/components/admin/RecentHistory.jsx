@@ -10,7 +10,7 @@ function RecentHistory() {
 
 
       <div className="overflow-x-auto">
-        <table className="table table-xs lg:table-md table-pin-rows table-pin-cols text-neutral-500 text-base">
+        <table className="table text-neutral-500 text-base">
           <thead>
             <tr>
               <th></th>

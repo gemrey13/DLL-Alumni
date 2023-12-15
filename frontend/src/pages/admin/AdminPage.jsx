@@ -47,7 +47,7 @@ function AdminPage() {
           </header>
           {/* Page content here */}
 
-          <section className="lg:flex block">
+          <section className="lg:flex block w-[100%]">
             <Routes>
               <Route exact path="/dashboard" element={<Dashboard />} />
               <Route exact path="/trace-alumni" element={<TraceAlumni />} />
@@ -56,7 +56,6 @@ function AdminPage() {
               <Route exact path="/settings" element={<Settings />} />
             </Routes>
 
-            <RightBar />
           </section>
         </div>
 

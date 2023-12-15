@@ -8,7 +8,7 @@ import RecentHistory from '../../components/admin/RecentHistory'
 
 function Dashboard() {
   return (
-    <section className='w-full lg:w-[70%] px-8 pt-3 md:pt-9 min-h-screen'>
+    <section className='w-[100%] px-8 pt-3 md:pt-9 min-h-screen'>
       <header className='flex lg:flex-row justify-between items-center'>
         <h2 className='text-3xl text-purple-900 font-semibold hidden lg:block'>Dashboard</h2>
 
