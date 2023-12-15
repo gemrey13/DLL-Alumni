@@ -2,7 +2,7 @@ import React from 'react'
 
 function EmploymentRateBox() {
   return (
-    <div className=" h-36 bg-white rounded-2xl shadow flex items-center mb-6 px-5 py-2">
+    <div className="h-36 bg-white rounded-2xl shadow flex items-center mb-6 px-5 py-2">
 
             <aside className='w-[60%]'>
                 <h3 className='text-xl font-semibold text-purple-900 pb-1'>Employment Rate Box</h3>

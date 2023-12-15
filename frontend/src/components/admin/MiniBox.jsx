@@ -8,7 +8,7 @@ function MiniBox() {
   return (
     <div className='flex w-[100%] flex-col lg:flex-row justify-between my-10'>
 
-        <div className="w-56 h-16 flex px-6 py-2 justify-between items-center bg-gradient-to-r from-indigo-600 via-indigo-700 to-indigo-500 rounded-2xl shadow" >
+        <div className="w-[100%] lg:w-56 h-16 flex px-6 py-2 mb-3 lg:mb-0 justify-between items-center bg-gradient-to-r from-indigo-600 via-indigo-700 to-indigo-500 rounded-2xl shadow" >
             <section>
                 <h2 className='text-white text-xl font-semibold'>Alumni</h2>
                 <p className='text-slate-200'>8,054</p>
@@ -18,7 +18,7 @@ function MiniBox() {
             </div>
         </div>
 
-        <div className="w-56 h-16 flex px-6 py-2 justify-between items-center bg-gradient-to-r from-indigo-600 via-indigo-700 to-indigo-500 rounded-2xl shadow" >
+        <div className="w-[100%] lg:w-56 h-16 flex px-6 py-2 mb-3 lg:mb-0  justify-between items-center bg-gradient-to-r from-indigo-600 via-indigo-700 to-indigo-500 rounded-2xl shadow" >
             <section>
                 <h2 className='text-white text-xl font-semibold'>Total Alumni</h2>
                 <p className='text-slate-200'>10,256</p>
@@ -28,7 +28,7 @@ function MiniBox() {
             </div>
         </div>
         
-        <div className="w-56 h-16 flex px-6 py-2 justify-between items-center bg-gradient-to-r from-indigo-600 via-indigo-700 to-indigo-500 rounded-2xl shadow" >
+        <div className="w-[100%] lg:w-56 h-16 flex px-6 py-2 mb-3 lg:mb-0  justify-between items-center bg-gradient-to-r from-indigo-600 via-indigo-700 to-indigo-500 rounded-2xl shadow" >
             <section>
                 <h2 className='text-white text-xl font-semibold'>Employed</h2>
                 <p className='text-slate-200'>7,956</p>
