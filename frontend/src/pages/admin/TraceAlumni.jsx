@@ -1,7 +1,7 @@
 import React from 'react'
 import Filtering from '../../components/admin/Filtering'
 import filter_img from '../../images/filter.svg'
-import TableAlumni from './TableAlumni'
+import TableAlumni from '../../components/admin/TableAlumni'
 
 function TraceAlumni() {
   return (
