@@ -1,6 +1,8 @@
 import React from 'react'
 import icon_alumni from '../../images/icon-alumni.png'
 import LoginModal from '../landing/LoginModal'
+import { NavLink } from 'react-router-dom';
+
 
 function Navbar() {
 
@@ -17,19 +19,22 @@ function Navbar() {
             <li><a>News and Update</a></li>
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl text-white"> <img src={icon_alumni} alt='Icon Alumni' className='hidden md:block' />DLL Alumni Association</a>
+        <a className="btn btn-ghost text-xl text-white hidden md:block"> <img src={icon_alumni} alt='Icon Alumni' className='hidden md:inline mr-2' />DLL Alumni Association</a>
       </div>
 
       <div className="navbar-end">
         <div className="hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 mr-8">
-            <li className="px-3"><a>Home</a></li>
-            <li className="px-3"><a>About</a></li>
-            <li className="px-3"><a>News and Update</a></li>
+          <ul className="menu menu-horizontal px-1 mr-6">
+            <li className="px-2"><a>Home</a></li>
+            <li className="px-2"><a>About</a></li>
+            <li className="px-2"><a>News and Update</a></li>
           </ul>
         </div>
-        <button className="btn bg-[#FFC700] btn-sm" onClick={() => document.getElementById('my_modal_3').showModal()}>Login</button>
-        <LoginModal />
+        {/* <button className="btn bg-[#FFC700] btn-sm" onClick={() => document.getElementById('my_modal_3').showModal()}>Login</button>
+        <LoginModal /> */}
+        <NavLink to='/auth/signin' className="btn bg-[#FFC700] btn-sm" >Login</NavLink>
+        <NavLink to='/auth/signup' className="btn btn-ghost btn-sm text-white">Register</NavLink>
+
       </div>
     </div>
   )

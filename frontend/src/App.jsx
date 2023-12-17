@@ -6,7 +6,7 @@ import SignIn from './pages/admin/Authentication/SignIn';
 import SignUp from './pages/admin/Authentication/SignUp';
 import LandingPage from './pages/LandingPage'
 import Loader from './common/Loader';
-import routes from './routes/index';
+import routes from './routes/adminroutes';
 
 const DefaultLayout = lazy(() => import('./layout/DefaultLayout'));
 
