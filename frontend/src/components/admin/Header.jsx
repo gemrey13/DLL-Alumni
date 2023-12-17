@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import Logo from '../../images/admin/logo/logo-icon.svg';
+import icon_alumni from '../../images/icon-alumni.png'
 import DarkModeSwitcher from './DarkModeSwitcher';
 import DropdownMessage from './DropdownMessage';
 import DropdownNotification from './DropdownNotification';
@@ -28,8 +28,8 @@ const Header = props => {
           </button>
           {/* <!-- Hamburger Toggle BTN --> */}
 
-          <Link className="block flex-shrink-0 lg:hidden" to="/">
-            <img src={Logo} alt="Logo" />
+          <Link className="block flex-shrink-0 lg:hidden" to="/admin">
+            <img src={icon_alumni} alt="Logo" />
           </Link>
         </div>
 
