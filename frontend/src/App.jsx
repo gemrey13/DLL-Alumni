@@ -6,7 +6,8 @@ import SignIn from './pages/admin/Authentication/SignIn';
 import SignUp from './pages/admin/Authentication/SignUp';
 import LandingPage from './pages/LandingPage'
 import Loader from './common/Loader';
-import routes from './routes/adminroutes';
+import adminroutes from './routes/adminroutes';
+// import clientroutes from './routes/clientroutes';
 import { AuthProvider } from './context/AuthContext';
 import PrivateRoute from './utils/PrivateRoute';
 
@@ -30,16 +31,29 @@ function App() {
             <DefaultLayout />
           </PrivateRoute>}>
             <Route index element={<Dashboard />} />
-            {routes.map((routes, index) => {
+            {adminroutes.map((adminroutes, index) => {
               const {
                 path,
                 component: Component
-              } = routes;
+              } = adminroutes;
               return <Route key={index} path={path} element={<Suspense fallback={<Loader />}>
                 <Component />
               </Suspense>} />;
             })}
         </Route>
+
+        {/* <Route path="/c/" element={<DefaultLayout />}>
+            <Route index element={<Home />} />
+            {clientroutes.map((clientroutes, index) => {
+              const {
+                path,
+                component: Component
+              } = clientroutes;
+              return <Route key={index} path={path} element={<Suspense fallback={<Loader />}>
+                <Component />
+              </Suspense>} />;
+            })}
+        </Route> */}
 
         <Route path="/" element={<LandingPage />} />
       </Routes>

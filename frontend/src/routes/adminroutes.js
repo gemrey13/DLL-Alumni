@@ -47,5 +47,5 @@ const coreRoutes = [{
   title: 'Buttons',
   component: Buttons
 }];
-const routes = [...coreRoutes];
-export default routes;
+const adminroutes = [...coreRoutes];
+export default adminroutes;
