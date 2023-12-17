@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import UserOne from '../../images/admin/user/user-01.png';
+import Me from '../../images/me.png'
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -41,7 +42,7 @@ const DropdownUser = () => {
         </span>
 
         <span className="h-12 w-12 rounded-full">
-          <img src={UserOne} alt="User" />
+          <img src={Me} alt="User" className='rounded-full h-12 w-12'/>
         </span>
 
         <svg className={`hidden fill-current sm:block ${dropdownOpen ? 'rotate-180' : ''}`} width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
