@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import LogoDark from '../../../images/admin/logo/logo-dark.svg';
-import Logo from '../../../images/admin/logo/logo.svg';
+import icon_alumni from '../../../images/icon-alumni.png'
+
 
 const SignUp = () => {
   return <>
@@ -9,8 +9,10 @@ const SignUp = () => {
           <div className="hidden w-full xl:block xl:w-1/2">
             <div className="py-17.5 px-26 text-center">
               <Link className="mb-5.5 inline-block" to="/">
-                <img className="hidden dark:block" src={Logo} alt="Logo" />
-                <img className="dark:hidden" src={LogoDark} alt="Logo" />
+                <div className='flex justify-center items-center'>
+                  <img src={icon_alumni} alt="Logo" />
+                  <h1 className='text-xl text-gray-800 font-bold'>DLL Alumni Association</h1>
+                </div>
               </Link>
               <p className="2xl:px-20">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit
@@ -54,9 +56,9 @@ const SignUp = () => {
 
           <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
-              <span className="mb-1.5 block font-medium">Start for free</span>
+              <span className="mb-1.5 block font-medium">Start Now!</span>
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-                Sign Up to TailAdmin
+                Sign Up to DLL Alumni Association
               </h2>
 
               <form>
@@ -135,7 +137,7 @@ const SignUp = () => {
                   <input type="submit" value="Create account" className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90" />
                 </div>
 
-                <button className="flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50">
+                <button className="btn-disabled flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50">
                   <span>
                     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <g clipPath="url(#clip0_191_13499)">
