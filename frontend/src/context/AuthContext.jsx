@@ -31,7 +31,7 @@ export const AuthProvider = ({children}) => {
             localStorage.setItem('authTokens', JSON.stringify(data));
             setAuthTokens(data)
             setUser(jwtDecode(data.access))
-            navigate('/')
+            navigate('/admin')
         } else {
             alert('Something went wrong while loggin in the user!')
         }
