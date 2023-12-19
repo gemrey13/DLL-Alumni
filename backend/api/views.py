@@ -22,7 +22,6 @@ from .models import (
     Course,
     CurrentJob,
     PreviousJob,
-    CustomUser
 )
 
 class AlumniProfilesView(APIView):

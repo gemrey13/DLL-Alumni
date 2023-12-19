@@ -1,92 +1,19 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, Group, Permission
-
-class CustomUserManager(BaseUserManager):
-
-    use_in_migrations = True
-
-    def create_user(self, email, password=None, **extra_fields):
-
-        if not email:
-            raise ValueError('The Email field must be set')
-        
-        email = self.normalize_email(email)
-        user = self.model(email=email, **extra_fields)
-        user.set_password(password)
-        user.save(using=self._db)
-        return user
-
-    def create_superuser(self, email, password=None, **extra_fields):
-        extra_fields.setdefault('is_staff', True)
-        extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('is_admin', True)
-        return self.create_user(email, password, **extra_fields)
-
-class CustomUser(AbstractBaseUser, PermissionsMixin):
-    email = models.EmailField(unique=True)
-    is_active = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=False)
-    is_admin = models.BooleanField(default=False)
-    groups = models.ManyToManyField(Group, blank=True, related_name='customuser_set')
-    user_permissions = models.ManyToManyField(Permission, blank=True, related_name='customuser_set')
-
-    objects = CustomUserManager()
-
-    USERNAME_FIELD = 'email'
-    EMAIL_FIELD = 'email'
-    REQUIRED_FIELDS = []
-
-    def __str__(self):
-        return self.email
-
-class Country(models.Model):
-    country_name = models.CharField(max_length=64)
-
-    def __str__(self):
-        return self.country_name.title()
-
-class Region(models.Model):
-    region_name = models.CharField(max_length=64)
-    country = models.ForeignKey(Country, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.region_name.title()
-
-class Province(models.Model):
-    province_name = models.CharField(max_length=64)
-    region = models.ForeignKey(Region, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.province_name.title()
-
-class City(models.Model):
-    city_name = models.CharField(max_length=64)
-    province = models.ForeignKey(Province, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.city_name.title()
-
-class Barangay(models.Model):
-    barangay_name = models.CharField(max_length=64)
-    city = models.ForeignKey(City, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.barangay_name.title()
+from django.contrib.auth.models import User
 
 class Address(models.Model):
-    country = models.ForeignKey(Country, on_delete=models.CASCADE)
-    region = models.ForeignKey(Region, on_delete=models.CASCADE)
-    province = models.ForeignKey(Province, on_delete=models.CASCADE)
-    city = models.ForeignKey(City, on_delete=models.CASCADE)
-    barangay = models.ForeignKey(Barangay, on_delete=models.CASCADE)
-    street = models.CharField(max_length=100, blank=True, null=True)
-    zip_code = models.CharField(max_length=10)
+    country = models.CharField(max_length=80)
+    region = models.CharField(max_length=80, blank=True)
+    province = models.CharField(max_length=80, blank=True)
+    city = models.CharField(max_length=80, blank=True)
+    barangay = models.CharField(max_length=80, blank=True)
+    zip_code = models.CharField(max_length=10, blank=True)
 
     def __str__(self):
-        return f'{self.country}, {self.region}, {self.province}, {self.city}'
+        return f'{self.country.title()}, {self.region.title()}, {self.province.title()}, {self.city.title()}, {self.barangay.title()}'
     
 class AlumniProfile(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, blank=True, null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
     alumni_id = models.CharField(primary_key=True, max_length=6)
     course = models.ForeignKey('Course', on_delete=models.CASCADE)
     fname = models.CharField(max_length=64)
@@ -136,7 +63,7 @@ class Course(models.Model):
     no_units = models.IntegerField()
 
     def __str__(self):
-        return self.course_id
+        return f'{self.curriculum} | {self.course_id}'
     
     @property
     def alumni_count(self):

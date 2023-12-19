@@ -7,14 +7,8 @@ from .models import (
     CurrentJob,
     PreviousJob,
     Address,
-    Country,
-    Region,
-    Province,
-    City,
-    Barangay,
     Affiliation,
     Certification,
-    CustomUser
 )
 
 class AlumniProfileAdmin(admin.ModelAdmin):
@@ -30,11 +24,5 @@ admin.site.register(Course)
 admin.site.register(CurrentJob)
 admin.site.register(PreviousJob)
 admin.site.register(Address, AddressAdmin)
-admin.site.register(Country)
-admin.site.register(Region)
-admin.site.register(Province)
-admin.site.register(City)
-admin.site.register(Barangay)
 admin.site.register(Affiliation)
 admin.site.register(Certification)
-admin.site.register(CustomUser)
