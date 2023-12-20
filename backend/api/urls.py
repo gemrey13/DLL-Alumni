@@ -8,6 +8,7 @@ from .views import (
     CurrentCoursesView,
 
     JWTView,
+    CustomTokenObtainPairView
 )
 
 from rest_framework_simplejwt.views import (
@@ -25,6 +26,6 @@ urlpatterns = [
     path('curriculum/', CurriculumView.as_view()),
 
     path('routes/', JWTView.as_view()),
-    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

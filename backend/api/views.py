@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-
+from rest_framework_simplejwt.views import TokenObtainPairView
 from django.shortcuts import render
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -13,7 +13,8 @@ from .serializers import (
     CurrentJobSerializer,
     PreviousJobSerializer,
     GetProfileSerializer,
-    CourseWithCurriculumSerializer
+    CourseWithCurriculumSerializer,
+    CustomTokenObtainPairSerializer
 )
 from .models import (
     AlumniProfile,
@@ -74,3 +75,6 @@ class JWTView(APIView):
             '/api/token/refresh'
         ]
         return Response(routes)
+    
+class CustomTokenObtainPairView(TokenObtainPairView):
+    serializer_class = CustomTokenObtainPairSerializer
