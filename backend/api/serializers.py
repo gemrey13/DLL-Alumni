@@ -31,6 +31,8 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             alumni_profile = AlumniProfile.objects.get(user=user)
             userInfo = {
                 'alumni_id': alumni_profile.alumni_id,
+                'email': user.email,
+                'username': user.username,
                 'fname': alumni_profile.fname,
                 'lname': alumni_profile.lname,
                 'mi': alumni_profile.mi,
