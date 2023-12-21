@@ -2,6 +2,7 @@ import { createContext, useState, useEffect } from 'react'
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
+import baseURL from '@/apiConfig'
 
 const AuthContext = createContext()
 
@@ -18,25 +19,30 @@ export const AuthProvider = ({children}) => {
 
     let loginUser = async (e) => {
         e.preventDefault()
-        const response = await fetch('http://127.0.0.1:8000/api/token/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({username: e.target.username.value, password: e.target.password.value })
-        });
+        try {
+            const response = await axios.post(`${baseURL}/api/token/`, {
+                username: e.target.username.value,
+                password: e.target.password.value,
+            },{
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
 
-        let data = await response.json();
+            const data = response.data;
 
-        if(data){
-            localStorage.setItem('authTokens', JSON.stringify(data));
-            setAuthTokens(data)
-            setUser(jwtDecode(data.access))
-            navigate('/admin')
-        } else {
-            alert('Something went wrong while loggin in the user!')
+            if(data){
+                localStorage.setItem('authTokens', JSON.stringify(data));
+                setAuthTokens(data)
+                setUser(jwtDecode(data.access))
+                navigate('/admin')
+            } else {
+                alert('Something went wrong while loggin in the user!')
+            }
+        } catch (error) {
+            console.error(error)
         }
-    }
+    };
 
     let logoutUser = (e) => {
         e.preventDefault()
@@ -44,11 +50,11 @@ export const AuthProvider = ({children}) => {
         setAuthTokens(null)
         setUser(null)
         navigate('/')
-    }
+    };
 
     const updateToken = async () => {
         try {
-            const response = await axios.post('http://127.0.0.1:8000/api/token/refresh/', {
+            const response = await axios.post(`${baseURL}/api/token/refresh/`, {
                 refresh: authTokens?.refresh,
             }, {
                 headers: {
@@ -71,11 +77,8 @@ export const AuthProvider = ({children}) => {
             }
         } catch (error) {
             console.error('Token refresh failed', error);
-        
-            // Handle the error as needed
-            // Example: history.push('/login');
-            // or logoutUser();
-            }
+            logoutUser();
+        }
     };
       
     useEffect(() => {
@@ -99,7 +102,7 @@ export const AuthProvider = ({children}) => {
         authTokens: authTokens,
         loginUser: loginUser,
         logoutUser: logoutUser,
-    }
+    };
 
 
     return(
