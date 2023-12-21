@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework import status
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import (
     AlumniProfile,
@@ -28,26 +29,26 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         user = self.user
         try:
             alumni_profile = AlumniProfile.objects.get(user=user)
-
-            # Add AlumniProfile fields to the token payload
-            data['alumni_id'] = alumni_profile.alumni_id
-            data['fname'] = alumni_profile.fname
-            data['lname'] = alumni_profile.lname
-            data['mi'] = alumni_profile.mi
-            data['suffix'] = alumni_profile.suffix
-            data['sex'] = alumni_profile.sex
-            data['contact_number'] = alumni_profile.contact_number
-            data['religion'] = alumni_profile.religion
-            data['marital_status'] = alumni_profile.marital_status
-            data['date_of_birth'] = alumni_profile.date_of_birth
-            data['facebook_account_name'] = alumni_profile.facebook_account_name
-            data['address'] = alumni_profile.address.country
-            data['region'] = alumni_profile.address.region
-            data['province'] = alumni_profile.address.province
-            data['city'] = alumni_profile.address.city
-            data['barangay'] = alumni_profile.address.barangay
-            data['zip_code'] = alumni_profile.address.zip_code
-
+            userInfo = {
+                'alumni_id': alumni_profile.alumni_id,
+                'fname': alumni_profile.fname,
+                'lname': alumni_profile.lname,
+                'mi': alumni_profile.mi,
+                'suffix': alumni_profile.suffix,
+                'sex': alumni_profile.sex,
+                'contact_number': alumni_profile.contact_number,
+                'religion': alumni_profile.religion,
+                'marital_status': alumni_profile.marital_status,
+                'date_of_birth': alumni_profile.date_of_birth,
+                'facebook_account_name': alumni_profile.facebook_account_name,
+                'address': alumni_profile.address.country,
+                'region': alumni_profile.address.region,
+                'province': alumni_profile.address.province,
+                'city': alumni_profile.address.city,
+                'barangay': alumni_profile.address.barangay,
+                'zip_code': alumni_profile.address.zip_code
+            }
+            data['userInfo'] = userInfo
             return data
         
         except AlumniProfile.DoesNotExist as E:

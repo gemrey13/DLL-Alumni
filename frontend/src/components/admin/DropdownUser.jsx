@@ -5,8 +5,8 @@ import UserOne from '../../images/admin/user/user-01.png';
 import Me from '../../images/me.png'
 
 const DropdownUser = () => {
-  let {logoutUser} = useContext(AuthContext)
-
+  let { logoutUser, userInfo } = useContext(AuthContext)
+  
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const trigger = useRef(null);
   const dropdown = useRef(null);
@@ -24,7 +24,6 @@ const DropdownUser = () => {
     return () => document.removeEventListener('click', clickHandler);
   });
 
-  // close if the esc key is pressed
   useEffect(() => {
     const keyHandler = ({
       keyCode
@@ -35,11 +34,12 @@ const DropdownUser = () => {
     document.addEventListener('keydown', keyHandler);
     return () => document.removeEventListener('keydown', keyHandler);
   });
+  
   return <div className="relative">
       <Link ref={trigger} onClick={() => setDropdownOpen(!dropdownOpen)} className="flex items-center gap-4" to="#">
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
+            {userInfo?.fname} {userInfo?.lname}
           </span>
           <span className="block text-xs">UX Designer</span>
         </span>

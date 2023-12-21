@@ -11,6 +11,7 @@ export const AuthProvider = ({children}) => {
 
     let [user, setUser] = useState(() => (localStorage.getItem('authTokens') ? jwtDecode(localStorage.getItem('authTokens')) : null))
     let [authTokens, setAuthTokens] = useState(() => (localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null))
+    let [userInfo, setUserInfo] = useState(authTokens?.userInfo || null)
     let [loading, setLoading] = useState(true)
 
     const navigate = useNavigate()
@@ -78,6 +79,8 @@ export const AuthProvider = ({children}) => {
     };
       
     useEffect(() => {
+        setUserInfo(authTokens?.userInfo || null);
+
         const REFRESH_INTERVAL = 1000 * 60 * 4; // 4 minutes
         let interval = setInterval(() => {
           if (authTokens) {
@@ -86,15 +89,18 @@ export const AuthProvider = ({children}) => {
         }, REFRESH_INTERVAL);
       
         return () => clearInterval(interval);
+
       }, [authTokens]);
 
 
     let contextData = {
         user: user,
+        userInfo: userInfo,
         authTokens: authTokens,
         loginUser: loginUser,
         logoutUser: logoutUser,
     }
+
 
     return(
         <AuthContext.Provider value={contextData}>
