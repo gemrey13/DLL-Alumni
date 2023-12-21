@@ -1,9 +1,12 @@
 import Breadcrumb from '../../components/admin/Breadcrumb';
 import userThree from '../../images/admin/user/user-03.png';
 import fireToast from '../../hooks/fireToast';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import AuthContext from '../../context/AuthContext'
 
 const Settings = () => {
+  let { userInfo } = useContext(AuthContext)
+
   const [modalOpen, setModalOpen] = useState(false);
   const [rows, setRows] = useState(localStorage.getItem("alertSettings") ? JSON.parse(localStorage.getItem("alertSettings")) : []);
   useEffect(() => {
@@ -53,7 +56,7 @@ const Settings = () => {
                             </g>
                           </svg>
                         </span>
-                        <input className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary" type="text" name="fullName" id="fullName" placeholder="Devid Jhon" defaultValue="Devid Jhon" />
+                        <input className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary" type="text" name="fullName" id="fullName" placeholder="Devid Jhon" defaultValue={`${userInfo?.fname} ${userInfo?.lname}`} />
                       </div>
                     </div>
 
@@ -61,7 +64,7 @@ const Settings = () => {
                       <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="phoneNumber">
                         Phone Number
                       </label>
-                      <input className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary" type="text" name="phoneNumber" id="phoneNumber" placeholder="+990 3343 7865" defaultValue="+990 3343 7865" />
+                      <input className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary" type="text" name="phoneNumber" id="phoneNumber" placeholder="+990 3343 7865" defaultValue={`${userInfo?.contact_number}`} />
                     </div>
                   </div>
 
