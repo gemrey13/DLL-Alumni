@@ -4,16 +4,31 @@ import baseURL from '@/apiConfig'
 
 const TableAlumni = () => {
     const [alumniData, setAlumniData] = useState([]);
+    const [nextPage, setNextPage] = useState(null);
 
     useEffect(() => {
-        axios.get(`${baseURL}/api/table-alumni`)
-        .then(res => {
-            setAlumniData(res.data.results);
-        })
-        .catch(err => {
-            console.error('Error fetching alumni data:', err);
-        });
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`${baseURL}/api/table-alumni`)
+                setAlumniData(response.data.results);
+                setNextPage(response.data.next);
+            } catch (err) {
+                console.error('Error fetching alumni data:', err);
+            }
+        };
+
+        fetchData();
     }, []);
+
+    const loadMoreData = async () => {
+        try {
+            const response = await axios.get(nextPage);
+            setAlumniData([...alumniData, ...response.data.results]);
+            setNextPage(response.data.next);
+        } catch (err) {
+            console.error('Error fetching alumni data:', err);
+        }
+    };
 
     return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">    
@@ -84,10 +99,23 @@ const TableAlumni = () => {
                         </td>
                     </tr>
                 ))}
+
+
             </tbody>
           </table>
         </div>
-      </div>
+
+        {nextPage && (
+        <div className="flex justify-center mt-4">
+            <button
+                onClick={loadMoreData}
+                className="px-4 py-2 font-medium text-white bg-primary rounded-md hover:bg-primary-dark"
+            >
+                Load More
+            </button>
+            </div>
+        )}
+    </div>
   )};
 
 export default TableAlumni;
