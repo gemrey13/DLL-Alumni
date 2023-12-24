@@ -1,71 +1,67 @@
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
 from rest_framework import status
 from rest_framework_simplejwt.views import TokenObtainPairView
 from django.shortcuts import render
-from django.core.exceptions import ObjectDoesNotExist
 
 from .serializers import (
-    AlumniProfileSerializer,
-    GraduateInformationSerializer,
-    CurriculumSerializer,
-    CourseSerializer,
-    CurrentJobSerializer,
-    PreviousJobSerializer,
-    GetProfileSerializer,
-    CourseWithCurriculumSerializer,
-    CustomTokenObtainPairSerializer
+    CustomTokenObtainPairSerializer,
+    TableAlumniInformationSerializer
 )
 from .models import (
-    AlumniProfile,
     GraduateInformation,
-    Curriculum,
-    Course,
-    CurrentJob,
-    PreviousJob,
 )
+class TableAlumniPagination(PageNumberPagination):
+    page_size = 10
 
-class AlumniProfilesView(APIView):
-    def get(self, request):
-        profiles = AlumniProfile.objects.all()
-        serializer = AlumniProfileSerializer(profiles, many=True).data
-        return Response(data=serializer, status=status.HTTP_200_OK)
+class TableAlumniView(ListAPIView):
+    queryset = GraduateInformation.objects.order_by('graduation_date')
+    serializer_class = TableAlumniInformationSerializer
+    pagination_class = TableAlumniPagination
 
-class SingleProfileView(APIView):
-    def get(self, request, *args, **kwargs):
-        try:
-            user = AlumniProfile.objects.get(alumni_id=kwargs.get('alumni_id'))
-            serializer = GetProfileSerializer(user).data
-            return Response(data=serializer, status=status.HTTP_200_OK)
-        except ObjectDoesNotExist:  
-            return Response(data={'error': "No profile found"}, status=status.HTTP_404_NOT_FOUND)
+# class AlumniProfilesView(APIView):
+#     def get(self, request):
+#         profiles = AlumniProfile.objects.all()
+#         serializer = AlumniProfileSerializer(profiles, many=True).data
+#         return Response(data=serializer, status=status.HTTP_200_OK)
 
-class CurriculumView(APIView):
-    def get(self, request):
-        curriculum = Curriculum.objects.all()
-        serializer = CurriculumSerializer(curriculum, many=True).data
-        return Response(data=serializer, status=status.HTTP_200_OK)
+# class SingleProfileView(APIView):
+#     def get(self, request, *args, **kwargs):
+#         try:
+#             user = AlumniProfile.objects.get(alumni_id=kwargs.get('alumni_id'))
+#             serializer = GetProfileSerializer(user).data
+#             return Response(data=serializer, status=status.HTTP_200_OK)
+#         except ObjectDoesNotExist:  
+#             return Response(data={'error': "No profile found"}, status=status.HTTP_404_NOT_FOUND)
 
-class CourseView(APIView):
-    def get(self, request):
-        course = Course.objects.all()
-        serializer = CourseSerializer(course, many=True).data
-        return Response(data=serializer, status=status.HTTP_200_OK)
+# class CurriculumView(APIView):
+#     def get(self, request):
+#         curriculum = Curriculum.objects.all()
+#         serializer = CurriculumSerializer(curriculum, many=True).data
+#         return Response(data=serializer, status=status.HTTP_200_OK)
+
+# class CourseView(APIView):
+#     def get(self, request):
+#         course = Course.objects.all()
+#         serializer = CourseSerializer(course, many=True).data
+#         return Response(data=serializer, status=status.HTTP_200_OK)
     
-class CurrentCoursesView(APIView):
-    def get(self, request, *args, **kwargs):
-        try:
-            course = Course.objects.get(course_id=kwargs.get('course_id'))
-            serializer = CourseWithCurriculumSerializer(course).data
-            return Response(data=serializer, status=status.HTTP_200_OK)
-        except ObjectDoesNotExist:
-            return Response(data={'error': "No course found"}, status=status.HTTP_404_NOT_FOUND)
+# class CurrentCoursesView(APIView):
+#     def get(self, request, *args, **kwargs):
+#         try:
+#             course = Course.objects.get(course_id=kwargs.get('course_id'))
+#             serializer = CourseWithCurriculumSerializer(course).data
+#             return Response(data=serializer, status=status.HTTP_200_OK)
+#         except ObjectDoesNotExist:
+#             return Response(data={'error': "No course found"}, status=status.HTTP_404_NOT_FOUND)
 
-class GraduateInformationView(APIView):
-    def get(self, request):
-        info = GraduateInformation.objects.all()
-        serializer = GraduateInformationSerializer(info, many=True).data
-        return Response(data=serializer, status=status.HTTP_200_OK)
+# class GraduateInformationView(APIView):
+#     def get(self, request):
+#         info = GraduateInformation.objects.all()
+#         serializer = GraduateInformationSerializer(info, many=True).data
+#         return Response(data=serializer, status=status.HTTP_200_OK)
     
     
 class JWTView(APIView):

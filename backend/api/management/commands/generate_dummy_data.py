@@ -1,7 +1,7 @@
 import random
 from django.core.management.base import BaseCommand
 from faker import Faker
-from api.models import Address, AlumniProfile, Curriculum, Course
+from api.models import Address, AlumniProfile, Curriculum, Course, Certification, Affiliation, GraduateInformation
 from django.contrib.auth.models import User
 import json
 
@@ -97,7 +97,7 @@ class Command(BaseCommand):
                 email=f'{first_name}.{alumni_id}@gmail.com',
             )
 
-            AlumniProfile.objects.create(
+            alumni_profile = AlumniProfile.objects.create(
                 user=user,
                 alumni_id=alumni_id,
                 course=random.choice(courses_list),
@@ -112,6 +112,24 @@ class Command(BaseCommand):
                 date_of_birth=fake.date_of_birth(),
                 facebook_account_name=f'{first_name} {middle_name} {last_name}',
                 address=address,
+            )
+
+            certification = Certification.objects.create(
+                title=fake.word(),
+                date_of_certification=fake.date(),
+            )
+
+            affiliation = Affiliation.objects.create(
+                name_of_organization=fake.word(),
+                position=fake.word(),
+            )
+
+            graduate_info = GraduateInformation.objects.create(
+                alumni=alumni_profile,
+                graduation_date=fake.date(),
+                certification=certification,
+                affiliation=affiliation,
+                honor=fake.word(),
             )
 
             print(f'{i+1}/20')

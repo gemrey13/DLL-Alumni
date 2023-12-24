@@ -9,8 +9,13 @@ const Settings = lazy(() => import('../pages/admin/Settings'));
 const Tables = lazy(() => import('../pages/admin/Tables'));
 const Alerts = lazy(() => import('../pages/admin/UiElements/Alerts'));
 const Buttons = lazy(() => import('../pages/admin/UiElements/Buttons'));
+const TraceAlumni = lazy(() => import('../pages/admin/TraceAlumni'));
 
 const coreRoutes = [{
+  path: '/admin/trace-alumni',
+  title: 'TraceAlumni',
+  component: TraceAlumni
+}, {
   path: '/admin/calendar',
   title: 'Calender',
   component: Calendar

@@ -11,15 +11,37 @@ from .models import (
     Address
 )
 
+# serializers.py
 class AlumniProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = AlumniProfile
-        fields = '__all__'
+        fields = ['alumni_id', 'fname', 'lname', 'date_of_birth', 'course']
 
-class AddressSerializer(serializers.ModelSerializer):
+
+class TableAlumniInformationSerializer(serializers.ModelSerializer):
+    alumni_id = serializers.CharField(source='alumni.alumni_id')
+    course = serializers.CharField(source='alumni.course.course_name')
+    alumni_fname = serializers.CharField(source='alumni.fname')
+    alumni_lname = serializers.CharField(source='alumni.lname')
+    graduation_year = serializers.SerializerMethodField()
+
     class Meta:
-        model = Address
-        fields = '__all__'
+        model = GraduateInformation
+        fields = ['alumni_id', 'alumni_fname', 'alumni_lname', 'graduation_year', 'course']
+
+    def get_graduation_year(self, obj):
+        return obj.graduation_date.year
+
+
+# class AlumniProfileSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = AlumniProfile
+#         fields = '__all__'
+
+# class AddressSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Address
+#         fields = '__all__'
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     def validate(self, attrs):
@@ -59,49 +81,49 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             return f'An unexpected error occurred: {e}'
 
 
-class CourseSerializer(serializers.ModelSerializer):
-    alumni_count = serializers.SerializerMethodField()
+# class CourseSerializer(serializers.ModelSerializer):
+#     alumni_count = serializers.SerializerMethodField()
 
-    class Meta:
-        model = Course
-        fields = '__all__'
+#     class Meta:
+#         model = Course
+#         fields = '__all__'
 
-    def get_alumni_count(self, obj):
-        return obj.alumni_count
+#     def get_alumni_count(self, obj):
+#         return obj.alumni_count
 
 
         
-class GetProfileSerializer(serializers.ModelSerializer):
-    address = AddressSerializer()
+# class GetProfileSerializer(serializers.ModelSerializer):
+#     address = AddressSerializer()
 
-    class Meta:
-        model = AlumniProfile
-        fields = ['alumni_id', 'course', 'fname', 'lname', 'mi', 'suffix', 'sex', 'contact_number', 'religion', 'marital_status', 'date_of_birth', 'address']
+#     class Meta:
+#         model = AlumniProfile
+#         fields = ['alumni_id', 'course', 'fname', 'lname', 'mi', 'suffix', 'sex', 'contact_number', 'religion', 'marital_status', 'date_of_birth', 'address']
 
-class CourseWithCurriculumSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Course
-        fields = '__all__'
+# class CourseWithCurriculumSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Course
+#         fields = '__all__'
 
-class CurriculumSerializer(serializers.ModelSerializer):
-    courses = CourseWithCurriculumSerializer(many=True, read_only=True)
+# class CurriculumSerializer(serializers.ModelSerializer):
+#     courses = CourseWithCurriculumSerializer(many=True, read_only=True)
 
-    class Meta:
-        model = Curriculum
-        fields = ['cmo_no', 'description', 'curriculum_year', 'courses']
+#     class Meta:
+#         model = Curriculum
+#         fields = ['cmo_no', 'description', 'curriculum_year', 'courses']
 
-###############################################################################
-class CurrentJobSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CurrentJob
-        fields = '__all__'
+# ###############################################################################
+# class CurrentJobSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = CurrentJob
+#         fields = '__all__'
 
-class PreviousJobSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = PreviousJob
-        fields = '__all__'
+# class PreviousJobSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = PreviousJob
+#         fields = '__all__'
 
-class GraduateInformationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = GraduateInformation
-        fields = '__all__'
+# class GraduateInformationSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = GraduateInformation
+#         fields = '__all__'
