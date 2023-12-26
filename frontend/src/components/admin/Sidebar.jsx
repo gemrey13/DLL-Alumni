@@ -181,6 +181,16 @@ const Sidebar = ({
               </li>
 
               <li>
+                <NavLink to="/admin/import-data" className={`group relative flex items-center gap-0 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('import-data') && 'bg-graydark dark:bg-meta-4'}`}>
+
+                  <svg className="h-6 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="5 1 24 24" strokeWidth={1.5} stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 8.25H7.5a2.25 2.25 0 0 0-2.25 2.25v9a2.25 2.25 0 0 0 2.25 2.25h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25H15m0-3-3-3m0 0-3 3m3-3V15" />
+                  </svg>
+                  Import Data
+                </NavLink>
+              </li>
+
+              <li>
                 <NavLink to="/admin/settings" className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('settings') && 'bg-graydark dark:bg-meta-4'}`}>
                   <svg className="fill-current" width="18" height="19" viewBox="0 0 18 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clipPath="url(#clip0_130_9763)">

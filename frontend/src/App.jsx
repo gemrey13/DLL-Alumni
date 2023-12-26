@@ -4,7 +4,8 @@ import { Toaster } from 'react-hot-toast';
 import Dashboard from './pages/admin/Dashboard';
 import SignIn from './pages/admin/Authentication/SignIn';
 import SignUp from './pages/admin/Authentication/SignUp';
-import LandingPage from './pages/LandingPage'
+import LandingPage from './pages/LandingPage';
+import NotFound from './pages/NotFound';
 import Loader from './common/Loader';
 import adminroutes from './routes/adminroutes';
 // import clientroutes from './routes/clientroutes';
@@ -56,6 +57,8 @@ function App() {
         </Route> */}
 
         <Route path="/" element={<LandingPage />} />
+        <Route path="*" element={<NotFound />} />
+
       </Routes>
     </AuthProvider>
   </>;
