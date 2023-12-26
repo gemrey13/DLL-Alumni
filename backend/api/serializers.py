@@ -11,7 +11,12 @@ from .models import (
     Address
 )
 
-# serializers.py
+class GraduateInformationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GraduateInformation
+        fields = '__all__'
+
+        
 class AlumniProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = AlumniProfile

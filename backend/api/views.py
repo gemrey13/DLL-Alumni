@@ -17,9 +17,32 @@ class TableAlumniPagination(PageNumberPagination):
     page_size = 10
 
 class TableAlumniView(ListAPIView):
-    queryset = GraduateInformation.objects.order_by('graduation_date')
     serializer_class = TableAlumniInformationSerializer
     pagination_class = TableAlumniPagination
+
+    def get_queryset(self):
+        queryset = GraduateInformation.objects.order_by('graduation_date')
+
+        curriculum_no = self.request.query_params.get('curriculum_no', None)
+        curriculum_year = self.request.query_params.get('curriculum_year', None)
+        course = self.request.query_params.get('course', None)
+        no_of_units = self.request.query_params.get('no_of_units', None)
+
+        if curriculum_no:
+            queryset = queryset.filter(alumni__course__curriculum__cmo_no=curriculum_no)
+        
+        if curriculum_year:
+            queryset = queryset.filter(alumni__course__curriculum__curriculum_year=curriculum_year)
+        
+        if course:
+            queryset = queryset.filter(alumni__course__course_id=course)
+
+        if no_of_units:
+            queryset = queryset.filter(alumni__course__no_units=no_of_units)
+
+        return queryset
+
+
 
 # class AlumniProfilesView(APIView):
 #     def get(self, request):
