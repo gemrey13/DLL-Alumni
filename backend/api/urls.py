@@ -3,10 +3,10 @@ from django.urls import path
 from .views import (
     TableAlumniView,
     UserInfoView,
+    CurriculumList,
+    CourseList,
 
     JWTView,
-    CustomTokenObtainPairView,
-    CustomTokenRefreshView,
 )
 
 from rest_framework_simplejwt.views import (
@@ -24,6 +24,9 @@ urlpatterns = [
     # path('curriculum/', CurriculumView.as_view()),
 
     path('table-alumni/', TableAlumniView.as_view(), name='table-alumni'),
+
+    path('curriculum-list/', CurriculumList.as_view(), name='curriculum-list'),
+    path('course-list/', CourseList.as_view(), name='course-list'),
 
     path('user-info/', UserInfoView.as_view(), name='user-info'),
 

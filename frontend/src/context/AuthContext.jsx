@@ -10,9 +10,10 @@ export default AuthContext;
 
 export const AuthProvider = ({ children }) => {
 
-    let [user, setUser] = useState(null)
+    let [user, setUser] = useState(() => (localStorage.getItem('authTokens') ? jwtDecode(localStorage.getItem('authTokens')) : null))
     let [authTokens, setAuthTokens] = useState(() => (localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null))
     let [loading, setLoading] = useState(true)
+    let [userProfile, setUserProfile] = useState([]);
 
     const navigate = useNavigate()
 
@@ -43,6 +44,7 @@ export const AuthProvider = ({ children }) => {
                 const userData = userResponse.data;
 
                 setUser(userData)
+                setUserProfile(userData)
                 navigate('/admin')
             } else {
                 alert('Something went wrong while logging in the user!')
@@ -83,6 +85,7 @@ export const AuthProvider = ({ children }) => {
 
                 const userData = userResponse.data;
                 setUser(userData);
+                setUserProfile(userData)
                 localStorage.setItem('authTokens', JSON.stringify(data));
 
             } else {
@@ -112,6 +115,7 @@ export const AuthProvider = ({ children }) => {
 
     let contextData = {
         user: user,
+        userProfile: userProfile,
         authTokens: authTokens,
         loginUser: loginUser,
         logoutUser: logoutUser,

@@ -1,31 +1,64 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import baseURL from '@/apiConfig'
+import baseURL from '@/apiConfig';
 
 const TableAlumni = () => {
+    const { register, handleSubmit, setValue, watch } = useForm();
+
     const [alumniData, setAlumniData] = useState([]);
     const [nextPage, setNextPage] = useState(null);
+    const [coursesData, setCoursesData] = useState([]);
+    const [curriculumData, setCurriculumData] = useState([]);
+
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`${baseURL}/api/table-alumni`, {
-                    params: {
-                        curriculum_no: '',
-                        curriculum_year: '',
-                        course: '',
-                        no_of_units: ''
-                    }
-                })
-                setAlumniData(response.data.results);
-                setNextPage(response.data.next);
-            } catch (err) {
-                console.error('Error fetching alumni data:', err);
-            }
-        };
-
         fetchData();
+        fetchCourses();
+        fetchCurriculum();
     }, []);
+
+    useEffect(() => {
+        // Fetch data when form values change
+        const data = {
+            curriculum_no: watch('curriculum_no'),
+            curriculum_year: watch('curriculum_year'),
+            course: watch('course'),
+            no_of_units: watch('no_of_units'),
+        };
+        fetchData(data);
+    }, [watch('curriculum_no'), watch('curriculum_year'), watch('course'), watch('no_of_units')]);
+
+
+    const fetchCurriculum = async () => {
+        try {
+            const response = await axios.get(`${baseURL}/api/curriculum-list`, {})
+            setCurriculumData(response.data);
+        } catch (err) {
+            console.error('Error fetching Curriculum List:', err);
+        }
+    };
+
+    const fetchCourses = async () => {
+        try {
+            const response = await axios.get(`${baseURL}/api/course-list`, {})
+            setCoursesData(response.data);
+        } catch (err) {
+            console.error('Error fetching Courses List:', err);
+        }
+    };
+
+    const fetchData = async (formValues) => {
+        try {
+            const response = await axios.get(`${baseURL}/api/table-alumni`, {
+                params: formValues
+            })
+            setAlumniData(response.data.results);
+            setNextPage(response.data.next);
+        } catch (err) {
+            console.error('Error fetching alumni data:', err);
+        }
+    };
 
     const loadMoreData = async () => {
         try {
@@ -37,6 +70,11 @@ const TableAlumni = () => {
         }
     };
 
+    
+
+   
+
+
     return (
     <>    
     <form className="mb-4.5 flex flex-col gap-6 xl:flex-row">
@@ -45,10 +83,11 @@ const TableAlumni = () => {
                 CMO no.
             </label>
             <div className="relative z-20 bg-white dark:bg-form-input">
-                <select name='cmo_no' className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-4 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input">
-                    <option value="">USA</option>
-                    <option value="">UK</option>
-                    <option value="">Canada</option>
+                <select {...register('curriculum_no')} className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-4 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input">
+                    <option value=''>see all</option>
+                    {curriculumData.map(curriculum => (
+                        <option key={curriculum.cmo_no} value={curriculum.cmo_no}>{curriculum.cmo_no}</option>
+                    ))}
                 </select>
                 <span className="absolute top-1/2 right-4 z-10 -translate-y-1/2">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -65,10 +104,11 @@ const TableAlumni = () => {
                 Curriculum Year
             </label>
             <div className="relative z-20 bg-white dark:bg-form-input">
-                <select name='curriculum_year' className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-4 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input">
-                    <option value="">USA</option>
-                    <option value="">UK</option>
-                    <option value="">Canada</option>
+                <select {...register('curriculum_year')} className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-4 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input">
+                    <option value=''>see all</option>
+                    {curriculumData.map(curriculum => (
+                        <option key={curriculum.curriculum_year} value={curriculum.curriculum_year}>{curriculum.curriculum_year}</option>
+                    ))}
                 </select>
                 <span className="absolute top-1/2 right-4 z-10 -translate-y-1/2">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -85,10 +125,11 @@ const TableAlumni = () => {
                 Course
             </label>
             <div className="relative z-20 bg-white dark:bg-form-input">
-                <select name='course' className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-4 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input">
-                    <option value="">USA</option>
-                    <option value="">UK</option>
-                    <option value="">Canada</option>
+                <select {...register('course')} className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-4 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input">
+                    <option value=''>see all</option>
+                    {coursesData.map(course_name => (
+                        <option key={course_name} value={course_name}>{course_name}</option>
+                    ))}
                 </select>
                 <span className="absolute top-1/2 right-4 z-10 -translate-y-1/2">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -104,11 +145,9 @@ const TableAlumni = () => {
             <label className="mb-3 block text-black dark:text-white">
                 No. of Units
             </label>
-            <input name='units' type="text" placeholder="Default Input" className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" />
+            <input {...register('no_of_units')} type="text" placeholder="Default Input" className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary" />
         </div>
-
     </form>
-
 
 
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">    

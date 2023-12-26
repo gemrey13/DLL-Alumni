@@ -9,14 +9,37 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.shortcuts import render
 
 from .serializers import (
-    CustomTokenObtainPairSerializer,
     TableAlumniInformationSerializer,
-    AlumniProfileSerializer
+
+    AlumniProfileSerializer,
+    CurriculumSerializer,
+    CourseSerializer
 )
 from .models import (
     GraduateInformation,
-    AlumniProfile
+    AlumniProfile,
+    Curriculum,
+    Course
 )
+
+
+
+
+class CurriculumList(ListAPIView):
+    queryset = Curriculum.objects.all()
+    serializer_class = CurriculumSerializer
+
+
+class CourseList(ListAPIView):
+    serializer_class = CourseSerializer
+
+    def list(self, request, *args, **kwargs):
+        course_names = Course.objects.values_list('course_name', flat=True).distinct()
+
+        return Response(course_names)
+
+
+
 
 class TableAlumniPagination(PageNumberPagination):
     page_size = 10
@@ -40,13 +63,14 @@ class TableAlumniView(ListAPIView):
             queryset = queryset.filter(alumni__course__curriculum__curriculum_year=curriculum_year)
         
         if course:
-            queryset = queryset.filter(alumni__course__course_id=course)
+            queryset = queryset.filter(alumni__course__course_name=course)
 
         if no_of_units:
             queryset = queryset.filter(alumni__course__no_units=no_of_units)
 
         return queryset
     
+
 class UserInfoView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -117,24 +141,24 @@ class JWTView(APIView):
         ]
         return Response(routes)
     
-class CustomTokenObtainPairView(TokenObtainPairView):
-    serializer_class = CustomTokenObtainPairSerializer
+# class CustomTokenObtainPairView(TokenObtainPairView):
+#     serializer_class = CustomTokenObtainPairSerializer
 
-class CustomTokenRefreshView(TokenRefreshView):
-    serializer_class = CustomTokenObtainPairSerializer
+# class CustomTokenRefreshView(TokenRefreshView):
+#     serializer_class = CustomTokenObtainPairSerializer
 
-    def post(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
+#     def post(self, request, *args, **kwargs):
+#         serializer = self.get_serializer(data=request.data)
         
-        try:
-            serializer.is_valid(raise_exception=True)
-        except TokenError as e:
-            return Response({'error': 'Token refresh failed'}, status=status.HTTP_401_UNAUTHORIZED)
+#         try:
+#             serializer.is_valid(raise_exception=True)
+#         except TokenError as e:
+#             return Response({'error': 'Token refresh failed'}, status=status.HTTP_401_UNAUTHORIZED)
 
-        response_data = {
-            'access': serializer.validated_data['access'],
-            'refresh': serializer.validated_data['refresh'],
-            'userInfo': serializer.validated_data.get('userInfo', {})
-        }
+#         response_data = {
+#             'access': serializer.validated_data['access'],
+#             'refresh': serializer.validated_data['refresh'],
+#             'userInfo': serializer.validated_data.get('userInfo', {})
+#         }
 
-        return Response(response_data, status=status.HTTP_200_OK)
+#         return Response(response_data, status=status.HTTP_200_OK)
