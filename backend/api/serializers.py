@@ -28,11 +28,12 @@ class TableAlumniInformationSerializer(serializers.ModelSerializer):
     course = serializers.CharField(source='alumni.course.course_name')
     alumni_fname = serializers.CharField(source='alumni.fname')
     alumni_lname = serializers.CharField(source='alumni.lname')
+    alumni_email = serializers.CharField(source='alumni.user.email')
     graduation_year = serializers.SerializerMethodField()
 
     class Meta:
         model = GraduateInformation
-        fields = ['alumni_id', 'alumni_fname', 'alumni_lname', 'graduation_year', 'course']
+        fields = ['alumni_id', 'alumni_fname', 'alumni_lname', 'graduation_year', 'course', 'alumni_email']
 
     def get_graduation_year(self, obj):
         return obj.graduation_date.year

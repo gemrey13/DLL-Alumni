@@ -156,10 +156,10 @@ const TableAlumni = () => {
             <thead>
               <tr className="bg-gray-2 text-left dark:bg-meta-4">
                 <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white xl:pl-11">
-                  ID
+                  Name
                 </th>
                 <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white">
-                  Name
+                  Email
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                   Course
@@ -183,7 +183,7 @@ const TableAlumni = () => {
                         </td>
                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                             <h5 className="text-black dark:text-white">
-                                {alumni.alumni_lname}, {alumni.alumni_fname}
+                                {alumni.alumni_email}
                             </h5>
                         </td>
                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
