@@ -5,7 +5,7 @@ import UserOne from '../../images/admin/user/user-01.png';
 import Me from '../../images/me.png'
 
 const DropdownUser = () => {
-  let { logoutUser, userInfo } = useContext(AuthContext)
+  let { logoutUser, user } = useContext(AuthContext)
   
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const trigger = useRef(null);
@@ -39,7 +39,7 @@ const DropdownUser = () => {
       <Link ref={trigger} onClick={() => setDropdownOpen(!dropdownOpen)} className="flex items-center gap-4" to="#">
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-             {userInfo.fname} {userInfo.lname}
+             {user.fname} {user.lname}
           </span>
           <span className="block text-xs">UX Designer</span>
         </span>

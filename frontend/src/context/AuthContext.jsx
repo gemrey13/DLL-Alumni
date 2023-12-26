@@ -8,58 +8,50 @@ const AuthContext = createContext()
 
 export default AuthContext;
 
-export const AuthProvider = ({children}) => {
+export const AuthProvider = ({ children }) => {
 
-    let [user, setUser] = useState(() => (localStorage.getItem('authTokens') ? jwtDecode(localStorage.getItem('authTokens')) : null))
+    let [user, setUser] = useState(null)
     let [authTokens, setAuthTokens] = useState(() => (localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null))
-    let [userInfo, setUserInfo] = useState(null)
     let [loading, setLoading] = useState(true)
 
-    
     const navigate = useNavigate()
 
-
-      let loginUser = async (e) => {
+    let loginUser = async (e) => {
         e.preventDefault();
         try {
-          const response = await axios.post(`${baseURL}/api/token/`, {
-            username: e.target.username.value,
-            password: e.target.password.value,
-          }, {
-            headers: {
-              'Content-Type': 'application/json'
-            },
-          });
-      
-          const data = response.data;
-      
-          if (data) {
-            console.log('User data received:', data); // Log the received user data
-      
-            localStorage.setItem('authTokens', JSON.stringify(data));
-            setAuthTokens(data)
-      
-            const userResponse = await axios.get(`${baseURL}/api/user-info/`, {
-              headers: {
-                Authorization: `Bearer ${data.access}`,
-              },
+            const response = await axios.post(`${baseURL}/api/token/`, {
+                username: e.target.username.value,
+                password: e.target.password.value,
+            }, {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
             });
-      
-            const userData = userResponse.data;
-            console.log('User info received:', userData); // Log the received user info
-      
-            setUser(userData);
-            setUserInfo(userData);
-      
-            navigate('/admin')
-          } else {
-            alert('Something went wrong while logging in the user!')
-          }
+
+            const data = response.data;
+
+            if (data) {
+                localStorage.setItem('authTokens', JSON.stringify(data));
+                setAuthTokens(data)
+
+                const userResponse = await axios.get(`${baseURL}/api/user-info/`, {
+                    headers: {
+                        Authorization: `Bearer ${data.access}`,
+                    },
+                });
+
+                const userData = userResponse.data;
+
+                setUser(userData)
+                navigate('/admin')
+            } else {
+                alert('Something went wrong while logging in the user!')
+            }
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
-      };
-      
+    };
+
     let logoutUser = (e) => {
         e.preventDefault()
         localStorage.removeItem('authTokens')
@@ -74,21 +66,29 @@ export const AuthProvider = ({children}) => {
                 refresh: authTokens?.refresh,
             }, {
                 headers: {
-                'Content-Type': 'application/json',
+                    'Content-Type': 'application/json',
                 },
             });
-        
+
             const data = response.data;
-        
-            if (response.status === 200) {
+
+            if (data) {
                 setAuthTokens(data);
-                setUser(jwtDecode(data.access));
-                setUserInfo(data.userInfo);
+
+                const userResponse = await axios.get(`${baseURL}/api/user-info/`, {
+                    headers: {
+                        Authorization: `Bearer ${data.access}`,
+                    },
+                });
+
+                const userData = userResponse.data;
+                setUser(userData);
                 localStorage.setItem('authTokens', JSON.stringify(data));
+
             } else {
                 logoutUser();
             }
-        
+
             if (loading) {
                 setLoading(false);
             }
@@ -97,32 +97,27 @@ export const AuthProvider = ({children}) => {
             logoutUser();
         }
     };
-      
-    useEffect(() => {
-        setUserInfo(authTokens?.userInfo || null);
 
+    useEffect(() => {
         const REFRESH_INTERVAL = 1000 * 60 * 4; // 4 minutes
         let interval = setInterval(() => {
-          if (authTokens) {
-            updateToken();
-          }
+            if (authTokens) {
+                updateToken();
+            }
         }, REFRESH_INTERVAL);
-      
+
         return () => clearInterval(interval);
 
-      }, [authTokens]);
-
+    }, [authTokens]);
 
     let contextData = {
         user: user,
-        userInfo: userInfo,
         authTokens: authTokens,
         loginUser: loginUser,
         logoutUser: logoutUser,
     };
 
-
-    return(
+    return (
         <AuthContext.Provider value={contextData}>
             {children}
         </AuthContext.Provider>
