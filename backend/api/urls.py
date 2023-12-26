@@ -2,13 +2,16 @@ from django.urls import path
 
 from .views import (
     TableAlumniView,
+    UserInfoView,
 
     JWTView,
-    CustomTokenObtainPairView
+    CustomTokenObtainPairView,
+    CustomTokenRefreshView,
 )
 
 from rest_framework_simplejwt.views import (
     TokenRefreshView,
+    TokenObtainPairView
 )
 
 urlpatterns = [
@@ -22,8 +25,10 @@ urlpatterns = [
 
     path('table-alumni/', TableAlumniView.as_view(), name='table-alumni'),
 
+    path('user-info/', UserInfoView.as_view(), name='user-info'),
+
 
     path('routes/', JWTView.as_view()),
-    path('token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]

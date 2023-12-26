@@ -2,17 +2,22 @@ from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.tokens import TokenError
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.shortcuts import render
 
 from .serializers import (
     CustomTokenObtainPairSerializer,
-    TableAlumniInformationSerializer
+    TableAlumniInformationSerializer,
+    AlumniProfileSerializer
 )
 from .models import (
     GraduateInformation,
+    AlumniProfile
 )
+
 class TableAlumniPagination(PageNumberPagination):
     page_size = 10
 
@@ -41,6 +46,22 @@ class TableAlumniView(ListAPIView):
             queryset = queryset.filter(alumni__course__no_units=no_of_units)
 
         return queryset
+    
+class UserInfoView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+
+        try:
+            alumni_profile = AlumniProfile.objects.get(user=user)
+            serializer = AlumniProfileSerializer(alumni_profile)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except AlumniProfile.DoesNotExist:
+            return Response({'detail': 'AlumniProfile does not exist for this user.'}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({'detail': f'An unexpected error occurred: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 
 
@@ -98,3 +119,22 @@ class JWTView(APIView):
     
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
+
+class CustomTokenRefreshView(TokenRefreshView):
+    serializer_class = CustomTokenObtainPairSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        
+        try:
+            serializer.is_valid(raise_exception=True)
+        except TokenError as e:
+            return Response({'error': 'Token refresh failed'}, status=status.HTTP_401_UNAUTHORIZED)
+
+        response_data = {
+            'access': serializer.validated_data['access'],
+            'refresh': serializer.validated_data['refresh'],
+            'userInfo': serializer.validated_data.get('userInfo', {})
+        }
+
+        return Response(response_data, status=status.HTTP_200_OK)

@@ -12,39 +12,54 @@ export const AuthProvider = ({children}) => {
 
     let [user, setUser] = useState(() => (localStorage.getItem('authTokens') ? jwtDecode(localStorage.getItem('authTokens')) : null))
     let [authTokens, setAuthTokens] = useState(() => (localStorage.getItem('authTokens') ? JSON.parse(localStorage.getItem('authTokens')) : null))
-    let [userInfo, setUserInfo] = useState(authTokens?.userInfo || null)
+    let [userInfo, setUserInfo] = useState(null)
     let [loading, setLoading] = useState(true)
 
     
     const navigate = useNavigate()
 
-    let loginUser = async (e) => {
-        e.preventDefault()
+
+      let loginUser = async (e) => {
+        e.preventDefault();
         try {
-            const response = await axios.post(`${baseURL}/api/token/`, {
-                username: e.target.username.value,
-                password: e.target.password.value,
-            },{
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+          const response = await axios.post(`${baseURL}/api/token/`, {
+            username: e.target.username.value,
+            password: e.target.password.value,
+          }, {
+            headers: {
+              'Content-Type': 'application/json'
+            },
+          });
+      
+          const data = response.data;
+      
+          if (data) {
+            console.log('User data received:', data); // Log the received user data
+      
+            localStorage.setItem('authTokens', JSON.stringify(data));
+            setAuthTokens(data)
+      
+            const userResponse = await axios.get(`${baseURL}/api/user-info/`, {
+              headers: {
+                Authorization: `Bearer ${data.access}`,
+              },
             });
-
-            const data = response.data;
-
-            if(data){
-                localStorage.setItem('authTokens', JSON.stringify(data));
-                setAuthTokens(data)
-                setUser(jwtDecode(data.access))
-                navigate('/admin')
-            } else {
-                alert('Something went wrong while loggin in the user!')
-            }
+      
+            const userData = userResponse.data;
+            console.log('User info received:', userData); // Log the received user info
+      
+            setUser(userData);
+            setUserInfo(userData);
+      
+            navigate('/admin')
+          } else {
+            alert('Something went wrong while logging in the user!')
+          }
         } catch (error) {
-            console.error(error)
+          console.error(error);
         }
-    };
-
+      };
+      
     let logoutUser = (e) => {
         e.preventDefault()
         localStorage.removeItem('authTokens')
@@ -68,6 +83,7 @@ export const AuthProvider = ({children}) => {
             if (response.status === 200) {
                 setAuthTokens(data);
                 setUser(jwtDecode(data.access));
+                setUserInfo(data.userInfo);
                 localStorage.setItem('authTokens', JSON.stringify(data));
             } else {
                 logoutUser();

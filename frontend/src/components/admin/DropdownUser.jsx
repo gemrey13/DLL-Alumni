@@ -39,7 +39,7 @@ const DropdownUser = () => {
       <Link ref={trigger} onClick={() => setDropdownOpen(!dropdownOpen)} className="flex items-center gap-4" to="#">
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-            {userInfo?.fname} {userInfo?.lname}
+             {userInfo.fname} {userInfo.lname}
           </span>
           <span className="block text-xs">UX Designer</span>
         </span>

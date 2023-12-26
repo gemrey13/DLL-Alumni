@@ -38,10 +38,10 @@ class TableAlumniInformationSerializer(serializers.ModelSerializer):
         return obj.graduation_date.year
 
 
-# class AlumniProfileSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = AlumniProfile
-#         fields = '__all__'
+class AlumniProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AlumniProfile
+        fields = '__all__'
 
 # class AddressSerializer(serializers.ModelSerializer):
 #     class Meta:
