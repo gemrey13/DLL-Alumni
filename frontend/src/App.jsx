@@ -16,8 +16,18 @@ const DefaultLayout = lazy(() => import('./layout/DefaultLayout'));
 
 function App() {
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    setTimeout(() => setLoading(false), 1000);
+    const handleLoad = () => {
+      setLoading(false);
+    };
+
+    window.addEventListener('load', handleLoad);
+
+    return () => {
+      window.removeEventListener('load', handleLoad);
+    };
+
   }, []);
 
   return loading ? <Loader /> : <>
