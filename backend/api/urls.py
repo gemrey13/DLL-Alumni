@@ -5,6 +5,7 @@ from .views import (
     UserInfoView,
     CurriculumList,
     CourseList,
+    CurriculumCourseView,
 
     JWTView,
 )
@@ -27,6 +28,7 @@ urlpatterns = [
 
     path('curriculum-list/', CurriculumList.as_view(), name='curriculum-list'),
     path('course-list/', CourseList.as_view(), name='course-list'),
+    path('curriculum/', CurriculumCourseView.as_view(), name='curriculum-courses'),
 
     path('user-info/', UserInfoView.as_view(), name='user-info'),
 

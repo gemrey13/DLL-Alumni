@@ -38,8 +38,19 @@ class CourseList(ListAPIView):
 
         return Response(course_names)
 
+class CurriculumCourseView(ListAPIView):
+    serializer_class = CourseSerializer
 
-
+    def get_queryset(self):
+        queryset = Course.objects.all()
+        cmo_no = self.request.query_params.get('cmo_no', None)
+        if cmo_no:
+            try:
+                curriculum = Curriculum.objects.get(cmo_no=cmo_no)
+                queryset = queryset.filter(curriculum=curriculum)
+            except Curriculum.DoesNotExist:
+                queryset = Course.objects.none()
+        return queryset
 
 class TableAlumniPagination(PageNumberPagination):
     page_size = 10
