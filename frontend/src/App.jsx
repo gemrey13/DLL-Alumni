@@ -22,10 +22,20 @@ function App() {
       setLoading(false);
     };
 
+    const handleDOMContentLoaded = () => {
+      // In case the 'load' event has already occurred (e.g., for cached resources)
+      if (document.readyState === 'complete') {
+        handleLoad();
+      }
+    };
+    
     window.addEventListener('load', handleLoad);
+    document.addEventListener('DOMContentLoaded', handleDOMContentLoaded);
 
+    // Clean up the event listeners on component unmount
     return () => {
       window.removeEventListener('load', handleLoad);
+      document.removeEventListener('DOMContentLoaded', handleDOMContentLoaded);
     };
 
   }, []);
