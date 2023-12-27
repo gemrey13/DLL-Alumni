@@ -10,6 +10,7 @@ from django.shortcuts import render
 
 from .serializers import (
     TableAlumniInformationSerializer,
+    AlumniFormSerializer,
 
     AlumniProfileSerializer,
     CurriculumSerializer,
@@ -30,6 +31,7 @@ class CurriculumList(ListAPIView):
     serializer_class = CurriculumSerializer
 
 
+
 class CourseList(ListAPIView):
     serializer_class = CourseSerializer
 
@@ -37,6 +39,8 @@ class CourseList(ListAPIView):
         course_names = Course.objects.values_list('course_name', flat=True).distinct()
 
         return Response(course_names)
+
+
 
 class CurriculumCourseView(ListAPIView):
     serializer_class = CourseSerializer
@@ -51,6 +55,9 @@ class CurriculumCourseView(ListAPIView):
             except Curriculum.DoesNotExist:
                 queryset = Course.objects.none()
         return queryset
+
+
+
 
 class TableAlumniPagination(PageNumberPagination):
     page_size = 10
@@ -97,6 +104,19 @@ class UserInfoView(APIView):
         except Exception as e:
             return Response({'detail': f'An unexpected error occurred: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
+class AlumniForm(APIView):
+    def post(self, request, *args, **kwargs):
+        print(request.data)
+        serializer = AlumniFormSerializer(data=request.data)
+
+        if serializer.is_valid():
+            print(request.data)
+            return Response({'message': 'Form submitted successfully'}, status=status.HTTP_200_OK)
+        else:
+            print(serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            
 
 
 

@@ -7,7 +7,7 @@ const AlumniForm = () => {
     const [curriculumData, setCurriculumData] = useState([]);
     const [coursesData, setCoursesData] = useState([]);
   
-    const { register, watch } = useForm();
+    const { register, watch, handleSubmit, reset } = useForm();
   
     useEffect(() => {
       fetchCurriculum();
@@ -39,6 +39,33 @@ const AlumniForm = () => {
         console.error("Error fetching Courses List:", err);
       }
     };
+
+    const onsubmit = async (data) => {
+        if (data.certification_date1 === '') {
+            data.certification_date1 = null;
+        }
+        
+        if (data.certification_date2 === '') {
+            data.certification_date2 = null;
+        }
+        
+        if (data.certification_date3 === '') {
+            data.certification_date3 = null;
+        }
+        
+        if (data.current_job_start_date === '') {
+            data.current_job_start_date = null;
+        }
+        try {
+            const response = await axios.post(`${baseURL}/api/alumni-form/`, data);
+            console.log(response)
+        } catch (error) {
+            console.error('Error submitting form:', error);
+            
+        }
+        console.log(data)
+        reset()
+    };
   
     return (
       <>
@@ -48,7 +75,7 @@ const AlumniForm = () => {
               Add Record Manually
             </h3>
           </div>
-          <form>
+          <form onSubmit={handleSubmit(onsubmit)}>
             <div className="p-6.5">
               <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                 <div className="w-full xl:w-1/2">
@@ -56,6 +83,7 @@ const AlumniForm = () => {
                     First name <span className="text-meta-1">*</span>
                   </label>
                   <input
+                    {...register("fname", { required: 'First name is required' })}
                     type="text"
                     placeholder="Enter your first name"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -67,6 +95,7 @@ const AlumniForm = () => {
                     Last name <span className="text-meta-1">*</span>
                   </label>
                   <input
+                    {...register("lname", { required: 'Last name is required' })}
                     type="text"
                     placeholder="Enter your last name"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -78,6 +107,7 @@ const AlumniForm = () => {
                     M.I.
                   </label>
                   <input
+                    {...register("mi")}
                     type="text"
                     placeholder="Enter your middle initial"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -89,6 +119,7 @@ const AlumniForm = () => {
                     Suffix
                   </label>
                   <input
+                    {...register("suffix")}
                     type="text"
                     placeholder="Enter your suffix name"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -97,13 +128,12 @@ const AlumniForm = () => {
               </div>
   
               <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
-                
-  
                 <div className="w-full xl:w-1/2">
                   <label className="mb-2.5 block text-black dark:text-white">
                     Sex <span className="text-meta-1">*</span>
                   </label>
                   <input
+                    {...register("sex", { required: 'Sex is required' })}
                     type="text"
                     placeholder="Enter your sex"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -115,6 +145,7 @@ const AlumniForm = () => {
                     Religion
                   </label>
                   <input
+                    {...register("religion", { required: 'Religion is required' })}
                     type="text"
                     placeholder="Enter your religion"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -126,6 +157,7 @@ const AlumniForm = () => {
                     Marital Status
                   </label>
                   <input
+                  {...register("marital_status", { required: 'Marital status is required' })}
                     type="text"
                     placeholder="Enter your status"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -140,6 +172,7 @@ const AlumniForm = () => {
                   </label>
                   <div className="relative">
                     <input
+                    {...register("date_of_birth", { required: 'Date of birth is required' })}
                       type="date"
                       className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
@@ -151,6 +184,7 @@ const AlumniForm = () => {
                     Facebook Account
                   </label>
                   <input
+                  {...register("facebook_account", { required: 'Facebook account is required' })}
                     type="text"
                     placeholder="Enter your facebook account"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -162,6 +196,7 @@ const AlumniForm = () => {
                     Contact Number <span className="text-meta-1">*</span>
                   </label>
                   <input
+                  {...register("contact_number", { required: 'Contact number is required' })}
                     type="text"
                     placeholder="Enter your contact number"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -180,6 +215,7 @@ const AlumniForm = () => {
                     <span className="text-meta-1">*</span>
                   </label>
                   <input
+                  {...register("alumni_address", { required: 'Address is required' })}
                     type="text"
                     placeholder="Enter your address"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -192,6 +228,7 @@ const AlumniForm = () => {
                   </label>
                   <div className="relative">
                     <input
+                    {...register("graduation_date", { required: 'Graduation date is required' })}
                       type="date"
                       className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
@@ -209,7 +246,7 @@ const AlumniForm = () => {
                   </label>
                   <div className="relative z-20 bg-transparent dark:bg-form-input">
                     <select
-                      {...register("cmo_no")}
+                      {...register("cmo_no", { required: 'Curriculum is required' })}
                       className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     >
                       <option value="">Select curriculum</option>
@@ -246,7 +283,7 @@ const AlumniForm = () => {
                     Course
                   </label>
                   <div className="relative z-20 bg-transparent dark:bg-form-input">
-                    <select className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
+                    <select {...register("course", { required: 'Course is required' })} className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
                       <option value="">Select Course</option>
                       {coursesData.map((course) => (
                         <option key={course.course_id} value={course.course_id}>
@@ -292,6 +329,7 @@ const AlumniForm = () => {
                     Title
                   </label>
                   <input
+                    {...register("certification_title1")}
                     type="text"
                     placeholder="Enter title"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -304,6 +342,7 @@ const AlumniForm = () => {
                   </label>
                   <div className="relative">
                     <input
+                        {...register("certification_date1")}
                       type="date"
                       className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
@@ -316,6 +355,7 @@ const AlumniForm = () => {
                     Title
                   </label>
                   <input
+                    {...register("certification_title2")}
                     type="text"
                     placeholder="Enter title"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -328,6 +368,7 @@ const AlumniForm = () => {
                   </label>
                   <div className="relative">
                     <input
+                    {...register("certification_date2")}
                       type="date"
                       className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
@@ -341,6 +382,7 @@ const AlumniForm = () => {
                     Title
                   </label>
                   <input
+                  {...register("certification_title3")}
                     type="text"
                     placeholder="Enter title"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -353,6 +395,7 @@ const AlumniForm = () => {
                   </label>
                   <div className="relative">
                     <input
+                    {...register("certification_date3")}
                       type="date"
                       className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
@@ -374,6 +417,7 @@ const AlumniForm = () => {
                     Job title
                   </label>
                   <input
+                  {...register("job_title")}
                     type="text"
                     placeholder="Enter job title"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -385,6 +429,7 @@ const AlumniForm = () => {
                     Salary
                   </label>
                   <input
+                  {...register("salary")}
                     type="number"
                     placeholder="Enter salary"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -401,6 +446,7 @@ const AlumniForm = () => {
                     </span>{" "}
                   </label>
                   <input
+                  {...register("job_type")}
                     type="text"
                     placeholder="Enter job type"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -412,6 +458,7 @@ const AlumniForm = () => {
                     Company name
                   </label>
                   <input
+                  {...register("company_name")}
                     type="text"
                     placeholder="Enter company name"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -430,6 +477,7 @@ const AlumniForm = () => {
                     <span className="text-meta-1">*</span>
                   </label>
                   <input
+                  {...register("current_job_address")}
                     type="text"
                     placeholder="Enter your job address"
                     className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -442,6 +490,8 @@ const AlumniForm = () => {
                   </label>
                   <div className="relative">
                     <input
+                  {...register("current_job_start_date")}
+
                       type="date"
                       className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
@@ -454,13 +504,15 @@ const AlumniForm = () => {
                   Message
                 </label>
                 <textarea
+                  {...register("message")}
+
                   rows={6}
                   placeholder="Type your message"
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                 ></textarea>
               </div>
   
-              <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
+              <button type="submit" className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
                 Save Entry
               </button>
             </div>

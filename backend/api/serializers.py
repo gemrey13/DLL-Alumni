@@ -11,6 +11,38 @@ from .models import (
     Address
 )
 
+
+
+class AlumniFormSerializer(serializers.Serializer):
+    fname = serializers.CharField()
+    lname = serializers.CharField()
+    mi = serializers.CharField(allow_blank=True, required=False)
+    suffix = serializers.CharField(allow_blank=True, required=False)
+    sex = serializers.CharField()
+    religion = serializers.CharField()
+    marital_status = serializers.CharField()
+    date_of_birth = serializers.DateField(format='%Y-%m-%d')
+    facebook_account = serializers.CharField()
+    contact_number = serializers.CharField()
+    alumni_address = serializers.CharField()
+    graduation_date = serializers.DateField(format='%Y-%m-%d')
+    cmo_no = serializers.CharField()
+    course = serializers.CharField()
+    certification_title1 = serializers.CharField(allow_blank=True, required=False)
+    certification_date1 = serializers.DateField(allow_null=True, required=False, format='%Y-%m-%d')
+    certification_title2 = serializers.CharField(allow_blank=True, required=False)
+    certification_date2 = serializers.DateField(allow_null=True, required=False, format='%Y-%m-%d')
+    certification_title3 = serializers.CharField(allow_blank=True, required=False)
+    certification_date3 = serializers.DateField(allow_null=True, required=False, format='%Y-%m-%d')
+    job_title = serializers.CharField(allow_blank=True, required=False)
+    salary = serializers.DecimalField(allow_null=True, required=False, max_digits=10, decimal_places=2)
+    job_type = serializers.CharField(allow_blank=True, required=False)
+    company_name = serializers.CharField(allow_blank=True, required=False)
+    current_job_address = serializers.CharField(allow_blank=True, required=False)
+    current_job_start_date = serializers.DateField(allow_null=True, required=False, format='%Y-%m-%d')
+    message = serializers.CharField(allow_blank=True, required=False)
+
+
 class GraduateInformationSerializer(serializers.ModelSerializer):
     class Meta:
         model = GraduateInformation
