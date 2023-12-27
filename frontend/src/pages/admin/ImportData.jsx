@@ -4,9 +4,9 @@ import AlumniForm from "../../components/forms/AlumniForm";
 const ImportData = () => {
   return (
     <>
-    <AlumniForm />
+      <AlumniForm />
     </>
-  )
+  );
 };
 
 export default ImportData;

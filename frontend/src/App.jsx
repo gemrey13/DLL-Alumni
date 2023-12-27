@@ -21,7 +21,7 @@ function App() {
   }, []);
 
   return loading ? <Loader /> : <>
-    <Toaster position="top-right" reverseOrder={false} containerClassName="overflow-auto" />
+    <Toaster position="top-center" reverseOrder={false} containerClassName="overflow-auto" />
     <AuthProvider>
       <Routes>
         <Route path="/auth/signin" element={<SignIn />} />
