@@ -275,22 +275,14 @@ const AlumniForm = () => {
                     </span>
                   </div>
                 </div>
-  
-                <div className="w-full xl:w-1/2">
-                  <label className="mb-2.5 block text-black dark:text-white">
-                    No. of Units
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Enter units"
-                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                  />
-                </div>
               </div>
   
               <hr className="mb-2.5 border-b border-stroke dark:border-strokedark" />
               <label className="font-medium mb-4.5 block text-black dark:text-white">
-                Certification
+                Certification{" "}
+                <span className="text-gray-400">
+                    (Leave blank if dont have certification)
+                </span>{" "}
               </label>
   
   
@@ -318,8 +310,144 @@ const AlumniForm = () => {
                   </div>
                 </div>
               </div>
+              <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
+                <div className="w-full xl:w-1/2">
+                  <label className="mb-2.5 block text-black dark:text-white">
+                    Title
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter title"
+                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  />
+                </div>
   
+                <div className="w-full xl:w-1/2">
+                  <label className="mb-3 block text-black dark:text-white">
+                    Date
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="date"
+                      className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
+                <div className="w-full xl:w-1/2">
+                  <label className="mb-2.5 block text-black dark:text-white">
+                    Title
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter title"
+                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  />
+                </div>
   
+                <div className="w-full xl:w-1/2">
+                  <label className="mb-3 block text-black dark:text-white">
+                    Date
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="date"
+                      className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <hr className="mb-2.5 border-b border-stroke dark:border-strokedark" />
+              <label className="font-medium mb-4.5 block text-black dark:text-white">
+                Current Job{" "}
+                <span className="text-gray-400">
+                    (Leave blank if dont have job)
+                </span>{" "}
+              </label>
+
+              <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
+                <div className="w-full xl:w-1/2">
+                  <label className="mb-2.5 block text-black dark:text-white">
+                    Job title
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter job title"
+                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  />
+                </div>
+  
+                <div className="w-full xl:w-1/2">
+                  <label className="mb-2.5 block text-black dark:text-white">
+                    Salary
+                  </label>
+                  <input
+                    type="number"
+                    placeholder="Enter salary"
+                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  />
+                </div>
+              </div>
+
+              <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
+                <div className="w-full xl:w-1/2">
+                  <label className="mb-2.5 block text-black dark:text-white">
+                    Job Type{" "}
+                    <span className="text-gray-400">
+                      (Ex. Technology, Accounting etc.)
+                    </span>{" "}
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter job type"
+                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  />
+                </div>
+  
+                <div className="w-full xl:w-1/2">
+                  <label className="mb-2.5 block text-black dark:text-white">
+                    Company name
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter company name"
+                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  />
+                </div>
+              </div>
+
+              <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
+                <div className="w-full xl:w-1/2">
+  
+                  <label className="mb-2.5 block text-black dark:text-white">
+                    Address{" "}
+                    <span className="text-gray-400">
+                      (Country, Region, Province, City, Barangay, Zip code)
+                    </span>{" "}
+                    <span className="text-meta-1">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter your job address"
+                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  />
+                </div>
+  
+                <div className="w-full xl:w-1/2">
+                  <label className="mb-3 block text-black dark:text-white">
+                    Start date
+                  </label>
+                  <div className="relative">
+                    <input
+                      type="date"
+                      className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                    />
+                  </div>
+                </div>
+              </div>
   
               <div className="mb-6">
                 <label className="mb-2.5 block text-black dark:text-white">
@@ -333,7 +461,7 @@ const AlumniForm = () => {
               </div>
   
               <button className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray">
-                Send Message
+                Save Entry
               </button>
             </div>
           </form>
