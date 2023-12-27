@@ -58,12 +58,9 @@ const AlumniForm = () => {
         }
         try {
             const response = await axios.post(`${baseURL}/api/alumni-form/`, data);
-            console.log(response)
         } catch (error) {
             console.error('Error submitting form:', error);
-            
         }
-        console.log(data)
         reset()
     };
   

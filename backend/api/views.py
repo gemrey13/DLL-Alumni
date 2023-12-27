@@ -107,14 +107,11 @@ class UserInfoView(APIView):
 
 class AlumniForm(APIView):
     def post(self, request, *args, **kwargs):
-        print(request.data)
         serializer = AlumniFormSerializer(data=request.data)
 
         if serializer.is_valid():
-            print(request.data)
             return Response({'message': 'Form submitted successfully'}, status=status.HTTP_200_OK)
         else:
-            print(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
             
 
