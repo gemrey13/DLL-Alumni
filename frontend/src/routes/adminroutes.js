@@ -13,7 +13,7 @@ const TraceAlumni = lazy(() => import('../pages/admin/TraceAlumni'));
 const ImportData = lazy(() => import('../pages/admin/ImportData'));
 
 const coreRoutes = [{
-  path: '/admin/import-data',
+  path: '/admin/task/import-data',
   title: 'ImportData',
   component: ImportData
 }, {
