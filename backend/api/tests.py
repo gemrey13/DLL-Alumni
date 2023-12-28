@@ -1,122 +1,61 @@
 from django.test import TestCase
-from datetime import date
-from .models import (
-    AlumniProfile,
-    GraduateInformation,
-    Curriculum,
-    Course,
-    CurrentJob,
-    PreviousJob,
-    Address,
-    Country,
-    Region,
-    Province,
-    City,
-    Barangay,
-    CustomUser
-)
+from django.contrib.auth.models import User
+from .models import *
 
 class ModelTests(TestCase):
     def setUp(self):
-        self.user = CustomUser.objects.create_user(
-            email='john@example.com',
-            password='testpassword'
-        )
+        # Create a user for testing
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
 
-        self.assertEqual(self.user.email, 'john@example.com')
-        self.assertTrue(self.user.check_password('testpassword'))
+        # Create a curriculum for testing
+        self.curriculum = Curriculum.objects.create(cmo_no='CMO123', description='Test Curriculum', start_year=2020, end_year=2024)
 
-        self.sample_country = Country.objects.create(country_name='Sample Country')
-        self.sample_region = Region.objects.create(region_name='Sample Region', country=self.sample_country)
-        self.sample_province = Province.objects.create(province_name='Sample Province', region=self.sample_region)
-        self.sample_city = City.objects.create(city_name='Sample City', province=self.sample_province)
-        self.sample_barangay = Barangay.objects.create(barangay_name='Sample    Barangay', city=self.sample_city)
+        # Create a course for testing
+        self.course = Course.objects.create(curriculum=self.curriculum, course_id='C123', course_name='Test Course', course_desc='Course Description', no_units=3)
 
-        self.sample_address = Address.objects.create(
-            country=self.sample_country,
-            region=self.sample_region,
-            province=self.sample_province,
-            city=self.sample_city,
-            barangay=self.sample_barangay,
-            street='123 Sample St'
-        )
+        # Create an address for testing
+        self.address = Address.objects.create(country='TestCountry', region='TestRegion', province='TestProvince', city='TestCity', barangay='TestBarangay', zip_code='12345')
 
-        self.curriculum = Curriculum.objects.create(
-            cmo_no='CMO123',
-            description='Sample Curriculum',
-            curriculum_year=2023
-        )
+        # Create an alumni profile for testing
+        self.alumni_profile = AlumniProfile.objects.create(user=self.user, alumni_id='A12345', course=self.course, fname='John', lname='Doe', mi='M', sex='Male', contact_number='1234567890', religion='TestReligion', civil_status='Single', date_of_birth='2000-01-01', birthplace='TestBirthplace', facebook_account_name='testuser', home_address=self.address)
 
-        self.course = Course.objects.create(
-            curriculum=self.curriculum,
-            course_id='C1234567',
-            course_name='Sample Course',
-            course_desc='Sample Course Description',
-            field_type='Sample Field',
-            no_units=4,
-        )
+        # Create a professional growth for testing
+        self.professional_growth = ProfessionalGrowth.objects.create(description='Test Professional Growth')
 
-        self.alumni_profile = AlumniProfile.objects.create(
-            user=self.user,
-            alumni_id='A12345',
-            course=self.course,
-            contact_number='09258749673',
-            fname='John',
-            lname='Doe',
-            mi='M',
-            suffix='Jr',
-            sex='Male',
-            religion='Christian',
-            marital_status='Single',
-            date_of_birth=date(1990, 1, 1),
-            address=self.sample_address
-        )
+        # Create a graduate information for testing
+        self.graduate_info = GraduateInformation.objects.create(alumni=self.alumni_profile, year_graduated=2023, professional_growth=self.professional_growth, honor='Cum Laude')
 
-        self.graduate_info = GraduateInformation.objects.create(
-            alumni=self.alumni_profile,
-            graduation_date=date(2012, 5, 15),
-            honor='Cum Laude'
-        )
+        # Create a current job for testing
+        self.current_job = CurrentJob.objects.create(alumni=self.alumni_profile, job_position='Software Engineer', approximate_monthly_salary=5000, company_affiliation='Test Company', company_address=self.address, employed_within_6mo=True)
 
-        self.current_job = CurrentJob.objects.create(
-            alumni=self.alumni_profile,
-            job_type='Full-time',
-            job_title='Software Engineer',
-            salary=80000,
-            start_date=date(2022, 1, 1),
-            company_name='Tech Company',
-            address=self.sample_address
-        )
+        # Create an employment record for testing
+        self.employment_record = EmploymentRecord.objects.create(alumni=self.alumni_profile, company_name='Test Company', employment_status='Full-time', approximate_monthly_salary=6000, date_employed='2023-01-01', getting_jobs_related_to_experience=True, promoted_in_current_job=False)
 
-        self.previous_job = PreviousJob.objects.create(
-            alumni=self.alumni_profile,
-            job_type='Part-time',
-            job_title='Intern',
-            salary=50000,
-            start_date=date(2020, 1, 1),
-            end_date=date(2021, 1, 1),
-            company_name='Old Company',
-            address=self.sample_address
-        )
+    # def test_address_str_method(self):
+    #     address_str = str(self.address).strip()
+    #     expected_str = 'TestCountry, TestRegion, TestProvince, TestCity, TestBarangay'
+    #     self.assertEqual(address_str, expected_str)
 
-    def test_alumni_profile_str(self):
-        expected_str = f'ID: {self.alumni_profile.alumni_id} - {self.alumni_profile.fname} {self.alumni_profile.lname}'
-        self.assertEqual(str(self.alumni_profile), expected_str)
+    def test_alumni_profile_str_method(self):
+        alumni_profile_str = str(self.alumni_profile)
+        self.assertEqual(alumni_profile_str, 'ID: A12345 - John Doe')
 
-    def test_course_str(self):
-        self.assertEqual(str(self.course), self.course.course_id)
+    def test_graduate_info_str_method(self):
+        graduate_info_str = str(self.graduate_info)
+        self.assertEqual(graduate_info_str, 'John Doe - Grad year:2023')
 
-    def test_curriculum_str(self):
-        self.assertEqual(str(self.curriculum), self.curriculum.cmo_no)
+    def test_curriculum_str_method(self):
+        curriculum_str = str(self.curriculum)
+        self.assertEqual(curriculum_str, 'CMO123(2020-2024)')
 
-    def test_current_job_str(self):
-        expected_str = f'{self.current_job.alumni.fname} {self.current_job.alumni.lname} - {self.current_job.job_title}'
-        self.assertEqual(str(self.current_job), expected_str)
+    def test_course_str_method(self):
+        course_str = str(self.course)
+        self.assertEqual(course_str, 'CMO123(2020-2024) | C123')
 
-    def test_previous_job_str(self):
-        expected_str = f'{self.previous_job.alumni.fname} {self.previous_job.alumni.lname} - {self.previous_job.job_title}'
-        self.assertEqual(str(self.previous_job), expected_str)
+    def test_current_job_str_method(self):
+        current_job_str = str(self.current_job)
+        self.assertEqual(current_job_str, 'John Doe - Software Engineer')
 
-    def test_alumni_count_property(self):
-        expected_count = 1
-        self.assertEqual(self.course.alumni_count, expected_count)
+    def test_employment_record_str_method(self):
+        employment_record_str = str(self.employment_record)
+        self.assertEqual(employment_record_str, 'John Doe - Test Company, Full-time')

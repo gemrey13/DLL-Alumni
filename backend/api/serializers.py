@@ -6,9 +6,6 @@ from .models import (
     GraduateInformation,
     Curriculum,
     Course,
-    CurrentJob,
-    PreviousJob,
-    Address
 )
 
 

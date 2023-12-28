@@ -1,7 +1,8 @@
 import random
 from django.core.management.base import BaseCommand
+from datetime import datetime, timedelta
 from faker import Faker
-from api.models import Address, AlumniProfile, Curriculum, Course, Certification, Affiliation, GraduateInformation
+from api.models import Address, AlumniProfile, Curriculum, Course, GraduateInformation, CurrentJob, EmploymentRecord
 from django.contrib.auth.models import User
 import json
 
@@ -16,10 +17,11 @@ class Command(BaseCommand):
 
         
         curriculums = [Curriculum(
-            cmo_no=f'CMO 10{_}',
+            cmo_no=f'CMO No. {_ - 1990}',
             description=fake.word(),
-            curriculum_year=f'{_}',
-        ) for _ in range(2005, 2022, 5)]
+            start_year=f'{(_ - 5) + 1}',
+            end_year=f'{_}',
+        ) for _ in range(2005, 2025, 5)]
         Curriculum.objects.bulk_create(curriculums)
 
         for index, every_curricula in enumerate(curriculums):
@@ -32,7 +34,6 @@ class Command(BaseCommand):
                     course_id=f'{course}-{index+1}',
                     course_name=course,
                     course_desc=fake.text(),
-                    field_type=fake.word(),
                     no_units=random.randint(100, 300),
                 )
                 courses_list.append(new)
@@ -90,47 +91,134 @@ class Command(BaseCommand):
             last_name = fake.last_name()
             middle_name = fake.random_letter()
             alumni_id = f'A00-0{i+1}'
+            birthplace_list = ['Lucena City', 'Batangas City', 'Makati']
 
-            user = User.objects.create_user(
-                username=f'{alumni_id}.{first_name}',
-                password='123',
-                email=f'{first_name}.{alumni_id}@gmail.com',
-            )
+            job_positions = [
+                "Software Engineer",
+                "Marketing Manager",
+                "Project Manager",
+                "Sales Representative",
+                "Accountant",
+                "Human Resources Specialist",
+                "Graphic Designer",
+                "Customer Support Representative",
+                "Research Analyst",
+                "Executive Assistant",
+                "Data Scientist",
+                "Operations Manager",
+                "Product Manager",
+                "Nurse",
+                "Teacher",
+                "Electrician",
+                "Chef",
+                "Mechanical Engineer",
+                "Financial Analyst",
+                "Web Developer"
+            ]
+
+            company_affiliations = [
+                "ABC Corporation",
+                "XYZ Industries",
+                "Tech Innovators Ltd.",
+                "Global Solutions Inc.",
+                "Fantastic Foods Co.",
+                "Infinite Technologies",
+                "Bright Ideas Group",
+                "Swift Logistics Services",
+                "HealthCare Innovations",
+                "Smart Electronics Ltd.",
+                "Creative Designs Agency",
+                "Energy Powerhouse Inc.",
+                "Secure Solutions Group",
+                "Eco-Friendly Solutions Co.",
+                "Financial Wizards LLC",
+                "GreenTech Ventures",
+                "Innovative Labs International",
+                "Future Tech Enterprises",
+                "Sunrise Hospitality Group",
+                "Precision Manufacturing Co."
+            ]
+
+            employment_statuses = [
+                "Full-time",
+                "Part-time",
+                "Contract",
+                "Temporary",
+                "Intern",
+                "Freelance",
+                "Self-employed",
+                "Consultant",
+                "Remote",
+                "Seasonal",
+                "Volunteer",
+                "Unemployed",
+                "Retired",
+                "Student",
+                "Other"
+            ]
+
+        #     user = User.objects.create_user(
+        #         username=f'{alumni_id}.{first_name}',
+        #         password='123',
+        #         email=f'{first_name}.{alumni_id}@gmail.com',
+        #     )
 
             alumni_profile = AlumniProfile.objects.create(
-                user=user,
+                # user=user,
                 alumni_id=alumni_id,
                 course=random.choice(courses_list),
                 fname=first_name,
                 lname=last_name,
                 mi=middle_name,
-                suffix=fake.random_letter(),
                 sex=random.choice(['Male', 'Female']),
                 contact_number=fake.phone_number(),
                 religion=random.choice(religion),
-                marital_status=random.choice(marital),
+                civil_status=random.choice(marital),
                 date_of_birth=fake.date_of_birth(),
-                facebook_account_name=f'{first_name} {middle_name} {last_name}',
-                address=address,
+                birthplace=random.choice(birthplace_list),
+                facebook_account_name=f'{first_name} {middle_name.title()}. {last_name}',
+                home_address=address,
             )
 
-            certification = Certification.objects.create(
-                title=fake.word(),
-                date_of_certification=fake.date(),
-            )
-
-            affiliation = Affiliation.objects.create(
-                name_of_organization=fake.word(),
-                position=fake.word(),
-            )
-
+          
             graduate_info = GraduateInformation.objects.create(
                 alumni=alumni_profile,
-                graduation_date=fake.date(),
-                certification=certification,
-                affiliation=affiliation,
+                year_graduated=random.randint(2005, 2023),
                 honor=fake.word(),
             )
+
+            current_job = CurrentJob.objects.create(
+                alumni=alumni_profile,
+                job_position=random.choice(job_positions),
+                approximate_monthly_salary=random.randint(10000, 50000),
+                company_affiliation=random.choice(company_affiliations),
+                company_address=address,
+                employed_within_6mo=random.choice([True, False]),
+                promoted_in_current_job=random.choice([True, False])
+            )
+
+            def random_date():
+                start_date = datetime(2000, 1, 1)
+                end_date = datetime(2023, 12, 31)
+                time_delta = end_date - start_date
+                random_days = random.randint(0, time_delta.days)
+                random_date_result = start_date + timedelta(days=random_days)
+                return random_date_result
+            
+            record_iterate = random.randint(0, 3)
+            for k in range(record_iterate):
+                if record_iterate == 0:
+                    break
+                else:
+                    employement_record = EmploymentRecord.objects.create(
+                        alumni=alumni_profile,
+                        company_name=random.choice(company_affiliations),
+                        employment_status=random.choice(employment_statuses),
+                        approximate_monthly_salary=random.randint(10000, 50000),
+                        date_employed=random_date(),
+                        getting_jobs_related_to_experience=random.choice([True, False])
+                    )
+                print('employment', k)
 
             print(f'{i+1}/20')
 
