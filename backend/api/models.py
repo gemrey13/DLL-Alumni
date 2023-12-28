@@ -8,6 +8,7 @@ class Address(models.Model):
     city = models.CharField(max_length=80, blank=True)
     barangay = models.CharField(max_length=80, blank=True)
     zip_code = models.CharField(max_length=10, blank=True)
+    address_type = models.CharField(max_length=80, blank=True)
 
     def __str__(self):
         return f'{self.country.title()}, {self.region.title()}, {self.province.title()}, {self.city.title()}, {self.barangay.title()}'
@@ -24,7 +25,6 @@ class AlumniProfile(models.Model):
     religion = models.CharField(max_length=64)
     civil_status = models.CharField(max_length=64)
     date_of_birth = models.DateField()
-    birthplace = models.CharField(max_length=64)
     facebook_account_name = models.CharField(max_length=80)
     home_address = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True, null=True)
 
@@ -93,6 +93,8 @@ class CurrentJob(models.Model):
     company_address = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True, null=True)
     employed_within_6mo = models.BooleanField(default=False)
     promoted_in_current_job = models.BooleanField(default=False)
+    getting_jobs_related_to_experience = models.BooleanField(default=False)
+
 
     def __str__(self):
         return f'{self.alumni}- {self.job_position}'
@@ -103,7 +105,6 @@ class EmploymentRecord(models.Model):
     employment_status = models.CharField(max_length=64)
     approximate_monthly_salary = models.IntegerField()
     date_employed = models.DateField()
-    getting_jobs_related_to_experience = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.alumni} - {self.company_name}, {self.employment_status}'

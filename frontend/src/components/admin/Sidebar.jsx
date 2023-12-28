@@ -200,10 +200,10 @@ const Sidebar = ({
                       <div className={`translate transform overflow-hidden ${!open && 'hidden'}`}>
                         <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
                           <li>
-                            <NavLink to="/admin/task/import-data" className={({
+                            <NavLink to="/admin/task/survey-form" className={({
                           isActive
                         }) => 'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' + (isActive && '!text-white')}>
-                              Manual Data Entry
+                              Tracer Survey Form
                             </NavLink>
                           </li>
                         </ul>

@@ -10,12 +10,12 @@ const Tables = lazy(() => import('../pages/admin/Tables'));
 const Alerts = lazy(() => import('../pages/admin/UiElements/Alerts'));
 const Buttons = lazy(() => import('../pages/admin/UiElements/Buttons'));
 const TraceAlumni = lazy(() => import('../pages/admin/TraceAlumni'));
-const ImportData = lazy(() => import('../pages/admin/ImportData'));
+const SurveyForm = lazy(() => import('../pages/admin/SurveyForm'));
 
 const coreRoutes = [{
-  path: '/admin/task/import-data',
-  title: 'ImportData',
-  component: ImportData
+  path: '/admin/task/survey-form',
+  title: 'SurveyForm',
+  component: SurveyForm
 }, {
   path: '/admin/trace-alumni',
   title: 'TraceAlumni',

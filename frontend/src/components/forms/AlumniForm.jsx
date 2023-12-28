@@ -82,12 +82,16 @@ const AlumniForm = () => {
       data.current_job_start_date = null;
     }
 
+    employmentData.map(row => {
+      if (row.dateEmployed === "") {
+        row.dateEmployed = null;
+      }
+    })
+
     const postData = {
       ...data,
       employmentData,
     };
-
-    console.log(postData);
 
     const promise = toast.promise(
       axios.post(`${baseURL}/api/alumni-form/`, postData),
@@ -103,6 +107,11 @@ const AlumniForm = () => {
     } catch (error) {
       console.error("Error submitting form:", error);
     }
+  };
+
+  const resetForm = () => {
+    reset();
+    toast.success('Tracer Survey Form Reset!')
   };
 
   return (
@@ -443,10 +452,9 @@ const AlumniForm = () => {
                       }}
                     />
                     <div
-                      className={`mr-4 flex h-5 w-5 items-center justify-center rounded border ${
-                        isEmployed &&
+                      className={`mr-4 flex h-5 w-5 items-center justify-center rounded border ${isEmployed &&
                         "border-primary bg-gray dark:bg-transparent"
-                      }`}
+                        }`}
                     >
                       <span
                         className={`opacity-0 ${isEmployed && "!opacity-100"}`}
@@ -489,10 +497,9 @@ const AlumniForm = () => {
                       }}
                     />
                     <div
-                      className={`mr-4 flex h-5 w-5 items-center justify-center rounded border ${
-                        isPromoted &&
+                      className={`mr-4 flex h-5 w-5 items-center justify-center rounded border ${isPromoted &&
                         "border-primary bg-gray dark:bg-transparent"
-                      }`}
+                        }`}
                     >
                       <span
                         className={`opacity-0 ${isPromoted && "!opacity-100"}`}
@@ -534,10 +541,9 @@ const AlumniForm = () => {
                       }}
                     />
                     <div
-                      className={`mr-4 flex h-5 w-5 items-center justify-center rounded border ${
-                        isRelated &&
+                      className={`mr-4 flex h-5 w-5 items-center justify-center rounded border ${isRelated &&
                         "border-primary bg-gray dark:bg-transparent"
-                      }`}
+                        }`}
                     >
                       <span
                         className={`opacity-0 ${isRelated && "!opacity-100"}`}
@@ -678,12 +684,32 @@ const AlumniForm = () => {
               ></textarea>
             </div>
 
-            <button
-              type="submit"
-              className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray"
-            >
-              Save Entry
-            </button>
+
+            <div className="flex">
+              <label htmlFor="my_modal_6" className="btn dark:btn-neutral w-[70%] flex  justify-center p-3 bg-primary font-medium text-gray">Submit</label>
+              <div onClick={resetForm} className="dark:btn-error w-[30%] btn">Reset</div>
+            </div>
+
+
+            <input type="checkbox" id="my_modal_6" className="modal-toggle" />
+            <div className="modal" role="dialog">
+              <div className="modal-box">
+                <h3 className="font-bold text-lg">System Notice!</h3>
+                <p className="py-4">Are you sure want to submit this entry?</p>
+                <div className="modal-action">
+                  <button
+                    onClick={() => document.getElementById('my_modal_3').close()}
+                    type="submit"
+                    className="btn w-1/3 flex justify-center rounded-lg bg-primary p-3 font-medium text-gray"
+                  >
+                    Submit Entry
+                  </button>
+                  <label htmlFor="my_modal_6" className="btn">Close!</label>
+                </div>
+              </div>
+            </div>
+
+
           </div>
         </form>
       </div>
