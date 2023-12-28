@@ -106,7 +106,6 @@ class UserInfoView(APIView):
             alumni_serializer = AlumniProfileSerializer(alumni_profile)
             
             data = {**alumni_serializer.data, **current_job_serializer.data}
-            print(data)
             return Response(data, status=status.HTTP_200_OK)
         except AlumniProfile.DoesNotExist:
             return Response({'detail': 'AlumniProfile does not exist for this user.'}, status=status.HTTP_404_NOT_FOUND)
