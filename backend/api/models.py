@@ -86,11 +86,12 @@ class Course(models.Model):
         return AlumniProfile.objects.filter(course=self).count()
 
 class CurrentJob(models.Model):
-    alumni = models.ForeignKey(AlumniProfile, on_delete=models.CASCADE)
+    alumni = models.ForeignKey(AlumniProfile, on_delete=models.CASCADE, related_name='current_job')
     job_position = models.CharField(max_length=64)
     approximate_monthly_salary = models.IntegerField()
     company_affiliation = models.CharField(max_length=64)
     company_address = models.ForeignKey(Address, on_delete=models.CASCADE, blank=True, null=True)
+    employment_status = models.CharField(max_length=64) 
     employed_within_6mo = models.BooleanField(default=False)
     promoted_in_current_job = models.BooleanField(default=False)
     getting_jobs_related_to_experience = models.BooleanField(default=False)

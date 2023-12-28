@@ -37,9 +37,6 @@ class CurriculumList(ListAPIView):
     serializer_class = CurriculumSerializer
 
 
-
-
-
 class CourseList(ListAPIView):
     serializer_class = CourseSerializer
 
@@ -75,18 +72,15 @@ class TableAlumniView(ListAPIView):
     pagination_class = TableAlumniPagination
 
     def get_queryset(self):
-        queryset = GraduateInformation.objects.order_by('graduation_date')
+        queryset = GraduateInformation.objects.order_by('alumni_id')
 
         curriculum_no = self.request.query_params.get('curriculum_no', None)
-        curriculum_year = self.request.query_params.get('curriculum_year', None)
         course = self.request.query_params.get('course', None)
         no_of_units = self.request.query_params.get('no_of_units', None)
 
         if curriculum_no:
             queryset = queryset.filter(alumni__course__curriculum__cmo_no=curriculum_no)
         
-        if curriculum_year:
-            queryset = queryset.filter(alumni__course__curriculum__curriculum_year=curriculum_year)
         
         if course:
             queryset = queryset.filter(alumni__course__course_name=course)
@@ -170,6 +164,7 @@ class AlumniForm(APIView):
                 approximate_monthly_salary=data['salary'],
                 company_affiliation=data['company_affiliation'],
                 company_address=current_job_address,
+                employment_status=data['current_job_employment_status'],
                 employed_within_6mo=data['employed_within_6mo'],
                 promoted_in_current_job=data['promoted_in_current_job'],
                 getting_jobs_related_to_experience=data['getting_jobs_related_to_experience']

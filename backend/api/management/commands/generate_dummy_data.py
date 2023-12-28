@@ -51,7 +51,7 @@ class Command(BaseCommand):
 
         AlumniProfile.objects.create(
             user=superuser,
-            alumni_id='A0-001',
+            alumni_id='A1-111',
             course=random.choice(courses_list),
             fname='Gem Rey',
             lname='Rañola',
@@ -104,14 +104,14 @@ class Command(BaseCommand):
                 municipality_data = province_data['municipality_list'][municipality_name]
                 barangay_name = random.choice(municipality_data['barangay_list'])
 
-            # address = Address.objects.create(
-            #     country='Phillipines',
-            #     region=region_name,
-            #     province=province_name,
-            #     city=municipality_name,
-            #     barangay=barangay_name,
-            #     zip_code=fake.zipcode(),
-            # )
+            address = Address.objects.create(
+                country='Phillipines',
+                region=region_name,
+                province=province_name,
+                city=municipality_name,
+                barangay=barangay_name,
+                zip_code=fake.zipcode(),
+            )
 
             first_name = fake.first_name()
             last_name = fake.last_name()
@@ -174,12 +174,7 @@ class Command(BaseCommand):
                 "Self-employed",
                 "Consultant",
                 "Remote",
-                "Seasonal",
-                "Volunteer",
-                "Unemployed",
-                "Retired",
-                "Student",
-                "Other"
+                "Student"
             ]
 
         #     user = User.objects.create_user(
@@ -188,61 +183,62 @@ class Command(BaseCommand):
         #         email=f'{first_name}.{alumni_id}@gmail.com',
         #     )
 
-            # alumni_profile = AlumniProfile.objects.create(
-            #     # user=user,
-            #     alumni_id=alumni_id,
-            #     course=random.choice(courses_list),
-            #     fname=first_name,
-            #     lname=last_name,
-            #     mi=middle_name,
-            #     sex=random.choice(['Male', 'Female']),
-            #     contact_number=fake.phone_number(),
-            #     religion=random.choice(religion),
-            #     civil_status=random.choice(marital),
-            #     date_of_birth=fake.date_of_birth(),
-            #     facebook_account_name=f'{first_name} {middle_name.title()}. {last_name}',
-            #     home_address=address,
-            # )
+            alumni_profile = AlumniProfile.objects.create(
+                # user=user,
+                alumni_id=alumni_id,
+                course=random.choice(courses_list),
+                fname=first_name,
+                lname=last_name,
+                mi=middle_name,
+                sex=random.choice(['Male', 'Female']),
+                contact_number=fake.phone_number(),
+                religion=random.choice(religion),
+                civil_status=random.choice(marital),
+                date_of_birth=fake.date_of_birth(),
+                facebook_account_name=f'{first_name} {middle_name.title()}. {last_name}',
+                home_address=address,
+            )
 
           
-            # graduate_info = GraduateInformation.objects.create(
-            #     alumni=alumni_profile,
-            #     year_graduated=random.randint(2005, 2023),
-            #     honor=fake.word(),
-            # )
+            graduate_info = GraduateInformation.objects.create(
+                alumni=alumni_profile,
+                year_graduated=random.randint(2005, 2023),
+                honor=fake.word(),
+            )
 
-            # current_job = CurrentJob.objects.create(
-            #     alumni=alumni_profile,
-            #     job_position=random.choice(job_positions),
-            #     approximate_monthly_salary=random.randint(10000, 50000),
-            #     company_affiliation=random.choice(company_affiliations),
-            #     company_address=address,
-            #     employed_within_6mo=random.choice([True, False]),
-            #     promoted_in_current_job=random.choice([True, False])
-            # )
+            current_job = CurrentJob.objects.create(
+                alumni=alumni_profile,
+                job_position=random.choice(job_positions),
+                approximate_monthly_salary=random.randint(10000, 50000),
+                company_affiliation=random.choice(company_affiliations),
+                company_address=address,
+                employment_status=random.choice(employment_statuses),
+                employed_within_6mo=random.choice([True, False]),
+                promoted_in_current_job=random.choice([True, False]),
+                getting_jobs_related_to_experience=random.choice([True, False])
+            )
 
-            # def random_date():
-            #     start_date = datetime(2000, 1, 1)
-            #     end_date = datetime(2023, 12, 31)
-            #     time_delta = end_date - start_date
-            #     random_days = random.randint(0, time_delta.days)
-            #     random_date_result = start_date + timedelta(days=random_days)
-            #     return random_date_result
+            def random_date():
+                start_date = datetime(2000, 1, 1)
+                end_date = datetime(2023, 12, 31)
+                time_delta = end_date - start_date
+                random_days = random.randint(0, time_delta.days)
+                random_date_result = start_date + timedelta(days=random_days)
+                return random_date_result
             
-            # record_iterate = random.randint(0, 3)
-            # for k in range(record_iterate):
-            #     if record_iterate == 0:
-            #         break
-            #     else:
-            #         employement_record = EmploymentRecord.objects.create(
-            #             alumni=alumni_profile,
-            #             company_name=random.choice(company_affiliations),
-            #             employment_status=random.choice(employment_statuses),
-            #             approximate_monthly_salary=random.randint(10000, 50000),
-            #             date_employed=random_date(),
-            #             getting_jobs_related_to_experience=random.choice([True, False])
-            #         )
-            #     print('employment', k)
+            record_iterate = random.randint(0, 3)
+            for k in range(record_iterate):
+                if record_iterate == 0:
+                    break
+                else:
+                    employement_record = EmploymentRecord.objects.create(
+                        alumni=alumni_profile,
+                        company_name=random.choice(company_affiliations),
+                        employment_status=random.choice(employment_statuses),
+                        approximate_monthly_salary=random.randint(10000, 50000),
+                        date_employed=random_date(),
+                    )
+                print('employment', k)
 
             print(f'{i+1}/20')
 

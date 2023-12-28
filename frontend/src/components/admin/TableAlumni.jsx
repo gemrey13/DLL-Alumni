@@ -22,12 +22,11 @@ const TableAlumni = () => {
         // Fetch data when form values change
         const data = {
             curriculum_no: watch('curriculum_no'),
-            curriculum_year: watch('curriculum_year'),
             course: watch('course'),
             no_of_units: watch('no_of_units'),
         };
         fetchData(data);
-    }, [watch('curriculum_no'), watch('curriculum_year'), watch('course'), watch('no_of_units')]);
+    }, [watch('curriculum_no'), watch('course'), watch('no_of_units')]);
 
 
     const fetchCurriculum = async () => {
@@ -55,6 +54,7 @@ const TableAlumni = () => {
             })
             setAlumniData(response.data.results);
             setNextPage(response.data.next);
+            console.log(response.data)
         } catch (err) {
             console.error('Error fetching alumni data:', err);
         }
@@ -87,27 +87,6 @@ const TableAlumni = () => {
                     <option value=''>see all</option>
                     {curriculumData.map(curriculum => (
                         <option key={curriculum.cmo_no} value={curriculum.cmo_no}>{curriculum.cmo_no}</option>
-                    ))}
-                </select>
-                <span className="absolute top-1/2 right-4 z-10 -translate-y-1/2">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g opacity="0.8">
-                    <path fillRule="evenodd" clipRule="evenodd" d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z" fill="#637381"></path>
-                    </g>
-                </svg>
-                </span>
-            </div>
-        </div>
-        
-        <div className="w-full xl:w-1/2">
-            <label className="mb-2.5 block text-black dark:text-white">
-                Curriculum Year
-            </label>
-            <div className="relative z-20 bg-white dark:bg-form-input">
-                <select {...register('curriculum_year')} className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-4 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input">
-                    <option value=''>see all</option>
-                    {curriculumData.map(curriculum => (
-                        <option key={curriculum.curriculum_year} value={curriculum.curriculum_year}>{curriculum.curriculum_year}</option>
                     ))}
                 </select>
                 <span className="absolute top-1/2 right-4 z-10 -translate-y-1/2">
@@ -159,13 +138,13 @@ const TableAlumni = () => {
                   Name
                 </th>
                 <th className="min-w-[220px] py-4 px-4 font-medium text-black dark:text-white">
-                  Email
+                  Employment Status
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
                   Course
                 </th>
                 <th className="min-w-[150px] py-4 px-4 font-medium text-black dark:text-white">
-                  Batch year
+                  Batch Year
                 </th>
                 <th className="py-4 px-4 font-medium text-black dark:text-white">
                   Actions
@@ -182,15 +161,21 @@ const TableAlumni = () => {
                             <p className="text-sm">#{alumni.alumni_id}</p>
                         </td>
                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                            <h5 className="text-black dark:text-white">
-                                {alumni.alumni_email}
-                            </h5>
+                            {alumni.has_current_job ? (
+                                <p className="inline-flex rounded-full bg-success bg-opacity-10 py-1 px-3 text-sm font-medium text-success">
+                                    {alumni.employment_status}
+                                </p>
+                            ): (
+                                <p className="inline-flex rounded-full bg-warning bg-opacity-10 py-1 px-3 text-sm font-medium text-warning">
+                                    Unemployed
+                                </p>
+                            )}
                         </td>
                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                             <p className="text-black dark:text-white">{alumni.course}</p>
                         </td>
                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                            <p className="text-black dark:text-white">{alumni.graduation_year-1}-{alumni.graduation_year}</p>
+                            <p className="text-black dark:text-white">{alumni.year_graduated-1}-{alumni.year_graduated}</p>
                         </td>
                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                             <div className="flex items-center space-x-3.5">

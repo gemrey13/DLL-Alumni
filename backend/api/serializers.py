@@ -6,6 +6,7 @@ from .models import (
     GraduateInformation,
     Curriculum,
     Course,
+    CurrentJob
 )
 
 
@@ -56,21 +57,37 @@ class AlumniProfileSerializer(serializers.ModelSerializer):
         model = AlumniProfile
         fields = ['alumni_id', 'fname', 'lname', 'date_of_birth', 'course']
 
+class CurrentJobSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CurrentJob
+        fields = '__all__'
 
 class TableAlumniInformationSerializer(serializers.ModelSerializer):
     alumni_id = serializers.CharField(source='alumni.alumni_id')
     course = serializers.CharField(source='alumni.course.course_name')
     alumni_fname = serializers.CharField(source='alumni.fname')
     alumni_lname = serializers.CharField(source='alumni.lname')
-    alumni_email = serializers.CharField(source='alumni.user.email')
-    graduation_year = serializers.SerializerMethodField()
+    employment_status = serializers.SerializerMethodField()
+    has_current_job = serializers.SerializerMethodField()
+    year_graduated = serializers.SerializerMethodField()
 
     class Meta:
         model = GraduateInformation
-        fields = ['alumni_id', 'alumni_fname', 'alumni_lname', 'graduation_year', 'course', 'alumni_email']
+        fields = ['alumni_id', 'alumni_fname', 'alumni_lname', 'year_graduated', 'course', 'has_current_job', 'employment_status']
 
-    def get_graduation_year(self, obj):
-        return obj.graduation_date.year
+    def get_year_graduated(self, obj):
+        return obj.year_graduated
+    
+    def get_has_current_job(self, obj):
+        alumni_profile = obj.alumni
+        return alumni_profile.current_job.exists()
+    
+    def get_employment_status(self, obj):
+        alumni_profile = obj.alumni
+        current_job = alumni_profile.current_job.first()  # Assuming you want the employment status of the first job if multiple
+        return current_job.employment_status if current_job else None
+    
+
 
 
 class AlumniProfileSerializer(serializers.ModelSerializer):
