@@ -3,6 +3,8 @@ import { jwtDecode } from "jwt-decode";
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios';
 import baseURL from '@/apiConfig'
+import toast from "react-hot-toast";
+
 
 const AuthContext = createContext()
 
@@ -19,16 +21,23 @@ export const AuthProvider = ({ children }) => {
 
     let loginUser = async (e) => {
         e.preventDefault();
-        try {
-            const response = await axios.post(`${baseURL}/api/token/`, {
+        const promise = toast.promise(
+            axios.post(`${baseURL}/api/token/`, {
                 username: e.target.username.value,
                 password: e.target.password.value,
             }, {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-            });
-
+            }),
+            {
+                loading: "Please Wait...",
+                success: <b>Success!</b>,
+                error: <b>Error Credentials.</b>,
+            }
+        );
+        try {
+            const response = await promise
             const data = response.data;
 
             if (data) {
@@ -45,12 +54,13 @@ export const AuthProvider = ({ children }) => {
 
                 setUser(userData)
                 setUserProfile(userData)
+                toast.success('Login Successfully!')
                 navigate('/admin')
             } else {
-                alert('Something went wrong while logging in the user!')
+                toast.error('Something went wrong while logging in the user!')
             }
         } catch (error) {
-            console.error(error);
+            toast.error('Login error:', error);
         }
     };
 
@@ -59,6 +69,9 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('authTokens')
         setAuthTokens(null)
         setUser(null)
+        toast('Admin Logout!', {
+            icon: '👋',
+          });
         navigate('/')
     };
 
