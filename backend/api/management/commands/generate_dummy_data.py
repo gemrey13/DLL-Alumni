@@ -15,6 +15,65 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write(self.style.SUCCESS('Generating dummy data...'))
         superuser = User.objects.get(username='admin')
+        
+        job_positions = [
+            "Software Engineer",
+            "Marketing Manager",
+            "Project Manager",
+            "Sales Representative",
+            "Accountant",
+            "Human Resources Specialist",
+            "Graphic Designer",
+            "Customer Support Representative",
+            "Research Analyst",
+            "Executive Assistant",
+            "Data Scientist",
+            "Operations Manager",
+            "Product Manager",
+            "Nurse",
+            "Teacher",
+            "Electrician",
+            "Chef",
+            "Mechanical Engineer",
+            "Financial Analyst",
+            "Web Developer"
+        ]
+
+        company_affiliations = [
+            "ABC Corporation",
+            "XYZ Industries",
+            "Tech Innovators Ltd.",
+            "Global Solutions Inc.",
+            "Fantastic Foods Co.",
+            "Infinite Technologies",
+            "Bright Ideas Group",
+            "Swift Logistics Services",
+            "HealthCare Innovations",
+            "Smart Electronics Ltd.",
+            "Creative Designs Agency",
+            "Energy Powerhouse Inc.",
+            "Secure Solutions Group",
+            "Eco-Friendly Solutions Co.",
+            "Financial Wizards LLC",
+            "GreenTech Ventures",
+            "Innovative Labs International",
+            "Future Tech Enterprises",
+            "Sunrise Hospitality Group",
+            "Precision Manufacturing Co."
+        ]
+
+        employment_statuses = [
+            "Full-time",
+            "Part-time",
+            "Contract",
+            "Temporary",
+            "Intern",
+            "Freelance",
+            "Self-employed",
+            "Consultant",
+            "Remote",
+            "Student"
+        ]
 
         curriculums = [Curriculum(
             cmo_no=f'CMO No. {_ - 1990}',
@@ -49,7 +108,7 @@ class Command(BaseCommand):
             zip_code="4301",
         )
 
-        AlumniProfile.objects.create(
+        admin_profile = AlumniProfile.objects.create(
             user=superuser,
             alumni_id='A1-111',
             course=random.choice(courses_list),
@@ -64,6 +123,18 @@ class Command(BaseCommand):
             facebook_account_name=f'Gem Rey B. Rañola',
             home_address=admin_address,
         )
+
+        CurrentJob.objects.create(
+                alumni=admin_profile,
+                job_position=random.choice(job_positions),
+                approximate_monthly_salary=random.randint(10000, 50000),
+                company_affiliation=random.choice(company_affiliations),
+                company_address=admin_address,
+                employment_status=random.choice(employment_statuses),
+                employed_within_6mo=random.choice([True, False]),
+                promoted_in_current_job=random.choice([True, False]),
+                getting_jobs_related_to_experience=random.choice([True, False])
+            )
         print('Admin Profile Generated')
 
         province = ['Quezon', 'Batangas', 'Laguna']
@@ -118,64 +189,6 @@ class Command(BaseCommand):
             middle_name = fake.random_letter()
             alumni_id = f'A0-0{i+1}'
 
-            job_positions = [
-                "Software Engineer",
-                "Marketing Manager",
-                "Project Manager",
-                "Sales Representative",
-                "Accountant",
-                "Human Resources Specialist",
-                "Graphic Designer",
-                "Customer Support Representative",
-                "Research Analyst",
-                "Executive Assistant",
-                "Data Scientist",
-                "Operations Manager",
-                "Product Manager",
-                "Nurse",
-                "Teacher",
-                "Electrician",
-                "Chef",
-                "Mechanical Engineer",
-                "Financial Analyst",
-                "Web Developer"
-            ]
-
-            company_affiliations = [
-                "ABC Corporation",
-                "XYZ Industries",
-                "Tech Innovators Ltd.",
-                "Global Solutions Inc.",
-                "Fantastic Foods Co.",
-                "Infinite Technologies",
-                "Bright Ideas Group",
-                "Swift Logistics Services",
-                "HealthCare Innovations",
-                "Smart Electronics Ltd.",
-                "Creative Designs Agency",
-                "Energy Powerhouse Inc.",
-                "Secure Solutions Group",
-                "Eco-Friendly Solutions Co.",
-                "Financial Wizards LLC",
-                "GreenTech Ventures",
-                "Innovative Labs International",
-                "Future Tech Enterprises",
-                "Sunrise Hospitality Group",
-                "Precision Manufacturing Co."
-            ]
-
-            employment_statuses = [
-                "Full-time",
-                "Part-time",
-                "Contract",
-                "Temporary",
-                "Intern",
-                "Freelance",
-                "Self-employed",
-                "Consultant",
-                "Remote",
-                "Student"
-            ]
 
         #     user = User.objects.create_user(
         #         username=f'{alumni_id}.{first_name}',

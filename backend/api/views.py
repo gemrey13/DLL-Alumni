@@ -15,6 +15,7 @@ from .serializers import (
     AlumniFormSerializer,
 
     AlumniProfileSerializer,
+    CurrentJobSerializer,
     CurriculumSerializer,
     CourseSerializer
 )
@@ -99,10 +100,18 @@ class UserInfoView(APIView):
 
         try:
             alumni_profile = AlumniProfile.objects.get(user=user)
-            serializer = AlumniProfileSerializer(alumni_profile)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            current_job = CurrentJob.objects.get(alumni=alumni_profile)
+
+            current_job_serializer = CurrentJobSerializer(current_job)
+            alumni_serializer = AlumniProfileSerializer(alumni_profile)
+            
+            data = {**alumni_serializer.data, **current_job_serializer.data}
+            print(data)
+            return Response(data, status=status.HTTP_200_OK)
         except AlumniProfile.DoesNotExist:
             return Response({'detail': 'AlumniProfile does not exist for this user.'}, status=status.HTTP_404_NOT_FOUND)
+        except CurrentJob.DoesNotExist:
+            return Response({'detail': 'CurrentJob does not exist for this user.'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'detail': f'An unexpected error occurred: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
