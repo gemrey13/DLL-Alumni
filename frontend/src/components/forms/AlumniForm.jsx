@@ -82,11 +82,11 @@ const AlumniForm = () => {
       data.current_job_start_date = null;
     }
 
-    employmentData.map(row => {
+    employmentData.map((row) => {
       if (row.dateEmployed === "") {
         row.dateEmployed = null;
       }
-    })
+    });
 
     const postData = {
       ...data,
@@ -111,22 +111,21 @@ const AlumniForm = () => {
 
   const resetForm = () => {
     reset();
-    toast.success('Tracer Survey Form Reset!')
+    toast.success("Tracer Survey Form Reset!");
   };
 
   const employment_statuses = [
-      "Full-time",
-      "Part-time",
-      "Contract",
-      "Temporary",
-      "Intern",
-      "Freelance",
-      "Self-employed",
-      "Consultant",
-      "Remote",
-      "Student"
-  ]
-
+    "Full-time",
+    "Part-time",
+    "Contract",
+    "Temporary",
+    "Intern",
+    "Freelance",
+    "Self-employed",
+    "Consultant",
+    "Remote",
+    "Student",
+  ];
 
   return (
     <>
@@ -456,7 +455,9 @@ const AlumniForm = () => {
                 </label>
                 <div className="relative z-20 bg-transparent dark:bg-form-input">
                   <select
-                    {...register("current_job_employment_status", { required: "Employment Status is required" })}
+                    {...register("current_job_employment_status", {
+                      required: "Employment Status is required",
+                    })}
                     className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                   >
                     <option value="">Select Status</option>
@@ -683,7 +684,9 @@ const AlumniForm = () => {
                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                           <div className="relative z-20 bg-transparent dark:bg-form-input">
                             <select
-                              {...register("current_job_employment_status", { required: "Employment Status is required" })}
+                              {...register("current_job_employment_status", {
+                                required: "Employment Status is required",
+                              })}
                               className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-2 px-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                             >
                               <option value="">Select Status</option>
@@ -758,12 +761,17 @@ const AlumniForm = () => {
               ></textarea>
             </div>
 
-
             <div className="flex">
-              <label htmlFor="my_modal_6" className="btn dark:btn-neutral w-[70%] flex  justify-center p-3 bg-primary font-medium text-gray">Submit</label>
-              <div onClick={resetForm} className="dark:btn-error w-[30%] btn">Reset</div>
+              <label
+                htmlFor="my_modal_6"
+                className="btn dark:btn-neutral w-[70%] flex  justify-center p-3 bg-primary font-medium text-gray"
+              >
+                Submit
+              </label>
+              <div onClick={resetForm} className="dark:btn-error w-[30%] btn">
+                Reset
+              </div>
             </div>
-
 
             <input type="checkbox" id="my_modal_6" className="modal-toggle" />
             <div className="modal" role="dialog">
@@ -772,18 +780,20 @@ const AlumniForm = () => {
                 <p className="py-4">Are you sure want to submit this entry?</p>
                 <div className="modal-action">
                   <button
-                    onClick={() => document.getElementById('my_modal_3').close()}
+                    onClick={() =>
+                      document.getElementById("my_modal_3").close()
+                    }
                     type="submit"
                     className="btn w-1/3 flex justify-center rounded-lg bg-primary p-3 font-medium text-gray"
                   >
                     Submit Entry
                   </button>
-                  <label htmlFor="my_modal_6" className="btn">Close!</label>
+                  <label htmlFor="my_modal_6" className="btn">
+                    Close!
+                  </label>
                 </div>
               </div>
             </div>
-
-
           </div>
         </form>
       </div>
