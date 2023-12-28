@@ -1,11 +1,12 @@
-import { useState } from 'react';
-import Header from '../components/admin/Header';
-import Sidebar from '../components/admin/Sidebar';
-import { Outlet } from 'react-router-dom';
+import { useState } from "react";
+import Header from "../components/admin/Header";
+import Sidebar from "../components/admin/Sidebar";
+import { Outlet } from "react-router-dom";
 
 const DefaultLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  return <div className="dark:bg-boxdark-2 dark:text-bodydark">
+  return (
+    <div className="dark:bg-boxdark-2 dark:text-bodydark">
       <div className="flex h-screen overflow-hidden">
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
 
@@ -25,6 +26,7 @@ const DefaultLayout = () => {
         {/* <!-- ===== Content Area End ===== --> */}
       </div>
       {/* <!-- ===== Page Wrapper End ===== --> */}
-    </div>;
+    </div>
+  );
 };
 export default DefaultLayout;

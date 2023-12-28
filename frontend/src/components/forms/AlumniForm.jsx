@@ -183,8 +183,7 @@ const AlumniForm = () => {
                 <div className="relative z-20 bg-transparent dark:bg-form-input">
                   <select
                     {...register("sex", { required: "Sex is required" })}
-                    className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                  >
+                    className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
                     <option value="" disabled>
                       Select Gender
                     </option>
@@ -198,15 +197,13 @@ const AlumniForm = () => {
                       height="24"
                       viewBox="0 0 24 24"
                       fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
+                      xmlns="http://www.w3.org/2000/svg">
                       <g opacity="0.8">
                         <path
                           fillRule="evenodd"
                           clipRule="evenodd"
                           d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
-                          fill=""
-                        ></path>
+                          fill=""></path>
                       </g>
                     </svg>
                   </span>
@@ -315,8 +312,7 @@ const AlumniForm = () => {
                     {...register("year_graduated", {
                       required: "Year Graduated is required",
                     })}
-                    className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                  >
+                    className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
                     <option value="">Select curriculum</option>
                     {years.map((year, index) => (
                       <option key={index} value={year}>
@@ -331,15 +327,13 @@ const AlumniForm = () => {
                       height="24"
                       viewBox="0 0 24 24"
                       fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
+                      xmlns="http://www.w3.org/2000/svg">
                       <g opacity="0.8">
                         <path
                           fillRule="evenodd"
                           clipRule="evenodd"
                           d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
-                          fill=""
-                        ></path>
+                          fill=""></path>
                       </g>
                     </svg>
                   </span>
@@ -353,8 +347,7 @@ const AlumniForm = () => {
                 <div className="relative z-20 bg-transparent dark:bg-form-input">
                   <select
                     {...register("course", { required: "Course is required" })}
-                    className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                  >
+                    className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
                     <option value="">Select Course</option>
                     {coursesData.map((course) => (
                       <option key={course.course_id} value={course.course_id}>
@@ -369,15 +362,13 @@ const AlumniForm = () => {
                       height="24"
                       viewBox="0 0 24 24"
                       fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
+                      xmlns="http://www.w3.org/2000/svg">
                       <g opacity="0.8">
                         <path
                           fillRule="evenodd"
                           clipRule="evenodd"
                           d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
-                          fill=""
-                        ></path>
+                          fill=""></path>
                       </g>
                     </svg>
                   </span>
@@ -458,8 +449,7 @@ const AlumniForm = () => {
                     {...register("current_job_employment_status", {
                       required: "Employment Status is required",
                     })}
-                    className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                  >
+                    className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
                     <option value="">Select Status</option>
                     {employment_statuses.map((status, key) => (
                       <option key={key} value={status}>
@@ -474,15 +464,13 @@ const AlumniForm = () => {
                       height="24"
                       viewBox="0 0 24 24"
                       fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
+                      xmlns="http://www.w3.org/2000/svg">
                       <g opacity="0.8">
                         <path
                           fillRule="evenodd"
                           clipRule="evenodd"
                           d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
-                          fill=""
-                        ></path>
+                          fill=""></path>
                       </g>
                     </svg>
                   </span>
@@ -494,8 +482,7 @@ const AlumniForm = () => {
               <div className="mb-5">
                 <label
                   htmlFor="checkboxLabelOne"
-                  className="flex cursor-pointer select-none items-center"
-                >
+                  className="flex cursor-pointer select-none items-center">
                   <div className="relative">
                     <input
                       {...register("employed_within_6mo")}
@@ -507,26 +494,23 @@ const AlumniForm = () => {
                       }}
                     />
                     <div
-                      className={`mr-4 flex h-5 w-5 items-center justify-center rounded border ${isEmployed &&
+                      className={`mr-4 flex h-5 w-5 items-center justify-center rounded border ${
+                        isEmployed &&
                         "border-primary bg-gray dark:bg-transparent"
-                        }`}
-                    >
+                      }`}>
                       <span
-                        className={`opacity-0 ${isEmployed && "!opacity-100"}`}
-                      >
+                        className={`opacity-0 ${isEmployed && "!opacity-100"}`}>
                         <svg
                           width="11"
                           height="8"
                           viewBox="0 0 11 8"
                           fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
+                          xmlns="http://www.w3.org/2000/svg">
                           <path
                             d="M10.0915 0.951972L10.0867 0.946075L10.0813 0.940568C9.90076 0.753564 9.61034 0.753146 9.42927 0.939309L4.16201 6.22962L1.58507 3.63469C1.40401 3.44841 1.11351 3.44879 0.932892 3.63584C0.755703 3.81933 0.755703 4.10875 0.932892 4.29224L0.932878 4.29225L0.934851 4.29424L3.58046 6.95832C3.73676 7.11955 3.94983 7.2 4.1473 7.2C4.36196 7.2 4.55963 7.11773 4.71406 6.9584L10.0468 1.60234C10.2436 1.4199 10.2421 1.1339 10.0915 0.951972ZM4.2327 6.30081L4.2317 6.2998C4.23206 6.30015 4.23237 6.30049 4.23269 6.30082L4.2327 6.30081Z"
                             fill="#3056D3"
                             stroke="#3056D3"
-                            strokeWidth="0.4"
-                          ></path>
+                            strokeWidth="0.4"></path>
                         </svg>
                       </span>
                     </div>
@@ -539,8 +523,7 @@ const AlumniForm = () => {
               <div className="mb-5">
                 <label
                   htmlFor="checkboxLabelTwo"
-                  className="flex cursor-pointer select-none items-center"
-                >
+                  className="flex cursor-pointer select-none items-center">
                   <div className="relative">
                     <input
                       {...register("promoted_in_current_job")}
@@ -552,26 +535,23 @@ const AlumniForm = () => {
                       }}
                     />
                     <div
-                      className={`mr-4 flex h-5 w-5 items-center justify-center rounded border ${isPromoted &&
+                      className={`mr-4 flex h-5 w-5 items-center justify-center rounded border ${
+                        isPromoted &&
                         "border-primary bg-gray dark:bg-transparent"
-                        }`}
-                    >
+                      }`}>
                       <span
-                        className={`opacity-0 ${isPromoted && "!opacity-100"}`}
-                      >
+                        className={`opacity-0 ${isPromoted && "!opacity-100"}`}>
                         <svg
                           width="11"
                           height="8"
                           viewBox="0 0 11 8"
                           fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
+                          xmlns="http://www.w3.org/2000/svg">
                           <path
                             d="M10.0915 0.951972L10.0867 0.946075L10.0813 0.940568C9.90076 0.753564 9.61034 0.753146 9.42927 0.939309L4.16201 6.22962L1.58507 3.63469C1.40401 3.44841 1.11351 3.44879 0.932892 3.63584C0.755703 3.81933 0.755703 4.10875 0.932892 4.29224L0.932878 4.29225L0.934851 4.29424L3.58046 6.95832C3.73676 7.11955 3.94983 7.2 4.1473 7.2C4.36196 7.2 4.55963 7.11773 4.71406 6.9584L10.0468 1.60234C10.2436 1.4199 10.2421 1.1339 10.0915 0.951972ZM4.2327 6.30081L4.2317 6.2998C4.23206 6.30015 4.23237 6.30049 4.23269 6.30082L4.2327 6.30081Z"
                             fill="#3056D3"
                             stroke="#3056D3"
-                            strokeWidth="0.4"
-                          ></path>
+                            strokeWidth="0.4"></path>
                         </svg>
                       </span>
                     </div>
@@ -583,8 +563,7 @@ const AlumniForm = () => {
               <div>
                 <label
                   htmlFor="checkboxLabelThree"
-                  className="flex cursor-pointer select-none items-center"
-                >
+                  className="flex cursor-pointer select-none items-center">
                   <div className="relative">
                     <input
                       {...register("getting_jobs_related_to_experience")}
@@ -596,26 +575,23 @@ const AlumniForm = () => {
                       }}
                     />
                     <div
-                      className={`mr-4 flex h-5 w-5 items-center justify-center rounded border ${isRelated &&
+                      className={`mr-4 flex h-5 w-5 items-center justify-center rounded border ${
+                        isRelated &&
                         "border-primary bg-gray dark:bg-transparent"
-                        }`}
-                    >
+                      }`}>
                       <span
-                        className={`opacity-0 ${isRelated && "!opacity-100"}`}
-                      >
+                        className={`opacity-0 ${isRelated && "!opacity-100"}`}>
                         <svg
                           width="11"
                           height="8"
                           viewBox="0 0 11 8"
                           fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
+                          xmlns="http://www.w3.org/2000/svg">
                           <path
                             d="M10.0915 0.951972L10.0867 0.946075L10.0813 0.940568C9.90076 0.753564 9.61034 0.753146 9.42927 0.939309L4.16201 6.22962L1.58507 3.63469C1.40401 3.44841 1.11351 3.44879 0.932892 3.63584C0.755703 3.81933 0.755703 4.10875 0.932892 4.29224L0.932878 4.29225L0.934851 4.29424L3.58046 6.95832C3.73676 7.11955 3.94983 7.2 4.1473 7.2C4.36196 7.2 4.55963 7.11773 4.71406 6.9584L10.0468 1.60234C10.2436 1.4199 10.2421 1.1339 10.0915 0.951972ZM4.2327 6.30081L4.2317 6.2998C4.23206 6.30015 4.23237 6.30049 4.23269 6.30082L4.2327 6.30081Z"
                             fill="#3056D3"
                             stroke="#3056D3"
-                            strokeWidth="0.4"
-                          ></path>
+                            strokeWidth="0.4"></path>
                         </svg>
                       </span>
                     </div>
@@ -687,8 +663,7 @@ const AlumniForm = () => {
                               {...register("current_job_employment_status", {
                                 required: "Employment Status is required",
                               })}
-                              className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-2 px-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                            >
+                              className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-2 px-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
                               <option value="">Select Status</option>
                               {employment_statuses.map((status, key) => (
                                 <option key={key} value={status}>
@@ -703,15 +678,13 @@ const AlumniForm = () => {
                                 height="24"
                                 viewBox="0 0 24 24"
                                 fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
+                                xmlns="http://www.w3.org/2000/svg">
                                 <g opacity="0.8">
                                   <path
                                     fillRule="evenodd"
                                     clipRule="evenodd"
                                     d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
-                                    fill=""
-                                  ></path>
+                                    fill=""></path>
                                 </g>
                               </svg>
                             </span>
@@ -741,8 +714,7 @@ const AlumniForm = () => {
             <div className="mb-4.5 flex justify-center">
               <button
                 onClick={handleAddRow}
-                className="inline-flex items-center justify-center rounded-md bg-meta-3 py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-6"
-              >
+                className="inline-flex items-center justify-center rounded-md bg-meta-3 py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-6">
                 +Add Employment Record
               </button>
             </div>
@@ -757,15 +729,13 @@ const AlumniForm = () => {
                 {...register("description")}
                 rows={6}
                 placeholder="(Please state higher educational attainment earned, training, skills,affiliations,professional registrations/licenses, awards and recognitions achieved)"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-              ></textarea>
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"></textarea>
             </div>
 
             <div className="flex">
               <label
                 htmlFor="my_modal_6"
-                className="btn dark:btn-neutral w-[70%] flex  justify-center p-3 bg-primary font-medium text-gray"
-              >
+                className="btn dark:btn-neutral w-[70%] flex  justify-center p-3 bg-primary font-medium text-gray">
                 Submit
               </label>
               <div onClick={resetForm} className="dark:btn-error w-[30%] btn">
@@ -784,8 +754,7 @@ const AlumniForm = () => {
                       document.getElementById("my_modal_3").close()
                     }
                     type="submit"
-                    className="btn w-1/3 flex justify-center rounded-lg bg-primary p-3 font-medium text-gray"
-                  >
+                    className="btn w-1/3 flex justify-center rounded-lg bg-primary p-3 font-medium text-gray">
                     Submit Entry
                   </button>
                   <label htmlFor="my_modal_6" className="btn">
