@@ -32,6 +32,8 @@ class CurriculumList(ListAPIView):
 
 
 
+
+
 class CourseList(ListAPIView):
     serializer_class = CourseSerializer
 
@@ -39,7 +41,7 @@ class CourseList(ListAPIView):
         course_names = Course.objects.values_list('course_name', flat=True).distinct()
 
         return Response(course_names)
-
+    
 
 
 class CurriculumCourseView(ListAPIView):
@@ -47,10 +49,10 @@ class CurriculumCourseView(ListAPIView):
 
     def get_queryset(self):
         queryset = Course.objects.all()
-        cmo_no = self.request.query_params.get('cmo_no', None)
-        if cmo_no:
+        year_graduated = self.request.query_params.get('year_graduated', None)
+        if year_graduated:
             try:
-                curriculum = Curriculum.objects.get(cmo_no=cmo_no)
+                curriculum = Curriculum.objects.get(start_year__lte=year_graduated, end_year__gte=year_graduated)
                 queryset = queryset.filter(curriculum=curriculum)
             except Curriculum.DoesNotExist:
                 queryset = Course.objects.none()
