@@ -35,7 +35,7 @@ const coreRoutes = [
     component: Calendar,
   },
   {
-    path: "/admin/profile",
+    path: "/admin/profile/:alumni_id",
     title: "Profile",
     component: Profile,
   },

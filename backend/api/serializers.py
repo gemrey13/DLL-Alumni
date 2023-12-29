@@ -52,10 +52,6 @@ class GraduateInformationSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
         
-class AlumniProfileSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = AlumniProfile
-        fields = ['alumni_id', 'fname', 'lname', 'date_of_birth', 'course']
 
 class CurrentJobSerializer(serializers.ModelSerializer):
     class Meta:

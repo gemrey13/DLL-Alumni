@@ -7,6 +7,7 @@ from rest_framework import status
 from rest_framework_simplejwt.tokens import TokenError
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.shortcuts import render
+from django.db import transaction
 
 import json
 
@@ -115,7 +116,14 @@ class UserInfoView(APIView):
             return Response({'detail': f'An unexpected error occurred: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+# class ProfileView(APIView):
+#     def post(self, request, *args, **kwargs):
+#         serializer = AlumniProfileSerializer(data=request.data)
+
+
+
 class AlumniForm(APIView):
+    @transaction.atomic
     def post(self, request, *args, **kwargs):
         serializer = AlumniFormSerializer(data=request.data)
         pretty_json = json.dumps(request.data, indent=2)
@@ -126,7 +134,7 @@ class AlumniForm(APIView):
             data = request.data
             alumni_address = data['alumni_address'].split(', ')
             job_address = data['current_job_address'].split(', ')
-            print(generate_alumni_id())
+            alumni_id = generate_alumni_id()
 
             course = Course.objects.get(course_id=data['course'])
             employment_data = data['employmentData']
@@ -152,7 +160,7 @@ class AlumniForm(APIView):
             )
 
             alumni = AlumniProfile.objects.create(
-                alumni_id=generate_alumni_id(),
+                alumni_id=alumni_id,
                 course=course,
                 fname=data['fname'],
                 lname=data['lname'],
@@ -165,6 +173,7 @@ class AlumniForm(APIView):
                 facebook_account_name=data['contact_number'],
                 home_address=home_address,
             )
+
 
             CurrentJob.objects.create(
                 alumni=alumni,
@@ -201,17 +210,19 @@ class AlumniForm(APIView):
         
 
 def generate_alumni_id():
-    last_id = AlumniProfile.objects.order_by('-alumni_id').first()
+    with transaction.atomic():
+        last_id = AlumniProfile.objects.order_by('-alumni_id').first()
+        print(last_id)
 
-    if last_id:
-        last_number = int(last_id.alumni_id.split('-')[1])
-    else:
-        last_number = 0
+        if last_id:
+            last_number = int(last_id.alumni_id.split('-')[1])
+        else:
+            last_number = 0
 
-    new_number = last_number + 1
-    new_alumni_id = f'A0-{new_number:03d}'
+        new_number = last_number + 1
+        new_alumni_id = f'A0-{new_number:03d}'
 
-    return new_alumni_id
+        return new_alumni_id
             
 
 

@@ -1,10 +1,44 @@
 import Breadcrumb from '../../components/admin/Breadcrumb';
 import CoverOne from '../../images/admin/cover/cover-01.png';
 import userSix from '../../images/admin/user/user-06.png';
+import { useParams } from 'react-router-dom';
+import toast from "react-hot-toast";
+import axios from "axios";
+import baseURL from "@/apiConfig";
+import AuthContext from '../../context/AuthContext'
+import React, { useContext } from 'react';
 
 const Profile = () => {
-  return <>
-      <Breadcrumb pageName="Profile" />
+  const { alumni_id } = useParams();
+  let { authTokens } = useContext(AuthContext)
+
+  
+
+  // const fetchProfile = async () => {
+  //   const promise = toast.promise(
+  //     axios.post(`${baseURL}/api/user-info/`, {
+  //       data:
+  //     }
+  //     {
+  //       loading: "Please Wait...",
+  //       success: <b>Form submitted successfully!</b>,
+  //       error: <b>Failed to submit form.</b>,
+  //     }
+  //   );
+  //   try {
+  //     const server = await promise
+  //   } catch (error) {
+      
+  //   }
+
+
+  // };
+
+  // fetchProfile();
+  
+
+  return (<>
+      <Breadcrumb pageName={alumni_id}/>
 
       <div className="overflow-hidden rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="relative z-20 h-35 md:h-65">
@@ -144,6 +178,6 @@ const Profile = () => {
           </div>
         </div>
       </div>
-    </>;
+    </>);
 };
 export default Profile;

@@ -110,7 +110,7 @@ class Command(BaseCommand):
 
         admin_profile = AlumniProfile.objects.create(
             user=superuser,
-            alumni_id='A1-111',
+            alumni_id='A0-111',
             course=random.choice(courses_list),
             fname='Gem Rey',
             lname='Rañola',
@@ -187,7 +187,7 @@ class Command(BaseCommand):
             first_name = fake.first_name()
             last_name = fake.last_name()
             middle_name = fake.random_letter()
-            alumni_id = f'A0-0{i+1}'
+            alumni_id = f'A0-{112 + i}'
 
 
         #     user = User.objects.create_user(

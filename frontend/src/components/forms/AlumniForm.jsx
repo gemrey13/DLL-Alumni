@@ -65,33 +65,19 @@ const AlumniForm = () => {
     monthlySalary: row.monthlySalary,
   }));
 
-  const onsubmit = async (data) => {
-    if (data.certification_date1 === "") {
-      data.certification_date1 = null;
+  employmentData.map((row) => {
+    if (row.dateEmployed === "") {
+      row.dateEmployed = null;
     }
+  });
 
-    if (data.certification_date2 === "") {
-      data.certification_date2 = null;
-    }
 
-    if (data.certification_date3 === "") {
-      data.certification_date3 = null;
-    }
-
-    if (data.current_job_start_date === "") {
-      data.current_job_start_date = null;
-    }
-
-    employmentData.map((row) => {
-      if (row.dateEmployed === "") {
-        row.dateEmployed = null;
-      }
-    });
-
+  const submitForm = async (data) => {                
     const postData = {
       ...data,
       employmentData,
     };
+    console.log(postData)
 
     const promise = toast.promise(
       axios.post(`${baseURL}/api/alumni-form/`, postData),
@@ -103,7 +89,7 @@ const AlumniForm = () => {
     );
     try {
       const response = await promise;
-      // reset();
+      reset();
     } catch (error) {
       console.error("Error submitting form:", error);
     }
@@ -135,7 +121,7 @@ const AlumniForm = () => {
             Dalubhasaan ng Lungsod ng Lucena Tracer Survey Form
           </h3>
         </div>
-        <form onSubmit={handleSubmit(onsubmit)}>
+        <form onSubmit={handleSubmit(submitForm)}>
           <div className="p-6.5">
             <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
               <div className="w-full xl:w-1/2">
@@ -634,7 +620,7 @@ const AlumniForm = () => {
                     {rows.map((row, index) => (
                       <tr key={index}>
                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                          <input
+                          <input required
                             type="text"
                             value={row.name}
                             onChange={(e) =>
@@ -644,7 +630,7 @@ const AlumniForm = () => {
                           />
                         </td>
                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                          <input
+                          <input required
                             type="date"
                             value={row.dateEmployed}
                             onChange={(e) =>
@@ -659,10 +645,8 @@ const AlumniForm = () => {
                         </td>
                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                           <div className="relative z-20 bg-transparent dark:bg-form-input">
-                            <select
-                              {...register("current_job_employment_status", {
-                                required: "Employment Status is required",
-                              })}
+                            <select required
+                              {...register("current_job_employment_status")}
                               className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-2 px-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
                               <option value="">Select Status</option>
                               {employment_statuses.map((status, key) => (
@@ -691,7 +675,7 @@ const AlumniForm = () => {
                           </div>
                         </td>
                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
-                          <input
+                          <input required
                             type="number"
                             value={row.monthlySalary}
                             onChange={(e) =>
@@ -732,6 +716,7 @@ const AlumniForm = () => {
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"></textarea>
             </div>
 
+
             <div className="flex">
               <label
                 htmlFor="my_modal_6"
@@ -750,9 +735,12 @@ const AlumniForm = () => {
                 <p className="py-4">Are you sure want to submit this entry?</p>
                 <div className="modal-action">
                   <button
-                    onClick={() =>
-                      document.getElementById("my_modal_3").close()
-                    }
+                    onClick={() => {
+                      const checkbox = document.getElementById("my_modal_6");
+                      if (checkbox && checkbox.checked) {
+                        checkbox.checked = false;
+                      }
+                    }}
                     type="submit"
                     className="btn w-1/3 flex justify-center rounded-lg bg-primary p-3 font-medium text-gray">
                     Submit Entry
