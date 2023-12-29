@@ -11,8 +11,14 @@ const Alerts = lazy(() => import("../pages/admin/UiElements/Alerts"));
 const Buttons = lazy(() => import("../pages/admin/UiElements/Buttons"));
 const TraceAlumni = lazy(() => import("../pages/admin/TraceAlumni"));
 const SurveyForm = lazy(() => import("../pages/admin/SurveyForm"));
+const ManageCurriculum = lazy(() => import("../pages/admin/ManageCurriculum"));
 
 const coreRoutes = [
+  {
+    path: "/admin/task/manage-curriculum",
+    title: "ManageCurriculum",
+    component: ManageCurriculum,
+  },
   {
     path: "/admin/task/survey-form",
     title: "SurveyForm",
