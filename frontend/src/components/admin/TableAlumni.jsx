@@ -54,7 +54,6 @@ const TableAlumni = () => {
             })
             setAlumniData(response.data.results);
             setNextPage(response.data.next);
-            console.log(response.data)
         } catch (err) {
             console.error('Error fetching alumni data:', err);
         }
