@@ -6,7 +6,8 @@ from .models import (
     GraduateInformation,
     Curriculum,
     Course,
-    CurrentJob
+    CurrentJob,
+    EmploymentRecord
 )
 
 
@@ -101,6 +102,11 @@ class CurriculumSerializer(serializers.ModelSerializer):
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
+        fields = '__all__'
+
+class EmploymentRecordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EmploymentRecord
         fields = '__all__'
 
 # class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):

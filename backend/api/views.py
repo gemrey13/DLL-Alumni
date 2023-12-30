@@ -18,7 +18,8 @@ from .serializers import (
     AlumniProfileSerializer,
     CurrentJobSerializer,
     CurriculumSerializer,
-    CourseSerializer
+    CourseSerializer,
+    EmploymentRecordSerializer
 )
 from .models import (
     GraduateInformation,
@@ -93,6 +94,37 @@ class TableAlumniView(ListAPIView):
         return queryset
     
 
+    
+class GetProfileView(APIView):
+    def get(self, request, *args, **kwargs):
+        alumni_id = self.request.query_params.get('alumni_id', None)
+
+        if not alumni_id:
+            return Response({"error": "Missing alumni_id parameter"}, status=status.HTTP_400_BAD_REQUEST)
+
+        alumni = AlumniProfile.objects.filter(alumni_id=alumni_id)
+
+        if not alumni.exists():
+            return Response({"error": "Alumni profile not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        alumni_instance = alumni.first()
+
+        current_jobs = CurrentJob.objects.filter(alumni=alumni_instance)
+        current_jobs_serializer = CurrentJobSerializer(current_jobs, many=True)
+
+        employment_record = EmploymentRecord.objects.filter(alumni=alumni_instance)
+        employment_record_serializer = EmploymentRecordSerializer(employment_record, many=True)
+
+        data = {
+            **AlumniProfileSerializer(alumni_instance).data,
+            'current_jobs': current_jobs_serializer.data,
+            'employment_record': employment_record_serializer.data,
+
+        }
+        return Response(data, status=status.HTTP_200_OK)
+    
+
+
 class UserInfoView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -114,12 +146,6 @@ class UserInfoView(APIView):
             return Response({'detail': 'CurrentJob does not exist for this user.'}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             return Response({'detail': f'An unexpected error occurred: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-# class ProfileView(APIView):
-#     def post(self, request, *args, **kwargs):
-#         serializer = AlumniProfileSerializer(data=request.data)
-
 
 
 class AlumniForm(APIView):
