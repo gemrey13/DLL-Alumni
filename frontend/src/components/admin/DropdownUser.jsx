@@ -41,7 +41,7 @@ const DropdownUser = () => {
           <span className="block text-sm font-medium text-black dark:text-white">
              {userProfile.fname} {userProfile.lname}
           </span>
-          <span className="block text-xs">{userProfile.job_position}</span>
+          <span className="block text-xs">{userProfile.current_job[0].job_position}</span>
         </span>
 
         <span className="h-12 w-12 rounded-full">

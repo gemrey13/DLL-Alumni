@@ -7,8 +7,50 @@ from .models import (
     Curriculum,
     Course,
     CurrentJob,
-    EmploymentRecord
+    EmploymentRecord,
+    Address
 )
+
+
+class GraduateInformationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GraduateInformation
+        fields = '__all__'
+
+        
+
+class CurrentJobSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CurrentJob
+        fields = '__all__'
+
+
+class AlumniProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AlumniProfile
+        fields = '__all__'
+
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = '__all__'
+
+
+class CurriculumSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Curriculum
+        fields = '__all__'
+
+
+class CourseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = '__all__'
+
+class EmploymentRecordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EmploymentRecord
+        fields = '__all__'
 
 
 class EmploymentDataSerializer(serializers.Serializer):
@@ -16,6 +58,7 @@ class EmploymentDataSerializer(serializers.Serializer):
     dateEmployed = serializers.DateField(allow_null=True, required=False, format='%Y-%m-%d')
     employmentStatus = serializers.CharField(allow_blank=True, required=False)
     monthlySalary = serializers.DecimalField(allow_null=True, required=False, max_digits=10, decimal_places=2)
+
 
 class AlumniFormSerializer(serializers.Serializer):
     fname = serializers.CharField()
@@ -47,17 +90,6 @@ class AlumniFormSerializer(serializers.Serializer):
             del data['employmentData']
         return data
 
-class GraduateInformationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = GraduateInformation
-        fields = '__all__'
-
-        
-
-class CurrentJobSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CurrentJob
-        fields = '__all__'
 
 class TableAlumniInformationSerializer(serializers.ModelSerializer):
     alumni_id = serializers.CharField(source='alumni.alumni_id')
@@ -85,29 +117,16 @@ class TableAlumniInformationSerializer(serializers.ModelSerializer):
         return current_job.employment_status if current_job else None
     
 
+class AdminInformationSerializer(serializers.ModelSerializer):
+    current_job = CurrentJobSerializer(many=True)
+    home_address = AddressSerializer()
 
-
-class AlumniProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = AlumniProfile
         fields = '__all__'
 
 
-class CurriculumSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Curriculum
-        fields = '__all__'
 
-
-class CourseSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Course
-        fields = '__all__'
-
-class EmploymentRecordSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = EmploymentRecord
-        fields = '__all__'
 
 # class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 #     def validate(self, attrs):

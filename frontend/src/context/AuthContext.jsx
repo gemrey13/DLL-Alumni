@@ -27,14 +27,15 @@ export const AuthProvider = ({ children }) => {
 
     const fetchAndUpdateUserProfile = async (accessToken) => {
         try {
-            const userResponse = await axios.get(`${baseURL}/api/user-info/`, {
+            const userResponse = await axios.get(`${baseURL}/api/admin-info/`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
             });
 
-            const userData = userResponse.data;
-            setUserProfile(userData);
+            const adminData = userResponse.data;
+            setUserProfile(adminData);
+            console.log(adminData)
         } catch (error) {
             console.error("Error fetching user information:", error);
         }

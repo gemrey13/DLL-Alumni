@@ -220,17 +220,20 @@ class Command(BaseCommand):
                 honor=fake.word(),
             )
 
-            current_job = CurrentJob.objects.create(
-                alumni=alumni_profile,
-                job_position=random.choice(job_positions),
-                approximate_monthly_salary=random.randint(10000, 50000),
-                company_affiliation=random.choice(company_affiliations),
-                company_address=address,
-                employment_status=random.choice(employment_statuses),
-                employed_within_6mo=random.choice([True, False]),
-                promoted_in_current_job=random.choice([True, False]),
-                getting_jobs_related_to_experience=random.choice([True, False])
-            )
+            random_current_job = random.choice([True, False])
+
+            if random_current_job:
+                current_job = CurrentJob.objects.create(
+                    alumni=alumni_profile,
+                    job_position=random.choice(job_positions),
+                    approximate_monthly_salary=random.randint(10000, 50000),
+                    company_affiliation=random.choice(company_affiliations),
+                    company_address=address,
+                    employment_status=random.choice(employment_statuses),
+                    employed_within_6mo=random.choice([True, False]),
+                    promoted_in_current_job=random.choice([True, False]),
+                    getting_jobs_related_to_experience=random.choice([True, False])
+                )
 
             def random_date():
                 start_date = datetime(2000, 1, 1)

@@ -8,6 +8,8 @@ from rest_framework_simplejwt.tokens import TokenError
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from django.shortcuts import render
 from django.db import transaction
+from django.contrib.auth.models import User
+
 
 import json
 
@@ -16,6 +18,7 @@ from .serializers import (
     AlumniFormSerializer,
 
     AlumniProfileSerializer,
+    AdminInformationSerializer,
     CurrentJobSerializer,
     CurriculumSerializer,
     CourseSerializer,
@@ -33,24 +36,69 @@ from .models import (
 )
 
 
+class TestAnalysisView(ListAPIView):
+    """count the alumni that have current job and none"""
+    serializer_class = AlumniProfileSerializer
+
+    def get_queryset(self):
+        alumni_with_current_job = AlumniProfile.objects.filter(current_job__isnull=False)
+        alumni_with_no_current_job = AlumniProfile.objects.filter(current_job__isnull=True)
+        return alumni_with_current_job, alumni_with_no_current_job
+
+    def list(self, request, *args, **kwargs):
+        alumni_with_current_job, alumni_with_no_current_job  = self.get_queryset()
+        count_alumni_with_no_current_job  = self.get_serializer(alumni_with_no_current_job, many=True)
+        count_alumni_with_current_job  = self.get_serializer(alumni_with_current_job , many=True)
+        data = {
+            'count_alumni_with_no_current_job':len(count_alumni_with_no_current_job.data),
+            'count_alumni_with_current_job':len(count_alumni_with_current_job.data),
+            }
+        return Response(data)
+
+class AnalysisTest2View(ListAPIView):
+    """get the current job based on the employment status"""
+    serializer_class = CurrentJobSerializer
+
+    def get_queryset(self):
+        queryset = []
+        employment_status = self.request.query_params.get('employment_status', None)
+
+        if employment_status:
+            queryset = CurrentJob.objects.all()
+
+            try:
+                queryset = queryset.filter(employment_status=employment_status)
+            except CurrentJob.DoesNotExist:
+                queryset = CurrentJob.objects.none()
+        return queryset
+            
 
 
 class CurriculumList(ListAPIView):
+    """
+    `CurriculumList` uses `ListAPIView` to retrieve and serialize all `Curriculum` instances.
+    """
     queryset = Curriculum.objects.all()
     serializer_class = CurriculumSerializer
 
-
 class CourseList(ListAPIView):
+    """
+    `CourseList` returns a distinct list of course names using `values_list` in the `list` method.
+    """
     serializer_class = CourseSerializer
-
     def list(self, request, *args, **kwargs):
         course_names = Course.objects.values_list('course_name', flat=True).distinct()
-
         return Response(course_names)
     
 
 
 class CurriculumCourseView(ListAPIView):
+    """
+    `CurriculumCourseView` uses `ListAPIView` that fetches and
+    serializes a list of courses. It supports an optional query parameter `year_graduated`.
+    If provided, it filters courses associated with the curriculum for the specified graduation year.
+    The response includes course details such as ID, name, description, units, and curriculum.
+    """
     serializer_class = CourseSerializer
 
     def get_queryset(self):
@@ -66,11 +114,15 @@ class CurriculumCourseView(ListAPIView):
 
 
 
-
 class TableAlumniPagination(PageNumberPagination):
     page_size = 10
 
 class TableAlumniView(ListAPIView):
+    """
+    `TableAlumniView` is a paginated list view of graduate information. It uses
+    `TableAlumniInformationSerializer` for serialization and supports optional
+    filtering by curriculum number, course name, and number of course units.
+    """
     serializer_class = TableAlumniInformationSerializer
     pagination_class = TableAlumniPagination
 
@@ -84,26 +136,27 @@ class TableAlumniView(ListAPIView):
         if curriculum_no:
             queryset = queryset.filter(alumni__course__curriculum__cmo_no=curriculum_no)
         
-        
         if course:
             queryset = queryset.filter(alumni__course__course_name=course)
 
         if no_of_units:
             queryset = queryset.filter(alumni__course__no_units=no_of_units)
-
         return queryset
     
 
     
 class GetProfileView(APIView):
+    """
+    `GetProfileView` retrieves detailed alumni information including current jobs and employment records
+    based on the provided 'alumni_id'. It handles missing parameters and non-existent profiles with
+    appropriate error responses.
+    """
     def get(self, request, *args, **kwargs):
         alumni_id = self.request.query_params.get('alumni_id', None)
-
         if not alumni_id:
             return Response({"error": "Missing alumni_id parameter"}, status=status.HTTP_400_BAD_REQUEST)
 
         alumni = AlumniProfile.objects.filter(alumni_id=alumni_id)
-
         if not alumni.exists():
             return Response({"error": "Alumni profile not found"}, status=status.HTTP_404_NOT_FOUND)
 
@@ -119,18 +172,43 @@ class GetProfileView(APIView):
             **AlumniProfileSerializer(alumni_instance).data,
             'current_jobs': current_jobs_serializer.data,
             'employment_record': employment_record_serializer.data,
-
         }
         return Response(data, status=status.HTTP_200_OK)
     
 
+class AdminInformationView(ListAPIView):
+    serializer_class = AdminInformationSerializer
+    def get_queryset(self):
+        try:
+            admin_user = User.objects.get(username="admin")
+            admin_profile = AlumniProfile.objects.get(user=admin_user)
+            return admin_profile
+        except User.DoesNotExist:
+            return None
+        except AlumniProfile.DoesNotExist:
+            return None
+        except Exception as e:
+            return None
+
+    def get(self, request, *args, **kwargs):
+        admin_profile = self.get_queryset()
+        if not admin_profile:
+            return Response({'detail': 'Admin profile does not exist.'})
+        
+        admin_profile_serializer = self.get_serializer(admin_profile)
+        return Response(admin_profile_serializer.data)
+
 
 class UserInfoView(APIView):
+    """
+    `UserInfoView` retrieves authenticated user's alumni profile and current job.
+    It constructs a response with serialized data, handling cases of missing profiles
+    and current jobs, as well as unexpected errors.
+    """
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         user = request.user
-
         try:
             alumni_profile = AlumniProfile.objects.get(user=user)
             current_job = CurrentJob.objects.get(alumni=alumni_profile)
@@ -154,7 +232,6 @@ class AlumniForm(APIView):
         serializer = AlumniFormSerializer(data=request.data)
         pretty_json = json.dumps(request.data, indent=2)
         print(pretty_json)
-
 
         if serializer.is_valid():
             data = request.data
@@ -200,7 +277,6 @@ class AlumniForm(APIView):
                 home_address=home_address,
             )
 
-
             CurrentJob.objects.create(
                 alumni=alumni,
                 job_position=data['job_position'],
@@ -230,7 +306,6 @@ class AlumniForm(APIView):
             else:
                 professional_growth = None
 
-
             GraduateInformation.objects.create(
                 alumni=alumni,
                 year_graduated=data['year_graduated'],
@@ -238,14 +313,11 @@ class AlumniForm(APIView):
                 honor='Sample'
             )
 
-
-
             return Response({'message': 'Form submitted successfully'}, status=status.HTTP_200_OK)
         else:
             print(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
-
 def generate_alumni_id():
     with transaction.atomic():
         last_id = AlumniProfile.objects.order_by('-alumni_id').first()
@@ -263,50 +335,6 @@ def generate_alumni_id():
             
 
 
-
-# class AlumniProfilesView(APIView):
-#     def get(self, request):
-#         profiles = AlumniProfile.objects.all()
-#         serializer = AlumniProfileSerializer(profiles, many=True).data
-#         return Response(data=serializer, status=status.HTTP_200_OK)
-
-# class SingleProfileView(APIView):
-#     def get(self, request, *args, **kwargs):
-#         try:
-#             user = AlumniProfile.objects.get(alumni_id=kwargs.get('alumni_id'))
-#             serializer = GetProfileSerializer(user).data
-#             return Response(data=serializer, status=status.HTTP_200_OK)
-#         except ObjectDoesNotExist:  
-#             return Response(data={'error': "No profile found"}, status=status.HTTP_404_NOT_FOUND)
-
-# class CurriculumView(APIView):
-#     def get(self, request):
-#         curriculum = Curriculum.objects.all()
-#         serializer = CurriculumSerializer(curriculum, many=True).data
-#         return Response(data=serializer, status=status.HTTP_200_OK)
-
-# class CourseView(APIView):
-#     def get(self, request):
-#         course = Course.objects.all()
-#         serializer = CourseSerializer(course, many=True).data
-#         return Response(data=serializer, status=status.HTTP_200_OK)
-    
-# class CurrentCoursesView(APIView):
-#     def get(self, request, *args, **kwargs):
-#         try:
-#             course = Course.objects.get(course_id=kwargs.get('course_id'))
-#             serializer = CourseWithCurriculumSerializer(course).data
-#             return Response(data=serializer, status=status.HTTP_200_OK)
-#         except ObjectDoesNotExist:
-#             return Response(data={'error': "No course found"}, status=status.HTTP_404_NOT_FOUND)
-
-# class GraduateInformationView(APIView):
-#     def get(self, request):
-#         info = GraduateInformation.objects.all()
-#         serializer = GraduateInformationSerializer(info, many=True).data
-#         return Response(data=serializer, status=status.HTTP_200_OK)
-    
-    
 class JWTView(APIView):
     def get(self, request, *args, **kwargs):
         """returns a view containing all the possible routes"""
@@ -315,25 +343,3 @@ class JWTView(APIView):
             '/api/token/refresh'
         ]
         return Response(routes)
-    
-# class CustomTokenObtainPairView(TokenObtainPairView):
-#     serializer_class = CustomTokenObtainPairSerializer
-
-# class CustomTokenRefreshView(TokenRefreshView):
-#     serializer_class = CustomTokenObtainPairSerializer
-
-#     def post(self, request, *args, **kwargs):
-#         serializer = self.get_serializer(data=request.data)
-        
-#         try:
-#             serializer.is_valid(raise_exception=True)
-#         except TokenError as e:
-#             return Response({'error': 'Token refresh failed'}, status=status.HTTP_401_UNAUTHORIZED)
-
-#         response_data = {
-#             'access': serializer.validated_data['access'],
-#             'refresh': serializer.validated_data['refresh'],
-#             'userInfo': serializer.validated_data.get('userInfo', {})
-#         }
-
-#         return Response(response_data, status=status.HTTP_200_OK)
