@@ -14,7 +14,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.stdout.write(self.style.SUCCESS('Generating dummy data...'))
-        superuser = User.objects.get(username='admin')
         
         job_positions = [
             "Software Engineer",
@@ -107,6 +106,8 @@ class Command(BaseCommand):
             barangay='Cotta',
             zip_code="4301",
         )
+
+        superuser = User.objects.create_superuser(username='admin', password='admin')
 
         admin_profile = AlumniProfile.objects.create(
             user=superuser,

@@ -224,9 +224,20 @@ class AlumniForm(APIView):
                     )
                     
             if data['description'] != '':
-                ProfessionalGrowth.objects.create(
+                professional_growth = ProfessionalGrowth.objects.create(
                     description=data['description']
                 )
+            else:
+                professional_growth = None
+
+
+            GraduateInformation.objects.create(
+                alumni=alumni,
+                year_graduated=data['year_graduated'],
+                professional_growth=professional_growth,
+                honor='Sample'
+            )
+
 
 
             return Response({'message': 'Form submitted successfully'}, status=status.HTTP_200_OK)
