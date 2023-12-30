@@ -75,7 +75,7 @@ class TableAlumniView(ListAPIView):
     pagination_class = TableAlumniPagination
 
     def get_queryset(self):
-        queryset = GraduateInformation.objects.order_by('alumni_id')
+        queryset = GraduateInformation.objects.order_by('-alumni_id')
 
         curriculum_no = self.request.query_params.get('curriculum_no', None)
         course = self.request.query_params.get('course', None)
