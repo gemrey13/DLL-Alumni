@@ -4,14 +4,8 @@ from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import status
-from rest_framework_simplejwt.tokens import TokenError
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from django.shortcuts import render
 from django.db import transaction
 from django.contrib.auth.models import User
-
-
-import json
 
 from .serializers import (
     TableAlumniInformationSerializer,
@@ -74,12 +68,14 @@ class AnalysisTest2View(ListAPIView):
             
 
 
+
 class CurriculumList(ListAPIView):
     """
     `CurriculumList` uses `ListAPIView` to retrieve and serialize all `Curriculum` instances.
     """
     queryset = Curriculum.objects.all()
     serializer_class = CurriculumSerializer
+
 
 class CourseList(ListAPIView):
     """
@@ -90,6 +86,7 @@ class CourseList(ListAPIView):
         course_names = Course.objects.values_list('course_name', flat=True).distinct()
         return Response(course_names)
     
+
 
 
 class CurriculumCourseView(ListAPIView):
@@ -112,7 +109,6 @@ class CurriculumCourseView(ListAPIView):
                 queryset = Course.objects.none()
         return queryset
     
-
 
 
 
@@ -151,9 +147,10 @@ class TableAlumniView(ListAPIView):
     
 
     
+
 class GetProfileView(APIView):
     """
-    `GetProfileView` retrieves detailed alumni information including current jobs and employment records
+    `GetProfileView` retrieves detailed alumni information profile including current jobs and employment records
     based on the provided 'alumni_id'. It handles missing parameters and non-existent profiles with
     appropriate error responses.
     """
@@ -182,7 +179,14 @@ class GetProfileView(APIView):
         return Response(data, status=status.HTTP_200_OK)
     
 
+
+
 class AccountInformationView(ListAPIView):
+    """
+    Authenticated users can retrieve their AlumniProfile information.
+    The 'get_queryset' method fetches the user's profile, returning None if not found.
+    The 'get' method serializes and returns the profile or a response if not found.
+    """
     permission_classes = [IsAuthenticated]
     serializer_class = AccountInformationSerializer
     
@@ -204,51 +208,21 @@ class AccountInformationView(ListAPIView):
             return Response({'detail': 'Admin profile does not exist.'})
         
         user_profile_serializer = self.get_serializer(user_profile)
-  
         return Response(user_profile_serializer.data)
 
 
-
-class UserInfoView(APIView):
-    """
-    `UserInfoView` retrieves authenticated user's alumni profile and current job.
-    It constructs a response with serialized data, handling cases of missing profiles
-    and current jobs, as well as unexpected errors.
-    """
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, *args, **kwargs):
-        user = request.user
-        print(user.is_superuser)
-        try:
-            alumni_profile = AlumniProfile.objects.get(user=user)
-            current_job = CurrentJob.objects.get(alumni=alumni_profile)
-
-            current_job_serializer = CurrentJobSerializer(current_job)
-            alumni_serializer = AlumniProfileSerializer(alumni_profile)
-            
-            data = {**alumni_serializer.data, **current_job_serializer.data}
-            return Response(data, status=status.HTTP_200_OK)
-        except AlumniProfile.DoesNotExist:
-            return Response({'detail': 'AlumniProfile does not exist for this user.'}, status=status.HTTP_404_NOT_FOUND)
-        except CurrentJob.DoesNotExist:
-            return Response({'detail': 'CurrentJob does not exist for this user.'}, status=status.HTTP_404_NOT_FOUND)
-        except Exception as e:
-            return Response({'detail': f'An unexpected error occurred: {str(e)}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 class AlumniForm(APIView):
     @transaction.atomic
     def post(self, request, *args, **kwargs):
         serializer = AlumniFormSerializer(data=request.data)
-        pretty_json = json.dumps(request.data, indent=2)
-        print(pretty_json)
 
         if serializer.is_valid():
             data = request.data
             alumni_address = data['alumni_address'].split(', ')
             job_address = data['current_job_address'].split(', ')
-            alumni_id = generate_alumni_id()
+            alumni_id = self.generate_alumni_id()
 
             course = Course.objects.get(course_id=data['course'])
             employment_data = data['employmentData']
@@ -329,20 +303,20 @@ class AlumniForm(APIView):
             print(serializer.errors)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
-def generate_alumni_id():
-    with transaction.atomic():
-        last_id = AlumniProfile.objects.order_by('-alumni_id').first()
-        print(last_id)
+    def generate_alumni_id(self):
+        with transaction.atomic():
+            last_id = AlumniProfile.objects.order_by('-alumni_id').first()
+            print(last_id)
 
-        if last_id:
-            last_number = int(last_id.alumni_id.split('-')[1])
-        else:
-            last_number = 0
+            if last_id:
+                last_number = int(last_id.alumni_id.split('-')[1])
+            else:
+                last_number = 0
 
-        new_number = last_number + 1
-        new_alumni_id = f'A0-{new_number:03d}'
+            new_number = last_number + 1
+            new_alumni_id = f'A0-{new_number:03d}'
 
-        return new_alumni_id
+            return new_alumni_id
             
 
 
