@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import AuthContext from '../../context/AuthContext';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
@@ -6,6 +7,8 @@ import baseURL from '@/apiConfig';
 
 const TableAlumni = () => {
     const { register, handleSubmit, setValue, watch } = useForm();
+    let { authTokens } = useContext(AuthContext);
+
 
     const [alumniData, setAlumniData] = useState([]);
     const [nextPage, setNextPage] = useState(null);
@@ -51,7 +54,10 @@ const TableAlumni = () => {
     const fetchData = async (formValues) => {
         try {
             const response = await axios.get(`${baseURL}/api/table-alumni`, {
-                params: formValues
+                params: formValues,
+                headers: {
+                    Authorization: `Bearer ${authTokens.access}`,
+                },
             })
             setAlumniData(response.data.results);
             setNextPage(response.data.next);

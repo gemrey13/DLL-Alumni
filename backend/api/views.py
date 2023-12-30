@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import status
 from rest_framework_simplejwt.tokens import TokenError
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
@@ -18,7 +18,7 @@ from .serializers import (
     AlumniFormSerializer,
 
     AlumniProfileSerializer,
-    AdminInformationSerializer,
+    AccountInformationSerializer,
     CurrentJobSerializer,
     CurriculumSerializer,
     CourseSerializer,
@@ -111,6 +111,8 @@ class CurriculumCourseView(ListAPIView):
             except Curriculum.DoesNotExist:
                 queryset = Course.objects.none()
         return queryset
+    
+
 
 
 
@@ -123,10 +125,14 @@ class TableAlumniView(ListAPIView):
     `TableAlumniInformationSerializer` for serialization and supports optional
     filtering by curriculum number, course name, and number of course units.
     """
+    permission_classes = [IsAuthenticated, IsAdminUser]
     serializer_class = TableAlumniInformationSerializer
     pagination_class = TableAlumniPagination
 
     def get_queryset(self):
+        user = self.request.user
+        print(f"User: {user}, Is Staff: {user.is_staff}, Is Superuser: {user.is_superuser}")
+
         queryset = GraduateInformation.objects.order_by('-alumni_id')
 
         curriculum_no = self.request.query_params.get('curriculum_no', None)
@@ -176,13 +182,15 @@ class GetProfileView(APIView):
         return Response(data, status=status.HTTP_200_OK)
     
 
-class AdminInformationView(ListAPIView):
-    serializer_class = AdminInformationSerializer
+class AccountInformationView(ListAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = AccountInformationSerializer
+    
     def get_queryset(self):
+        user_account = self.request.user
         try:
-            admin_user = User.objects.get(username="admin")
-            admin_profile = AlumniProfile.objects.get(user=admin_user)
-            return admin_profile
+            user_profile = AlumniProfile.objects.get(user=user_account)
+            return user_profile
         except User.DoesNotExist:
             return None
         except AlumniProfile.DoesNotExist:
@@ -191,12 +199,14 @@ class AdminInformationView(ListAPIView):
             return None
 
     def get(self, request, *args, **kwargs):
-        admin_profile = self.get_queryset()
-        if not admin_profile:
+        user_profile = self.get_queryset()
+        if not user_profile:
             return Response({'detail': 'Admin profile does not exist.'})
         
-        admin_profile_serializer = self.get_serializer(admin_profile)
-        return Response(admin_profile_serializer.data)
+        user_profile_serializer = self.get_serializer(user_profile)
+  
+        return Response(user_profile_serializer.data)
+
 
 
 class UserInfoView(APIView):
@@ -209,6 +219,7 @@ class UserInfoView(APIView):
 
     def get(self, request, *args, **kwargs):
         user = request.user
+        print(user.is_superuser)
         try:
             alumni_profile = AlumniProfile.objects.get(user=user)
             current_job = CurrentJob.objects.get(alumni=alumni_profile)

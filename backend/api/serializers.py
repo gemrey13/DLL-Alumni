@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from rest_framework import status
+from django.contrib.auth.models import User
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .models import (
     AlumniProfile,
@@ -116,14 +117,28 @@ class TableAlumniInformationSerializer(serializers.ModelSerializer):
         current_job = alumni_profile.current_job.first()  # Assuming you want the employment status of the first job if multiple
         return current_job.employment_status if current_job else None
     
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = '__all__'
 
-class AdminInformationSerializer(serializers.ModelSerializer):
-    current_job = CurrentJobSerializer(many=True)
+
+class AccountInformationSerializer(serializers.ModelSerializer):
+    current_job = serializers.SerializerMethodField()
     home_address = AddressSerializer()
+    user = UserSerializer()
 
     class Meta:
         model = AlumniProfile
         fields = '__all__'
+    
+    def get_current_job(self, obj):
+        # Assuming you have a related_name or reverse relation named 'current_jobs'
+        first_current_job = obj.current_job.first()
+        if first_current_job:
+            return CurrentJobSerializer(first_current_job).data
+        else:
+            return None
 
 
 

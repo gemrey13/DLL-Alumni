@@ -8,7 +8,7 @@ from .views import (
     CurriculumCourseView,
     AlumniForm,
     GetProfileView,
-    AdminInformationView,
+    AccountInformationView,
 
     TestAnalysisView,
     AnalysisTest2View,
@@ -31,7 +31,7 @@ urlpatterns = [
     path('curriculum/', CurriculumCourseView.as_view(), name='curriculum-courses'),
 
     path('user-info/', UserInfoView.as_view(), name='user-info'),
-    path('admin-info/', AdminInformationView.as_view(), name='admin-info'),
+    path('account-info/', AccountInformationView.as_view(), name='admin-info'),
 
     path('analysis/', TestAnalysisView.as_view(), name='analysis'),
     path('analysis2/', AnalysisTest2View.as_view(), name='analysis2'),

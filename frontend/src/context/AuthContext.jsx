@@ -27,7 +27,7 @@ export const AuthProvider = ({ children }) => {
 
     const fetchAndUpdateUserProfile = async (accessToken) => {
         try {
-            const userResponse = await axios.get(`${baseURL}/api/admin-info/`, {
+            const userResponse = await axios.get(`${baseURL}/api/account-info/`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                 },
