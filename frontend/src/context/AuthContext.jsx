@@ -10,143 +10,151 @@ const AuthContext = createContext();
 export default AuthContext;
 
 export const AuthProvider = ({ children }) => {
-  let [user, setUser] = useState(() =>
-    localStorage.getItem("authTokens")
-      ? jwtDecode(localStorage.getItem("authTokens"))
-      : null
-  );
-  let [authTokens, setAuthTokens] = useState(() =>
-    localStorage.getItem("authTokens")
-      ? JSON.parse(localStorage.getItem("authTokens"))
-      : null
-  );
-  let [loading, setLoading] = useState(true);
-  let [userProfile, setUserProfile] = useState([]);
+    const navigate = useNavigate();
 
-  const navigate = useNavigate();
-
-  let loginUser = async (e) => {
-    e.preventDefault();
-    const promise = toast.promise(
-      axios.post(
-        `${baseURL}/api/token/`,
-        {
-          username: e.target.username.value,
-          password: e.target.password.value,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      ),
-      {
-        loading: "Please Wait...",
-        success: <b>Success!</b>,
-        error: <b>Error Credentials.</b>,
-      }
+    let [user, setUser] = useState(() =>
+        localStorage.getItem("authTokens")
+            ? jwtDecode(localStorage.getItem("authTokens"))
+            : null
     );
-    try {
-      const response = await promise;
-      const data = response.data;
+    let [authTokens, setAuthTokens] = useState(() =>
+        localStorage.getItem("authTokens")
+            ? JSON.parse(localStorage.getItem("authTokens"))
+            : null
+    );
+    let [loading, setLoading] = useState(true);
+    let [userProfile, setUserProfile] = useState([]);
 
-      if (data) {
-        localStorage.setItem("authTokens", JSON.stringify(data));
-        setAuthTokens(data);
+    const fetchAndUpdateUserProfile = async (accessToken) => {
+        try {
+            const userResponse = await axios.get(`${baseURL}/api/user-info/`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
 
-        const userResponse = await axios.get(`${baseURL}/api/user-info/`, {
-          headers: {
-            Authorization: `Bearer ${data.access}`,
-          },
-        });
-
-        const userData = userResponse.data;
-
-        setUser(userData);
-        setUserProfile(userData);
-        toast.success("Login Successfully!");
-        navigate("/admin");
-      } else {
-        toast.error("Something went wrong while logging in the user!");
-      }
-    } catch (error) {
-      toast.error("Login error:", error);
-    }
-  };
-
-  let logoutUser = (e) => {
-    e.preventDefault();
-    localStorage.removeItem("authTokens");
-    setAuthTokens(null);
-    setUser(null);
-    toast("Admin Logout!", {
-      icon: "👋",
-    });
-    navigate("/");
-  };
-
-  const updateToken = async () => {
-    try {
-      const response = await axios.post(
-        `${baseURL}/api/token/refresh/`,
-        {
-          refresh: authTokens?.refresh,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
+            const userData = userResponse.data;
+            setUserProfile(userData);
+        } catch (error) {
+            console.error("Error fetching user information:", error);
         }
-      );
+    };
 
-      const data = response.data;
+    let loginUser = async (e) => {
+        e.preventDefault();
+        const promise = toast.promise(
+            axios.post(
+                `${baseURL}/api/token/`,
+                {
+                    username: e.target.username.value,
+                    password: e.target.password.value,
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            ),
+            {
+                loading: "Please Wait...",
+                success: <b>Success!</b>,
+                error: <b>Error Credentials.</b>,
+            }
+        );
+        try {
+            const response = await promise;
+            const data = response.data;
+            setUser(data);
 
-      if (data) {
-        setAuthTokens(data);
+            if (data) {
+                localStorage.setItem("authTokens", JSON.stringify(data));
+                setAuthTokens(data);
 
-        const userResponse = await axios.get(`${baseURL}/api/user-info/`, {
-          headers: {
-            Authorization: `Bearer ${data.access}`,
-          },
+                await fetchAndUpdateUserProfile(data.access);
+                toast.success("Login Successfully!");
+                navigate("/admin");
+            } else {
+                toast.error("Something went wrong while logging in the user!");
+            }
+        } catch (error) {
+            toast.error("Login errors:", error);
+        }
+    };
+
+    let logoutUser = (e) => {
+        e.preventDefault();
+        localStorage.removeItem("authTokens");
+        setAuthTokens(null);
+        setUser(null);
+        toast("Admin Logout!", {
+            icon: "👋",
         });
+        navigate("/");
+    };
 
-        const userData = userResponse.data;
-        setUser(userData);
-        setUserProfile(userData);
-        localStorage.setItem("authTokens", JSON.stringify(data));
-      } else {
-        logoutUser();
-      }
+    const updateToken = async () => {
+        try {
+            const response = await axios.post(
+                `${baseURL}/api/token/refresh/`,
+                {
+                    refresh: authTokens?.refresh,
+                },
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                }
+            );
 
-      if (loading) {
-        setLoading(false);
-      }
-    } catch (error) {
-      console.error("Token refresh failed", error);
-      logoutUser();
-    }
-  };
+            const data = response.data;
+            setUser(data);
 
-  useEffect(() => {
-    const REFRESH_INTERVAL = 1000 * 60 * 4; // 4 minutes
-    let interval = setInterval(() => {
-      if (authTokens) {
-        updateToken();
-      }
-    }, REFRESH_INTERVAL);
+            if (data) {
+                setAuthTokens(data);
 
-    return () => clearInterval(interval);
-  }, [authTokens]);
+                await fetchAndUpdateUserProfile(data.access);
+                localStorage.setItem("authTokens", JSON.stringify(data));
+            } else {
+                logoutUser();
+            }
 
-  let contextData = {
-    user: user,
-    userProfile: userProfile,
-    authTokens: authTokens,
-    loginUser: loginUser,
-    logoutUser: logoutUser,
-  };
+            if (loading) {
+                setLoading(false);
+            }
+        } catch (error) {
+            console.error("Token refresh failed", error);
+            logoutUser();
+        }
+    };
 
-  return (
-    <AuthContext.Provider value={contextData}>{children}</AuthContext.Provider>
-  );
+    useEffect(() => {
+        const REFRESH_INTERVAL = 1000 * 60 * 4; // 4 minutes
+        let interval = setInterval(() => {
+            if (authTokens) {
+                updateToken();
+            }
+        }, REFRESH_INTERVAL);
+
+        return () => clearInterval(interval);
+    }, [authTokens]);
+
+    useEffect(() => {
+        if (user) {
+            fetchAndUpdateUserProfile(authTokens.access);
+        }
+    }, [user]);
+
+    let contextData = {
+        user: user,
+        userProfile: userProfile,
+        authTokens: authTokens,
+        loginUser: loginUser,
+        logoutUser: logoutUser,
+    };
+
+    return (
+        <AuthContext.Provider value={contextData}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
