@@ -89,6 +89,17 @@ const AlumniForm = () => {
     );
     try {
       const response = await promise;
+      setRows([
+        {
+          name: "",
+          dateEmployed: "",
+          employmentStatus: "",
+          monthlySalary: "",
+        },
+      ]);
+      setIsEmployed(false);
+      setIsPromoted(false);
+      setIsRelated(false);
       reset();
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -438,7 +449,7 @@ const AlumniForm = () => {
                     className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
                     <option value="">Select Status</option>
                     {employment_statuses.map((status, key) => (
-                      <option key={key} value={status}>
+                      <option key={`current_job-${key}`} value={status}>
                         {status}
                       </option>
                     ))}
@@ -646,9 +657,15 @@ const AlumniForm = () => {
                         <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                           <div className="relative z-20 bg-transparent dark:bg-form-input">
                             <select required
-                              {...register("current_job_employment_status")}
+                              onChange={(e) =>
+                                handleInputChange(
+                                  index, 
+                                  "employmentStatus",
+                                  e.target.value
+                                )
+                              }
                               className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-2 px-3 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
-                              <option value="">Select Status</option>
+                              <option value="ss">Select Status</option>
                               {employment_statuses.map((status, key) => (
                                 <option key={key} value={status}>
                                   {status}
