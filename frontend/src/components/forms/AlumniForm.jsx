@@ -77,7 +77,6 @@ const AlumniForm = () => {
       ...data,
       employmentData,
     };
-    console.log(postData)
 
     const promise = toast.promise(
       axios.post(`${baseURL}/api/alumni-form/`, postData),
