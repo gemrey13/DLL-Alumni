@@ -1,16 +1,21 @@
-import { Suspense, lazy, useEffect, useState, useContext } from "react";
+import { useEffect, useState, useContext, lazy, Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+
+// Third-party libraries
+
+// Components and utilities
+import { AuthProvider } from "./context/AuthContext";
+import PrivateRoute from "./utils/PrivateRoute";
+import adminroutes from "./routes/adminroutes";
 import Dashboard from "./pages/admin/Dashboard";
 import SignIn from "./pages/admin/Authentication/SignIn";
 import SignUp from "./pages/admin/Authentication/SignUp";
 import LandingPage from "./pages/LandingPage";
 import NotFound from "./pages/NotFound";
 import Loader from "./common/Loader";
-import adminroutes from "./routes/adminroutes";
-import { AuthProvider } from "./context/AuthContext";
-import PrivateRoute from "./utils/PrivateRoute";
-import SurveyPage from "./pages/SurveyPage"
+import SurveyPage from "./pages/SurveyPage";
+
 
 const DefaultLayout = lazy(() => import("./layout/DefaultLayout"));
 
