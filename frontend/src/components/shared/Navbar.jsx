@@ -50,7 +50,7 @@ function Navbar() {
       </div>
 
       <div className="navbar-end">
-        <div className="hidden lg:flex">
+        <div className="hidden lg:flex flex-nowrap">
           <ul className="menu menu-horizontal px-1 mr-6">
             <li className="px-2">
               <a>Home</a>
@@ -60,6 +60,9 @@ function Navbar() {
             </li>
             <li className="px-2">
               <a>News and Update</a>
+            </li>
+            <li className="px-2">
+              <NavLink to="/tracer-survey-form">Tracer Form</NavLink>
             </li>
           </ul>
         </div>
