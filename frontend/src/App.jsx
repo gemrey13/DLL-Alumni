@@ -1,5 +1,5 @@
-import { Suspense, lazy, useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Suspense, lazy, useEffect, useState, useContext } from "react";
+import { Route, Routes, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import Dashboard from "./pages/admin/Dashboard";
 import SignIn from "./pages/admin/Authentication/SignIn";
@@ -8,7 +8,6 @@ import LandingPage from "./pages/LandingPage";
 import NotFound from "./pages/NotFound";
 import Loader from "./common/Loader";
 import adminroutes from "./routes/adminroutes";
-// import clientroutes from './routes/clientroutes';
 import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from "./utils/PrivateRoute";
 
@@ -20,7 +19,7 @@ function App() {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setLoading(false);
-    }, 500); 
+    }, 500);
 
     return () => clearTimeout(timeoutId);
   }, []);
@@ -34,16 +33,16 @@ function App() {
         reverseOrder={false}
         containerClassName="overflow-auto"
       />
+      
       <AuthProvider>
         <Routes>
           <Route path="/auth/signin" element={<SignIn />} />
           <Route path="/auth/signup" element={<SignUp />} />
-
           <Route
             path="/admin/"
             element={
               <PrivateRoute>
-                <DefaultLayout />
+                  <DefaultLayout />
               </PrivateRoute>
             }>
             <Route index element={<Dashboard />} />

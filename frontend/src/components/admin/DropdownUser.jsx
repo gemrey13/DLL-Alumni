@@ -5,40 +5,8 @@ import UserOne from '../../images/admin/user/user-01.png';
 import Me from '../../images/me.png'
 
 const DropdownUser = () => {
-  let { logoutUser, userProfile } = useContext(AuthContext);
-  const [currenJob, setCurrentJob] = useState({
-    "id": null,
-    "job_position":null,
-    "approximate_monthly_salary": null,
-    "company_affiliation": null,
-    "employment_status": null,
-    "employed_within_6mo": null,
-    "promoted_in_current_job": null,
-    "getting_jobs_related_to_experience": null,
-    "alumni": null,
-    "company_address": null
-  });
-
-  useEffect(() => {
-    if (userProfile.current_job != null) {
-      setCurrentJob(userProfile.current_job)
-    } else if (userProfile.current_job == null) {
-      setCurrentJob({
-        "id": null,
-        "job_position":null,
-        "approximate_monthly_salary": null,
-        "company_affiliation": null,
-        "employment_status": null,
-        "employed_within_6mo": null,
-        "promoted_in_current_job": null,
-        "getting_jobs_related_to_experience": null,
-        "alumni": null,
-        "company_address": null
-      })
-    };
-
-    console.log('Dropdown ',userProfile)
-  }, [userProfile])
+  let { logoutUser, user } = useContext(AuthContext);
+  
 
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -73,9 +41,9 @@ const DropdownUser = () => {
       <Link ref={trigger} onClick={() => setDropdownOpen(!dropdownOpen)} className="flex items-center gap-4" to="#">
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-             {userProfile.fname} {userProfile.lname}
+             {user?.profile_info?.fname} {user?.profile_info?.lname}
           </span>
-          <span className="block text-xs">{currenJob.job_position}</span>
+          <span className="block text-xs">{user?.current_job?.job_position}</span>
         </span>
 
         <span className="h-12 w-12 rounded-full">

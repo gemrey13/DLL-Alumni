@@ -23,36 +23,11 @@ export const AuthProvider = ({ children }) => {
             : null
     );
     let [loading, setLoading] = useState(true);
-    let [userProfile, setUserProfile] = useState([]);
-
-    useEffect(() => {
-        if (user) {
-            setUserProfile([]);
-            console.log('userProfile (before fetch)',userProfile)
-            fetchAndUpdateUserProfile(authTokens.access);
-        }
-    }, [user]);
-
-
-    const fetchAndUpdateUserProfile = async (accessToken) => {
-        try {
-            const userResponse = await axios.get(`${baseURL}/api/account-info/`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-
-            const adminData = userResponse.data;
-            setUserProfile(adminData);
-        } catch (error) {
-            console.error("Error fetching user information:", error);
-        }
-    };
 
     let loginUser = async (e) => {
         e.preventDefault();
-        const promise = toast.promise(
-            axios.post(
+        try {
+            const response = await axios.post(
                 `${baseURL}/api/token/`,
                 {
                     username: e.target.username.value,
@@ -63,24 +38,26 @@ export const AuthProvider = ({ children }) => {
                         "Content-Type": "application/json",
                     },
                 }
-            ),
-            {
-                loading: "Please Wait...",
-                success: <b>Success!</b>,
-                error: <b>Error Credentials.</b>,
-            }
-        );
-        try {
-            const response = await promise;
+            );
+    
             const data = response.data;
-            setUser(data);
-
+    
+            const promise = toast.promise(
+                Promise.resolve(data), // Resolve with the data directly
+                {
+                    loading: "Please Wait...",
+                    success: <b>Login Successfully!</b>,
+                    error: <b>Error Credentials.</b>,
+                }
+            );
+    
+            await promise; // Wait for the toast.promise to resolve
+    
             if (data) {
                 localStorage.setItem("authTokens", JSON.stringify(data));
                 setAuthTokens(data);
-
-                toast.success("Login Successfully!");
-                navigate('/admin')
+                setUser(jwtDecode(data.access))
+                navigate("/admin");
             } else {
                 toast.error("Something went wrong while logging in the user!");
             }
@@ -88,13 +65,13 @@ export const AuthProvider = ({ children }) => {
             toast.error("Login errors:", error);
         }
     };
-
+    
     let logoutUser = (e) => {
         e.preventDefault();
         localStorage.removeItem("authTokens");
         setAuthTokens(null);
         setUser(null);
-        toast("Admin Logout!", {
+        toast("Logout!", {
             icon: "👋",
         });
         navigate("/");
@@ -115,10 +92,10 @@ export const AuthProvider = ({ children }) => {
             );
 
             const data = response.data;
-            setUser(data);
 
             if (data) {
                 setAuthTokens(data);
+                setUser(jwtDecode(data.access))
                 localStorage.setItem("authTokens", JSON.stringify(data));
             } else {
                 logoutUser();
@@ -145,11 +122,8 @@ export const AuthProvider = ({ children }) => {
     }, [authTokens]);
 
     
-    
-
     let contextData = {
         user: user,
-        userProfile: userProfile,
         authTokens: authTokens,
         loginUser: loginUser,
         logoutUser: logoutUser,
