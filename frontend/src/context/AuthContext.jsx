@@ -25,9 +25,16 @@ export const AuthProvider = ({ children }) => {
     let [loading, setLoading] = useState(true);
     let [userProfile, setUserProfile] = useState([]);
 
-    
+    useEffect(() => {
+        if (user) {
+            setUserProfile([]);
+            console.log('userProfile (before fetch)',userProfile)
+            fetchAndUpdateUserProfile(authTokens.access);
+        }
+    }, [user]);
 
-    const fetchUserProfile = async (accessToken) => {
+
+    const fetchAndUpdateUserProfile = async (accessToken) => {
         try {
             const userResponse = await axios.get(`${baseURL}/api/account-info/`, {
                 headers: {
@@ -37,11 +44,6 @@ export const AuthProvider = ({ children }) => {
 
             const adminData = userResponse.data;
             setUserProfile(adminData);
-            if (adminData.user.is_staff) {
-                navigate("/admin");
-            } else {
-                navigate("/social")
-            }
         } catch (error) {
             console.error("Error fetching user information:", error);
         }
@@ -77,8 +79,8 @@ export const AuthProvider = ({ children }) => {
                 localStorage.setItem("authTokens", JSON.stringify(data));
                 setAuthTokens(data);
 
-                await fetchUserProfile(data.access);
                 toast.success("Login Successfully!");
+                navigate('/admin')
             } else {
                 toast.error("Something went wrong while logging in the user!");
             }
@@ -142,31 +144,8 @@ export const AuthProvider = ({ children }) => {
         return () => clearInterval(interval);
     }, [authTokens]);
 
-    const fetchAndUpdateUserProfile = async (accessToken) => {
-        try {
-            const userResponse = await axios.get(`${baseURL}/api/account-info/`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-
-            const adminData = userResponse.data;
-            setUserProfile(adminData);
-            if (adminData.user.is_staff) {
-                navigate("/admin");
-            } else {
-                navigate("/social")
-            }
-        } catch (error) {
-            console.error("Error fetching user information:", error);
-        }
-    };
-
-    useEffect(() => {
-        if (user) {
-            fetchAndUpdateUserProfile(authTokens.access);
-        }
-    }, [user]);
+    
+    
 
     let contextData = {
         user: user,

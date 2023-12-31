@@ -22,8 +22,23 @@ const DropdownUser = () => {
   useEffect(() => {
     if (userProfile.current_job != null) {
       setCurrentJob(userProfile.current_job)
+    } else if (userProfile.current_job == null) {
+      setCurrentJob({
+        "id": null,
+        "job_position":null,
+        "approximate_monthly_salary": null,
+        "company_affiliation": null,
+        "employment_status": null,
+        "employed_within_6mo": null,
+        "promoted_in_current_job": null,
+        "getting_jobs_related_to_experience": null,
+        "alumni": null,
+        "company_address": null
+      })
     };
-  })
+
+    console.log('Dropdown ',userProfile)
+  }, [userProfile])
 
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
