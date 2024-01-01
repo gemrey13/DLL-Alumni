@@ -189,7 +189,7 @@ const EmployedWithin6Months = () => {
                         <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#375E83]"></span>
                         <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
                             <span> Employed within 6 months </span>
-                            <span> {employedPercentage}% </span>
+                            <span> {employedPercentage.toFixed(2)}% </span>
                         </p>
                     </div>
                 </div>
@@ -198,7 +198,7 @@ const EmployedWithin6Months = () => {
                         <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#FFA70B]"></span>
                         <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
                             <span> Not employed within 6 months </span>
-                            <span> {notEmployedPercentage}% </span>
+                            <span> {notEmployedPercentage.toFixed(2)}% </span>
                         </p>
                     </div>
                 </div>

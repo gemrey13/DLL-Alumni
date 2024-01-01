@@ -176,8 +176,8 @@ class TableAlumniView(ListAPIView):
     pagination_class = TableAlumniPagination
 
     def get_queryset(self):
-        user = self.request.user
         queryset = GraduateInformation.objects.order_by('-alumni_id')
+        print(queryset.filter(alumni__course__no_units=109))
 
         curriculum_no = self.request.query_params.get('curriculum_no', None)
         course = self.request.query_params.get('course', None)
@@ -190,9 +190,10 @@ class TableAlumniView(ListAPIView):
             queryset = queryset.filter(alumni__course__course_name=course)
 
         if no_of_units:
+            print(f"Filtering by no_of_units: {no_of_units}")
             queryset = queryset.filter(alumni__course__no_units=no_of_units)
+
         return queryset
-    
 
     
 

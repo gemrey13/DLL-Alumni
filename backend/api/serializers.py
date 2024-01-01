@@ -131,7 +131,6 @@ class EmployedWithinSixMonthsAnalysisSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-
 class TableAlumniInformationSerializer(serializers.ModelSerializer):
     alumni_id = serializers.CharField(source='alumni.alumni_id')
     course = serializers.CharField(source='alumni.course.course_name')
@@ -154,9 +153,10 @@ class TableAlumniInformationSerializer(serializers.ModelSerializer):
     
     def get_employment_status(self, obj):
         alumni_profile = obj.alumni
-        current_job = alumni_profile.current_job.first()  # Assuming you want the employment status of the first job if multiple
+        current_job = alumni_profile.current_job.first()
         return current_job.employment_status if current_job else None
-    
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

@@ -35,7 +35,11 @@ const TableAlumni = () => {
 
     const fetchCurriculum = async () => {
         try {
-            const response = await axios.get(`${baseURL}/api/curriculum-list`, {})
+            const response = await axios.get(`${baseURL}/api/curriculum-list`, {
+                headers: {
+                    Authorization: `Bearer ${authTokens.access}`,
+                },
+            })
             setCurriculumData(response.data);
         } catch (err) {
             console.error('Error fetching Curriculum List:', err);
@@ -44,7 +48,11 @@ const TableAlumni = () => {
 
     const fetchCourses = async () => {
         try {
-            const response = await axios.get(`${baseURL}/api/course-list`, {})
+            const response = await axios.get(`${baseURL}/api/course-list`, {
+                headers: {
+                    Authorization: `Bearer ${authTokens.access}`,
+                },
+            })
             setCoursesData(response.data);
         } catch (err) {
             console.error('Error fetching Courses List:', err);
@@ -68,13 +76,18 @@ const TableAlumni = () => {
 
     const loadMoreData = async () => {
         try {
-            const response = await axios.get(nextPage);
+            const response = await axios.get(nextPage, {
+                headers: {
+                    Authorization: `Bearer ${authTokens.access}`,
+                },
+            });    
             setAlumniData([...alumniData, ...response.data.results]);
             setNextPage(response.data.next);
         } catch (err) {
             console.error('Error fetching alumni data:', err);
         }
     };
+    
 
 
 
@@ -89,7 +102,7 @@ const TableAlumni = () => {
                 <select {...register('curriculum_no')} className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-4 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input">
                     <option value=''>see all</option>
                     {curriculumData.map(curriculum => (
-                        <option key={curriculum.cmo_no} value={curriculum.cmo_no}>{curriculum.cmo_no}</option>
+                        <option key={curriculum.cmo_no} value={curriculum.cmo_no}>{curriculum.cmo_no} ({curriculum.start_year}-{curriculum.end_year})</option>
                     ))}
                 </select>
                 <span className="absolute top-1/2 right-4 z-10 -translate-y-1/2">
