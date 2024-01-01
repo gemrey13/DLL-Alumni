@@ -31,7 +31,9 @@ function App() {
   }, []);
 
   return loading ? (
-    <Loader />
+    <div className="h-screen">
+      <Loader />
+    </div>
   ) : (
     <>
       <Toaster

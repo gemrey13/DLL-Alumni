@@ -63,6 +63,7 @@ class AlumniProfileSerializer(serializers.ModelSerializer):
         model = AlumniProfile
         fields = '__all__'
 
+
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
@@ -122,6 +123,13 @@ class AlumniFormSerializer(serializers.Serializer):
         if not data['employmentData']:
             del data['employmentData']
         return data
+
+
+class EmployedWithinSixMonthsAnalysisSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CurrentJob
+        fields = '__all__'
+
 
 
 class TableAlumniInformationSerializer(serializers.ModelSerializer):

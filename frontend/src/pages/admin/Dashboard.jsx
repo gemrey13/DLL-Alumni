@@ -8,6 +8,7 @@ import ChartTwo from '../../components/admin/ChartTwo.jsx';
 import ChatCard from '../../components/admin/ChatCard.jsx';
 // import MapOne from '../../../components/admin/MapOne.jsx';
 import TableOne from '../../components/admin/TableOne.jsx';
+import EmployedWithin6Months from '../../components/charts/EmployedWithin6Months.jsx';
 
 const Dashboard = () => {
   return <>
@@ -22,6 +23,7 @@ const Dashboard = () => {
         <ChartOne />
         <ChartTwo />
         <ChartThree />
+        <EmployedWithin6Months />
         {/* <MapOne /> */}
         <div className="col-span-12 xl:col-span-8">
           <TableOne />

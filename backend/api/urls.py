@@ -9,6 +9,8 @@ from .views import (
     GetProfileView,
     AccountInformationView,
 
+    EmployedWithinSixMonthsAnalysis,
+
     TestAnalysisView,
     AnalysisTest2View,
 
@@ -33,6 +35,7 @@ urlpatterns = [
 
     path('analysis/', TestAnalysisView.as_view(), name='analysis'),
     path('analysis2/', AnalysisTest2View.as_view(), name='analysis2'),
+    path('employed-within-six-months/', EmployedWithinSixMonthsAnalysis.as_view(), name='employed-within-six-months'),
 
     path('routes/', JWTView.as_view()),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

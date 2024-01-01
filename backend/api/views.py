@@ -16,7 +16,9 @@ from .serializers import (
     CurrentJobSerializer,
     CurriculumSerializer,
     CourseSerializer,
-    EmploymentRecordSerializer
+    EmploymentRecordSerializer,
+
+    EmployedWithinSixMonthsAnalysisSerializer
 )
 from .models import (
     GraduateInformation,
@@ -28,6 +30,9 @@ from .models import (
     EmploymentRecord,
     ProfessionalGrowth
 )
+
+
+
 
 
 class TestAnalysisView(ListAPIView):
@@ -110,7 +115,52 @@ class CurriculumCourseView(ListAPIView):
         return queryset
     
 
+"""
+pie chart
+employment status (employed and unemployed)
 
+labels
+    then the pie chart is employment status
+"""
+
+
+"""
+i want to get alumni that have current job within six months of graduation
+1. Get alumni and current job instance
+2. filter the current job by employed_within_6mo fields
+
+edge cases:
+
+conflict so far:
+do i send all data into client? or do i filter using queryset?
+    if i send all the caching of the client will be big and the frontend will slow
+
+chart:
+    pie chart?
+"""
+
+
+class EmployedWithinSixMonthsAnalysis(ListAPIView):
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    serializer_class = EmployedWithinSixMonthsAnalysisSerializer
+
+    def get_queryset(self):
+        queryset = CurrentJob.objects.all()
+        return queryset
+    
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        is_employed_count = queryset.filter(employed_within_6mo=True).count()
+        is_not_employed_count = queryset.filter(employed_within_6mo=False).count()
+
+        data = {
+            'is_employed_count': is_employed_count,
+            'is_not_employed_count': is_not_employed_count,
+        }
+
+        return Response(data)
+
+        
 
 class TableAlumniPagination(PageNumberPagination):
     page_size = 10
@@ -127,8 +177,6 @@ class TableAlumniView(ListAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        print(f"User: {user}, Is Staff: {user.is_staff}, Is Superuser: {user.is_superuser}")
-
         queryset = GraduateInformation.objects.order_by('-alumni_id')
 
         curriculum_no = self.request.query_params.get('curriculum_no', None)
