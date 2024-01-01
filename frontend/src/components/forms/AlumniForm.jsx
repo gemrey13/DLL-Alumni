@@ -100,13 +100,24 @@ const AlumniForm = () => {
       setIsEmployed(false);
       setIsPromoted(false);
       setIsRelated(false);
-      // reset();
+      reset();
     } catch (error) {
       console.error("Error submitting form:", error);
     }
   };
 
   const resetForm = () => {
+    setRows([
+      {
+        name: "",
+        dateEmployed: "",
+        employmentStatus: "",
+        monthlySalary: "",
+      },
+    ]);
+    setIsEmployed(false);
+    setIsPromoted(false);
+    setIsRelated(false);
     reset();
     toast.success("Tracer Survey Form Reset!");
   };
@@ -178,10 +189,10 @@ const AlumniForm = () => {
                   Gender <span className="text-meta-1">*</span>
                 </label>
                 <div className="relative z-20 bg-transparent dark:bg-form-input">
-                  <select
+                  <select defaultValue=""
                     {...register("sex", { required: "Sex is required" })}
                     className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
-                    <option value="" disabled>
+                    <option value="">
                       Select Gender
                     </option>
                     <option value="male">Male</option>
