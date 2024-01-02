@@ -6,6 +6,8 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework import status
 from django.db import transaction
 from django.contrib.auth.models import User
+import numpy as np
+
 
 from .serializers import (
     TableAlumniInformationSerializer,
@@ -18,6 +20,7 @@ from .serializers import (
     CourseSerializer,
     EmploymentRecordSerializer,
     AlumniGraduationYearDistributionAnalysisSerializer,
+    MonthlySalaryDistributionSerializer,
 
     EmployedWithinSixMonthsAnalysisSerializer
 )
@@ -116,6 +119,33 @@ class CurriculumCourseView(ListAPIView):
         return queryset
     
 
+
+class MonthlySalaryDistributionAnalysis(ListAPIView):
+    serializer_class = MonthlySalaryDistributionSerializer
+
+    def get_queryset(self):
+        courses = Course.objects.values_list('course_name', flat=True).distinct()
+
+        data = []
+        for course_name  in courses:
+            alumni_salary = CurrentJob.objects.filter(alumni__course__course_name=course_name).values_list('approximate_monthly_salary', flat=True)
+            salary_array = np.array(alumni_salary)
+            min_salary = np.min(salary_array)
+            q1_salary = np.percentile(salary_array, 25)
+            median_salary = np.median(salary_array)
+            q3_salary = np.percentile(salary_array, 75)
+            max_salary = np.max(salary_array)
+            data.append({
+                'x': course_name, 
+                'y': [min_salary, q1_salary, median_salary, q3_salary, max_salary],
+                })
+
+        return data
+    
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
 
 """
 1. get all year graduated

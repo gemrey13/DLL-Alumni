@@ -86,7 +86,9 @@ class EmploymentRecordSerializer(serializers.ModelSerializer):
         model = EmploymentRecord
         fields = '__all__'
 
-
+class MonthlySalaryDistributionSerializer(serializers.Serializer):
+    x = serializers.CharField()
+    y = serializers.ListField(child=serializers.IntegerField())
 
 class AlumniGraduationYearDistributionAnalysisSerializer(serializers.Serializer):
     year_graduated = serializers.IntegerField()

@@ -10,6 +10,7 @@ import ChatCard from '../../components/admin/ChatCard.jsx';
 import TableOne from '../../components/admin/TableOne.jsx';
 import AlumniGraduationYearDistribution from '../../components/charts/AlumniGraduationYearDistribution.jsx';
 import EmployedWithin6Months from '../../components/charts/EmployedWithin6Months.jsx';
+import MonthlyYearDistribution from '../../components/charts/MonthlySalaryDistribution.jsx';
 
 const Dashboard = () => {
   return <>
@@ -25,8 +26,9 @@ const Dashboard = () => {
         <AlumniGraduationYearDistribution />
         {/* <ChartOne /> */}
         <ChartTwo />
-        <ChartThree />
+        {/* <ChartThree /> */}
         <EmployedWithin6Months />
+        <MonthlyYearDistribution />
         {/* <MapOne /> */}
         <div className="col-span-12 xl:col-span-8">
           <TableOne />

@@ -11,6 +11,7 @@ from .views import (
 
     EmployedWithinSixMonthsAnalysis,
     AlumniGraduationYearDistributionAnalysis,
+    MonthlySalaryDistributionAnalysis,
 
     TestAnalysisView,
     AnalysisTest2View,
@@ -40,6 +41,7 @@ urlpatterns = [
     # Analysis
     path('employed-within-six-months/', EmployedWithinSixMonthsAnalysis.as_view(), name='employed-within-six-months'),
     path('graduation-year-dist/', AlumniGraduationYearDistributionAnalysis.as_view(), name='graduation-year-dist'),
+    path('monthly-salary-dist/', MonthlySalaryDistributionAnalysis.as_view(), name='monthly-salary-dist'),
 
     path('routes/', JWTView.as_view()),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

@@ -9,8 +9,8 @@ const options = {
     chart: {
         type: "donut",
     },
-    colors: ["#375E83", "#FFA70B"],
-    labels: ["Not employed within 6 months", "Employed within 6 months"],
+    colors: ["#FFA70B", "#375E83"],
+    labels: ["Employed within 6 months", "Not employed within 6 months"],
     legend: {
         show: false,
         position: "bottom",
@@ -91,11 +91,11 @@ const EmployedWithin6Months = () => {
         const value = e.target.value;
         if (value === "employed") {
             setData({
-                series: [0, employed],
+                series: [employed, 0],
             });
         } else if (value === "not_employed") {
             setData({
-                series: [notEmployed, 0],
+                series: [0, notEmployed],
             });
         } else {
             setData({
@@ -110,19 +110,19 @@ const EmployedWithin6Months = () => {
 
     if (error[0]) {
         return (
-            <div className="text-error text-xl grid place-content-center col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-7">
+            <div className="text-error text-xl grid place-content-center col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-5">
                 ERROR : {error[1]} {error[2]}
             </div>
         );
     }
 
     return loading ? (
-        <div className="col-span-12 xl:col-span-7">
+        <div className="col-span-12 xl:col-span-5">
             <Loader />
         </div>
     ) : (
-        <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-7">
-            <div className="mb-3 justify-between gap-4 sm:flex">
+        <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-5">
+            <div className="mb-3 justify-between gap-4 flex flex-col">
                 <div>
                     <h5 className="text-xl font-semibold text-black dark:text-white">
                         Graduation Employment Insights
@@ -185,24 +185,26 @@ const EmployedWithin6Months = () => {
 
             <div className="-mx-8 flex flex-wrap items-center justify-center gap-y-3">
                 <div className="w-full px-8 sm:w-1/2">
-                    <div className="flex w-full items-center">
-                        <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#FFA70B]"></span>
-                        <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
-                            <span> Employed within 6 months </span>
-                            <span> {employedPercentage.toFixed(2)}% </span>
-                        </p>
-                    </div>
+                <div className="flex w-full items-center">
+                    <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#FFA70B]"></span>
+                    <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
+                    <span> Employed </span>
+                    <span> {employedPercentage.toFixed(1)}% </span>
+                    </p>
+                </div>
                 </div>
                 <div className="w-full px-8 sm:w-1/2">
-                    <div className="flex w-full items-center">
-                        <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#375E83]"></span>
-                        <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
-                            <span> Not employed within 6 months </span>
-                            <span> {notEmployedPercentage.toFixed(2)}% </span>
-                        </p>
-                    </div>
+                <div className="flex w-full items-center">
+                    <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#375E83]"></span>
+                    <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
+                    <span> Not employed </span>
+                    <span> {notEmployedPercentage.toFixed(1)}% </span>
+                    </p>
                 </div>
+                </div>
+                
             </div>
+
         </div>
     );
 };
