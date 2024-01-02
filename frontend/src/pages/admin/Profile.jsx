@@ -6,7 +6,7 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import baseURL from "@/apiConfig";
 import React, { useEffect, useState } from "react";
-import TableEmploymentRecord from "../../components/admin/TableEmploymentRecord";
+import TableEmploymentRecord from "../../components/tables/TableEmploymentRecord";
 
 const Profile = () => {
   const { alumni_id } = useParams();

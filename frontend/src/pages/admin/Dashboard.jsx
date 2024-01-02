@@ -18,6 +18,7 @@ import baseURL from "@/apiConfig";
 import Loader from "../../common/Loader";
 import AuthContext from "../../context/AuthContext";
 import GenderBasedCurrentJob from '../../components/charts/GenderBasedCurrentJob.jsx';
+import TableTopPerformingCourse from '../../components/tables/TableTopPerformingCourse.jsx';
 
 
 const Dashboard = () => {
@@ -76,7 +77,8 @@ const Dashboard = () => {
         <EmployedWithin6Months />
         <MonthlyYearDistribution />
         <div className="col-span-12 xl:col-span-8">
-          <TableOne />
+          <TableTopPerformingCourse />
+          {/* <TableOne /> */}
         </div>
         <ChatCard />
       </div>
