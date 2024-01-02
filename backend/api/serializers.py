@@ -87,6 +87,12 @@ class EmploymentRecordSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+
+class AlumniGraduationYearDistributionAnalysisSerializer(serializers.Serializer):
+    year_graduated = serializers.IntegerField()
+    alumni_count = serializers.IntegerField()
+
+
 class EmploymentDataSerializer(serializers.Serializer):
     name = serializers.CharField(allow_blank=True, required=False)
     dateEmployed = serializers.DateField(allow_null=True, required=False, format='%Y-%m-%d')

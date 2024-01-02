@@ -17,6 +17,7 @@ from .serializers import (
     CurriculumSerializer,
     CourseSerializer,
     EmploymentRecordSerializer,
+    AlumniGraduationYearDistributionAnalysisSerializer,
 
     EmployedWithinSixMonthsAnalysisSerializer
 )
@@ -115,30 +116,29 @@ class CurriculumCourseView(ListAPIView):
         return queryset
     
 
-"""
-pie chart
-employment status (employed and unemployed)
-
-labels
-    then the pie chart is employment status
-"""
-
 
 """
-i want to get alumni that have current job within six months of graduation
-1. Get alumni and current job instance
-2. filter the current job by employed_within_6mo fields
-
-edge cases:
-
-conflict so far:
-do i send all data into client? or do i filter using queryset?
-    if i send all the caching of the client will be big and the frontend will slow
-
-chart:
-    pie chart?
+1. get all year graduated
+2. filter alumni based on year graduated then count
 """
 
+class AlumniGraduationYearDistributionAnalysis(ListAPIView):
+    serializer_class = AlumniGraduationYearDistributionAnalysisSerializer
+
+    def get_queryset(self):
+        # Get distinct years of graduation
+        distinct_years = GraduateInformation.objects.values_list('year_graduated', flat=True).distinct()
+        
+        alumni_counts = []
+        for year in distinct_years:
+            # Count alumni for each year
+            count = GraduateInformation.objects.filter(year_graduated=year).count()
+            alumni_counts.append({'year_graduated': year, 'alumni_count': count})
+
+        return alumni_counts
+
+         
+    
 
 class EmployedWithinSixMonthsAnalysis(ListAPIView):
     permission_classes = [IsAuthenticated, IsAdminUser]

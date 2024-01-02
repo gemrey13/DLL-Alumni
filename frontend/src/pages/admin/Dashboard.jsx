@@ -8,6 +8,7 @@ import ChartTwo from '../../components/admin/ChartTwo.jsx';
 import ChatCard from '../../components/admin/ChatCard.jsx';
 // import MapOne from '../../../components/admin/MapOne.jsx';
 import TableOne from '../../components/admin/TableOne.jsx';
+import AlumniGraduationYearDistribution from '../../components/charts/AlumniGraduationYearDistribution.jsx';
 import EmployedWithin6Months from '../../components/charts/EmployedWithin6Months.jsx';
 
 const Dashboard = () => {
@@ -19,8 +20,10 @@ const Dashboard = () => {
         <CardFour />
       </div>
 
+
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-        <ChartOne />
+        <AlumniGraduationYearDistribution />
+        {/* <ChartOne /> */}
         <ChartTwo />
         <ChartThree />
         <EmployedWithin6Months />

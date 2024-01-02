@@ -19,8 +19,13 @@ const options = {
       left: 0,
       opacity: 0.1
     },
+    zoom: {
+      type: 'x',
+      enabled: true,
+      autoScaleYaxis: true
+      },
     toolbar: {
-      show: false
+      autoSelected: 'zoom'
     }
   },
   responsive: [{
