@@ -153,7 +153,7 @@ class Command(BaseCommand):
 
         region_codes = ['01', '02', '03', '4A', '4B', '05', '06', '07', '08', '09', '10', '11', '12', '13', 'BARMM', 'CAR', 'NCR']
         with transaction.atomic():
-            for i in range(20):
+            for i in range(500):
                 first_name = fake.first_name()
                 last_name = fake.last_name()
                 middle_name = fake.random_letter()

@@ -10,7 +10,7 @@ const options = {
         type: "donut",
     },
     colors: ["#375E83", "#FFA70B"],
-    labels: ["Employed within 6 months", "Not employed within 6 months"],
+    labels: ["Not employed within 6 months", "Employed within 6 months"],
     legend: {
         show: false,
         position: "bottom",
@@ -91,11 +91,11 @@ const EmployedWithin6Months = () => {
         const value = e.target.value;
         if (value === "employed") {
             setData({
-                series: [employed, 0],
+                series: [0, employed],
             });
         } else if (value === "not_employed") {
             setData({
-                series: [0, notEmployed],
+                series: [notEmployed, 0],
             });
         } else {
             setData({
@@ -186,7 +186,7 @@ const EmployedWithin6Months = () => {
             <div className="-mx-8 flex flex-wrap items-center justify-center gap-y-3">
                 <div className="w-full px-8 sm:w-1/2">
                     <div className="flex w-full items-center">
-                        <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#375E83]"></span>
+                        <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#FFA70B]"></span>
                         <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
                             <span> Employed within 6 months </span>
                             <span> {employedPercentage.toFixed(2)}% </span>
@@ -195,7 +195,7 @@ const EmployedWithin6Months = () => {
                 </div>
                 <div className="w-full px-8 sm:w-1/2">
                     <div className="flex w-full items-center">
-                        <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#FFA70B]"></span>
+                        <span className="mr-2 block h-3 w-full max-w-3 rounded-full bg-[#375E83]"></span>
                         <p className="flex w-full justify-between text-sm font-medium text-black dark:text-white">
                             <span> Not employed within 6 months </span>
                             <span> {notEmployedPercentage.toFixed(2)}% </span>
