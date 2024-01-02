@@ -12,14 +12,9 @@ const TableTopPerformingCourse = () => {
 
       <div className="flex flex-col">
         <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
-          <div className="p-2.5 text-center xl:p-5">
+          <div className="p-2.5 text-start xl:p-5">
             <h5 className="sm:text-sm font-medium xsm:text-base">
               Course 
-            </h5>
-          </div>
-          <div className="hidden p-2.5 text-center sm:block xl:p-5">
-            <h5 className="sm:text-sm font-medium xsm:text-base">
-              Visitors
             </h5>
           </div>
           <div className="p-2.5 text-center xl:p-5">
@@ -29,7 +24,12 @@ const TableTopPerformingCourse = () => {
           </div>
           <div className="hidden p-2.5 text-center sm:block xl:p-5">
             <h5 className="sm:text-sm font-medium xsm:text-base">
-              Sales
+            Honor Rate
+            </h5>
+          </div>
+          <div className="hidden p-2.5 text-center sm:block xl:py-5 xl:px-0">
+            <h5 className="sm:text-sm font-medium xsm:text-base">
+            Professional Growth
             </h5>
           </div>
           <div className="p-2.5 text-center xl:p-5">
@@ -41,17 +41,14 @@ const TableTopPerformingCourse = () => {
 
         <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
           <div className="flex items-center gap-3 p-2.5 xl:p-5">
-            <div className="flex-shrink-0">
-              <img src={BrandOne} alt="Brand" />
-            </div>
-            <p className="hidden text-black dark:text-white sm:block">Google</p>
+            <p className="text-black dark:text-white">Google</p>
           </div>
 
           <div className="flex items-center justify-center p-2.5 xl:p-5">
             <p className="text-black dark:text-white">3.5K</p>
           </div>
 
-          <div className="flex items-center justify-center p-2.5 xl:p-5">
+          <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
             <p className="text-meta-3">$5,768</p>
           </div>
 
@@ -59,16 +56,13 @@ const TableTopPerformingCourse = () => {
             <p className="text-black dark:text-white">590</p>
           </div>
 
-          <div className="hidden items-center justify-center p-2.5 sm:flex xl:p-5">
+          <div className="flex items-center justify-center p-2.5 xl:p-5 ">
             <p className="text-meta-5">4.8%</p>
           </div>
         </div>
 
         <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
           <div className="flex items-center gap-3 p-2.5 xl:p-5">
-            <div className="flex-shrink-0">
-              <img src={BrandTwo} alt="Brand" />
-            </div>
             <p className="hidden text-black dark:text-white sm:block">
               Twitter
             </p>
@@ -93,9 +87,6 @@ const TableTopPerformingCourse = () => {
 
         <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
           <div className="flex items-center gap-3 p-2.5 xl:p-5">
-            <div className="flex-shrink-0">
-              <img src={BrandThree} alt="Brand" />
-            </div>
             <p className="hidden text-black dark:text-white sm:block">Github</p>
           </div>
 
@@ -118,9 +109,6 @@ const TableTopPerformingCourse = () => {
 
         <div className="grid grid-cols-3 border-b border-stroke dark:border-strokedark sm:grid-cols-5">
           <div className="flex items-center gap-3 p-2.5 xl:p-5">
-            <div className="flex-shrink-0">
-              <img src={BrandFour} alt="Brand" />
-            </div>
             <p className="hidden text-black dark:text-white sm:block">Vimeo</p>
           </div>
 
@@ -143,9 +131,6 @@ const TableTopPerformingCourse = () => {
 
         <div className="grid grid-cols-3 sm:grid-cols-5">
           <div className="flex items-center gap-3 p-2.5 xl:p-5">
-            <div className="flex-shrink-0">
-              <img src={BrandFive} alt="Brand" />
-            </div>
             <p className="hidden text-black dark:text-white sm:block">
               Facebook
             </p>

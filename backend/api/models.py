@@ -31,14 +31,21 @@ class AlumniProfile(models.Model):
     def __str__(self):
         return f'ID: {self.alumni_id} - {self.fname} {self.lname}'
     
-class ProfessionalGrowth(models.Model):
-    description = models.TextField(null=True, blank=True)
 
 class GraduateInformation(models.Model):
+    SATISFACTION_CHOICES = (
+        (5, 'Very Satisfied'),
+        (4, 'Satisfied'),
+        (3, 'Neutral'),
+        (2, 'Dissatisfied'),
+        (1, 'Very Dissatisfied'),
+    )
+
     alumni = models.OneToOneField(AlumniProfile, on_delete=models.CASCADE, primary_key=True)
     year_graduated = models.IntegerField()
-    professional_growth = models.ForeignKey(ProfessionalGrowth, on_delete=models.CASCADE, null=True)
-    honor = models.CharField(max_length=64)
+    satisfaction_level = models.IntegerField(choices=SATISFACTION_CHOICES, blank=True, null=True)
+    pursued_further_education = models.BooleanField(default=False)
+    honor = models.CharField(max_length=64, blank=True, null=True)
 
     @property
     def curriculum(self):

@@ -1,5 +1,13 @@
 from django.urls import path
+from .analysis import (
+    EmployedWithinSixMonthsAnalysis,
+    AlumniGraduationYearDistributionAnalysis,
+    MonthlySalaryDistributionAnalysis,
+    GenderBasedCurrentJobAnalyis,
 
+    TestAnalysisView,
+    AnalysisTest2View,
+)
 from .views import (
     TableAlumniView,
     CurriculumList,
@@ -8,17 +16,7 @@ from .views import (
     AlumniForm,
     GetProfileView,
     AccountInformationView,
-
-    EmployedWithinSixMonthsAnalysis,
-    AlumniGraduationYearDistributionAnalysis,
-    MonthlySalaryDistributionAnalysis,
-    GenderBasedCurrentJobAnalyis,
-
     AlumniMetricsSummary,
-
-    TestAnalysisView,
-    AnalysisTest2View,
-
     JWTView,
 )
 
@@ -28,18 +26,13 @@ from rest_framework_simplejwt.views import (
 )
 
 urlpatterns = [
-    path('table-alumni/', TableAlumniView.as_view(), name='table-alumni'),
-    path('alumni-form/', AlumniForm.as_view(), name='alumni-form'),
-    path('get-profile/', GetProfileView.as_view(), name='get-profile'),
-
     path('curriculum-list/', CurriculumList.as_view(), name='curriculum-list'),
     path('course-list/', CourseList.as_view(), name='course-list'),
     path('curriculum/', CurriculumCourseView.as_view(), name='curriculum-courses'),
-
+    path('table-alumni/', TableAlumniView.as_view(), name='table-alumni'),
+    path('alumni-form/', AlumniForm.as_view(), name='alumni-form'),
+    path('get-profile/', GetProfileView.as_view(), name='get-profile'),
     path('account-info/', AccountInformationView.as_view(), name='admin-info'),
-
-    path('analysis/', TestAnalysisView.as_view(), name='analysis'),
-    path('analysis2/', AnalysisTest2View.as_view(), name='analysis2'),
 
     # Metrics
     path('alumni-metrics-summary/', AlumniMetricsSummary.as_view(), name='alumni-metrics-summary'),
@@ -49,6 +42,8 @@ urlpatterns = [
     path('graduation-year-dist/', AlumniGraduationYearDistributionAnalysis.as_view(), name='graduation-year-dist'),
     path('monthly-salary-dist/', MonthlySalaryDistributionAnalysis.as_view(), name='monthly-salary-dist'),
     path('gender-current-job/', GenderBasedCurrentJobAnalyis.as_view(), name='gender-current-job'),
+    path('analysis/', TestAnalysisView.as_view(), name='analysis'),
+    path('analysis2/', AnalysisTest2View.as_view(), name='analysis2'),
 
     path('routes/', JWTView.as_view()),
     path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

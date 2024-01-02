@@ -7,7 +7,6 @@ from .models import (
     CurrentJob,
     EmploymentRecord,
     Address,
-    ProfessionalGrowth
 )
 
 class AlumniProfileAdmin(admin.ModelAdmin):
@@ -26,4 +25,3 @@ admin.site.register(Course)
 admin.site.register(CurrentJob)
 admin.site.register(EmploymentRecord, EmploymentRecordAdmin)
 admin.site.register(Address, AddressAdmin)
-admin.site.register(ProfessionalGrowth)

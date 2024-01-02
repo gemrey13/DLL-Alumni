@@ -159,7 +159,7 @@ class Command(BaseCommand):
                 middle_name = fake.random_letter()
                 alumni_id = f'A0-{112 + i}'
                 graduation_year = random.randint(2001, 2023)
-                
+                SATISFACTION_CHOICES = [None, 1, 2, 3, 4, 5]
 
                 print(f'{i+1}.) {first_name} {last_name}')
                 random.shuffle(region_codes)
@@ -219,10 +219,14 @@ class Command(BaseCommand):
                     home_address=address,
                 )
 
+                fake_word = [None, fake.word()]
+
                 graduate_info = GraduateInformation.objects.create(
                     alumni=alumni_profile,
                     year_graduated=graduation_year,
-                    honor=fake.word(),
+                    satisfaction_level=random.choice(SATISFACTION_CHOICES),
+                    pursued_further_education=random.choice([True,False]),
+                    honor=random.choice(fake_word),
                 )
 
                 curriculum = graduate_info.curriculum
