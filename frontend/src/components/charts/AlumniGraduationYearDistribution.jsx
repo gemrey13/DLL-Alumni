@@ -163,6 +163,7 @@ const AlumniGraduationYearDistribution = () => {
             });
             setLoading(false);
         } catch (error) {
+            setLoading(false);
             setError([true, error.code, error.response.status]);
         }
     };
@@ -176,7 +177,7 @@ const AlumniGraduationYearDistribution = () => {
     }
 
     return loading ? (
-        <div className="col-span-12 xl:col-span-8">
+        <div className="col-span-12 xl:col-span-8 animate-pulse">
             <Loader />
         </div>
     ) : (

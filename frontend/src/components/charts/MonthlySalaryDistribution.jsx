@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useState, useContext, useEffect } from "react";
-import ReactApexChart from "react-apexcharts";
 import baseURL from "@/apiConfig";
 import AuthContext from "../../context/AuthContext";
+import ReactApexChart from "react-apexcharts";
 import Loader from "../../common/Loader";
 
 const MonthlyYearDistribution = () => {
@@ -52,6 +52,7 @@ const MonthlyYearDistribution = () => {
             });
             setLoading(false);
         } catch (error) {
+            setLoading(false);
             setError([true, error.code, error.response.status]);
         }
     };
@@ -65,7 +66,7 @@ const MonthlyYearDistribution = () => {
     }
 
     return loading ? (
-        <div className="col-span-12 xl:col-span-7">
+        <div className="col-span-12 xl:col-span-7 animate-pulse">
             <Loader />
         </div>
     ) : (

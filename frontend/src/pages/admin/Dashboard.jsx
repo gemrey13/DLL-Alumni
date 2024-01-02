@@ -12,24 +12,65 @@ import AlumniGraduationYearDistribution from '../../components/charts/AlumniGrad
 import EmployedWithin6Months from '../../components/charts/EmployedWithin6Months.jsx';
 import MonthlyYearDistribution from '../../components/charts/MonthlySalaryDistribution.jsx';
 
+import axios from "axios";
+import React, { useState, useContext, useEffect } from "react";
+import baseURL from "@/apiConfig";
+import Loader from "../../common/Loader";
+import AuthContext from "../../context/AuthContext";
+import GenderBasedCurrentJob from '../../components/charts/GenderBasedCurrentJob.jsx';
+
+
 const Dashboard = () => {
+  let { authTokens } = useContext(AuthContext);
+  const [metrics, setMetrics] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchMetricsSum();
+  }, [])
+
+  const fetchMetricsSum = async () => {
+    try {
+      const response = await axios.get(
+        `${baseURL}/api/alumni-metrics-summary`,
+        {
+            headers: {
+                Authorization: `Bearer ${authTokens.access}`,
+            },
+        })
+        const newData = response.data;
+        setMetrics(newData);
+        setLoading(false);
+        // console.log('asds',newData)
+    } catch (error) {
+      
+    }
+  };
+
   return <>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-        <CardOne />
-        <CardTwo />
-        <CardThree />
-        <CardFour />
-      </div>
+      {loading ? (
+        <div className="grid grid-cols-1 animate-pulse">
+          <Loader />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
+          <CardOne data={metrics.employed_alumni} percentage={metrics.percentage_jobs}/>
+          <CardTwo data={metrics.relevant_job} percentage={metrics.percentage_relevant}/>
+          <CardThree data={metrics.promoted_alumni} percentage={metrics.percentage_promoted}/>
+          <CardFour data={metrics.alumni_profiles} percentage={metrics.percentage_alumni}/>
+          </div>
+      )}
 
 
       <div className="mt-4 grid grid-cols-12 gap-4 md:mt-6 md:gap-6 2xl:mt-7.5 2xl:gap-7.5">
-        <AlumniGraduationYearDistribution />
         {/* <ChartOne /> */}
-        <ChartTwo />
+        {/* <ChartTwo /> */}
         {/* <ChartThree /> */}
+        {/* <MapOne /> */}
+        <AlumniGraduationYearDistribution />
+        <GenderBasedCurrentJob />
         <EmployedWithin6Months />
         <MonthlyYearDistribution />
-        {/* <MapOne /> */}
         <div className="col-span-12 xl:col-span-8">
           <TableOne />
         </div>

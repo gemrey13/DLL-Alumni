@@ -7,6 +7,7 @@ from rest_framework import status
 from django.db import transaction
 from django.contrib.auth.models import User
 import numpy as np
+from datetime import datetime
 
 
 from .serializers import (
@@ -119,6 +120,94 @@ class CurriculumCourseView(ListAPIView):
         return queryset
     
 
+class GenderBasedCurrentJobAnalyis(ListAPIView):
+    serializer_class = CurrentJobSerializer
+    def get_queryset(self):
+        current_jobs = CurrentJob.objects.all()
+        alumni_profiles = AlumniProfile.objects.exclude(alumni_id='A0-111')
+        current_job_male = current_jobs.filter(alumni__sex='Male')
+        current_job_female = current_jobs.filter(alumni__sex='Female')
+
+        alumni_male = alumni_profiles.filter(sex='Male')
+        alumni_female = alumni_profiles.filter(sex='Female')
+
+        data = {
+            'current_job_male': current_job_male.count(),
+            'alumni_male': alumni_male.count(),
+            'current_job_female': current_job_female.count(),
+            'alumni_female': alumni_female.count(),
+            'current_jobs': current_jobs.count()
+        }
+        return data
+    
+    def list(self, request, *args, **kwargs):
+        data = self.get_queryset()
+        return Response(data)
+
+class AlumniMetricsSummary(ListAPIView):
+    serializer_class = CurrentJobSerializer
+    def get_queryset(self):
+        current_jobs = CurrentJob.objects.all()
+
+        promoted_alumni = current_jobs.filter(promoted_in_current_job=True).count()
+        relevant_job = current_jobs.filter(getting_jobs_related_to_experience=True).count()
+        employed_alumni = current_jobs.count()
+
+        all_alumni_profiles_count = AlumniProfile.objects.exclude(alumni_id='A0-111').count()
+
+        # current_year = datetime.now().year
+        current_year = 2023
+        prev_year = current_year - 1
+
+        current_graduate_alumni = GraduateInformation.objects.filter(year_graduated=current_year)
+        current_alumni = AlumniProfile.objects.filter(graduateinformation__in=current_graduate_alumni)
+        current_jobs_alumni = CurrentJob.objects.filter(alumni__in=current_alumni)
+        current_promoted = current_jobs_alumni.filter(promoted_in_current_job=True)
+        current_relevant = current_jobs_alumni.filter(getting_jobs_related_to_experience=True)
+
+        prev_graduate_alumni = GraduateInformation.objects.filter(year_graduated=2016)
+        prev_alumni = AlumniProfile.objects.filter(graduateinformation__in=prev_graduate_alumni)
+        prev_jobs_alumni = CurrentJob.objects.filter(alumni__in=prev_alumni)
+        prev_promoted = prev_jobs_alumni.filter(promoted_in_current_job=True)
+        prev_relevant = prev_jobs_alumni.filter(getting_jobs_related_to_experience=True)
+
+        """this is for previous year jobs and current job percentage"""
+        percentage_current_job = self.calculate_percentage_change(prev_jobs_alumni.count(), current_jobs_alumni.count())
+        # print(f"The percentage change is: {percentage_change:.2f}%")
+
+        """this is for alumni traced previous year and current year"""
+        percentage_alumni = self.calculate_percentage_change(prev_graduate_alumni.count(), current_graduate_alumni.count())
+
+        """this is for promoted job previous year and current year"""
+        percentage_promoted = self.calculate_percentage_change(prev_promoted.count(), current_promoted.count())
+
+        """this is for relevant job previous year and current year"""
+        percentage_relevant = self.calculate_percentage_change(prev_relevant.count(), current_relevant.count())
+
+        data = {
+            'percentage_jobs': percentage_current_job,
+            'employed_alumni': employed_alumni,
+            'percentage_alumni': percentage_alumni,
+            'alumni_profiles': all_alumni_profiles_count,
+            'percentage_relevant': percentage_relevant,
+            'relevant_job': relevant_job,
+            'percentage_promoted': percentage_promoted,
+            'promoted_alumni': promoted_alumni
+        }
+        return data
+    
+    def list(self, request, *args, **kwargs):
+        data = self.get_queryset()
+    
+        return Response(data)
+    
+    def calculate_percentage_change(self, old_value, new_value):
+        try:
+            percentage_change = ((new_value - old_value) / abs(old_value)) * 100
+            return percentage_change
+        except ZeroDivisionError:
+            # Handle the case where the old value is zero
+            return float('inf')
 
 class MonthlySalaryDistributionAnalysis(ListAPIView):
     serializer_class = MonthlySalaryDistributionSerializer

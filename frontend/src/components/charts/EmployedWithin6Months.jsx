@@ -82,8 +82,6 @@ const EmployedWithin6Months = () => {
         } catch (error) {
             setLoading(false);
             setError([true, error.code, error.response.status]);
-            console.log("Error fetching data:", error);
-
         };
     };
 
@@ -117,15 +115,15 @@ const EmployedWithin6Months = () => {
     }
 
     return loading ? (
-        <div className="col-span-12 xl:col-span-5">
+        <div className="col-span-12 xl:col-span-5 animate-pulse">
             <Loader />
         </div>
     ) : (
         <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-5">
-            <div className="mb-3 justify-between gap-4 flex flex-col">
+            <div className="mb-3 justify-between gap-4 sm:flex">
                 <div>
                     <h5 className="text-xl font-semibold text-black dark:text-white">
-                        Graduation Employment Insights
+                        Six Months Insights
                     </h5>
                 </div>
                 <div>
