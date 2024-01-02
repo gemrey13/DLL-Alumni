@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 from faker import Faker
 from api.models import Address, AlumniProfile, Curriculum, Course, GraduateInformation, CurrentJob, EmploymentRecord
 from django.contrib.auth.models import User
+import numpy as np
 import json
 from django.db import transaction
 
@@ -153,12 +154,13 @@ class Command(BaseCommand):
 
         region_codes = ['01', '02', '03', '4A', '4B', '05', '06', '07', '08', '09', '10', '11', '12', '13', 'BARMM', 'CAR', 'NCR']
         with transaction.atomic():
-            for i in range(500):
+            for i in range(1462):
                 first_name = fake.first_name()
                 last_name = fake.last_name()
                 middle_name = fake.random_letter()
                 alumni_id = f'A0-{112 + i}'
                 graduation_year = random.randint(2001, 2023)
+
                 SATISFACTION_CHOICES = [None, 1, 2, 3, 4, 5]
 
                 print(f'{i+1}.) {first_name} {last_name}')
@@ -220,13 +222,16 @@ class Command(BaseCommand):
                 )
 
                 fake_word = [None, fake.word()]
+                fake_word_prob = [2, 1]
+                pursued_further_education = [True,False]
+                pursued_further_education_prob = [1, 2]
 
                 graduate_info = GraduateInformation.objects.create(
                     alumni=alumni_profile,
                     year_graduated=graduation_year,
                     satisfaction_level=random.choice(SATISFACTION_CHOICES),
-                    pursued_further_education=random.choice([True,False]),
-                    honor=random.choice(fake_word),
+                    pursued_further_education=random.choices(pursued_further_education, weights=pursued_further_education_prob, k=1)[0],
+                    honor=random.choices(fake_word, weights=fake_word_prob, k=1)[0],
                 )
 
                 curriculum = graduate_info.curriculum

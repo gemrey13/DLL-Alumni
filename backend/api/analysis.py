@@ -54,7 +54,7 @@ class AlumniGraduationYearDistributionAnalysis(ListAPIView):
     API view for analyzing the distribution of alumni based on their graduation years. 
     Retrieves distinct graduation years from the database and counts the number of alumni for each year.
     """
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    # permission_classes = [IsAuthenticated, IsAdminUser]
     serializer_class = AlumniGraduationYearDistributionAnalysisSerializer
 
     def get_queryset(self):
@@ -62,6 +62,16 @@ class AlumniGraduationYearDistributionAnalysis(ListAPIView):
         distinct_years = GraduateInformation.objects.values_list(
             "year_graduated", flat=True
         ).distinct()
+
+        # sample = GraduateInformation.objects.filter(honor__isnull=True)
+        # sample2 = GraduateInformation.objects.filter(honor__isnull=False)
+        # print(sample.count())
+        # print(sample2.count())
+
+        sample = GraduateInformation.objects.filter(pursued_further_education=True)
+        sample2 = GraduateInformation.objects.filter(pursued_further_education=False)
+        print(sample.count())
+        print(sample2.count())
 
         alumni_counts = []
         for year in distinct_years:

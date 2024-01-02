@@ -1,2 +1,3 @@
 # Editor directories and files
 venv
+db.sqlite3
