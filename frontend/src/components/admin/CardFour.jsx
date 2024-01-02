@@ -1,5 +1,13 @@
-const CardFour = ({ data, percentage }) => {
+const CardFour = ({ data, percentage, error }) => {
     const isNegative = percentage < 0;
+
+    if (error[0]) {
+        return (
+            <div className="rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
+                ERROR : {error[1]} {error[2]}
+            </div>
+        );
+    }
 
     return (
         <div className="rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -36,7 +44,7 @@ const CardFour = ({ data, percentage }) => {
 
                 {isNegative ? (
                     <span className="flex items-center gap-1 text-sm font-medium text-meta-5">
-                        {percentage.toFixed(2)}%
+                        {percentage?.toFixed(2)}%
                         <svg
                             className="fill-meta-5"
                             width="10"
@@ -52,7 +60,7 @@ const CardFour = ({ data, percentage }) => {
                     </span>
                 ) : (
                     <span className="flex items-center gap-1 text-sm font-medium text-meta-3">
-                        {percentage.toFixed(2)}%
+                        {percentage?.toFixed(2)}%
                         <svg
                             className="fill-meta-3"
                             width="10"

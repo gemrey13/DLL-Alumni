@@ -24,6 +24,8 @@ const Dashboard = () => {
   let { authTokens } = useContext(AuthContext);
   const [metrics, setMetrics] = useState({});
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState([false, '', 0]);
+
 
   useEffect(() => {
     fetchMetricsSum();
@@ -43,9 +45,11 @@ const Dashboard = () => {
         setLoading(false);
         // console.log('asds',newData)
     } catch (error) {
-      
+      setLoading(false);
+      setError([true, error.code, error.response.status]);
     }
   };
+
 
   return <>
       {loading ? (
@@ -54,10 +58,10 @@ const Dashboard = () => {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6 xl:grid-cols-4 2xl:gap-7.5">
-          <CardOne data={metrics.employed_alumni} percentage={metrics.percentage_jobs}/>
-          <CardTwo data={metrics.relevant_job} percentage={metrics.percentage_relevant}/>
-          <CardThree data={metrics.promoted_alumni} percentage={metrics.percentage_promoted}/>
-          <CardFour data={metrics.alumni_profiles} percentage={metrics.percentage_alumni}/>
+          <CardOne data={metrics.employed_alumni} percentage={metrics.percentage_jobs} error={error}/>
+          <CardTwo data={metrics.relevant_job} percentage={metrics.percentage_relevant} error={error}/>
+          <CardThree data={metrics.promoted_alumni} percentage={metrics.percentage_promoted} error={error}/>
+          <CardFour data={metrics.alumni_profiles} percentage={metrics.percentage_alumni} error={error}/>
           </div>
       )}
 
