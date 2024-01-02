@@ -159,9 +159,12 @@ class Command(BaseCommand):
                 last_name = fake.last_name()
                 middle_name = fake.random_letter()
                 alumni_id = f'A0-{112 + i}'
-                graduation_year = random.randint(2001, 2023)
 
-                SATISFACTION_CHOICES = [None, 1, 2, 3, 4, 5]
+                years = list(range(2001, 2024))
+                num_choices = 10
+                increasing_weights = [i / sum(range(1, len(years)+1)) for i in range(1, len(years)+1)]
+                graduation_year = random.choices(years, weights=increasing_weights, k=3)[0]
+
 
                 print(f'{i+1}.) {first_name} {last_name}')
                 random.shuffle(region_codes)
@@ -222,14 +225,16 @@ class Command(BaseCommand):
                 )
 
                 fake_word = [None, fake.word()]
-                fake_word_prob = [2, 1]
+                fake_word_prob = [0.8, 0.2]
                 pursued_further_education = [True,False]
-                pursued_further_education_prob = [1, 2]
+                pursued_further_education_prob = [0.1, 0.8]
+                SATISFACTION_CHOICES = [None, 1, 2, 3, 4, 5]
+                SATISFACTION_CHOICES_prob = [0.1, 0.2, 0.1, 0.3, 0.2, 0.1]
 
                 graduate_info = GraduateInformation.objects.create(
                     alumni=alumni_profile,
                     year_graduated=graduation_year,
-                    satisfaction_level=random.choice(SATISFACTION_CHOICES),
+                    satisfaction_level=random.choices(SATISFACTION_CHOICES, weights=SATISFACTION_CHOICES_prob, k=1)[0],
                     pursued_further_education=random.choices(pursued_further_education, weights=pursued_further_education_prob, k=1)[0],
                     honor=random.choices(fake_word, weights=fake_word_prob, k=1)[0],
                 )
@@ -277,7 +282,18 @@ class Command(BaseCommand):
                     print('\trecord:', k + 1)
 
                 
-                random_current_job = random.choice([True, False])
+                random_current_jobs = [True, False]
+                random_current_job_prob = [0.8, 0.2]
+                random_current_job = random.choices(random_current_jobs, weights=random_current_job_prob, k=1)[0]
+
+                employed_within_6mo_prob = [0.7, 0.3]
+                employed_within_6mo = random.choices(random_current_jobs, weights=employed_within_6mo_prob, k=1)[0]
+                getting_jobs_related_to_experience = random.choices(random_current_jobs, weights=employed_within_6mo_prob, k=1)[0]
+
+                promoted_in_current_job_prob = [0.6, 0.4]
+                promoted_in_current_job = random.choices(random_current_jobs, weights=promoted_in_current_job_prob, k=1)[0]
+
+
                 company_name = random.choice(company_affiliations)
                 employment_status = random.choice(employment_statuses)
                 salary = random.randint(5000, 150000)
@@ -304,9 +320,9 @@ class Command(BaseCommand):
                         company_affiliation=company_name,
                         company_address=address,
                         employment_status=employment_status,
-                        employed_within_6mo=random.choice([True, False]),
-                        promoted_in_current_job=random.choice([True, False]),
-                        getting_jobs_related_to_experience=random.choice([True, False])
+                        employed_within_6mo=employed_within_6mo,
+                        promoted_in_current_job=promoted_in_current_job,
+                        getting_jobs_related_to_experience=getting_jobs_related_to_experience
                     )
 
                     EmploymentRecord.objects.create(
