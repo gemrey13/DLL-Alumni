@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import baseURL from '@/apiConfig';
+import toast from "react-hot-toast";
+
 
 const TableAlumni = () => {
     const { register, handleSubmit, setValue, watch } = useForm();
@@ -42,7 +44,7 @@ const TableAlumni = () => {
             })
             setCurriculumData(response.data);
         } catch (err) {
-            console.error('Error fetching Curriculum List:', err);
+            setCurriculumData([]);
         }
     };
 
@@ -55,7 +57,7 @@ const TableAlumni = () => {
             })
             setCoursesData(response.data);
         } catch (err) {
-            console.error('Error fetching Courses List:', err);
+            setCoursesData([]);
         }
     };
 
@@ -67,11 +69,13 @@ const TableAlumni = () => {
                     Authorization: `Bearer ${authTokens.access}`,
                 },
             })
-            setAlumniData(response.data.results);
-            setNextPage(response.data.next);
+            const data = response.data;
+            setAlumniData(data.results);
+            setNextPage(data.next);
         } catch (err) {
-            console.error('Error fetching alumni data:', err);
-        }
+            setAlumniData([]);
+            setNextPage(null);
+        };
     };
 
     const loadMoreData = async () => {
@@ -84,13 +88,11 @@ const TableAlumni = () => {
             setAlumniData([...alumniData, ...response.data.results]);
             setNextPage(response.data.next);
         } catch (err) {
-            console.error('Error fetching alumni data:', err);
+            setAlumniData([]);
+            setNextPage(null);
         }
     };
     
-
-
-
     return (
     <>    
     <form className="mb-4.5 flex flex-col gap-6 xl:flex-row">
