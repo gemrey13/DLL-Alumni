@@ -162,8 +162,21 @@ class Command(BaseCommand):
 
                 years = list(range(2001, 2024))
                 num_choices = 10
-                increasing_weights = [i / sum(range(1, len(years)+1)) for i in range(1, len(years)+1)]
-                graduation_year = random.choices(years, weights=increasing_weights, k=3)[0]
+
+                if i < 160:
+                    year_range = list(range(2001, 2011))
+                elif i < 606:
+                    year_range = list(range(2011, 2016))
+                elif i < 904:
+                    year_range = list(range(2016, 2019))
+                elif i < 1165:
+                    year_range = list(range(2019, 2023))
+                else:
+                    year_range = list(range(2022, 2024))
+
+                increasing_weights = [i / sum(range(1, len(year_range) + 1)) for i in range(1, len(year_range) + 1)]
+                graduation_year = random.choices(year_range, weights=increasing_weights, k=3)[0]
+
 
 
                 print(f'{i+1}.) {first_name} {last_name}')
@@ -207,6 +220,8 @@ class Command(BaseCommand):
             #         password='123',
             #         email=f'{first_name}.{alumni_id}@gmail.com',
             #     )
+                sex = ['Male', 'Female']
+                sex_prob = [0.6, 0.4]
                 
                 alumni_profile = AlumniProfile.objects.create(
                     # user=user,
@@ -215,7 +230,7 @@ class Command(BaseCommand):
                     fname=first_name,
                     lname=last_name,
                     mi=middle_name,
-                    sex=random.choice(['Male', 'Female']),
+                    sex=random.choices(sex, weights=sex_prob, k=1)[0],
                     contact_number=fake.phone_number(),
                     religion=random.choice(religion),
                     civil_status=random.choice(marital),
