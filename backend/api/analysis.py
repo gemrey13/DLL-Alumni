@@ -29,10 +29,7 @@ class GraduatesByCourseAnalysis(ListAPIView):
         courses = Course.objects.values_list("course_name", flat=True).distinct()
 
         data = []
-        
         for course in courses:
-            print(f"\nCourse Name: {course}")
-
             # Yearly Growth
             yearly_growth = GraduateInformation.objects.filter(alumni__course__course_name=course).values('year_graduated') \
                 .annotate(count=Count('year_graduated')).order_by('year_graduated')
@@ -128,30 +125,6 @@ class TopPerformingCourseAnalysis(ListAPIView):
 
 
 
-# class TopPerformingCourseAnalysis(ListAPIView):
-#     serializer_class = GraduateInformationSerializer
-
-#     def get_queryset(self):
-#         courses = Course.objects.values_list("course_name", flat=True).distinct()
-#         course_averages = {}
-
-#         for course in courses:
-#             grad_info = GraduateInformation.objects.filter(alumni__course__course_name=course)
-#             satisfaction_counts = [grad_info.filter(satisfaction_level=i[0]).count() for i in GraduateInformation.SATISFACTION_CHOICES]
-#             total_responses = sum(satisfaction_counts)
-
-#             satisfaction_rates = [(count / total_responses) * 100 for count in satisfaction_counts]
-#             average_satisfaction = sum(satisfaction_rates) / total_responses
-#   # Use total number of satisfaction levels
-
-#             course_averages[course] = average_satisfaction
-
-#         print("Average Satisfaction Rates for Each Course:")
-#         for course, average_satisfaction in course_averages.items():
-#             print(f"{course}: {average_satisfaction:.2f}%")
-#         satisfaction_rate = GraduateInformation.objects.filter(alumni__course=course).aggregate(Avg('satisfaction_level'))['satisfaction_level__avg']
-
-
 class EmployedWithinSixMonthsAnalysis(ListAPIView):
     """
     API view for analyzing the employment status of individuals within the last six months. 
@@ -192,11 +165,15 @@ class AlumniGraduationYearDistributionAnalysis(ListAPIView):
             "year_graduated", flat=True
         ).distinct()
 
+
         alumni_counts = []
         for year in distinct_years:
             # Count alumni for each year
-            count = GraduateInformation.objects.filter(year_graduated=year).count()
-            alumni_counts.append({"year_graduated": year, "alumni_count": count})
+            total_alumni_graduated = GraduateInformation.objects.filter(
+                year_graduated=year
+            ).count()
+
+            alumni_counts.append({"year_graduated": year, "alumni_count": total_alumni_graduated})
 
         return alumni_counts
 

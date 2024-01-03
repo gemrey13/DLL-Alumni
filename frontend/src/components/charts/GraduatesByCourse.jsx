@@ -102,7 +102,6 @@ const GraduatesByCourse = () => {
                 }
             );
             const data = response.data;
-            console.log(data);
             setData(data);
             setLoading(false);
         } catch (error) {
@@ -113,8 +112,6 @@ const GraduatesByCourse = () => {
 
     const handleChange = async (e) => {
         const value = e.target.value;
-        console.log(value);
-
         for (let i = 0; i < data.length; i++) {
             const course = data[i];
             if (course.course === value) {
@@ -149,24 +146,7 @@ const GraduatesByCourse = () => {
                     ],
                 });
             }
-        }
-        // data.map((d, i) => {
-        //     console.log(d)
-
-        //     if (d.course === e) {
-        //         setOptions((prevOptions) => ({
-        //             ...prevOptions,
-        //             xaxis: {
-        //                 ...prevOptions.xaxis,
-        //                 categories: d.year,
-        //             }
-        //         }))
-        //         setGraduates({
-        //             series: d.graduates
-        //         })
-        //         console.log(d.graduates)
-        //     }
-        // })
+        };
     };
 
     if (error[0]) {

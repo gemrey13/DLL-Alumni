@@ -139,9 +139,11 @@ const AlumniGraduationYearDistribution = () => {
             );
             const data = response.data;
             let years = data.map((item) => item.year_graduated);
-            const alumniCount = data.map((item) => item.alumni_count);
+            let alumniCount = data.map((item) => item.alumni_count);
             setDate(years);
             years = years.sort((a, b) => a - b);
+            alumniCount = alumniCount.sort((a, b) => a - b);
+
             setOptions((prevOptions) => ({
                 ...prevOptions,
                 xaxis: {
