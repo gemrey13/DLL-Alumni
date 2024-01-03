@@ -4,6 +4,8 @@ from .analysis import (
     AlumniGraduationYearDistributionAnalysis,
     MonthlySalaryDistributionAnalysis,
     GenderBasedCurrentJobAnalyis,
+    TopPerformingCourseAnalysis,
+    GraduatesByCourseAnalysis,
 
     TestAnalysisView,
     AnalysisTest2View,
@@ -42,6 +44,8 @@ urlpatterns = [
     path('graduation-year-dist/', AlumniGraduationYearDistributionAnalysis.as_view(), name='graduation-year-dist'),
     path('monthly-salary-dist/', MonthlySalaryDistributionAnalysis.as_view(), name='monthly-salary-dist'),
     path('gender-current-job/', GenderBasedCurrentJobAnalyis.as_view(), name='gender-current-job'),
+    path('top-performing-course/', TopPerformingCourseAnalysis.as_view(), name='top-performing-course'),
+    path('graduates-by-course/', GraduatesByCourseAnalysis.as_view(), name='graduates-by-course'),
     path('analysis/', TestAnalysisView.as_view(), name='analysis'),
     path('analysis2/', AnalysisTest2View.as_view(), name='analysis2'),
 

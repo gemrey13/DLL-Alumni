@@ -19,6 +19,7 @@ import Loader from "../../common/Loader";
 import AuthContext from "../../context/AuthContext";
 import GenderBasedCurrentJob from '../../components/charts/GenderBasedCurrentJob.jsx';
 import TableTopPerformingCourse from '../../components/tables/TableTopPerformingCourse.jsx';
+import GraduatesByCourse from '../../components/charts/GraduatesByCourse.jsx';
 
 
 const Dashboard = () => {
@@ -76,11 +77,16 @@ const Dashboard = () => {
         <GenderBasedCurrentJob />
         <EmployedWithin6Months />
         <MonthlyYearDistribution />
-        <div className="col-span-12 xl:col-span-8">
+        <div className="col-span-12">
           <TableTopPerformingCourse />
           {/* <TableOne /> */}
         </div>
-        <ChatCard />
+        <div className="col-span-12">
+          <GraduatesByCourse />
+          {/* <TableOne /> */}
+        </div>
+
+        {/* <ChatCard /> */}
       </div>
     </>;
 };

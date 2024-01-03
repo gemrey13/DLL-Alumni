@@ -45,10 +45,6 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
 
-class GraduateInformationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = GraduateInformation
-        fields = '__all__'
 
         
 
@@ -61,6 +57,11 @@ class CurrentJobSerializer(serializers.ModelSerializer):
 class AlumniProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = AlumniProfile
+        fields = '__all__'
+
+class GraduateInformationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GraduateInformation
         fields = '__all__'
 
 
