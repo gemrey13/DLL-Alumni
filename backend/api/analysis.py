@@ -63,30 +63,6 @@ class AlumniGraduationYearDistributionAnalysis(ListAPIView):
             "year_graduated", flat=True
         ).distinct()
 
-        # sample = GraduateInformation.objects.filter(honor__isnull=True)
-        # sample2 = GraduateInformation.objects.filter(honor__isnull=False)
-        # print(sample.count())
-        # print(sample2.count())
-        ito = GraduateInformation.objects.all()
-
-        sample1 = ito.filter(satisfaction_level=1)
-        sample2 = ito.filter(satisfaction_level=2)
-        sample3 = ito.filter(satisfaction_level=3)
-        sample4 = ito.filter(satisfaction_level=4)
-        sample5 = ito.filter(satisfaction_level=5)
-        none = ito.filter(satisfaction_level=None)
-        # sample2 = GraduateInformation.objects.filter(pursued_further_education=False)
-        print("Satisfaction 1: ", sample1.count())
-        print("Satisfaction 2: ", sample2.count())
-        print("Satisfaction 3: ", sample3.count())
-        print("Satisfaction 4: ", sample4.count())
-        print("Satisfaction 5: ", sample5.count())
-        print("Satisfaction None: ", none.count())
-        print()
-        print()
-        print()
-        # print(sample2.count())
-
         alumni_counts = []
         for year in distinct_years:
             # Count alumni for each year
@@ -94,7 +70,6 @@ class AlumniGraduationYearDistributionAnalysis(ListAPIView):
             alumni_counts.append({"year_graduated": year, "alumni_count": count})
 
         return alumni_counts
-
 
 class MonthlySalaryDistributionAnalysis(ListAPIView):
     """
@@ -205,6 +180,40 @@ class AnalysisTest2View(ListAPIView):
     def get_queryset(self):
         queryset = []
         employment_status = self.request.query_params.get("employment_status", None)
+
+
+        # sample = GraduateInformation.objects.filter(honor__isnull=True)
+        # sample2 = GraduateInformation.objects.filter(honor__isnull=False)
+        # print(sample.count())
+        # print(sample2.count())
+        ito = GraduateInformation.objects.filter(alumni__course__course_name='BSIT')
+
+        sample1 = ito.filter(satisfaction_level=1).count()
+        sample2 = ito.filter(satisfaction_level=2).count()
+        sample3 = ito.filter(satisfaction_level=3).count()
+        sample4 = ito.filter(satisfaction_level=4).count()
+        sample5 = ito.filter(satisfaction_level=5).count()
+        none = ito.filter(satisfaction_level=None).count()
+        # sample2 = GraduateInformation.objects.filter(pursued_further_education=False)
+        # print("Satisfaction 1: ", sample1.count())
+        # print("Satisfaction 2: ", sample2.count())
+        # print("Satisfaction 3: ", sample3.count())
+        # print("Satisfaction 4: ", sample4.count())
+        # print("Satisfaction 5: ", sample5.count())
+        # print("Satisfaction None: ", none.count())
+        # print()
+        # print()
+        # print()
+        satisfaction_counts = [sample1, sample2, sample3, sample4, sample5, none]
+
+        total_responses = sum(satisfaction_counts)
+
+        satisfaction_rates = [(count / total_responses) * 100 for count in satisfaction_counts]
+        print("BSIT")
+        for i, rate in enumerate(satisfaction_rates, start=1):
+            print(f"Satisfaction {i}: {rate:.2f}%")
+
+        # print(sample2.count())
 
         if employment_status:
             queryset = CurrentJob.objects.all()
