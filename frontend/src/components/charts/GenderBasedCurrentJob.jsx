@@ -5,64 +5,65 @@ import AuthContext from "../../context/AuthContext";
 import ReactApexChart from "react-apexcharts";
 import Loader from "../../common/Loader";
 
-const options = {
-    colors: ["#3C50E0", "#80CAEE"],
-    chart: {
-        fontFamily: "Satoshi, sans-serif",
-        type: "bar",
-        height: 335,
-        stacked: true,
-        toolbar: {
-            show: false,
+const GenderBasedCurrentJob = () => {
+    let { authTokens } = useContext(AuthContext);
+    const [options, setOptions] = useState({
+        colors: ["#3C50E0", "#80CAEE"],
+        chart: {
+            fontFamily: "Satoshi, sans-serif",
+            type: "bar",
+            height: 335,
+            stacked: true,
+            toolbar: {
+                show: false,
+            },
+            zoom: {
+                enabled: false,
+            },
         },
-        zoom: {
-            enabled: false,
-        },
-    },
-    responsive: [
-        {
-            breakpoint: 1536,
-            options: {
-                plotOptions: {
-                    bar: {
-                        borderRadius: 0,
-                        columnWidth: "50%",
+        responsive: [
+            {
+                breakpoint: 1536,
+                options: {
+                    plotOptions: {
+                        bar: {
+                            borderRadius: 0,
+                            columnWidth: "50%",
+                        },
                     },
                 },
             },
+        ],
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                borderRadius: 0,
+                columnWidth: "25%",
+                borderRadiusApplication: "end",
+                borderRadiusWhenStacked: "last",
+            },
         },
-    ],
-    plotOptions: {
-        bar: {
-            horizontal: false,
-            borderRadius: 0,
-            columnWidth: "25%",
-            borderRadiusApplication: "end",
-            borderRadiusWhenStacked: "last",
+        dataLabels: {
+            enabled: false,
         },
-    },
-    dataLabels: {
-        enabled: false,
-    },
-    xaxis: {
-        categories: ["Female", "Male"],
-    },
-    legend: {
-        position: "top",
-        horizontalAlign: "left",
-        fontFamily: "Satoshi",
-        fontWeight: 500,
-        fontSize: "14px",
-        markers: {
-            radius: 99,
+        xaxis: {
+            categories: ["Female", "Male"],
         },
-    },
-    fill: {
-        opacity: 1,
-    },
-};
-const GenderBasedCurrentJob = () => {
-    let { authTokens } = useContext(AuthContext);
+        legend: {
+            position: "top",
+            horizontalAlign: "left",
+            fontFamily: "Satoshi",
+            fontWeight: 500,
+            fontSize: "14px",
+            markers: {
+                radius: 99,
+            },
+        },
+        fill: {
+            opacity: 1,
+        },
+    });
+
     const [data, setData] = useState({
         series: [
             {
@@ -75,6 +76,20 @@ const GenderBasedCurrentJob = () => {
             },
         ],
     });
+    const [tempData, setTempData] = useState({
+        series: [
+            {
+                name: "Male",
+                data: [0, 0],
+            },
+            {
+                name: "Female",
+                data: [0, 0],
+            },
+        ],
+    });
+    const [maleData, setMaleData] = useState(null);
+    const [femaleData, setFemaleData] = useState(null);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState([false, '', 0]);
@@ -106,11 +121,77 @@ const GenderBasedCurrentJob = () => {
                     },
                 ],
             });
+            setTempData({
+                series: [
+                    {
+                        name: "Employed",
+                        data: [ data.current_job_female, data.current_job_male],
+                    },
+                    {
+                        name: "Alumni",
+                        data: [data.alumni_female, data.alumni_male],
+                    },
+                ],
+            });
+            setMaleData({
+                series: [
+                    {
+                        name: "Employed",
+                        data: [data.current_job_male],
+                    },
+                    {
+                        name: "Alumni",
+                        data: [data.alumni_male],
+                    },
+                ],
+            });
+            setFemaleData({
+                series: [
+                    {
+                        name: "Employed",
+                        data: [data.current_job_female],
+                    },
+                    {
+                        name: "Alumni",
+                        data: [data.alumni_female],
+                    },
+                ],
+            });
             setLoading(false);
         } catch (error) {
             setLoading(false);
             setError([true, error.code, error.response.status]);
         }
+    };
+
+    const handleChange = (e) => {
+        const value = e.target.value;
+
+        if (value === 'male') {
+            setData(maleData)
+            setOptions((prevOptions) => ({
+                ...prevOptions,
+                xaxis: {
+                    categories: ['Male']
+                }
+            }))
+        } else if (value === 'female') {
+            setData(femaleData)
+            setOptions((prevOptions) => ({
+                ...prevOptions,
+                xaxis: {
+                    categories: ['Female']
+                }
+            }))
+        } else {
+            setData(tempData)
+            setOptions((prevOptions) => ({
+                ...prevOptions,
+                xaxis: {
+                    categories: ['Female', 'Male']
+                }
+            }))
+        };
     };
     
     if (error[0]) {
@@ -135,12 +216,13 @@ const GenderBasedCurrentJob = () => {
                 </div>
                 <div>
                     <div className="relative z-20 inline-block">
-                        <select
+                        <select onChange={handleChange}
                             name="#"
                             id="#"
                             className="relative z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-8 text-sm font-medium outline-none">
-                            <option value="">This Year</option>
-                            <option value="">Last Year</option>
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
                         </select>
                         <span className="absolute top-1/2 right-3 z-10 -translate-y-1/2">
                             <svg
