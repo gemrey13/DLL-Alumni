@@ -1,13 +1,15 @@
-import React from 'react'
-import AlumniForm from "../components/forms/AlumniForm"
-
+import React from "react";
+import AlumniForm from "../components/forms/AlumniForm";
 
 const SurveyPage = () => {
-  return (
-    <>
-        <AlumniForm />
-    </>
-  );
+    return (
+        <>
+            <section className="px-8">
+                <AlumniForm />
+
+            </section>
+        </>
+    );
 };
 
-export default SurveyPage
+export default SurveyPage;

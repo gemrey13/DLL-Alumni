@@ -253,12 +253,12 @@ const AlumniForm = () => {
                   Date of birth <span className="text-meta-1">*</span>
                 </label>
                 <div className="relative">
-                  <input
+                  <input required
                     {...register("date_of_birth", {
                       required: "Date of birth is required",
                     })}
                     type="date"
-                    className="custom-input-date custom-input-date-1 w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                    className="w-full rounded border-[1.5px] border-stroke bg-transparent py-2.5 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                   />
                 </div>
               </div>
