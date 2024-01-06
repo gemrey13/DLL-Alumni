@@ -25,8 +25,8 @@ function News() {
               mentors in their chosen fields.
             </p>
           </div>
-          <div className="w-full lg:w-[70%]">
-            <img src={news_1} alt="News 1" className="" />
+          <div className="flex-1">
+            <img src={news_1} alt="News 1" className="object-fill h-full" />
           </div>
         </div>
         <aside>

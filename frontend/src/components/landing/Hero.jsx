@@ -3,7 +3,7 @@ import sir_rovie from "../../images/sir_rovie.png";
 
 function Hero() {
   return (
-    <div className="hero mt-12 lg:mt-32 px-5">
+    <div className="hero pt-8 px-5">
       <div className="hero-content flex-col-reverse lg:flex-row-reverse">
         <div className="relative hidden lg:block lg:ml-32">
           <img

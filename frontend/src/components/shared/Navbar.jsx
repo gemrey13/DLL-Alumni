@@ -26,15 +26,18 @@ function Navbar() {
               />
             </svg>
           </div>
-          <ul className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-            <li>
-              <a>Home</a>
+          <ul className="menu menu-sm dropdown-content mt-3 z-[1] px-3 py-4 shadow bg-black rounded-box w-52">
+            <li className="">
+              <NavLink to="/" className="text-base py-1">Home</NavLink>
             </li>
             <li>
-              <a>About</a>
+              <NavLink to="/about" className="text-base py-1">About</NavLink>
             </li>
             <li>
-              <a>News and Update</a>
+              <NavLink to="/news" className="text-base py-1">News and Update</NavLink>
+            </li>
+            <li>
+              <NavLink to="/tracer-survey-form" className="text-base py-1">Tracer Form</NavLink>
             </li>
           </ul>
         </div>
@@ -53,7 +56,7 @@ function Navbar() {
         <div className="hidden lg:flex flex-nowrap">
           <ul className="menu menu-horizontal px-1 mr-6">
             <li className="px-2">
-              <a>Home</a>
+              <NavLink to="/">Home</NavLink>
             </li>
             <li className="px-2">
               <a>About</a>
