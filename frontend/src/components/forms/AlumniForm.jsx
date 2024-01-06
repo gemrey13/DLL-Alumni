@@ -77,7 +77,6 @@ const AlumniForm = () => {
       ...data,
       employmentData,
     };
-    console.log(postData)
 
     const promise = toast.promise(
       axios.post(`${baseURL}/api/alumni-form/`, postData),
@@ -102,7 +101,6 @@ const AlumniForm = () => {
       setIsRelated(false);
       reset();
     } catch (error) {
-      console.error("Error submitting form:", error);
     }
   };
 

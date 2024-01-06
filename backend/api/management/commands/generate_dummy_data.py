@@ -112,7 +112,7 @@ class Command(BaseCommand):
 
         admin_profile = AlumniProfile.objects.create(
             user=superuser,
-            alumni_id='A0-111',
+            alumni_id='A0-0000',
             course=random.choice(courses_list),
             fname='Gem Rey',
             lname='Rañola',
@@ -158,7 +158,7 @@ class Command(BaseCommand):
                 first_name = fake.first_name()
                 last_name = fake.last_name()
                 middle_name = fake.random_letter()
-                alumni_id = f'A0-{112 + i}'
+                alumni_id = f'A0-{i+1:04d}'
 
                 years = list(range(2001, 2024))
                 num_choices = 10

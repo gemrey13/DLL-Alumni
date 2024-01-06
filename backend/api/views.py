@@ -370,7 +370,6 @@ class AlumniForm(APIView):
     def generate_alumni_id(self):
         with transaction.atomic():
             last_id = AlumniProfile.objects.order_by("-alumni_id").first()
-            print(last_id)
 
             if last_id:
                 last_number = int(last_id.alumni_id.split("-")[1])
@@ -378,7 +377,7 @@ class AlumniForm(APIView):
                 last_number = 0
 
             new_number = last_number + 1
-            new_alumni_id = f"A0-{new_number:03d}"
+            new_alumni_id = f"A0-{new_number:04d}"
 
             return new_alumni_id
 

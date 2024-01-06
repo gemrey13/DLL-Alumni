@@ -15,7 +15,7 @@ class Address(models.Model):
     
 class AlumniProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
-    alumni_id = models.CharField(primary_key=True, max_length=6)
+    alumni_id = models.CharField(primary_key=True, max_length=10)
     course = models.ForeignKey('Course', on_delete=models.CASCADE, null=True)
     fname = models.CharField(max_length=64)
     lname = models.CharField(max_length=64)
