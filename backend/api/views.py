@@ -355,8 +355,8 @@ class AlumniForm(APIView):
             GraduateInformation.objects.create(
                 alumni=alumni,
                 year_graduated=data["year_graduated"],
-                # satisfaction_level=,
-                # pursued_further_education=,
+                satisfaction_level=data["satisfaction_rate"],
+                pursued_further_education=data["pursued_further_education"],
                 honor=data["description"],
             )
 

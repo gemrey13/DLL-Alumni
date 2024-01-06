@@ -4,7 +4,7 @@ import AlumniForm from "../components/forms/AlumniForm";
 const SurveyPage = () => {
     return (
         <>
-            <section className="px-8">
+            <section className="lg:px-29 lg:py-10">
                 <AlumniForm />
 
             </section>

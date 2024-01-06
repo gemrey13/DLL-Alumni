@@ -11,6 +11,7 @@ const AlumniForm = () => {
   const [isEmployed, setIsEmployed] = useState(false);
   const [isPromoted, setIsPromoted] = useState(false);
   const [isRelated, setIsRelated] = useState(false);
+  const [isPursued, setIsPursued] = useState(false);
   const [rows, setRows] = useState([
     {
       name: "",
@@ -99,6 +100,7 @@ const AlumniForm = () => {
       setIsEmployed(false);
       setIsPromoted(false);
       setIsRelated(false);
+      setIsPursued(false);
       reset();
     } catch (error) {
     }
@@ -482,7 +484,47 @@ const AlumniForm = () => {
                   </span>
                 </div>
               </div>
+
+              <div className="w-full xl:w-1/4">
+                <label className="mb-2.5 block text-black dark:text-white">
+                  Satisfaction <span className="text-meta-1">*</span>
+                </label>
+                <div className="relative z-20 bg-transparent dark:bg-form-input">
+                  <select
+                    {...register("satisfaction_rate", {
+                      required: "Satisfaction rate is required",
+                    })}
+                    className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
+                    <option value="">Please rate</option>
+                    <option value="5">Very Satisfied</option>
+                    <option value="4">Satisfied</option>
+                    <option value="3">Neutral</option>
+                    <option value="2">Dissatisfied</option>
+                    <option value="1">Very Dissatisfied</option>
+                    
+                  </select>
+                  <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
+                    <svg
+                      className="fill-current"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <g opacity="0.8">
+                        <path
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
+                          fill=""></path>
+                      </g>
+                    </svg>
+                  </span>
+                </div>
+              </div>
             </div>
+
+            
 
             <div className="mb-4.5 px-12 py-5">
               <div className="mb-5">
@@ -563,6 +605,46 @@ const AlumniForm = () => {
                     </div>
                   </div>
                   Have you been promoted in your current job?
+                </label>
+              </div>
+
+              <div className="mb-5">
+                <label
+                  htmlFor="checkboxLabelFour"
+                  className="flex cursor-pointer select-none items-center">
+                  <div className="relative">
+                    <input
+                      {...register("pursued_further_education")}
+                      type="checkbox"
+                      id="checkboxLabelFour"
+                      className="sr-only"
+                      onChange={() => {
+                        setIsPursued(!isPursued);
+                      }}
+                    />
+                    <div
+                      className={`mr-4 flex h-5 w-5 items-center justify-center rounded border ${
+                        isPursued &&
+                        "border-primary bg-gray dark:bg-transparent"
+                      }`}>
+                      <span
+                        className={`opacity-0 ${isPursued && "!opacity-100"}`}>
+                        <svg
+                          width="11"
+                          height="8"
+                          viewBox="0 0 11 8"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <path
+                            d="M10.0915 0.951972L10.0867 0.946075L10.0813 0.940568C9.90076 0.753564 9.61034 0.753146 9.42927 0.939309L4.16201 6.22962L1.58507 3.63469C1.40401 3.44841 1.11351 3.44879 0.932892 3.63584C0.755703 3.81933 0.755703 4.10875 0.932892 4.29224L0.932878 4.29225L0.934851 4.29424L3.58046 6.95832C3.73676 7.11955 3.94983 7.2 4.1473 7.2C4.36196 7.2 4.55963 7.11773 4.71406 6.9584L10.0468 1.60234C10.2436 1.4199 10.2421 1.1339 10.0915 0.951972ZM4.2327 6.30081L4.2317 6.2998C4.23206 6.30015 4.23237 6.30049 4.23269 6.30082L4.2327 6.30081Z"
+                            fill="#3056D3"
+                            stroke="#3056D3"
+                            strokeWidth="0.4"></path>
+                        </svg>
+                      </span>
+                    </div>
+                  </div>
+                  Pursued further education?
                 </label>
               </div>
 
