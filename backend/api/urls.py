@@ -19,13 +19,9 @@ from .views import (
     GetProfileView,
     AccountInformationView,
     AlumniMetricsSummary,
-    JWTView,
 )
 
-from rest_framework_simplejwt.views import (
-    TokenRefreshView,
-    TokenObtainPairView
-)
+
 
 urlpatterns = [
     path('curriculum-list/', CurriculumList.as_view(), name='curriculum-list'),
@@ -49,7 +45,4 @@ urlpatterns = [
     path('analysis/', TestAnalysisView.as_view(), name='analysis'),
     path('analysis2/', AnalysisTest2View.as_view(), name='analysis2'),
 
-    path('routes/', JWTView.as_view()),
-    path('token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 ]
