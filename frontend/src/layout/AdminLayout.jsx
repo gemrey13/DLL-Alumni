@@ -3,7 +3,7 @@ import Header from "../components/admin/Header";
 import Sidebar from "../components/admin/Sidebar";
 import { Outlet } from "react-router-dom";
 
-const DefaultLayout = () => {
+const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   return (
     <div className="dark:bg-boxdark-2 dark:text-bodydark">
@@ -29,4 +29,4 @@ const DefaultLayout = () => {
     </div>
   );
 };
-export default DefaultLayout;
+export default AdminLayout;

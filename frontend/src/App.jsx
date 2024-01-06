@@ -17,7 +17,7 @@ import Loader from "./common/Loader";
 import SurveyPage from "./pages/SurveyPage";
 
 
-const DefaultLayout = lazy(() => import("./layout/DefaultLayout"));
+const AdminLayout = lazy(() => import("./layout/AdminLayout"));
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -50,7 +50,7 @@ function App() {
             path="/admin/"
             element={
               <PrivateRoute>
-                  <DefaultLayout />
+                  <AdminLayout />
               </PrivateRoute>
             }>
             <Route index element={<Dashboard />} />
