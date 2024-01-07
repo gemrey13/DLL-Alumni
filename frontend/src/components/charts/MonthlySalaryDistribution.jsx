@@ -73,7 +73,7 @@ const MonthlyYearDistribution = () => {
         <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-2 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-7">
             <div className="flex flex-wrap items-start justify-between gap-3 sm:flex-nowrap">
                 <div>
-                    <h4 className="text-xl font-semibold text-primary dark:text-white pb-7">
+                    <h4 className="text-xl font-semibold text-black dark:text-white">
                         Monthly salary distribution by course
                     </h4>
                 </div>
