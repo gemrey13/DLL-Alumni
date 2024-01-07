@@ -92,7 +92,7 @@ const GenderBasedCurrentJob = () => {
     const [femaleData, setFemaleData] = useState(null);
 
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState([false, '', 0]);
+    const [error, setError] = useState([false, "", 0]);
 
     useEffect(() => {
         fetchData();
@@ -113,7 +113,7 @@ const GenderBasedCurrentJob = () => {
                 series: [
                     {
                         name: "Employed",
-                        data: [ data.current_job_female, data.current_job_male],
+                        data: [data.current_job_female, data.current_job_male],
                     },
                     {
                         name: "Alumni",
@@ -125,7 +125,7 @@ const GenderBasedCurrentJob = () => {
                 series: [
                     {
                         name: "Employed",
-                        data: [ data.current_job_female, data.current_job_male],
+                        data: [data.current_job_female, data.current_job_male],
                     },
                     {
                         name: "Alumni",
@@ -167,33 +167,33 @@ const GenderBasedCurrentJob = () => {
     const handleChange = (e) => {
         const value = e.target.value;
 
-        if (value === 'male') {
-            setData(maleData)
+        if (value === "male") {
+            setData(maleData);
             setOptions((prevOptions) => ({
                 ...prevOptions,
                 xaxis: {
-                    categories: ['Male']
-                }
-            }))
-        } else if (value === 'female') {
-            setData(femaleData)
+                    categories: ["Male"],
+                },
+            }));
+        } else if (value === "female") {
+            setData(femaleData);
             setOptions((prevOptions) => ({
                 ...prevOptions,
                 xaxis: {
-                    categories: ['Female']
-                }
-            }))
+                    categories: ["Female"],
+                },
+            }));
         } else {
-            setData(tempData)
+            setData(tempData);
             setOptions((prevOptions) => ({
                 ...prevOptions,
                 xaxis: {
-                    categories: ['Female', 'Male']
-                }
-            }))
-        };
+                    categories: ["Female", "Male"],
+                },
+            }));
+        }
     };
-    
+
     if (error[0]) {
         return (
             <div className="text-error text-lg grid place-content-center col-span-12 rounded-sm border border-stroke bg-white px-5 pt-7.5 pb-5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-4">
@@ -216,13 +216,26 @@ const GenderBasedCurrentJob = () => {
                 </div>
                 <div>
                     <div className="relative z-20 inline-block">
-                        <select onChange={handleChange}
+                        <select
+                            onChange={handleChange}
                             name="#"
                             id="#"
                             className="relative z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-8 text-sm font-medium outline-none">
-                            <option value="">Select Gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
+                            <option
+                                value=""
+                                className="border-transparent bg-white dark:bg-boxdark text-graydark dark:text-white">
+                                Select Gender
+                            </option>
+                            <option
+                                value="male"
+                                className="border-transparent bg-white dark:bg-boxdark text-graydark dark:text-white">
+                                Male
+                            </option>
+                            <option
+                                value="female"
+                                className="border-transparent bg-white dark:bg-boxdark text-graydark dark:text-white">
+                                Female
+                            </option>
                         </select>
                         <span className="absolute top-1/2 right-3 z-10 -translate-y-1/2">
                             <svg

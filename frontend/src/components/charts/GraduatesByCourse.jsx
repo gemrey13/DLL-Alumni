@@ -176,13 +176,13 @@ const GraduatesByCourse = () => {
                             name="#"
                             id="#"
                             className="relative z-20 inline-flex appearance-none bg-transparent py-1 pl-3 pr-8 text-sm font-medium outline-none">
-                            {/* <option value="2022">Last Year</option> */}
-                            <option value=''>
+                            <option value='' className="border-transparent bg-white dark:bg-boxdark text-graydark dark:text-white">
                                 Pick a course
                             </option>
 
                             {data.map((yearGraduates, index) => (
                                 <option
+                                    className="border-transparent bg-white dark:bg-boxdark text-graydark dark:text-white"
                                     key={index}
                                     value={yearGraduates.course}>
                                     {yearGraduates.course}
