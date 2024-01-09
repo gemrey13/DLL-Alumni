@@ -47,6 +47,23 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
 
+class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password', 'first_name', 'last_name']
+        extra_kwargs = {'password': {'write_only': True}}
+
+    def create(self, validated_data):
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data['email'],
+            password=validated_data['password'],
+            first_name=validated_data.get('first_name', ''),
+            last_name=validated_data.get('last_name', ''),
+        )
+        return user
 
 class CurrentJobSerializer(serializers.ModelSerializer):
     class Meta:
@@ -164,31 +181,6 @@ class TableAlumniInformationSerializer(serializers.ModelSerializer):
         alumni_profile = obj.alumni
         current_job = alumni_profile.current_job.first()
         return current_job.employment_status if current_job else None
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = '__all__'
-
-
-class AccountInformationSerializer(serializers.ModelSerializer):
-    current_job = serializers.SerializerMethodField()
-    home_address = AddressSerializer()
-    user = UserSerializer()
-
-    class Meta:
-        model = AlumniProfile
-        fields = '__all__'
-    
-    def get_current_job(self, obj):
-        # Assuming you have a related_name or reverse relation named 'current_jobs'
-        first_current_job = obj.current_job.first()
-        if first_current_job:
-            return CurrentJobSerializer(first_current_job).data
-        else:
-            return None
-
 
 
 

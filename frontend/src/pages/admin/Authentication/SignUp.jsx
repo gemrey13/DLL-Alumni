@@ -1,7 +1,28 @@
 import { Link } from "react-router-dom";
+import { useForm } from 'react-hook-form';
+import React from 'react';
+import axios from 'axios';
 import icon_alumni from "../../../images/icon-alumni.png";
+import baseURL from "@/apiConfig";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+  const navigate = useNavigate();
+  const { register, handleSubmit, reset, formState: { errors, isSubmitting, isValid }, getValues } = useForm({
+      mode: 'onChange',
+  });
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.post(`${baseURL}/api/signup/`, data);
+      if (response.request.status === 201) {
+        toast.success('User registered successfully')
+      }
+      navigate('/auth/signin');
+    } catch (error) {
+        toast.error('Something went wrong.')
+    }
+  };
   return (
     <>
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -152,17 +173,18 @@ const SignUp = () => {
                 Sign Up to DLL Alumni Association
               </h2>
 
-              <form>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Name
+                    Username
                   </label>
                   <div className="relative">
-                    <input
+                    <input {...register('username', {required: 'Username is required'})}
                       type="text"
-                      placeholder="Enter your full name"
+                      placeholder="Enter your username"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
+                    {errors.username && <p>{errors.username.message}</p>}
 
                     <span className="absolute right-4 top-4">
                       <svg
@@ -192,11 +214,12 @@ const SignUp = () => {
                     Email
                   </label>
                   <div className="relative">
-                    <input
+                    <input {...register('email', {required: 'Email is required'})}
                       type="email"
                       placeholder="Enter your email"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
+                    {errors.email && <p>{errors.email.message}</p>}
 
                     <span className="absolute right-4 top-4">
                       <svg
@@ -222,11 +245,12 @@ const SignUp = () => {
                     Password
                   </label>
                   <div className="relative">
-                    <input
+                    <input {...register('password', { required: 'Password is required' })}
                       type="password"
                       placeholder="Enter your password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
+                    {errors.password && <p>{errors.password.message}</p>}
 
                     <span className="absolute right-4 top-4">
                       <svg
@@ -256,11 +280,15 @@ const SignUp = () => {
                     Re-type Password
                   </label>
                   <div className="relative">
-                    <input
+                    <input 
+                      {...register('confirmPassword', {
+                        validate: (value) => value === getValues('password') || 'Passwords do not match',
+                    })}
                       type="password"
                       placeholder="Re-enter your password"
                       className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                     />
+                    {errors.confirmPassword && <p>{errors.confirmPassword.message}</p>}
 
                     <span className="absolute right-4 top-4">
                       <svg
@@ -286,7 +314,7 @@ const SignUp = () => {
                 </div>
 
                 <div className="mb-5">
-                  <input
+                  <input disabled={isSubmitting || !isValid}
                     type="submit"
                     value="Create account"
                     className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"

@@ -2,7 +2,7 @@ from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from rest_framework import status
 from django.db import transaction
 from django.contrib.auth.models import User
@@ -13,11 +13,11 @@ from .serializers import (
     TableAlumniInformationSerializer,
     AlumniFormSerializer,
     AlumniProfileSerializer,
-    AccountInformationSerializer,
     CurrentJobSerializer,
     CurriculumSerializer,
     CourseSerializer,
     EmploymentRecordSerializer,
+    UserSerializer
 )
 from .models import (
     GraduateInformation,
@@ -160,6 +160,9 @@ class AlumniMetricsSummary(ListAPIView):
         except ZeroDivisionError:
             # Handle the case where the old value is zero
             return float("inf")
+
+
+
 
 
 
@@ -345,6 +348,17 @@ class AlumniForm(APIView):
             new_alumni_id = f"A0-{new_number:04d}"
 
             return new_alumni_id
+
+
+class UserRegistrationView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class JWTView(APIView):
