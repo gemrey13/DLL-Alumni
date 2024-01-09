@@ -1,6 +1,43 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
+
+class JobCategory(models.Model):
+    name = models.CharField(max_length=255 unique=True)
+
+    def __str__(self):
+        return self.name
+    
+
+class Job(models.Model):
+    title = models.CharField(max_length=255)
+    company_name = models.CharField(max_length=100)
+    description = models.TextField()
+    requirements = models.TextField()
+    location = models.CharField(max_length=100)
+    created_at = models.DateTimeField(auto_now_add=True)
+    is_approved = models.BooleanField(default=False)
+    category = models.ForeignKey(JobCategory, on_delete=models.SET_NULL, null=True, blank=True)
+
+    def __str__(self):
+        return self.title
+
+
+class JobApplication(models.Model):
+    job = models.ForeignKey(Job, related_name='applications', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    applied_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Application for {self.job.title} by {self.user.username}"
+
+    class Meta:
+        unique_together = ('job', 'user')
+
+
+
+
 class Address(models.Model):
     country = models.CharField(max_length=80)
     region = models.CharField(max_length=80, blank=True)
