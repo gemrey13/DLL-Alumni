@@ -3,22 +3,26 @@ from django.contrib.auth.models import User
 
 
 
-class JobCategory(models.Model):
-    name = models.CharField(max_length=255 unique=True)
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    bio = models.TextField(blank=True)
+    sex = models.CharField(max_length=64)
+    course = models.CharField(max_length=255)
 
     def __str__(self):
-        return self.name
-    
+        return self.user.username
+
 
 class Job(models.Model):
     title = models.CharField(max_length=255)
     company_name = models.CharField(max_length=100)
+    starting_salary = models.IntegerField(null=True, blank=True)
     description = models.TextField()
-    requirements = models.TextField()
     location = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
     is_approved = models.BooleanField(default=False)
-    category = models.ForeignKey(JobCategory, on_delete=models.SET_NULL, null=True, blank=True)
+    category = models.CharField(max_length=255, null=True, blank=True)
+    experience_level = models.CharField(max_length=255)
 
     def __str__(self):
         return self.title
@@ -37,7 +41,6 @@ class JobApplication(models.Model):
 
 
 
-
 class Address(models.Model):
     country = models.CharField(max_length=80)
     region = models.CharField(max_length=80, blank=True)
@@ -51,7 +54,6 @@ class Address(models.Model):
         return f'{self.country.title()}, {self.region.title()}, {self.province.title()}, {self.city.title()}, {self.barangay.title()}'
     
 class AlumniProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, blank=True, null=True)
     alumni_id = models.CharField(primary_key=True, max_length=10)
     course = models.ForeignKey('Course', on_delete=models.CASCADE, null=True)
     fname = models.CharField(max_length=64)

@@ -162,11 +162,6 @@ class AlumniMetricsSummary(ListAPIView):
             return float("inf")
 
 
-"""
-1. get all year graduated
-2. filter alumni based on year graduated then count
-"""
-
 
 class TableAlumniPagination(PageNumberPagination):
     page_size = 10
@@ -242,36 +237,6 @@ class GetProfileView(APIView):
         }
         return Response(data, status=status.HTTP_200_OK)
 
-
-class AccountInformationView(ListAPIView):
-    """
-    Authenticated users can retrieve their AlumniProfile information.
-    The 'get_queryset' method fetches the user's profile, returning None if not found.
-    The 'get' method serializes and returns the profile or a response if not found.
-    """
-
-    permission_classes = [IsAuthenticated]
-    serializer_class = AccountInformationSerializer
-
-    def get_queryset(self):
-        user_account = self.request.user
-        try:
-            user_profile = AlumniProfile.objects.get(user=user_account)
-            return user_profile
-        except User.DoesNotExist:
-            return None
-        except AlumniProfile.DoesNotExist:
-            return None
-        except Exception as e:
-            return None
-
-    def get(self, request, *args, **kwargs):
-        user_profile = self.get_queryset()
-        if not user_profile:
-            return Response({"detail": "Admin profile does not exist."})
-
-        user_profile_serializer = self.get_serializer(user_profile)
-        return Response(user_profile_serializer.data)
 
 
 class AlumniForm(APIView):

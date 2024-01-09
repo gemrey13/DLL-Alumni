@@ -17,7 +17,6 @@ from .views import (
     CurriculumCourseView,
     AlumniForm,
     GetProfileView,
-    AccountInformationView,
     AlumniMetricsSummary,
 )
 
@@ -30,7 +29,6 @@ urlpatterns = [
     path('table-alumni/', TableAlumniView.as_view(), name='table-alumni'),
     path('alumni-form/', AlumniForm.as_view(), name='alumni-form'),
     path('get-profile/', GetProfileView.as_view(), name='get-profile'),
-    path('account-info/', AccountInformationView.as_view(), name='admin-info'),
 
     # Metrics
     path('alumni-metrics-summary/', AlumniMetricsSummary.as_view(), name='alumni-metrics-summary'),

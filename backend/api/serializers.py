@@ -17,16 +17,16 @@ from .models import (
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
-        try:
-            alumni_profile = AlumniProfile.objects.get(user=user)
-            alumni_profile_serialized = AlumniProfileSerializer(alumni_profile)
+        # try:
+            # alumni_profile = AlumniProfile.objects.get(user=user)
+            # alumni_profile_serialized = AlumniProfileSerializer(alumni_profile)
 
-            current_job = CurrentJob.objects.get(alumni=alumni_profile)
-            current_job_serialized = CurrentJobSerializer(current_job)
-        except AlumniProfile.DoesNotExist:
-            alumni_profile = None
-        except CurrentJob.DoesNotExist:
-            current_job_serialized = False
+            # current_job = CurrentJob.objects.get(alumni=alumni_profile)
+            # current_job_serialized = CurrentJobSerializer(current_job)
+        # except AlumniProfile.DoesNotExist:
+        #     alumni_profile = None
+        # except CurrentJob.DoesNotExist:
+        #     current_job_serialized = False
         token = super().get_token(user)
         
 
@@ -34,8 +34,8 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['email'] = user.email
         token['is_staff'] = user.is_staff
         token['is_staff'] = user.is_superuser
-        token['profile_info'] = alumni_profile_serialized.data
-        token['current_job'] = current_job_serialized.data if current_job_serialized else None
+        # token['profile_info'] = alumni_profile_serialized.data
+        # token['current_job'] = current_job_serialized.data if current_job_serialized else None
 
         return token
     
@@ -45,8 +45,6 @@ class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
 
-
-        
 
 class CurrentJobSerializer(serializers.ModelSerializer):
     class Meta:
