@@ -15,7 +15,7 @@ function LandingPage() {
             <img
             src={blob_hero}
             alt="Blob 1"
-            className="absolute -left-72 md:-left-80 hidden md:block"
+            className="absolute -left-72 md:-left-80 hidden md:block pointer-events-none select-none"
             />
             <Hero />
         </div>

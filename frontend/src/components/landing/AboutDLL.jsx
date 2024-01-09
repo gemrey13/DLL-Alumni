@@ -6,9 +6,9 @@ import Togglestarborder from "../../images/Togglestarborder.png";
 function AboutDLL() {
   return (
     <section className="mt-16 lg:mt-24 relative overflow-hidden pb-8">
-      <img className="w-80 h-60 absolute -left-32 top-24" src={Action1} />
+      <img className="w-80 h-60 absolute -left-32 top-24 pointer-events-none select-none" src={Action1} />
       <img
-        className="w-80 h-60 absolute -right-20 -bottom-12 -rotate-45"
+        className="w-80 h-60 absolute -right-20 -bottom-12 -rotate-45 pointer-events-none select-none"
         src={Togglestarborder}
       />
 
@@ -25,7 +25,7 @@ function AboutDLL() {
           <div className="flex flex-col">
             <img
               src={ITParadigm}
-              className="w-72 md:w-auto max-w-md rounded-md shadow-2xl"
+              className="w-72 md:w-auto max-w-md rounded-md shadow-2xl pointer-events-none select-none"
             />
             <button className="btn btn-warning btn-sm text-white self-center my-6">
               Read More

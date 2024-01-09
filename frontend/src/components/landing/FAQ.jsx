@@ -14,7 +14,7 @@ function FAQ() {
       <img
         src={Cylinder_Long_Standing}
         alt="Cylinder_Long_Standing"
-        className="absolute rotate-[12.05deg] w-80 -left-48 lg:-left-32 top-10"
+        className="absolute rotate-[12.05deg] w-80 -left-48 lg:-left-32 top-10 pointer-events-none select-none"
       />
       <div className="w-[80%]">
         <h1 className="text-xl lg:text-3xl font-semibold">
@@ -100,8 +100,8 @@ function FAQ() {
             Click Here!
           </button>
         </div>
-        <div className="w-[90%] md:w-[30%]  rotate-[164.55deg]">
-          <img src={Block_Slab_1} alt="Slab" />
+        <div className="w-[90%] md:w-[30%]  rotate-[164.55deg] pointer-events-none select-none">
+          <img src={Block_Slab_1} alt="Slab"/>
         </div>
       </div>
     </div>
