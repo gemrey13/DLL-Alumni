@@ -70,8 +70,14 @@ function Navbar() {
                         <li className="px-2">
                             <a>About</a>
                         </li>
-                        <li className="px-2">
-                            <a>News and Update</a>
+                        <li className="px-2 z-10">
+                            <details>
+                                <summary>News and Update</summary>
+                                <ul className="p-2">
+                                    <li><a>News</a></li>
+                                    <li><a>Update</a></li>
+                                </ul>
+                            </details>
                         </li>
                         <li className="px-2">
                             <NavLink to="/tracer-survey-form">
