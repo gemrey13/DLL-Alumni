@@ -50,7 +50,7 @@ function Navbar() {
                         </li>
                     </ul>
                 </div>
-                <a className="btn btn-ghost text-xl text-white hidden md:block">
+                <a className="btn btn-ghost text-xl text-white align-middle lg:flex hidden md:block">
                     {" "}
                     <img
                         src={icon_alumni}
