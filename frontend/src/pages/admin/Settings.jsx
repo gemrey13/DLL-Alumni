@@ -6,7 +6,6 @@ import AuthContext from '../../context/AuthContext'
 
 const Settings = () => {
   let { user } = useContext(AuthContext)
-  const user_info = user.profile_info
 
   const [modalOpen, setModalOpen] = useState(false);
   const [rows, setRows] = useState(localStorage.getItem("alertSettings") ? JSON.parse(localStorage.getItem("alertSettings")) : []);
@@ -57,7 +56,7 @@ const Settings = () => {
                             </g>
                           </svg>
                         </span>
-                        <input className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary" type="text" name="fullName" id="fullName" placeholder="Devid Jhon" defaultValue={`${user_info.fname} ${user_info.lname}`} />
+                        <input className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary" type="text" name="fullName" id="fullName" placeholder="Devid Jhon" defaultValue={`${user.first_name} ${user.last_name}`} />
                       </div>
                     </div>
 
@@ -65,7 +64,7 @@ const Settings = () => {
                       <label className="mb-3 block text-sm font-medium text-black dark:text-white" htmlFor="phoneNumber">
                         Phone Number
                       </label>
-                      <input className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary" type="text" name="phoneNumber" id="phoneNumber" placeholder="+990 3343 7865" defaultValue={`${user_info.contact_number}`} />
+                      <input className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary" type="text" name="phoneNumber" id="phoneNumber" placeholder="+990 3343 7865" />
                     </div>
                   </div>
 
@@ -82,7 +81,7 @@ const Settings = () => {
                           </g>
                           </svg>
                       </span>
-                      <input className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary" type="email" name="emailAddress" id="emailAddress" placeholder={`${user.email}@gmail.com`} />
+                      <input className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary" type="email" name="emailAddress" id="emailAddress" placeholder={`${user.email}`} />
                     </div>
                   </div>
 

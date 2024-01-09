@@ -108,7 +108,12 @@ class Command(BaseCommand):
             zip_code="4301",
         )
 
-        superuser = User.objects.create_superuser(username='admin', password='admin', first_name='Gem Rey')
+        superuser = User.objects.create_superuser(
+            username='admin', 
+            password='admin', 
+            first_name='Gem Rey', 
+            last_name='Rañola', 
+            email='gemreyranola@gmail.com')
 
         # admin_profile = AlumniProfile.objects.create(
         #     user=superuser,
