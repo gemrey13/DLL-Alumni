@@ -38,14 +38,15 @@ const DropdownUser = () => {
       <Link ref={trigger} onClick={() => setDropdownOpen(!dropdownOpen)} className="flex items-center gap-4" to="#">
         <span className="hidden text-right lg:block">
           <span className="block text-sm font-medium text-black dark:text-white">
-             {user?.profile_info?.fname} {user?.profile_info?.lname}
+             {user?.first_name} {user?.last_name}
           </span>
-          <span className="block text-xs">{user?.current_job?.job_position}</span>
+          <span className="block text-xs">{user?.username}</span>
         </span>
-
-        <span className="h-12 w-12 rounded-full">
-          <img src={Me} alt="User" className='rounded-full h-12 w-12'/>
-        </span>
+        <div className='avatar online'>
+          <div className="w-10 rounded-full ring ring-primary ring-offset-2">
+            <img src={Me} alt="User"/>
+          </div>
+        </div>
 
         <svg className={`hidden fill-current sm:block ${dropdownOpen ? 'rotate-180' : ''}`} width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path fillRule="evenodd" clipRule="evenodd" d="M0.410765 0.910734C0.736202 0.585297 1.26384 0.585297 1.58928 0.910734L6.00002 5.32148L10.4108 0.910734C10.7362 0.585297 11.2638 0.585297 11.5893 0.910734C11.9147 1.23617 11.9147 1.76381 11.5893 2.08924L6.58928 7.08924C6.26384 7.41468 5.7362 7.41468 5.41077 7.08924L0.410765 2.08924C0.0853277 1.76381 0.0853277 1.23617 0.410765 0.910734Z" fill="" />

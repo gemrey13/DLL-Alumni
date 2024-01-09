@@ -806,7 +806,7 @@ const AlumniForm = () => {
             <div className="mb-4.5 flex justify-center">
               <button
                 onClick={handleAddRow}
-                className="inline-flex items-center justify-center rounded-md bg-meta-3 py-4 px-10 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-6">
+                className="inline-flex items-center justify-center rounded-md bg-meta-3 py-4 px-8 text-center font-medium text-white hover:bg-opacity-90 lg:px-8 xl:px-6">
                 +Add Employment Record
               </button>
             </div>
@@ -825,13 +825,13 @@ const AlumniForm = () => {
             </div>
 
 
-            <div className="flex">
+            <div className="lg:flex block">
               <label
                 htmlFor="my_modal_6"
-                className="btn dark:btn-neutral w-[70%] flex  justify-center p-3 bg-primary font-medium text-gray">
+                className="btn dark:btn-neutral w-full lg:w-[70%] flex  justify-center p-3 bg-primary font-medium text-gray">
                 Submit
               </label>
-              <div onClick={resetForm} className="dark:btn-error w-[30%] btn">
+              <div onClick={resetForm} className="btn-ghost border-graydark w-full mt-3 lg:mt-0 lg:w-[30%] btn">
                 Reset
               </div>
             </div>
