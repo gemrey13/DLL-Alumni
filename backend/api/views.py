@@ -17,7 +17,8 @@ from .serializers import (
     CurriculumSerializer,
     CourseSerializer,
     EmploymentRecordSerializer,
-    UserSerializer
+    UserSerializer,
+    JobListSerializer
 )
 from .models import (
     GraduateInformation,
@@ -27,8 +28,35 @@ from .models import (
     Address,
     CurrentJob,
     EmploymentRecord,
+    Job
 )
 
+
+class JobListView(ListAPIView):
+    serializer_class = JobListSerializer
+
+    def get_queryset(self):
+        queryset = Job.objects.filter(is_approved_by_admin=True)
+        
+        title = self.request.query_params.get("title", None)
+        category = self.request.query_params.get("category", None)
+        experience_level = self.request.query_params.get("experience_level", None)
+        job_type = self.request.query_params.get("Job_type", None)
+
+        if title:
+            queryset = queryset.filter(title__icontains=title)
+
+        if category:
+            queryset = queryset.filter(category__name=category)
+
+        if experience_level:
+            queryset = queryset.filter(experience_level=experience_level)
+
+        if job_type:
+            queryset = queryset.filter(Job_type=job_type)
+
+        return queryset
+    
 
 class CurriculumList(ListAPIView):
     """
@@ -183,7 +211,6 @@ class TableAlumniView(ListAPIView):
 
     def get_queryset(self):
         queryset = GraduateInformation.objects.order_by("-alumni_id")
-        print(queryset.filter(alumni__course__no_units=109))
 
         curriculum_no = self.request.query_params.get("curriculum_no", None)
         course = self.request.query_params.get("course", None)
@@ -196,7 +223,6 @@ class TableAlumniView(ListAPIView):
             queryset = queryset.filter(alumni__course__course_name=course)
 
         if no_of_units:
-            print(f"Filtering by no_of_units: {no_of_units}")
             queryset = queryset.filter(alumni__course__no_units=no_of_units)
 
         return queryset

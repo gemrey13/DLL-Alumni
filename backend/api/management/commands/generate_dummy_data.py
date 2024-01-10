@@ -115,34 +115,6 @@ class Command(BaseCommand):
             last_name='Rañola', 
             email='gemreyranola@gmail.com')
 
-        # admin_profile = AlumniProfile.objects.create(
-        #     user=superuser,
-        #     alumni_id='A0-0000',
-        #     course=random.choice(courses_list),
-        #     fname='Gem Rey',
-        #     lname='Rañola',
-        #     mi='B',
-        #     sex='Male',
-        #     contact_number='1234567890',
-        #     religion='Roman Catholic',
-        #     civil_status='Broken',
-        #     date_of_birth='2002-07-13',
-        #     facebook_account_name=f'Gem Rey B. Rañola',
-        #     home_address=admin_address,
-        # )
-
-        # CurrentJob.objects.create(
-        #         alumni=admin_profile,
-        #         job_position=random.choice(job_positions),
-        #         approximate_monthly_salary=random.randint(10000, 50000),
-        #         company_affiliation=random.choice(company_affiliations),
-        #         company_address=admin_address,
-        #         employment_status=random.choice(employment_statuses),
-        #         employed_within_6mo=random.choice([True, False]),
-        #         promoted_in_current_job=random.choice([True, False]),
-        #         getting_jobs_related_to_experience=random.choice([True, False])
-        #     )
-        
         print()
         print()  
         print('Admin Profile Generated', end='\n')

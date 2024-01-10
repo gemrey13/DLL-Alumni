@@ -10,7 +10,8 @@ from .models import (
     Course,
     CurrentJob,
     EmploymentRecord,
-    Address
+    Address,
+    Job
 )
 
 
@@ -40,8 +41,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         # token['current_job'] = current_job_serialized.data if current_job_serialized else None
 
         return token
-    
-        
+      
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
@@ -64,6 +64,18 @@ class UserSerializer(serializers.ModelSerializer):
             last_name=validated_data.get('last_name', ''),
         )
         return user
+
+
+
+class JobListSerializer(serializers.ModelSerializer):
+    posted_by = serializers.CharField(source='posted_by.username', read_only=True)
+    category = serializers.StringRelatedField(many=True, read_only=True)
+    created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
+
+    class Meta:
+        model = Job
+        fields = '__all__'
+
 
 class CurrentJobSerializer(serializers.ModelSerializer):
     class Meta:
