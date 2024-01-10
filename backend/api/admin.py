@@ -7,6 +7,11 @@ from .models import (
     CurrentJob,
     EmploymentRecord,
     Address,
+    Job,
+    JobApplication,
+    JobCategory,
+    UserSkill,
+    UserProfile
 )
 
 class AlumniProfileAdmin(admin.ModelAdmin):
@@ -24,4 +29,9 @@ admin.site.register(Curriculum)
 admin.site.register(Course)
 admin.site.register(CurrentJob)
 admin.site.register(EmploymentRecord, EmploymentRecordAdmin)
+admin.site.register(UserProfile)
+admin.site.register(UserSkill)
+admin.site.register(JobCategory)
+admin.site.register(Job)
+admin.site.register(JobApplication)
 admin.site.register(Address, AddressAdmin)

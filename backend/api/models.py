@@ -3,26 +3,49 @@ from django.contrib.auth.models import User
 
 
 
+class JobCategory(models.Model):
+    name = models.CharField(max_length=255, unique=True)
+
+    def __str__(self):
+        return self.name
+    
+class UserSkill(models.Model):
+    user_profile = models.ForeignKey('UserProfile', on_delete=models.CASCADE)
+    category = models.ForeignKey(JobCategory, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user_profile.user.username}'s skill in {self.category.name}"
+    
+    class Meta:
+        unique_together = ('user_profile', 'category')
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     bio = models.TextField(blank=True)
     sex = models.CharField(max_length=64)
     course = models.CharField(max_length=255)
+    skills = models.ManyToManyField(JobCategory, through=UserSkill, related_name='user_profiles', blank=True)
 
     def __str__(self):
         return self.user.username
 
-
 class Job(models.Model):
+    Experience_choices = (
+        (3, 'Expert'),
+        (2, 'Intermediate'),
+        (1, 'Entry level'),
+    )
+    posted_by = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
     company_name = models.CharField(max_length=100)
     starting_salary = models.IntegerField(null=True, blank=True)
     description = models.TextField()
     location = models.CharField(max_length=100)
     created_at = models.DateTimeField(auto_now_add=True)
-    is_approved = models.BooleanField(default=False)
-    category = models.CharField(max_length=255, null=True, blank=True)
-    experience_level = models.CharField(max_length=255)
+    is_approved_by_admin = models.BooleanField(default=False)
+    Job_type = models.CharField(max_length=255)
+    category = models.ManyToManyField('JobCategory', related_name='jobs', blank=True)
+    experience_level = models.IntegerField(choices=Experience_choices)
 
     def __str__(self):
         return self.title
@@ -41,6 +64,11 @@ class JobApplication(models.Model):
 
 
 
+
+
+
+
+# Tracer Form Survey
 class Address(models.Model):
     country = models.CharField(max_length=80)
     region = models.CharField(max_length=80, blank=True)
