@@ -16,10 +16,11 @@ import LandingPage from "./pages/LandingPage";
 import NotFound from "./pages/NotFound";
 import Loader from "./common/Loader";
 import SurveyPage from "./pages/SurveyPage";
-import Test from "./pages/user/test";
+import JobPage from "./pages/user/JobPage";
 
 const AdminLayout = lazy(() => import("./layout/AdminLayout"));
 const LandingLayout = lazy(() => import("./layout/LandingLayout"));
+const UserLayout = lazy(() => import("./layout/UserLayout"));
 
 function App() {
     const [loading, setLoading] = useState(true);
@@ -48,7 +49,6 @@ function App() {
                 <Routes>
                     <Route path="/auth/signin" element={<SignIn />} />
                     <Route path="/auth/signup" element={<SignUp />} />
-                    <Route path="/user" element={<Test />} />
 
                     <Route
                         path="/admin/"
@@ -74,6 +74,13 @@ function App() {
                         })}
                     </Route>
 
+                    <Route
+                        path="/u/jobs"
+                        element={
+                                <UserLayout />
+                        }>
+                        <Route index element={<JobPage />} />
+                    </Route>
 
                     <Route path="/" element={<LandingLayout />}>
                         <Route index element={<LandingPage />} />

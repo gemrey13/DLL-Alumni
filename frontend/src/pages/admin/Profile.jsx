@@ -2,7 +2,6 @@ import Breadcrumb from "../../components/admin/Breadcrumb";
 import CoverOne from "../../images/admin/cover/cover-01.png";
 import userSix from "../../images/admin/user/user-06.png";
 import { useParams } from "react-router-dom";
-import toast from "react-hot-toast";
 import axios from "axios";
 import baseURL from "@/apiConfig";
 import React, { useEffect, useState } from "react";
