@@ -1,28 +1,130 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { HiAdjustments } from "react-icons/hi";
+import JobItem from "../../components/user/JobItem";
+import AuthContext from "../../context/AuthContext";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import baseURL from "@/apiConfig";
 
 const JobPage = () => {
+    const { register, watch } = useForm();
+    let { authTokens } = useContext(AuthContext);
+
     const [entryLevel, setEntryLevel] = useState(false);
     const [intermediate, setIntermediate] = useState(false);
     const [expert, setExpert] = useState(false);
+    const [data, setData] = useState([]);
+    const [jobCategory, setJobCategory] = useState([]);
+    const [jobType, setJobType] = useState([]);
+    const [nextPage, setNextPage] = useState(null);
+
+    useEffect(() => {
+        fetchData();
+        fetchJobCategory();
+        fetchJobType();
+    }, []);
+
+    useEffect(() => {
+        const selectedLevels = [];
+
+        if (entryLevel) {
+            selectedLevels.push(1);
+        }
+
+        if (intermediate) {
+            selectedLevels.push(2);
+        }
+
+        if (expert) {
+            selectedLevels.push(3);
+        }
+
+        const data = {
+            title: watch("title"),
+            category: watch("job_category"),
+            experience_level:
+                selectedLevels.length > 0 ? selectedLevels.join(",") : "",
+            Job_type: watch("Job_type"),
+            order_by: watch("sort_by"),
+        };
+        console.log(data);
+        fetchData(data);
+    }, [
+        watch("title"),
+        watch("job_category"),
+        entryLevel,
+        intermediate,
+        expert,
+        watch("Job_type"),
+        watch("sort_by"),
+    ]);
+
+    const fetchJobCategory = async () => {
+        try {
+            const response = await axios.get(
+                `${baseURL}/api/job-category-list`
+            );
+            setJobCategory(response.data);
+        } catch (error) {
+            setJobCategory([]);
+        }
+    };
+
+    const fetchJobType = async () => {
+        try {
+            const response = await axios.get(`${baseURL}/api/job-type-list`);
+            setJobType(response.data);
+        } catch (error) {
+            setJobType([]);
+        }
+    };
+
+    const fetchData = async (formValues) => {
+        try {
+            const response = await axios.get(
+                `${baseURL}/api/job-list/`,
+                {
+                    params: formValues,
+                    // headers: {
+                    //     Authorization: `Bearer ${authTokens.access}`,
+                    // },
+                }
+            );
+            setNextPage(response.data.next);
+            setData(response.data.results);
+        } catch (error) {
+            setData([]);
+        }
+    };
+
+    const loadMoreData = async () => {
+        try {
+            const response = await axios.get(nextPage);
+            setData([...data, ...response.data.results]);
+            setNextPage(response.data.next);
+        } catch (err) {
+            setData([]);
+            setNextPage(null);
+        }
+    };
 
     return (
         <>
             <div className="flex align-middle justify-center mt-13">
-            <input
-                type="text"
-                placeholder="Search"
-                className="input input-bordered input-accent w-full max-w-2xl rounded-full  mb-7"
+                <input
+                    {...register("title")}
+                    type="text"
+                    placeholder="Search"
+                    className="input input-bordered input-accent w-full max-w-2xl rounded-full  mb-7"
                 />
 
-            {/* Open the modal using document.getElementById('ID').showModal() method */}
-            <button
-                className="btn btn-ghost lg:hidden inline-flex"
-                onClick={() =>
-                    document.getElementById("my_modal_1").showModal()
-                }>
-                <HiAdjustments size={30}/>
-            </button>
+                <button
+                    className="btn btn-ghost lg:hidden inline-flex"
+                    onClick={() =>
+                        document.getElementById("my_modal_1").showModal()
+                    }>
+                    <HiAdjustments size={30} />
+                </button>
             </div>
             <dialog
                 id="my_modal_1"
@@ -180,8 +282,12 @@ const JobPage = () => {
                                 <option>Part-time</option>
                                 <option>Full-time</option>
                             </select>
-                            <button className="btn w-full btn-primary mt-12">Apply</button>
-                            <button className="btn w-full btn-ghost btn-outline mt-2">Close</button>
+                            <button className="btn w-full btn-primary mt-12">
+                                Apply
+                            </button>
+                            <button className="btn w-full btn-ghost btn-outline mt-2">
+                                Close
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -191,18 +297,22 @@ const JobPage = () => {
                 Jobs
             </h1>
 
-            <div className="flex h-screen flex-col md:flex-row">
+            <div className="flex h-full flex-col md:flex-row">
                 <aside className="w-full md:w-72.5 lg:block hidden">
                     <h4 className="text-lg text-black font-medium mt-8 mb-3">
                         Category
                     </h4>
-                    <select className="select select-sm border-gray-400 w-full max-w-xs">
-                        <option disabled selected>
+                    <select
+                        {...register("job_category")}
+                        className="select select-sm border-gray-400 w-full max-w-xs">
+                        <option selected value="">
                             Select Categories
                         </option>
-                        <option>Information technology</option>
-                        <option>Accountant</option>
-                        <option>Social work</option>
+                        {jobCategory.map((category, index) => (
+                            <option key={index} value={category}>
+                                {category}
+                            </option>
+                        ))}
                     </select>
 
                     <h4 className="text-lg text-black font-medium mt-8 mb-3">
@@ -214,6 +324,7 @@ const JobPage = () => {
                             className="flex cursor-pointer select-none items-center text-lg text-black-2 font-satoshi">
                             <div className="relative">
                                 <input
+                                    {...register("entry_level")}
                                     type="checkbox"
                                     id="checkboxLabelOne"
                                     className="sr-only items-center"
@@ -254,6 +365,7 @@ const JobPage = () => {
                             className="flex cursor-pointer select-none items-center text-lg text-black-2 font-satoshi">
                             <div className="relative">
                                 <input
+                                    {...register("intermediate")}
                                     type="checkbox"
                                     id="checkboxLabelTwo"
                                     className="sr-only items-center"
@@ -294,6 +406,7 @@ const JobPage = () => {
                             className="flex cursor-pointer select-none items-center text-lg text-black-2 font-satoshi">
                             <div className="relative">
                                 <input
+                                    {...register("expert")}
                                     type="checkbox"
                                     id="checkboxLabelThree"
                                     className="sr-only items-center"
@@ -332,108 +445,43 @@ const JobPage = () => {
                     <h4 className="text-lg text-black font-medium mt-8 mb-3">
                         Job type
                     </h4>
-                    <select className="select select-sm border-gray-400 w-full max-w-xs">
-                        <option disabled selected>
+                    <select
+                        {...register("Job_type")}
+                        className="select select-sm border-gray-400 w-full max-w-xs">
+                        <option selected value="">
                             Select Job Type
                         </option>
-                        <option>Internship</option>
-                        <option>Contract</option>
-                        <option>Part-time</option>
-                        <option>Full-time</option>
+                        {jobType.map((type, index) => (
+                            <option key={index} value={type}>
+                                {type}
+                            </option>
+                        ))}
                     </select>
                 </aside>
 
                 <section className="flex flex-col flex-1 mt-0 md:mt-15 w-full p-0 md:pl-7">
-                    <select className="self-end select select-sm border-gray-400 mb-8 max-w-xs hidden md:block">
-                        <option disabled selected>
+                    <select
+                        {...register("sort_by")}
+                        className="self-end select select-sm border-gray-400 mb-8 max-w-xs hidden md:block">
+                        <option selected value="">
                             Sort by:
                         </option>
-                        <option>Newest</option>
-                        <option>Oldest</option>
-                        <option>Relevance</option>
+                        <option value="newest">Newest</option>
+                        <option value="oldest">Oldest</option>
+                        <option value="relevance">Relevance</option>
                     </select>
 
-                    <div className="w-full border-t-[1px]">
-                        <div className="card-body">
-                            <p className="text-xs">Posted 11 seconds ago</p>
-                            <h2 className="card-title text-2xl text-black-2">
-                                Web development
-                                <div className="badge badge-secondary">NEW</div>
-                            </h2>
-                            <p>
-                                Expected salary: 30,000php - Expert - Full time
-                            </p>
-                            <p className="text-black-2">
-                                We need someone to transfer our website design
-                                from Figma to our existing Webflow account,
-                                publish the site, and ensure it includes a
-                                landing page, a 'Book a Demo' page, and links to
-                                the Terms of Service and Privacy Policies.
-                            </p>
-                            <div className="card-actions mt-3 justify-start">
-                                <div className="badge badge-outline">
-                                    Information technology
-                                </div>
-                                <div className="badge badge-outline">
-                                    Accounting
-                                </div>
-                            </div>
+                    <JobItem data={data} />
+
+                    {nextPage && (
+                        <div className="flex justify-center lg:self-end mt-4">
+                            <button
+                                onClick={loadMoreData}
+                                className="px-4 py-2 font-medium text-white bg-primary w-full lg:w-fit my-5 rounded-lg hover:bg-primary-dark">
+                                Load More
+                            </button>
                         </div>
-                    </div>
-                    <div className="w-full border-t-[1px]">
-                        <div className="card-body">
-                            <p className="text-xs">Posted 11 seconds ago</p>
-                            <h2 className="card-title text-2xl text-black-2">
-                                Web development
-                                <div className="badge badge-secondary">NEW</div>
-                            </h2>
-                            <p>
-                                Expected salary: 30,000php - Expert - Full time
-                            </p>
-                            <p className="text-black-2">
-                                We need someone to transfer our website design
-                                from Figma to our existing Webflow account,
-                                publish the site, and ensure it includes a
-                                landing page, a 'Book a Demo' page, and links to
-                                the Terms of Service and Privacy Policies.
-                            </p>
-                            <div className="card-actions mt-3 justify-start">
-                                <div className="badge badge-outline">
-                                    Information technology
-                                </div>
-                                <div className="badge badge-outline">
-                                    Accounting
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="w-full border-t-[1px]">
-                        <div className="card-body">
-                            <p className="text-xs">Posted 11 seconds ago</p>
-                            <h2 className="card-title text-2xl text-black-2">
-                                Web development
-                                <div className="badge badge-secondary">NEW</div>
-                            </h2>
-                            <p>
-                                Expected salary: 30,000php - Expert - Full time
-                            </p>
-                            <p className="text-black-2">
-                                We need someone to transfer our website design
-                                from Figma to our existing Webflow account,
-                                publish the site, and ensure it includes a
-                                landing page, a 'Book a Demo' page, and links to
-                                the Terms of Service and Privacy Policies.
-                            </p>
-                            <div className="card-actions mt-3 justify-start">
-                                <div className="badge badge-outline">
-                                    Information technology
-                                </div>
-                                <div className="badge badge-outline">
-                                    Accounting
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    )}
                 </section>
             </div>
         </>

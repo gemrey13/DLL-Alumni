@@ -4,11 +4,10 @@ import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import baseURL from '@/apiConfig';
-import toast from "react-hot-toast";
 
 
 const TableAlumni = () => {
-    const { register, handleSubmit, setValue, watch } = useForm();
+    const { register, watch } = useForm();
     let { authTokens } = useContext(AuthContext);
 
 

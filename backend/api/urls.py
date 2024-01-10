@@ -19,7 +19,9 @@ from .views import (
     GetProfileView,
     AlumniMetricsSummary,
     UserRegistrationView,
-    JobListView
+    JobListView,
+    JobTypeList,
+    JobCategoryList
 )
 
 
@@ -36,6 +38,8 @@ urlpatterns = [
 
 
     #user
+    path('job-type-list/', JobTypeList.as_view(), name='job-type-list'),
+    path('job-category-list/', JobCategoryList.as_view(), name='job-category-list'),
     path('job-list/', JobListView.as_view(), name='job-list'),
 
 

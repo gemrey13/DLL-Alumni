@@ -67,12 +67,8 @@ class Command(BaseCommand):
             "Part-time",
             "Contract",
             "Temporary",
-            "Intern",
-            "Freelance",
-            "Self-employed",
-            "Consultant",
+            "Internships",
             "Remote",
-            "Student"
         ]
 
         sample_bios = [
@@ -145,8 +141,7 @@ class Command(BaseCommand):
 
 
         with transaction.atomic():
-            for job in range(1, 50):
-
+            for job in range(1, 100):
                 first_name = fake.first_name()
                 last_name = fake.last_name()
                 username = f'{first_name}_{last_name}'
@@ -181,7 +176,7 @@ class Command(BaseCommand):
             
             users = User.objects.all()
 
-            for _ in range(1, 41):
+            for _ in range(1, 81):
                 new_job = Job.objects.create(
                     posted_by=random.choice(users),
                     title=random.choice(job_positions),
@@ -198,12 +193,12 @@ class Command(BaseCommand):
 
             jobs = Job.objects.filter(is_approved_by_admin=True)
 
-            for _ in range(1, 21):
+            for _ in range(1, 154):
                 random_job = random.choice(jobs)
                 random_user = random.choice(users)
 
                 existing_application = JobApplication.objects.filter(job=random_job, user=random_user).exists()
-                if  not existing_application:
+                if not existing_application:
                     JobApplication.objects.create(
                         job=random_job,
                         user=random_user

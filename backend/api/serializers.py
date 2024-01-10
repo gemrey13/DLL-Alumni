@@ -11,7 +11,8 @@ from .models import (
     CurrentJob,
     EmploymentRecord,
     Address,
-    Job
+    Job,
+    JobCategory
 )
 
 
@@ -66,6 +67,11 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
+
+class JobCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = JobCategory
+        fields = ['name']
 
 class JobListSerializer(serializers.ModelSerializer):
     posted_by = serializers.CharField(source='posted_by.username', read_only=True)

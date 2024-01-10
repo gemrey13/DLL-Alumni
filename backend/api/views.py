@@ -7,7 +7,7 @@ from rest_framework import status
 from django.db import transaction
 from django.contrib.auth.models import User
 from datetime import datetime
-from django.db.models import Count
+from django.db.models import Count, Q
 
 
 from .serializers import (
@@ -19,7 +19,8 @@ from .serializers import (
     CourseSerializer,
     EmploymentRecordSerializer,
     UserSerializer,
-    JobListSerializer
+    JobListSerializer,
+    JobCategorySerializer
 )
 from .models import (
     GraduateInformation,
@@ -29,19 +30,40 @@ from .models import (
     Address,
     CurrentJob,
     EmploymentRecord,
-    Job
+    Job,
+    JobCategory
 )
 
 
+class JobCategoryList(ListAPIView):
+    serializer_class = JobCategorySerializer
+
+    def list(self, request, *args, **kwargs):
+        categories = JobCategory.objects.values_list("name", flat=True).distinct()
+        return Response(categories)
+
+class JobTypeList(ListAPIView):
+    serializer_class = JobListSerializer
+
+    def list(self, request, *args, **kwargs):
+        job_type = Job.objects.values_list("Job_type", flat=True).distinct()
+        return Response(job_type)
+
+
+class JobListPagination(PageNumberPagination):
+    page_size = 10
+
 class JobListView(ListAPIView):
     serializer_class = JobListSerializer
+    pagination_class = JobListPagination
 
     def get_queryset(self):
         queryset = Job.objects.filter(is_approved_by_admin=True)
         
         title = self.request.query_params.get("title", None)
         category = self.request.query_params.get("category", None)
-        experience_level = self.request.query_params.get("experience_level", None)
+        experience_levels = self.request.query_params.get("experience_level", "")
+
         job_type = self.request.query_params.get("Job_type", None)
         order_by = self.request.query_params.get("order_by", "newest")
 
@@ -51,11 +73,17 @@ class JobListView(ListAPIView):
         if category:
             queryset = queryset.filter(category__name=category)
 
-        if experience_level:
-            queryset = queryset.filter(experience_level=experience_level)
-
         if job_type:
             queryset = queryset.filter(Job_type=job_type)
+
+        # Use Q objects to handle multiple selected experience levels
+        experience_filter = Q()
+        if experience_levels:
+            for level in experience_levels.split(','):
+                experience_filter |= Q(experience_level=level)
+
+        if experience_filter:
+            queryset = queryset.filter(experience_filter)
 
         queryset = queryset.annotate(num_applicants=Count('applications'))
 
@@ -199,8 +227,6 @@ class AlumniMetricsSummary(ListAPIView):
         except ZeroDivisionError:
             # Handle the case where the old value is zero
             return float("inf")
-
-
 
 
 
