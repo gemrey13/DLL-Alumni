@@ -357,7 +357,7 @@ const JobPage = () => {
                         <div className="card-body">
                             <p className="text-xs">Posted 11 seconds ago</p>
                             <h2 className="card-title text-2xl text-black-2">
-                                Shoes!
+                                Web development
                                 <div className="badge badge-secondary">NEW</div>
                             </h2>
                             <p>
@@ -384,7 +384,7 @@ const JobPage = () => {
                         <div className="card-body">
                             <p className="text-xs">Posted 11 seconds ago</p>
                             <h2 className="card-title text-2xl text-black-2">
-                                Shoes!
+                                Web development
                                 <div className="badge badge-secondary">NEW</div>
                             </h2>
                             <p>
@@ -411,7 +411,7 @@ const JobPage = () => {
                         <div className="card-body">
                             <p className="text-xs">Posted 11 seconds ago</p>
                             <h2 className="card-title text-2xl text-black-2">
-                                Shoes!
+                                Web development
                                 <div className="badge badge-secondary">NEW</div>
                             </h2>
                             <p>
