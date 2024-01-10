@@ -7,6 +7,7 @@ from rest_framework import status
 from django.db import transaction
 from django.contrib.auth.models import User
 from datetime import datetime
+from django.db.models import Count
 
 
 from .serializers import (
@@ -42,6 +43,7 @@ class JobListView(ListAPIView):
         category = self.request.query_params.get("category", None)
         experience_level = self.request.query_params.get("experience_level", None)
         job_type = self.request.query_params.get("Job_type", None)
+        order_by = self.request.query_params.get("order_by", "newest")
 
         if title:
             queryset = queryset.filter(title__icontains=title)
@@ -54,6 +56,15 @@ class JobListView(ListAPIView):
 
         if job_type:
             queryset = queryset.filter(Job_type=job_type)
+
+        queryset = queryset.annotate(num_applicants=Count('applications'))
+
+        if order_by == "newest":
+            queryset = queryset.order_by('-created_at')
+        elif order_by == "oldest":
+            queryset = queryset.order_by('created_at')
+        elif order_by == "relevance":
+            queryset = queryset.order_by('-num_applicants')
 
         return queryset
     

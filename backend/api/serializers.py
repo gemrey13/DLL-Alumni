@@ -71,6 +71,7 @@ class JobListSerializer(serializers.ModelSerializer):
     posted_by = serializers.CharField(source='posted_by.username', read_only=True)
     category = serializers.StringRelatedField(many=True, read_only=True)
     created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
+    num_applicants = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Job
