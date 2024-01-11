@@ -1,12 +1,12 @@
 import { lazy } from "react";
 
-const JobPage = lazy(() => import("../pages/user/JobPage"));
+const JobItemPage = lazy(() => import("../pages/user/JobItemPage"));
 
 const coreRoutes = [
     {
-        path: "/jobs",
-        title: "JobPage",
-        component: JobPage,
+        path: "/u/job-item",
+        title: "JobItemPage",
+        component: JobItemPage,
     },
 ];
 const userroutes = [...coreRoutes];

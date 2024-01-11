@@ -9,13 +9,13 @@ import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from "./utils/PrivateRoute";
 import adminroutes from "./routes/adminroutes";
 import landingroutes from "./routes/landingroutes";
+import userroutes from "./routes/userroutes";
 import Dashboard from "./pages/admin/Dashboard";
 import SignIn from "./pages/Authentication/SignIn";
 import SignUp from "./pages/Authentication/SignUp";
 import LandingPage from "./pages/LandingPage";
 import NotFound from "./pages/NotFound";
 import Loader from "./common/Loader";
-import SurveyPage from "./pages/SurveyPage";
 import JobPage from "./pages/user/JobPage";
 
 const AdminLayout = lazy(() => import("./layout/AdminLayout"));
@@ -75,11 +75,25 @@ function App() {
                     </Route>
 
                     <Route
-                        path="/u/jobs"
+                        path="/u"
                         element={
                                 <UserLayout />
                         }>
                         <Route index element={<JobPage />} />
+                        {userroutes.map((userroutes, index) => {
+                            const { path, component: Component } = userroutes;
+                            return (
+                                <Route
+                                key={index}
+                                path={path}
+                                element={
+                                    <Suspense fallback={<Loader />}>
+                                        <Component />
+                                    </Suspense>
+                                }
+                                />
+                            );
+                        })}
                     </Route>
 
                     <Route path="/" element={<LandingLayout />}>
