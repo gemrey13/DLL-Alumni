@@ -18,7 +18,7 @@ from .serializers import (
     AlumniGraduationYearDistributionAnalysisSerializer,
     MonthlySalaryDistributionSerializer,
     EmployedWithinSixMonthsAnalysisSerializer,
-    GraduateInformationSerializer
+    GraduateInformationSerializer,
 )
 
 
@@ -31,24 +31,28 @@ class GraduatesByCourseAnalysis(ListAPIView):
         data = []
         for course in courses:
             # Yearly Growth
-            yearly_growth = GraduateInformation.objects.filter(alumni__course__course_name=course).values('year_graduated') \
-                .annotate(count=Count('year_graduated')).order_by('year_graduated')
-            
+            yearly_growth = (
+                GraduateInformation.objects.filter(alumni__course__course_name=course)
+                .values("year_graduated")
+                .annotate(count=Count("year_graduated"))
+                .order_by("year_graduated")
+            )
+
             temp_year = []
             temp_graduates = []
-            
+
             for year in yearly_growth:
-                temp_year.append(year['year_graduated'])
-                temp_graduates.append(year['count'])
+                temp_year.append(year["year_graduated"])
+                temp_graduates.append(year["count"])
 
             temp_data = {
-                'course': course,
-                'year': temp_year,
-                'graduates': temp_graduates
+                "course": course,
+                "year": temp_year,
+                "graduates": temp_graduates,
             }
             data.append(temp_data)
         return data
-    
+
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         return Response(queryset)
@@ -65,56 +69,123 @@ class TopPerformingCourseAnalysis(ListAPIView):
         data = []
         for course in courses:
             # Current Year
-            satisfaction_rate_current_year = GraduateInformation.objects.filter(alumni__course__course_name=course, year_graduated=current_year).aggregate(Avg('satisfaction_level'))
-            satisfaction_rate_current_year = satisfaction_rate_current_year['satisfaction_level__avg'] if satisfaction_rate_current_year['satisfaction_level__avg'] else 0
-            honor_rate_current_year = GraduateInformation.objects.filter(alumni__course__course_name=course, honor__isnull=False, year_graduated=current_year).count() / \
-                            GraduateInformation.objects.filter(alumni__course__course_name=course, year_graduated=current_year).count() * 100
-            professional_growth_rate_current_year = GraduateInformation.objects.filter(alumni__course__course_name=course,
-                                                                            pursued_further_education=True, year_graduated=current_year).count() / \
-                                        GraduateInformation.objects.filter(alumni__course__course_name=course, year_graduated=current_year).count() * 100
+            satisfaction_rate_current_year = GraduateInformation.objects.filter(
+                alumni__course__course_name=course, year_graduated=current_year
+            ).aggregate(Avg("satisfaction_level"))
+            satisfaction_rate_current_year = (
+                satisfaction_rate_current_year["satisfaction_level__avg"]
+                if satisfaction_rate_current_year["satisfaction_level__avg"]
+                else 0
+            )
+            honor_rate_current_year = (
+                GraduateInformation.objects.filter(
+                    alumni__course__course_name=course,
+                    honor__isnull=False,
+                    year_graduated=current_year,
+                ).count()
+                / GraduateInformation.objects.filter(
+                    alumni__course__course_name=course, year_graduated=current_year
+                ).count()
+                * 100
+            )
+            professional_growth_rate_current_year = (
+                GraduateInformation.objects.filter(
+                    alumni__course__course_name=course,
+                    pursued_further_education=True,
+                    year_graduated=current_year,
+                ).count()
+                / GraduateInformation.objects.filter(
+                    alumni__course__course_name=course, year_graduated=current_year
+                ).count()
+                * 100
+            )
 
-            #PREVIOUS YEAR
-            satisfaction_rate_prev_year = GraduateInformation.objects.filter(alumni__course__course_name=course, year_graduated=prev_year).aggregate(Avg('satisfaction_level'))
-            satisfaction_rate_prev_year = satisfaction_rate_prev_year['satisfaction_level__avg'] if satisfaction_rate_prev_year['satisfaction_level__avg'] else 0
-            honor_rate_prev_year = GraduateInformation.objects.filter(alumni__course__course_name=course, honor__isnull=False, year_graduated=prev_year).count() / \
-                            GraduateInformation.objects.filter(alumni__course__course_name=course, year_graduated=prev_year).count() * 100
-            professional_growth_rate_prev_year = GraduateInformation.objects.filter(alumni__course__course_name=course,
-                                                                            pursued_further_education=True, year_graduated=prev_year).count() / \
-                                        GraduateInformation.objects.filter(alumni__course__course_name=course, year_graduated=prev_year).count() * 100
+            # PREVIOUS YEAR
+            satisfaction_rate_prev_year = GraduateInformation.objects.filter(
+                alumni__course__course_name=course, year_graduated=prev_year
+            ).aggregate(Avg("satisfaction_level"))
+            satisfaction_rate_prev_year = (
+                satisfaction_rate_prev_year["satisfaction_level__avg"]
+                if satisfaction_rate_prev_year["satisfaction_level__avg"]
+                else 0
+            )
+            honor_rate_prev_year = (
+                GraduateInformation.objects.filter(
+                    alumni__course__course_name=course,
+                    honor__isnull=False,
+                    year_graduated=prev_year,
+                ).count()
+                / GraduateInformation.objects.filter(
+                    alumni__course__course_name=course, year_graduated=prev_year
+                ).count()
+                * 100
+            )
+            professional_growth_rate_prev_year = (
+                GraduateInformation.objects.filter(
+                    alumni__course__course_name=course,
+                    pursued_further_education=True,
+                    year_graduated=prev_year,
+                ).count()
+                / GraduateInformation.objects.filter(
+                    alumni__course__course_name=course, year_graduated=prev_year
+                ).count()
+                * 100
+            )
 
+            yearly_growth_current_year = (
+                professional_growth_rate_current_year
+                + honor_rate_current_year
+                + satisfaction_rate_current_year
+            ) / 3
+            yearly_growth_prev_year = (
+                professional_growth_rate_prev_year
+                + honor_rate_prev_year
+                + satisfaction_rate_prev_year
+            ) / 3
 
-
-            yearly_growth_current_year = (professional_growth_rate_current_year + honor_rate_current_year + satisfaction_rate_current_year) / 3
-            yearly_growth_prev_year = (professional_growth_rate_prev_year + honor_rate_prev_year + satisfaction_rate_prev_year) / 3
-
-            growth_rate_difference = self.calculate_percentage_change(yearly_growth_prev_year, yearly_growth_current_year)
+            growth_rate_difference = self.calculate_percentage_change(
+                yearly_growth_prev_year, yearly_growth_current_year
+            )
 
             temp_data = {
-                'course': course,
-                'growth_rate_difference': round(growth_rate_difference, 2),
-                'data': [{
-                    'satisfaction_rate_current_year': round(satisfaction_rate_current_year, 2),
-                    'honor_rate_current_year': round(honor_rate_current_year, 2),
-                    'professional_growth_rate_current_year': round(professional_growth_rate_current_year, 2),
-                    'yearly_growth_current_year': round(yearly_growth_current_year, 2),
-                }, {
-                    'satisfaction_rate_prev_year': round(satisfaction_rate_prev_year, 2),
-                    'honor_rate_prev_year': round(honor_rate_prev_year, 2),
-                    'professional_growth_rate_prev_year': round(professional_growth_rate_prev_year, 2),
-                    'yearly_growth_prev_year': round(yearly_growth_prev_year, 2)
-                }]
-                }
+                "course": course,
+                "growth_rate_difference": round(growth_rate_difference, 2),
+                "data": [
+                    {
+                        "satisfaction_rate_current_year": round(
+                            satisfaction_rate_current_year, 2
+                        ),
+                        "honor_rate_current_year": round(honor_rate_current_year, 2),
+                        "professional_growth_rate_current_year": round(
+                            professional_growth_rate_current_year, 2
+                        ),
+                        "yearly_growth_current_year": round(
+                            yearly_growth_current_year, 2
+                        ),
+                    },
+                    {
+                        "satisfaction_rate_prev_year": round(
+                            satisfaction_rate_prev_year, 2
+                        ),
+                        "honor_rate_prev_year": round(honor_rate_prev_year, 2),
+                        "professional_growth_rate_prev_year": round(
+                            professional_growth_rate_prev_year, 2
+                        ),
+                        "yearly_growth_prev_year": round(yearly_growth_prev_year, 2),
+                    },
+                ],
+            }
             data.append(temp_data)
-        sorted_data = sorted(data, key=lambda x: x["growth_rate_difference"], reverse=True)
-
-
+        sorted_data = sorted(
+            data, key=lambda x: x["growth_rate_difference"], reverse=True
+        )
 
         return sorted_data
 
     def list(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         return Response(queryset)
-    
+
     def calculate_percentage_change(self, old_value, new_value):
         try:
             percentage_change = ((new_value - old_value) / abs(old_value)) * 100
@@ -124,13 +195,13 @@ class TopPerformingCourseAnalysis(ListAPIView):
             return float("inf")
 
 
-
 class EmployedWithinSixMonthsAnalysis(ListAPIView):
     """
-    API view for analyzing the employment status of individuals within the last six months. 
-    Retrieves data from the 'CurrentJob' model and provides counts of individuals employed 
+    API view for analyzing the employment status of individuals within the last six months.
+    Retrieves data from the 'CurrentJob' model and provides counts of individuals employed
     and not employed within the specified time frame.
     """
+
     permission_classes = [IsAuthenticated, IsAdminUser]
     serializer_class = EmployedWithinSixMonthsAnalysisSerializer
 
@@ -153,9 +224,10 @@ class EmployedWithinSixMonthsAnalysis(ListAPIView):
 
 class AlumniGraduationYearDistributionAnalysis(ListAPIView):
     """
-    API view for analyzing the distribution of alumni based on their graduation years. 
+    API view for analyzing the distribution of alumni based on their graduation years.
     Retrieves distinct graduation years from the database and counts the number of alumni for each year.
     """
+
     # permission_classes = [IsAuthenticated, IsAdminUser]
     serializer_class = AlumniGraduationYearDistributionAnalysisSerializer
 
@@ -165,7 +237,6 @@ class AlumniGraduationYearDistributionAnalysis(ListAPIView):
             "year_graduated", flat=True
         ).distinct()
 
-
         alumni_counts = []
         for year in distinct_years:
             # Count alumni for each year
@@ -173,16 +244,20 @@ class AlumniGraduationYearDistributionAnalysis(ListAPIView):
                 year_graduated=year
             ).count()
 
-            alumni_counts.append({"year_graduated": year, "alumni_count": total_alumni_graduated})
+            alumni_counts.append(
+                {"year_graduated": year, "alumni_count": total_alumni_graduated}
+            )
 
         return alumni_counts
 
+
 class MonthlySalaryDistributionAnalysis(ListAPIView):
     """
-    API view for analyzing the distribution of monthly salaries among alumni, categorized by their courses. 
-    Retrieves distinct courses and calculates summary statistics (min, Q1, median, Q3, max) for monthly salaries 
+    API view for analyzing the distribution of monthly salaries among alumni, categorized by their courses.
+    Retrieves distinct courses and calculates summary statistics (min, Q1, median, Q3, max) for monthly salaries
     of alumni in each course, providing insights into salary variations across different academic disciplines.
     """
+
     permission_classes = [IsAuthenticated, IsAdminUser]
     serializer_class = MonthlySalaryDistributionSerializer
 
@@ -217,10 +292,11 @@ class MonthlySalaryDistributionAnalysis(ListAPIView):
 
 class GenderBasedCurrentJobAnalyis(ListAPIView):
     """
-    API view for analyzing the gender distribution among alumni and current job holders. 
-    Retrieves counts of male and female alumni, as well as male and female alumni in current jobs, 
+    API view for analyzing the gender distribution among alumni and current job holders.
+    Retrieves counts of male and female alumni, as well as male and female alumni in current jobs,
     providing insights into the gender representation in both the overall alumni population and the current workforce.
     """
+
     permission_classes = [IsAuthenticated, IsAdminUser]
     serializer_class = CurrentJobSerializer
 
@@ -287,12 +363,11 @@ class AnalysisTest2View(ListAPIView):
         queryset = []
         employment_status = self.request.query_params.get("employment_status", None)
 
-
         # sample = GraduateInformation.objects.filter(honor__isnull=True)
         # sample2 = GraduateInformation.objects.filter(honor__isnull=False)
         # print(sample.count())
         # print(sample2.count())
-        ito = GraduateInformation.objects.filter(alumni__course__course_name='BSIT')
+        ito = GraduateInformation.objects.filter(alumni__course__course_name="BSIT")
 
         sample1 = ito.filter(satisfaction_level=1).count()
         sample2 = ito.filter(satisfaction_level=2).count()
@@ -314,7 +389,9 @@ class AnalysisTest2View(ListAPIView):
 
         total_responses = sum(satisfaction_counts)
 
-        satisfaction_rates = [(count / total_responses) * 100 for count in satisfaction_counts]
+        satisfaction_rates = [
+            (count / total_responses) * 100 for count in satisfaction_counts
+        ]
         print("BSIT")
         for i, rate in enumerate(satisfaction_rates, start=1):
             print(f"Satisfaction {i}: {rate:.2f}%")

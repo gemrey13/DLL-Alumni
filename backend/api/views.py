@@ -22,7 +22,7 @@ from .serializers import (
     JobListSerializer,
     JobItemDetailsSerializer,
     JobCategorySerializer,
-    UserDetailSerializer
+    UserDetailSerializer,
 )
 from .models import (
     GraduateInformation,
@@ -33,7 +33,7 @@ from .models import (
     CurrentJob,
     EmploymentRecord,
     Job,
-    JobCategory
+    JobCategory,
 )
 
 
@@ -43,6 +43,7 @@ class JobCategoryList(ListAPIView):
     def list(self, request, *args, **kwargs):
         categories = JobCategory.objects.values_list("name", flat=True).distinct()
         return Response(categories)
+
 
 class JobTypeList(ListAPIView):
     serializer_class = JobListSerializer
@@ -54,15 +55,16 @@ class JobTypeList(ListAPIView):
 
 class JobListPagination(PageNumberPagination):
     page_size = 10
-    ordering = '-created_at'
+    ordering = "-created_at"
+
 
 class JobListView(ListAPIView):
     serializer_class = JobListSerializer
     pagination_class = JobListPagination
 
     def get_queryset(self):
-        queryset = Job.objects.filter(is_approved_by_admin=True).order_by('-created_at')
-        
+        queryset = Job.objects.filter(is_approved_by_admin=True).order_by("-created_at")
+
         title = self.request.query_params.get("title", None)
         category = self.request.query_params.get("category", None)
         category_mobile = self.request.query_params.get("category_mobile", None)
@@ -70,7 +72,7 @@ class JobListView(ListAPIView):
 
         job_type = self.request.query_params.get("Job_type", None)
         job_type_mobile = self.request.query_params.get("Job_type_mobile", None)
-        
+
         order_by = self.request.query_params.get("order_by", "newest")
 
         if title:
@@ -91,23 +93,23 @@ class JobListView(ListAPIView):
         # Use Q objects to handle multiple selected experience levels
         experience_filter = Q()
         if experience_levels:
-            for level in experience_levels.split(','):
+            for level in experience_levels.split(","):
                 experience_filter |= Q(experience_level=level)
 
         if experience_filter:
             queryset = queryset.filter(experience_filter)
 
-        queryset = queryset.annotate(num_applicants=Count('applications'))
+        queryset = queryset.annotate(num_applicants=Count("applications"))
 
         if order_by == "newest":
-            queryset = queryset.order_by('-created_at')
+            queryset = queryset.order_by("-created_at")
         elif order_by == "oldest":
-            queryset = queryset.order_by('created_at')
+            queryset = queryset.order_by("created_at")
         elif order_by == "relevance":
-            queryset = queryset.order_by('-num_applicants')
+            queryset = queryset.order_by("-num_applicants")
 
         return queryset
-    
+
 
 class CurriculumList(ListAPIView):
     """
@@ -186,7 +188,9 @@ class AlumniMetricsSummary(ListAPIView):
             getting_jobs_related_to_experience=True
         )
 
-        prev_graduate_alumni = GraduateInformation.objects.filter(year_graduated=prev_year)
+        prev_graduate_alumni = GraduateInformation.objects.filter(
+            year_graduated=prev_year
+        )
         prev_alumni = AlumniProfile.objects.filter(
             graduateinformation__in=prev_graduate_alumni
         )
@@ -241,8 +245,6 @@ class AlumniMetricsSummary(ListAPIView):
             return float("inf")
 
 
-
-
 class TableAlumniPagination(PageNumberPagination):
     page_size = 10
 
@@ -277,7 +279,6 @@ class TableAlumniView(ListAPIView):
         return queryset
 
 
-
 class GetJobDetails(APIView):
     def get(self, request, *args, **kwargs):
         job_id = self.request.query_params.get("job_id", None)
@@ -285,17 +286,15 @@ class GetJobDetails(APIView):
         if not job_id:
             return Response(
                 {"error": "Missing job_id parameter"},
-                status=status.HTTP_400_BAD_REQUEST
+                status=status.HTTP_400_BAD_REQUEST,
             )
-        
+
         job_detail = Job.objects.filter(id=job_id)
         if not job_detail.exists():
             return Response(
-                {"error": "Job detail not found"},
-                status=status.HTTP_404_NOT_FOUND
+                {"error": "Job detail not found"}, status=status.HTTP_404_NOT_FOUND
             )
-        
-        
+
         job_instance = job_detail.first()
 
         posted_by_user = job_instance.posted_by
@@ -303,14 +302,9 @@ class GetJobDetails(APIView):
 
         job_serialize = JobItemDetailsSerializer(job_instance)
 
-        data = {
-            **job_serialize.data,
-            "posted_by": user_serializer.data
-
-        }
+        data = {**job_serialize.data, "posted_by": user_serializer.data}
 
         return Response(data, status=status.HTTP_200_OK)
-
 
 
 class GetProfileView(APIView):
@@ -350,7 +344,6 @@ class GetProfileView(APIView):
             "employment_record": employment_record_serializer.data,
         }
         return Response(data, status=status.HTTP_200_OK)
-
 
 
 class AlumniForm(APIView):

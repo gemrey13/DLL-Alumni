@@ -12,7 +12,7 @@ from .models import (
     EmploymentRecord,
     Address,
     Job,
-    JobCategory
+    JobCategory,
 )
 
 
@@ -20,70 +20,69 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
         # try:
-            # alumni_profile = AlumniProfile.objects.get(user=user)
-            # alumni_profile_serialized = AlumniProfileSerializer(alumni_profile)
+        # alumni_profile = AlumniProfile.objects.get(user=user)
+        # alumni_profile_serialized = AlumniProfileSerializer(alumni_profile)
 
-            # current_job = CurrentJob.objects.get(alumni=alumni_profile)
-            # current_job_serialized = CurrentJobSerializer(current_job)
+        # current_job = CurrentJob.objects.get(alumni=alumni_profile)
+        # current_job_serialized = CurrentJobSerializer(current_job)
         # except AlumniProfile.DoesNotExist:
         #     alumni_profile = None
         # except CurrentJob.DoesNotExist:
         #     current_job_serialized = False
         token = super().get_token(user)
-        
 
-        token['username'] = user.username
-        token['first_name'] = user.first_name
-        token['last_name'] = user.last_name
-        token['email'] = user.email
-        token['is_staff'] = user.is_staff
-        token['is_staff'] = user.is_superuser
+        token["username"] = user.username
+        token["first_name"] = user.first_name
+        token["last_name"] = user.last_name
+        token["email"] = user.email
+        token["is_staff"] = user.is_staff
+        token["is_staff"] = user.is_superuser
         # token['profile_info'] = alumni_profile_serialized.data
         # token['current_job'] = current_job_serialized.data if current_job_serialized else None
 
         return token
-      
+
 
 class CustomTokenObtainPairView(TokenObtainPairView):
     serializer_class = CustomTokenObtainPairSerializer
 
 
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True, style={'input_type': 'password'})
+    password = serializers.CharField(
+        write_only=True, required=True, style={"input_type": "password"}
+    )
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password', 'first_name', 'last_name']
-        extra_kwargs = {'password': {'write_only': True}}
+        fields = ["username", "email", "password", "first_name", "last_name"]
+        extra_kwargs = {"password": {"write_only": True}}
 
     def create(self, validated_data):
         user = User.objects.create_user(
-            username=validated_data['username'],
-            email=validated_data['email'],
-            password=validated_data['password'],
-            first_name=validated_data.get('first_name', ''),
-            last_name=validated_data.get('last_name', ''),
+            username=validated_data["username"],
+            email=validated_data["email"],
+            password=validated_data["password"],
+            first_name=validated_data.get("first_name", ""),
+            last_name=validated_data.get("last_name", ""),
         )
         return user
-
 
 
 class JobCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = JobCategory
-        fields = ['name']
+        fields = ["name"]
+
 
 class JobListSerializer(serializers.ModelSerializer):
-    posted_by = serializers.CharField(source='posted_by.username', read_only=True)
+    posted_by = serializers.CharField(source="posted_by.username", read_only=True)
     category = serializers.StringRelatedField(many=True, read_only=True)
     created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
     num_applicants = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = Job
-        fields = '__all__'
-
-    
+        fields = "__all__"
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
@@ -92,22 +91,29 @@ class UserDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'date_joined', 'num_posted_jobs']
+        fields = [
+            "id",
+            "username",
+            "email",
+            "first_name",
+            "last_name",
+            "date_joined",
+            "num_posted_jobs",
+        ]
 
     def get_num_posted_jobs(self, obj):
         return obj.job_set.count()
 
 
-
 class JobItemDetailsSerializer(serializers.ModelSerializer):
-    posted_by = serializers.CharField(source='posted_by.username', read_only=True)
+    posted_by = serializers.CharField(source="posted_by.username", read_only=True)
     category = serializers.StringRelatedField(many=True, read_only=True)
     created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
     num_applicants = serializers.SerializerMethodField(read_only=True)
 
     class Meta:
         model = Job
-        fields = '__all__'
+        fields = "__all__"
 
     def get_num_applicants(self, obj):
         return obj.applications.all().count()
@@ -116,45 +122,49 @@ class JobItemDetailsSerializer(serializers.ModelSerializer):
 class CurrentJobSerializer(serializers.ModelSerializer):
     class Meta:
         model = CurrentJob
-        fields = '__all__'
+        fields = "__all__"
 
 
 class AlumniProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = AlumniProfile
-        fields = '__all__'
+        fields = "__all__"
+
 
 class GraduateInformationSerializer(serializers.ModelSerializer):
     class Meta:
         model = GraduateInformation
-        fields = '__all__'
+        fields = "__all__"
 
 
 class AddressSerializer(serializers.ModelSerializer):
     class Meta:
         model = Address
-        fields = '__all__'
+        fields = "__all__"
 
 
 class CurriculumSerializer(serializers.ModelSerializer):
     class Meta:
         model = Curriculum
-        fields = '__all__'
+        fields = "__all__"
 
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = '__all__'
+        fields = "__all__"
+
 
 class EmploymentRecordSerializer(serializers.ModelSerializer):
     class Meta:
         model = EmploymentRecord
-        fields = '__all__'
+        fields = "__all__"
+
 
 class MonthlySalaryDistributionSerializer(serializers.Serializer):
     x = serializers.CharField()
     y = serializers.ListField(child=serializers.IntegerField())
+
 
 class AlumniGraduationYearDistributionAnalysisSerializer(serializers.Serializer):
     year_graduated = serializers.IntegerField()
@@ -163,9 +173,13 @@ class AlumniGraduationYearDistributionAnalysisSerializer(serializers.Serializer)
 
 class EmploymentDataSerializer(serializers.Serializer):
     name = serializers.CharField(allow_blank=True, required=False)
-    dateEmployed = serializers.DateField(allow_null=True, required=False, format='%Y-%m-%d')
+    dateEmployed = serializers.DateField(
+        allow_null=True, required=False, format="%Y-%m-%d"
+    )
     employmentStatus = serializers.CharField(allow_blank=True, required=False)
-    monthlySalary = serializers.DecimalField(allow_null=True, required=False, max_digits=10, decimal_places=2)
+    monthlySalary = serializers.DecimalField(
+        allow_null=True, required=False, max_digits=10, decimal_places=2
+    )
 
 
 class AlumniFormSerializer(serializers.Serializer):
@@ -175,67 +189,78 @@ class AlumniFormSerializer(serializers.Serializer):
     sex = serializers.CharField()
     religion = serializers.CharField()
     civil_status = serializers.CharField()
-    date_of_birth = serializers.DateField(format='%Y-%m-%d')
+    date_of_birth = serializers.DateField(format="%Y-%m-%d")
     facebook_account = serializers.CharField()
     contact_number = serializers.CharField()
     alumni_address = serializers.CharField()
     year_graduated = serializers.CharField()
     course = serializers.CharField()
     job_position = serializers.CharField(allow_blank=True, required=False)
-    salary = serializers.DecimalField(allow_null=True, required=False, max_digits=10, decimal_places=2)
+    salary = serializers.DecimalField(
+        allow_null=True, required=False, max_digits=10, decimal_places=2
+    )
     current_job_address = serializers.CharField(allow_blank=True, required=False)
     company_affiliation = serializers.CharField(allow_blank=True, required=False)
     employed_within_6mo = serializers.BooleanField()
     promoted_in_current_job = serializers.BooleanField()
     getting_jobs_related_to_experience = serializers.BooleanField()
     description = serializers.CharField(allow_blank=True, required=False)
-    employmentData = EmploymentDataSerializer(many=True, allow_empty=True, required=False)
+    employmentData = EmploymentDataSerializer(
+        many=True, allow_empty=True, required=False
+    )
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
         # Remove 'employmentData' key if it's empty to match the provided JSON structure
-        if not data['employmentData']:
-            del data['employmentData']
+        if not data["employmentData"]:
+            del data["employmentData"]
         return data
 
 
 class EmployedWithinSixMonthsAnalysisSerializer(serializers.ModelSerializer):
     class Meta:
         model = CurrentJob
-        fields = '__all__'
+        fields = "__all__"
 
 
 class TableAlumniInformationSerializer(serializers.ModelSerializer):
-    alumni_id = serializers.CharField(source='alumni.alumni_id')
-    course = serializers.CharField(source='alumni.course.course_name')
-    alumni_fname = serializers.CharField(source='alumni.fname')
-    alumni_lname = serializers.CharField(source='alumni.lname')
+    alumni_id = serializers.CharField(source="alumni.alumni_id")
+    course = serializers.CharField(source="alumni.course.course_name")
+    alumni_fname = serializers.CharField(source="alumni.fname")
+    alumni_lname = serializers.CharField(source="alumni.lname")
     employment_status = serializers.SerializerMethodField()
     has_current_job = serializers.SerializerMethodField()
     year_graduated = serializers.SerializerMethodField()
 
     class Meta:
         model = GraduateInformation
-        fields = ['alumni_id', 'alumni_fname', 'alumni_lname', 'year_graduated', 'course', 'has_current_job', 'employment_status']
+        fields = [
+            "alumni_id",
+            "alumni_fname",
+            "alumni_lname",
+            "year_graduated",
+            "course",
+            "has_current_job",
+            "employment_status",
+        ]
 
     def get_year_graduated(self, obj):
         return obj.year_graduated
-    
+
     def get_has_current_job(self, obj):
         alumni_profile = obj.alumni
         return alumni_profile.current_job.exists()
-    
+
     def get_employment_status(self, obj):
         alumni_profile = obj.alumni
         current_job = alumni_profile.current_job.first()
         return current_job.employment_status if current_job else None
 
 
-
 # class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 #     def validate(self, attrs):
 #         data = super().validate(attrs)
-        
+
 #         # Add additional fields to the token payload
 #         user = self.user
 #         try:
@@ -263,7 +288,7 @@ class TableAlumniInformationSerializer(serializers.ModelSerializer):
 #             }
 #             data['userInfo'] = userInfo
 #             return data
-        
+
 #         except AlumniProfile.DoesNotExist as E:
 #             return f'AlumniProfile does not exist for user: {self.user}'
 #         except Exception as e:
@@ -281,7 +306,6 @@ class TableAlumniInformationSerializer(serializers.ModelSerializer):
 #         return obj.alumni_count
 
 
-        
 # class GetProfileSerializer(serializers.ModelSerializer):
 #     address = AddressSerializer()
 

@@ -11,17 +11,34 @@ from .models import (
     JobApplication,
     JobCategory,
     UserSkill,
-    UserProfile
+    UserProfile,
 )
 
+
 class AlumniProfileAdmin(admin.ModelAdmin):
-    list_display = ['alumni_id', 'fname', 'lname', 'course', 'date_of_birth', 'home_address']
+    list_display = [
+        "alumni_id",
+        "fname",
+        "lname",
+        "course",
+        "date_of_birth",
+        "home_address",
+    ]
+
 
 class AddressAdmin(admin.ModelAdmin):
-    list_display = ['country', 'region', 'province', 'city', 'barangay']
+    list_display = ["country", "region", "province", "city", "barangay"]
+
 
 class EmploymentRecordAdmin(admin.ModelAdmin):
-    list_display = ['id', 'alumni', 'date_employed', 'approximate_monthly_salary', 'employment_status']
+    list_display = [
+        "id",
+        "alumni",
+        "date_employed",
+        "approximate_monthly_salary",
+        "employment_status",
+    ]
+
 
 admin.site.register(AlumniProfile, AlumniProfileAdmin)
 admin.site.register(GraduateInformation)
