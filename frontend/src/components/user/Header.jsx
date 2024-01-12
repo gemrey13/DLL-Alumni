@@ -1,4 +1,5 @@
 import React from "react";
+import icon_alumni from "../../images/icon-alumni.png";
 
 const Header = () => {
     return (
@@ -49,9 +50,15 @@ const Header = () => {
                             </li>
                         </ul>
                     </div>
-                    <a className="btn btn-ghost text-xl hidden md:inline-flex">
-                        DLL Alumni Asssociation
-                    </a>
+                    <a className="btn btn-ghost text-xl text-white align-middle lg:flex hidden">
+                    {" "}
+                    <img
+                        src={icon_alumni}
+                        alt="Icon Alumni"
+                        className="hidden md:inline mr-2"
+                    />
+                    DLL Alumni Association
+                </a>
                 </div>
                 <div className="navbar-center hidden lg:flex text-gray-400">
                     <ul className="menu menu-horizontal px-1">
