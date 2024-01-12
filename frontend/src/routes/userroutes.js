@@ -4,7 +4,7 @@ const JobItemPage = lazy(() => import("../pages/user/JobItemPage"));
 
 const coreRoutes = [
     {
-        path: "/u/job-item",
+        path: "/u/job-item/:job_id",
         title: "JobItemPage",
         component: JobItemPage,
     },

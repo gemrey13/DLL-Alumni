@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 import {
     HiOutlineLocationMarker,
     HiOutlineClock,
@@ -8,6 +9,8 @@ import {
 } from "react-icons/hi";
 
 const JobItemPage = () => {
+    const { job_id } = useParams();
+    console.log(job_id)
     const content = [
         "Hi, I need to learn how to get a file by myself so I don't have to spend 4 times as long having others get the wrong files. I can't code - but I know what files I need. So far my state of life is. I'm in the mongo and the compass to avoid the django with the pythons trying to get the homebrew from the GitHub to run the terminal thats wants the Xcode to run the terminal to ask for the mongo to get the json file from the server via the restapi. I am Australian and we made a commercial pretty close to how ridiculous this all is. Can someone help me out for an hour or 2 please. I just want a file.",
     ];

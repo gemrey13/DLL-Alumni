@@ -47,7 +47,6 @@ const JobPage = () => {
             Job_type: watch("Job_type"),
             order_by: watch("sort_by"),
         };
-        console.log(data);
         fetchData(data);
     }, [
         watch("title"),
