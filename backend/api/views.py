@@ -20,6 +20,7 @@ from .serializers import (
     EmploymentRecordSerializer,
     UserSerializer,
     JobListSerializer,
+    JobItemDetailsSerializer,
     JobCategorySerializer
 )
 from .models import (
@@ -285,7 +286,7 @@ class GetJobDetails(APIView):
         
         job_instance = job_detail.first()
 
-        job_serialize = JobListSerializer(job_instance)
+        job_serialize = JobItemDetailsSerializer(job_instance)
 
         return Response(job_serialize.data, status=status.HTTP_200_OK)
 
