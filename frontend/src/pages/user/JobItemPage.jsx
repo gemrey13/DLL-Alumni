@@ -6,6 +6,7 @@ import {
     HiOutlineTag,
     HiOutlineLightBulb,
     HiOutlineUsers,
+    HiOutlinePuzzle,
 } from "react-icons/hi";
 import axios from "axios";
 import baseURL from "@/apiConfig";
@@ -14,6 +15,8 @@ import AuthContext from "../../context/AuthContext";
 const JobItemPage = () => {
     const { job_id } = useParams();
     const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
 
     useEffect(() => {
         const fetchJobItemDetails = async () => {
@@ -24,19 +27,15 @@ const JobItemPage = () => {
                         params: { job_id: job_id },
                     }
                 );
-                console.log(response.data);
                 setData(response.data);
+                setLoading(false);
             } catch (error) {
-                console.error(error);
+                setError(true);
             }
         };
 
         fetchJobItemDetails();
     }, []);
-
-    const content = [
-        "Hi, I need to learn how to get a file by myself so I don't have to spend 4 times as long having others get the wrong files. I can't code - but I know what files I need. So far my state of life is. I'm in the mongo and the compass to avoid the django with the pythons trying to get the homebrew from the GitHub to run the terminal thats wants the Xcode to run the terminal to ask for the mongo to get the json file from the server via the restapi. I am Australian and we made a commercial pretty close to how ridiculous this all is. Can someone help me out for an hour or 2 please. I just want a file.",
-    ];
 
     const formatSalary = (salary) => {
         return new Intl.NumberFormat("en-PH", {
@@ -102,22 +101,58 @@ const JobItemPage = () => {
     };
 
     const descriptionFormatter = (desc) => {
+        const sentences = desc.split(".");
         try {
-            return desc.split(".").map((sentence, sentenceIndex, array) => (
-                <React.Fragment key={sentenceIndex}>
-                    {sentence.trim()}
-                    {sentenceIndex !== array.length - 1 && (
-                        <>
-                            .<br />
-                            <br />
-                        </>
-                    )}
-                </React.Fragment>
-            ));
+            if (sentences.length === 2) {
+                return desc;
+            } else {
+                return sentences.map((sentence, sentenceIndex, array) => (
+                    <React.Fragment key={sentenceIndex}>
+                        {sentence.trim()}
+                        {sentenceIndex !== array.length - 1 && (
+                            <>
+                                .<br />
+                                <br />
+                            </>
+                        )}
+                    </React.Fragment>
+                ));
+            }
         } catch (error) {
             return desc;
         }
     };
+
+    const formatDate = (dateString) => {
+        const options = { year: "numeric", month: "long", day: "numeric" };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    };
+
+    if (error) {
+        return (
+            <>
+                <div role="alert" className="alert alert-error">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="stroke-current shrink-0 h-6 w-6"
+                        fill="none"
+                        viewBox="0 0 24 24">
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="2"
+                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                        />
+                    </svg>
+                    <span>Error!.</span>
+                </div>
+            </>
+        );
+    }
+
+    if (loading) {
+        return <span className="loading loading-spinner loading-lg"></span>;
+    }
 
     return (
         <>
@@ -136,6 +171,18 @@ const JobItemPage = () => {
                                 <p className="font-medium">{data.location}</p>
                             </div>
                         </div>
+                        <p className="flex items-center flex-col lg:flex-row my-2 gap-2 text-black-2">
+                            <HiOutlinePuzzle
+                                size={25}
+                                className="hidden lg:inline-flex"
+                            />
+                            Editing your profile will help you better highlight
+                            your expertise when submitting application to jobs
+                            like these.{" "}
+                            <span className="underline ml-1 text-error cursor-pointer">
+                                Edit your profile
+                            </span>
+                        </p>
                     </section>
                     <section className="border-b-[1px] border-slate-300 p-7">
                         <p className="text-black-2">
@@ -178,13 +225,14 @@ const JobItemPage = () => {
                         <h3 className="text-2xl font-medium text-black-2">
                             Skills and Expertise
                         </h3>
-                        {data.category &&  data.category.map((category_item, index) => (
-                            <div
-                                key={index}
-                                className="badge badge-outline ml-0 m-4">
-                                {category_item}
-                            </div>
-                        ))}
+                        {data.category &&
+                            data.category.map((category_item, index) => (
+                                <div
+                                    key={index}
+                                    className="badge badge-outline ml-0 m-4">
+                                    {category_item}
+                                </div>
+                            ))}
                     </section>
                 </section>
 
@@ -202,18 +250,27 @@ const JobItemPage = () => {
                         <p className="flex items-center">
                             Total applicants: <HiOutlineUsers />
                         </p>
-                        <p className="font-semibold">{data.num_applicants} Applicants</p>
+                        <p className="font-semibold">
+                            {data.num_applicants} Applicants
+                        </p>
                     </div>
 
                     <div className="mt-14">
                         <h6 className="text-xl text-black-2 font-medium mb-4">
                             Posted by:
                         </h6>
-                        <p className="font-medium leading-3">{data.posted_by}</p>
-                        <p className="mb-7">Lucena city 6:11 AM</p>
+                        <p className="font-medium leading-3">
+                            {data.posted_by.username}
+                        </p>
+                        <p className="mb-7">
+                            {calculateTimeElapsed(data.created_at)}
+                        </p>
 
-                        <p className="font-medium mb-4">2 jobs posted</p>
-                        <p className="mb-7 text-sm">Member since Mar 1, 2023</p>
+                        <p className="font-medium mb-4">{data.posted_by.num_posted_jobs} jobs posted</p>
+                        <p className="mb-7 text-sm">
+                            Member since{" "}
+                            {formatDate(data.posted_by.date_joined)}
+                        </p>
                     </div>
                 </aside>
             </div>

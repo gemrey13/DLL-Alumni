@@ -21,7 +21,8 @@ from .serializers import (
     UserSerializer,
     JobListSerializer,
     JobItemDetailsSerializer,
-    JobCategorySerializer
+    JobCategorySerializer,
+    UserDetailSerializer
 )
 from .models import (
     GraduateInformation,
@@ -284,11 +285,21 @@ class GetJobDetails(APIView):
                 status=status.HTTP_404_NOT_FOUND
             )
         
+        
         job_instance = job_detail.first()
+
+        posted_by_user = job_instance.posted_by
+        user_serializer = UserDetailSerializer(posted_by_user)
 
         job_serialize = JobItemDetailsSerializer(job_instance)
 
-        return Response(job_serialize.data, status=status.HTTP_200_OK)
+        data = {
+            **job_serialize.data,
+            "posted_by": user_serializer.data
+
+        }
+
+        return Response(data, status=status.HTTP_200_OK)
 
 
 

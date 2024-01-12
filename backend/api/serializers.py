@@ -84,6 +84,21 @@ class JobListSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     
+
+
+class UserDetailSerializer(serializers.ModelSerializer):
+    date_joined = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
+    num_posted_jobs = serializers.SerializerMethodField(read_only=True)
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'date_joined', 'num_posted_jobs']
+
+    def get_num_posted_jobs(self, obj):
+        return obj.job_set.count()
+
+
+
 class JobItemDetailsSerializer(serializers.ModelSerializer):
     posted_by = serializers.CharField(source='posted_by.username', read_only=True)
     category = serializers.StringRelatedField(many=True, read_only=True)
