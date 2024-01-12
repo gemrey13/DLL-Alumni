@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Navigate } from "react-router-dom";
 import AuthContext from "../context/AuthContext";
 
@@ -7,8 +7,9 @@ const PrivateRoute = ({ children, ...rest }) => {
 
   if (!user) {
     return <Navigate to="/auth/signin" />;
-  } else if (!user.is_staff) {
-    return <Navigate to="/social" />;
+  } 
+  if (!user.is_staff) {
+    return <Navigate to="/u" />;
   }
 
   return children;

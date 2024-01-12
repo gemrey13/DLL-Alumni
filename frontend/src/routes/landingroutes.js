@@ -1,6 +1,9 @@
 import { lazy } from "react";
 
-const SurveyPage = lazy(() => import("../pages/SurveyPage"));
+
+import SurveyPage from "../pages/SurveyPage"
+
+// const SurveyPage = lazy(() => import("../pages/SurveyPage"));
 
 const coreRoutes = [
     {

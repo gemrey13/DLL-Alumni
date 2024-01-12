@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) => {
             const data = response.data;
     
             const promise = toast.promise(
-                Promise.resolve(data), // Resolve with the data directly
+                Promise.resolve(data),
                 {
                     loading: "Please Wait...",
                     success: <b>Login Successfully!</b>,
@@ -51,13 +51,18 @@ export const AuthProvider = ({ children }) => {
                 }
             );
     
-            await promise; // Wait for the toast.promise to resolve
+            await promise;
     
             if (data) {
                 localStorage.setItem("authTokens", JSON.stringify(data));
                 setAuthTokens(data);
                 setUser(jwtDecode(data.access))
-                navigate("/admin");
+                const temp = jwtDecode(data.access)
+                if (temp.is_staff) {
+                    navigate('/admin')
+                } else{
+                    navigate('/u')
+                }
             } else {
                 toast.error("Something went wrong while logging in the user!");
             }

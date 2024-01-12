@@ -1,10 +1,7 @@
-import { useEffect, useState, useContext, lazy, Suspense } from "react";
+import { useEffect, useState, lazy, Suspense, startTransition } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 
-// Third-party libraries
-
-// Components and utilities
 import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from "./utils/PrivateRoute";
 import adminroutes from "./routes/adminroutes";
@@ -19,8 +16,10 @@ import Loader from "./common/Loader";
 import JobPage from "./pages/user/JobPage";
 
 const AdminLayout = lazy(() => import("./layout/AdminLayout"));
-const LandingLayout = lazy(() => import("./layout/LandingLayout"));
+// const LandingLayout = lazy(() => import("./layout/LandingLayout"));
 const UserLayout = lazy(() => import("./layout/UserLayout"));
+
+import LandingLayout from "./layout/LandingLayout";
 
 function App() {
     const [loading, setLoading] = useState(true);
@@ -57,7 +56,14 @@ function App() {
                                 <AdminLayout />
                             </PrivateRoute>
                         }>
-                        <Route index element={<Dashboard />} />
+                        <Route
+                            index
+                            element={
+                                <Suspense fallback={<Loader />}>
+                                    <Dashboard />
+                                </Suspense>
+                            }
+                        />
                         {adminroutes.map((adminroutes, index) => {
                             const { path, component: Component } = adminroutes;
                             return (
@@ -74,32 +80,43 @@ function App() {
                         })}
                     </Route>
 
-                    <Route
-                        path="/u"
-                        element={
-                                <UserLayout />
-                        }>
-                        <Route index element={<JobPage />} />
+                    <Route path="/u/" element={<UserLayout />}>
+                        <Route
+                            index
+                            element={
+                                <Suspense fallback={<Loader />}>
+                                    <JobPage />
+                                </Suspense>
+                            }
+                        />
                         {userroutes.map((userroutes, index) => {
                             const { path, component: Component } = userroutes;
                             return (
                                 <Route
-                                key={index}
-                                path={path}
-                                element={
-                                    <Suspense fallback={<Loader />}>
-                                        <Component />
-                                    </Suspense>
-                                }
+                                    key={index}
+                                    path={path}
+                                    element={
+                                        <Suspense fallback={<Loader />}>
+                                            <Component />
+                                        </Suspense>
+                                    }
                                 />
                             );
                         })}
                     </Route>
 
                     <Route path="/" element={<LandingLayout />}>
-                        <Route index element={<LandingPage />} />
+                        <Route
+                            index
+                            element={
+                                <Suspense fallback={<Loader />}>
+                                    <LandingPage />
+                                </Suspense>
+                            }
+                        />
                         {landingroutes.map((landingroutes, index) => {
-                            const { path, component: Component} = landingroutes;
+                            const { path, component: Component } =
+                                landingroutes;
                             return (
                                 <Route
                                     key={index}
