@@ -63,7 +63,7 @@ function Navbar() {
 
             <div className="navbar-end">
                 <div className="hidden lg:flex flex-nowrap">
-                    <ul className="menu menu-horizontal px-1 mr-6">
+                    <ul className="menu menu-horizontal px-1 mr-6 ">
                         <li className="px-2">
                             <NavLink to="/">Home</NavLink>
                         </li>
@@ -73,7 +73,7 @@ function Navbar() {
                         <li className="px-2 z-10">
                             <details>
                                 <summary>News and Update</summary>
-                                <ul className="p-2">
+                                <ul className="px-3 py-4 shadow bg-black rounded-box w-52">
                                     <li><a>News</a></li>
                                     <li><a>Update</a></li>
                                 </ul>

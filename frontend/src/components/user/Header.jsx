@@ -35,7 +35,7 @@ const Header = () => {
                                 <a className="menu-title text-whiten">
                                     News and Update
                                 </a>
-                                <ul className="">
+                                <ul className="px-3 py-4 shadow bg-black rounded-box w-52">
                                     <li>
                                         <a>News</a>
                                     </li>
