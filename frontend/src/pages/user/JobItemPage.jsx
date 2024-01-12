@@ -4,7 +4,7 @@ import {
     HiOutlineClock,
     HiOutlineTag,
     HiOutlineLightBulb,
-    HiOutlineUsers
+    HiOutlineUsers,
 } from "react-icons/hi";
 
 const JobItemPage = () => {
@@ -14,7 +14,7 @@ const JobItemPage = () => {
 
     return (
         <>
-            <div className="flex pt-10">
+            <div className="flex pt-10 pb-15">
                 <section className="flex-1 border-r-[1px] border-slate-300">
                     <section className="border-b-[1px] border-slate-300 p-7">
                         <h1 className="text-2xl text-black-2 font-medium py-4">
@@ -46,7 +46,7 @@ const JobItemPage = () => {
                                 ))}
                         </p>
                     </section>
-                    <section className="border-b-[1px] p-7">
+                    <section className="border-b-[1px] border-slate-300 p-7">
                         <ul className="flex justify-between items-start">
                             <li className="flex justify-center items-center gap-1 text-black-2 font-medium">
                                 <HiOutlineClock size={25} />
@@ -74,31 +74,42 @@ const JobItemPage = () => {
                             </li>
                         </ul>
                     </section>
+
+                    <section className="p-7">
+                        <h3 className="text-2xl font-medium text-black-2">
+                            Skills and Expertise
+                        </h3>
+                        <div className="badge badge-outline ml-0 m-4">Web development</div>
+                        <div className="badge badge-outline ml-0 m-4">Web design</div>
+                        <div className="badge badge-outline ml-0 m-4">Software development</div>
+                    </section>
                 </section>
                 <aside className="py-7 pl-5 w-[20%]">
                     <div className="flex flex-col ">
-                        <button className="btn btn-md btn-primary rounded-full mb-3">Apply Now</button>
-                        <button className="btn btn-md btn-outline rounded-full">Save Job</button>
+                        <button className="btn btn-md btn-primary rounded-full mb-3">
+                            Apply Now
+                        </button>
+                        <button className="btn btn-md btn-outline rounded-full">
+                            Save Job
+                        </button>
                     </div>
-                    
+
                     <div className="mt-9">
-                        <p className="flex items-center">Total applicants: <HiOutlineUsers /></p>
+                        <p className="flex items-center">
+                            Total applicants: <HiOutlineUsers />
+                        </p>
                         <p className="font-semibold">24 Applicants</p>
                     </div>
 
                     <div className="mt-14">
-                        <h6 className="text-xl text-black-2 font-medium">About the company</h6>
-                        <p>Lucena City</p>
-                        <p>Lucena City</p>
-                    </div>
+                        <h6 className="text-xl text-black-2 font-medium mb-4">
+                            Posted by:
+                        </h6>
+                        <p className="font-medium leading-3">John Doe</p>
+                        <p className="mb-7">Lucena city 6:11 AM</p>
 
-                    <div className="mt-14">
-                        <h6 className="text-xl text-black-2 font-medium mb-4">Posted by:</h6>
-                        <p className="font-medium leading-3">Lucena city</p>
-                        <p className="mb-7">John Doe 6:11 AM</p>
-
-                        <p className="font-medium leading-3">2 jobs posted</p>
-                        <p className="mb-7">Job posted</p>
+                        <p className="font-medium mb-4">2 jobs posted</p>
+                        <p className="mb-7 text-sm">Member since Mar 1, 2023</p>
                     </div>
                 </aside>
             </div>
