@@ -77,6 +77,9 @@ const JobItem = ({ data }) => {
                             <p className="text-black-2">
                                 {job_item.description}
                             </p>
+                            <p className="text-md">
+                                {job_item.num_applicants} applicants
+                            </p>
                             <div className="card-actions mt-3 justify-start">
                                 {job_item.category.map(
                                     (category_item, index) => (

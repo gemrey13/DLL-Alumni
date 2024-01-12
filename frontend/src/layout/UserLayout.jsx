@@ -7,7 +7,7 @@ const UserLayout = () => {
     return (
         <>
             <Header />
-            <main className="px-3 md:px-22 pb-8 bg-white h-full">
+            <main className="px-3 md:px-22 pb-8 bg-whiten h-full">
                 <Outlet />
             </main>
             <Footer />
