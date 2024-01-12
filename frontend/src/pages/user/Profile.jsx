@@ -34,8 +34,38 @@ const Profile = () => {
             </section>
 
             <section className="flex">
-                <aside className="w-[30%] border-l border-slate-800 border-r">
-                    as
+                <aside className="w-[30%] border-l border-slate-800 border-r p-8">
+                    <div className="mb-12">
+                        <h3 className="text-black-2 text-2xl mb-4 font-medium">Education</h3>
+
+                        <p className="text-black text-lg font-medium">Dalubhasaang Lungsod ng Lucena</p>
+                        <p className="font-medium">
+                            Bachelor of Science in Information Technology, Web
+                            development 2021-2024
+                        </p>
+                    </div>
+
+                    <div className="mb-12">
+                        <h3 className="text-black-2 text-2xl font-medium">Gender</h3>
+                        <p className="text-black text-lg font-medium">Male</p>
+                    </div>
+
+                    <div className="mb-12">
+                        <h3 className="text-black-2 text-2xl font-medium">Languages</h3>
+                        <ul>
+                            <li className="text-black text-lg font-medium">English: <span>Conversational</span></li>
+                            <li className="text-black text-lg font-medium">Tagalog: <span>Native or Bilingual</span></li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 className="text-black-2 text-2xl font-medium">Account Links</h3>
+
+                        <ul>
+                            <li className="text-black text-lg font-medium">facebook.com</li>
+                            <li className="text-black text-lg font-medium">instagram.com</li>
+                        </ul>
+                    </div>
                 </aside>
                 <section className="flex-1 w-3/4 border-slate-800 border-r">
                     <header className="border-b border-slate-800 p-8">
