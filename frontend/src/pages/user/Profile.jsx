@@ -4,25 +4,25 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 const Profile = () => {
     return (
         <>
-            <section className="flex w-full border-slate-800 border rounded-t-2xl p-7 mt-10 gap-3 items-center">
+            <section className="flex w-full border-slate-800 lg:border border-b rounded-t-2xl p-7 mt-10 gap-3 items-center">
                 <div className="avatar placeholder">
                     <div className="bg-neutral text-neutral-content rounded-full w-18">
                         <span className="text-3xl">G</span>
                     </div>
                 </div>
 
-                <section className="flex flex-1 justify-between">
+                <section className="flex flex-1 lg:flex-row flex-col justify-between">
                     <div>
                         <h1 className="text-3xl font-semibold text-black-2">
                             Gem Rey Rañola
                         </h1>
-                        <p className="flex gap-2 text-base font-semibold items-center">
+                        <p className="flex gap-2 text-sm lg:text-base font-semibold items-center">
                             <HiOutlineLocationMarker />
                             Lucena City - 12:34 am
                         </p>
                     </div>
 
-                    <div className="flex gap-5 w-[30%] justify-between pr-7">
+                    <div className="lg:flex hidden gap-5 w-[30%] justify-between pr-7">
                         <button className="btn btn-primary rounded-2xl w-1/2">
                             Edit Profile
                         </button>
@@ -33,8 +33,9 @@ const Profile = () => {
                 </section>
             </section>
 
-            <section className="flex">
-                <aside className="w-[30%] border-l border-slate-800 border-r p-8">
+            <section className="flex lg:flex-row flex-col-reverse">
+
+                <aside className="w-full lg:w-[30%] border-l border-slate-800 border-r p-8">
                     <div className="mb-12">
                         <h3 className="text-black-2 text-2xl mb-4 font-medium">Education</h3>
 
@@ -67,7 +68,8 @@ const Profile = () => {
                         </ul>
                     </div>
                 </aside>
-                <section className="flex-1 w-3/4 border-slate-800 border-r">
+
+                <section className="flex-1 w-full lg:w-3/4 border-slate-800 border-x lg:border-r lg:border-l-0">
                     <header className="border-b border-slate-800 p-8">
                         <h1 className="text-black-2 font-medium text-2xl pb-6">
                             Web Developer | Django | Python | ReactJs
