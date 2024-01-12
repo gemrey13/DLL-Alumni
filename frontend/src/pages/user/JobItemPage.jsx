@@ -4,6 +4,7 @@ import {
     HiOutlineClock,
     HiOutlineTag,
     HiOutlineLightBulb,
+    HiOutlineUsers
 } from "react-icons/hi";
 
 const JobItemPage = () => {
@@ -13,9 +14,9 @@ const JobItemPage = () => {
 
     return (
         <>
-            <div className="flex mt-10">
-                <section className="flex-1 border-r-[1px]">
-                    <section className="border-b-[1px] p-7">
+            <div className="flex pt-10">
+                <section className="flex-1 border-r-[1px] border-slate-300">
+                    <section className="border-b-[1px] border-slate-300 p-7">
                         <h1 className="text-2xl text-black-2 font-medium py-4">
                             Mongo Django Python Homebrew Terminal Xcode with
                             some Celery. I just need a file -wtf
@@ -28,7 +29,7 @@ const JobItemPage = () => {
                             </div>
                         </div>
                     </section>
-                    <section className="border-b-[1px] p-7">
+                    <section className="border-b-[1px] border-slate-300 p-7">
                         <p className="text-black-2">
                             {content[0]
                                 .split(".")
@@ -57,7 +58,7 @@ const JobItemPage = () => {
                                     $50.00
                                     <br />
                                     <span className="text-sm text-gray-500">
-                                        Salary
+                                        Monthly salary
                                     </span>
                                 </section>
                             </li>
@@ -74,7 +75,32 @@ const JobItemPage = () => {
                         </ul>
                     </section>
                 </section>
-                <aside>JOb BUtton</aside>
+                <aside className="py-7 pl-5 w-[20%]">
+                    <div className="flex flex-col ">
+                        <button className="btn btn-md btn-primary rounded-full mb-3">Apply Now</button>
+                        <button className="btn btn-md btn-outline rounded-full">Save Job</button>
+                    </div>
+                    
+                    <div className="mt-9">
+                        <p className="flex items-center">Total applicants: <HiOutlineUsers /></p>
+                        <p className="font-semibold">24 Applicants</p>
+                    </div>
+
+                    <div className="mt-14">
+                        <h6 className="text-xl text-black-2 font-medium">About the company</h6>
+                        <p>Lucena City</p>
+                        <p>Lucena City</p>
+                    </div>
+
+                    <div className="mt-14">
+                        <h6 className="text-xl text-black-2 font-medium mb-4">Posted by:</h6>
+                        <p className="font-medium leading-3">Lucena city</p>
+                        <p className="mb-7">John Doe 6:11 AM</p>
+
+                        <p className="font-medium leading-3">2 jobs posted</p>
+                        <p className="mb-7">Job posted</p>
+                    </div>
+                </aside>
             </div>
         </>
     );

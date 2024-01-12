@@ -110,7 +110,7 @@ const JobPage = () => {
 
     return (
         <>
-            <div className="flex align-middle justify-center mt-13">
+            <div className="flex align-middle justify-center pt-13">
                 <input
                     {...register("title")}
                     type="text"
