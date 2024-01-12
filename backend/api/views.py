@@ -265,6 +265,32 @@ class TableAlumniView(ListAPIView):
         return queryset
 
 
+
+class GetJobDetails(APIView):
+    def get(self, request, *args, **kwargs):
+        job_id = self.request.query_params.get("job_id", None)
+
+        if not job_id:
+            return Response(
+                {"error": "Missing job_id parameter"},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        job_detail = Job.objects.filter(id=job_id)
+        if not job_detail.exists():
+            return Response(
+                {"error": "Job detail not found"},
+                status=status.HTTP_404_NOT_FOUND
+            )
+        
+        job_instance = job_detail.first()
+
+        job_serialize = JobListSerializer(job_instance)
+
+        return Response(job_serialize.data, status=status.HTTP_200_OK)
+
+
+
 class GetProfileView(APIView):
     """
     `GetProfileView` retrieves detailed alumni information profile including current jobs and employment records

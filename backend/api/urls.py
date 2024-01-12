@@ -21,7 +21,8 @@ from .views import (
     UserRegistrationView,
     JobListView,
     JobTypeList,
-    JobCategoryList
+    JobCategoryList,
+    GetJobDetails
 )
 
 
@@ -41,6 +42,7 @@ urlpatterns = [
     path('job-type-list/', JobTypeList.as_view(), name='job-type-list'),
     path('job-category-list/', JobCategoryList.as_view(), name='job-category-list'),
     path('job-list/', JobListView.as_view(), name='job-list'),
+    path('job-details/', GetJobDetails.as_view(), name='job-details'),
 
 
 
