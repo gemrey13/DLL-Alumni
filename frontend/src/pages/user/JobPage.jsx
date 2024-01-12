@@ -46,6 +46,8 @@ const JobPage = () => {
                 selectedLevels.length > 0 ? selectedLevels.join(",") : "",
             Job_type: watch("Job_type"),
             order_by: watch("sort_by"),
+            category_mobile: watch("job_category_mobile"),
+            Job_type_mobile: watch("Job_type_mobile"),
         };
         fetchData(data);
     }, [
@@ -56,6 +58,8 @@ const JobPage = () => {
         expert,
         watch("Job_type"),
         watch("sort_by"),
+        watch("job_category_mobile"),
+        watch("Job_type_mobile"),
     ]);
 
     const fetchJobCategory = async () => {
@@ -80,15 +84,12 @@ const JobPage = () => {
 
     const fetchData = async (formValues) => {
         try {
-            const response = await axios.get(
-                `${baseURL}/api/job-list/`,
-                {
-                    params: formValues,
-                    // headers: {
-                    //     Authorization: `Bearer ${authTokens.access}`,
-                    // },
-                }
-            );
+            const response = await axios.get(`${baseURL}/api/job-list/`, {
+                params: formValues,
+                // headers: {
+                //     Authorization: `Bearer ${authTokens.access}`,
+                // },
+            });
             setNextPage(response.data.next);
             setData(response.data.results);
         } catch (error) {
@@ -135,13 +136,17 @@ const JobPage = () => {
                             <h4 className="text-lg text-black font-medium mt-8 mb-3">
                                 Category
                             </h4>
-                            <select className="select select-sm border-gray-400 w-full max-w-xs">
-                                <option disabled selected>
+                            <select
+                                {...register("job_category_mobile")}
+                                className="select select-sm border-gray-400 w-full max-w-xs">
+                                <option value="">
                                     Select Categories
                                 </option>
-                                <option>Auto</option>
-                                <option>Dark mode</option>
-                                <option>Light mode</option>
+                                {jobCategory.map((category, index) => (
+                                    <option key={index} value={category}>
+                                        {category}
+                                    </option>
+                                ))}
                             </select>
 
                             <h4 className="text-lg text-black font-medium mt-8 mb-3">
@@ -272,14 +277,17 @@ const JobPage = () => {
                             <h4 className="text-lg text-black font-medium mt-8 mb-3">
                                 Job type
                             </h4>
-                            <select className="select select-sm border-gray-400 w-full max-w-xs">
-                                <option disabled selected>
+                            <select
+                                {...register("Job_type_mobile")}
+                                className="select select-sm border-gray-400 w-full max-w-xs">
+                                <option value="">
                                     Select Job Type
                                 </option>
-                                <option>Internship</option>
-                                <option>Contract</option>
-                                <option>Part-time</option>
-                                <option>Full-time</option>
+                                {jobType.map((type, index) => (
+                                    <option key={index} value={type}>
+                                        {type}
+                                    </option>
+                                ))}
                             </select>
                             <button className="btn w-full btn-primary mt-12">
                                 Apply
@@ -304,7 +312,7 @@ const JobPage = () => {
                     <select
                         {...register("job_category")}
                         className="select select-sm border-gray-400 w-full max-w-xs">
-                        <option selected value="">
+                        <option value="">
                             Select Categories
                         </option>
                         {jobCategory.map((category, index) => (
@@ -447,7 +455,7 @@ const JobPage = () => {
                     <select
                         {...register("Job_type")}
                         className="select select-sm border-gray-400 w-full max-w-xs">
-                        <option selected value="">
+                        <option value="">
                             Select Job Type
                         </option>
                         {jobType.map((type, index) => (
@@ -462,7 +470,7 @@ const JobPage = () => {
                     <select
                         {...register("sort_by")}
                         className="self-end select select-sm border-gray-400 mb-8 max-w-xs hidden md:block">
-                        <option selected value="">
+                        <option value="">
                             Sort by:
                         </option>
                         <option value="newest">Newest</option>

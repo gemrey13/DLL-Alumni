@@ -54,19 +54,23 @@ class JobTypeList(ListAPIView):
 
 class JobListPagination(PageNumberPagination):
     page_size = 10
+    ordering = '-created_at'
 
 class JobListView(ListAPIView):
     serializer_class = JobListSerializer
     pagination_class = JobListPagination
 
     def get_queryset(self):
-        queryset = Job.objects.filter(is_approved_by_admin=True)
+        queryset = Job.objects.filter(is_approved_by_admin=True).order_by('-created_at')
         
         title = self.request.query_params.get("title", None)
         category = self.request.query_params.get("category", None)
+        category_mobile = self.request.query_params.get("category_mobile", None)
         experience_levels = self.request.query_params.get("experience_level", "")
 
         job_type = self.request.query_params.get("Job_type", None)
+        job_type_mobile = self.request.query_params.get("Job_type_mobile", None)
+        
         order_by = self.request.query_params.get("order_by", "newest")
 
         if title:
@@ -75,8 +79,14 @@ class JobListView(ListAPIView):
         if category:
             queryset = queryset.filter(category__name=category)
 
+        if category_mobile:
+            queryset = queryset.filter(category__name=category_mobile)
+
         if job_type:
             queryset = queryset.filter(Job_type=job_type)
+
+        if job_type_mobile:
+            queryset = queryset.filter(Job_type=job_type_mobile)
 
         # Use Q objects to handle multiple selected experience levels
         experience_filter = Q()
