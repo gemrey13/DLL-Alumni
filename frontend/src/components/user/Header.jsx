@@ -30,9 +30,9 @@ const Header = () => {
                         </div>
                         <ul
                             tabIndex={0}
-                            className="bg-slate-800 text-gray-400 menu menu-md dropdown-content mt-3 z-[1] p-2 shadow rounded-box w-52">
+                            className="bg-slate-800 text-gray-400 menu menu-md dropdown-content mt-3 z-[1] p-2 shadow rounded-box w-64">
                             <li>
-                                <a>Find Work</a>
+                                <NavLink to="/u/jobs">Find Work</NavLink>
                             </li>
                             <li className="py-2">
                                 <a className="menu-title text-whiten">
@@ -54,7 +54,7 @@ const Header = () => {
                     </div>
                     <Link
                         to="/u/"
-                        className="btn btn-ghost text-xl text-white align-middle lg:flex hidden">
+                        className="btn btn-ghost lg:text-xl text-white align-middle lg:flex text-sm">
                         {" "}
                         <img
                             src={icon_alumni}
