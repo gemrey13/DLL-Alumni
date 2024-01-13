@@ -37,6 +37,27 @@ from .models import (
 )
 
 
+class JobRecommendationForUser(ListAPIView):
+    serializer_class = JobListSerializer
+
+    def get_queryset(self):
+        queryset = Job.objects.filter(is_approved_by_admin=True).order_by("-created_at")
+        user_id = self.request.query_params.get('user_id', None)
+        user = User.objects.get(pk=user_id)
+
+        user_skills = user.userprofile.skills.all()
+
+        queryset = queryset.filter(category__in=user_skills)
+        queryset = queryset.annotate(num_applicants=Count("applications"))
+
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        data = self.get_queryset()
+        serializer = self.serializer_class(data, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 class JobCategoryList(ListAPIView):
     serializer_class = JobCategorySerializer
 

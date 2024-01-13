@@ -49,11 +49,12 @@ const JobItem = ({ data }) => {
 
         return hours <= 1;
     };
+
     return (
         <>
             {data &&
-                data.map((job_item) => (
-                    <Link key={job_item.id} to={`/u/job-item/${job_item.id}`} className="hover:bg-slate-300">
+                data.map((job_item, index) => (
+                    <Link key={index} to={`/u/job-item/${job_item.id}`} className="hover:bg-slate-300">
                     <div className="w-full border-t-[1px]">
                         <div className="card-body">
                             <p className="text-xs">

@@ -22,6 +22,7 @@ from .views import (
     JobTypeList,
     JobCategoryList,
     GetJobDetails,
+    JobRecommendationForUser,
 )
 
 
@@ -38,6 +39,7 @@ urlpatterns = [
     path("job-category-list/", JobCategoryList.as_view(), name="job-category-list"),
     path("job-list/", JobListView.as_view(), name="job-list"),
     path("job-details/", GetJobDetails.as_view(), name="job-details"),
+    path("job-recommendation/", JobRecommendationForUser.as_view(), name="job-recommendation"),
     # Registration
     path("signup/", UserRegistrationView.as_view(), name="sign-up"),
     # Metrics
