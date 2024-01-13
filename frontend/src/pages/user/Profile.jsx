@@ -1,20 +1,24 @@
-import React from "react";
+import React, {useContext} from "react";
 import { HiOutlineLocationMarker } from "react-icons/hi";
+import AuthContext from "../../context/AuthContext";
+
 
 const Profile = () => {
+    let { user } = useContext(AuthContext);
+
     return (
         <>
             <section className="flex w-full border-slate-800 lg:border border-b rounded-t-2xl p-7 mt-10 gap-3 items-center">
                 <div className="avatar placeholder">
                     <div className="bg-neutral text-neutral-content rounded-full w-18">
-                        <span className="text-3xl">G</span>
+                        <span className="text-3xl">{user.first_name[0]}</span>
                     </div>
                 </div>
 
                 <section className="flex flex-1 lg:flex-row flex-col justify-between">
                     <div>
                         <h1 className="text-3xl font-semibold text-black-2">
-                            Gem Rey Rañola
+                            {user.first_name} {user.last_name}
                         </h1>
                         <p className="flex gap-2 text-sm lg:text-base font-semibold items-center">
                             <HiOutlineLocationMarker />

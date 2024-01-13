@@ -37,26 +37,38 @@ from .models import (
 )
 
 
+class JobRecommendationForUserPagination(PageNumberPagination):
+    page_size = 10
+    ordering = "-created_at"
+
 class JobRecommendationForUser(ListAPIView):
     serializer_class = JobListSerializer
+    pagination_class = JobRecommendationForUserPagination
 
     def get_queryset(self):
         queryset = Job.objects.filter(is_approved_by_admin=True).order_by("-created_at")
-        user_id = self.request.query_params.get('user_id', None)
-        user = User.objects.get(pk=user_id)
+        user_id = self.request.query_params.get("user_id", None)
 
-        user_skills = user.userprofile.skills.all()
+        if user_id:
+            user = User.objects.get(pk=user_id)
+            user_skills = user.userprofile.skills.all()
 
-        queryset = queryset.filter(category__in=user_skills)
-        queryset = queryset.annotate(num_applicants=Count("applications"))
+            queryset = queryset.filter(category__in=user_skills)
+            queryset = queryset.annotate(num_applicants=Count("applications"))
 
-        return queryset
+            return queryset
+        
+        return None
 
     def list(self, request, *args, **kwargs):
-        data = self.get_queryset()
-        serializer = self.serializer_class(data, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        queryset = self.get_queryset()
+        if queryset is not None:
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = self.serializer_class(page, many=True)
+                return self.get_paginated_response(serializer.data)
 
+        return Response([], status=status.HTTP_200_OK)
 
 class JobCategoryList(ListAPIView):
     serializer_class = JobCategorySerializer

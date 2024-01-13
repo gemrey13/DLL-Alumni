@@ -16,7 +16,7 @@ const coreRoutes = [
         component: JobItemPage,
     },
     {
-        path: "/u/my-profile/:user_id",
+        path: "/u/my-profile/",
         title: "Profile",
         component: Profile,
     },
