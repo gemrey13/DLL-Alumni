@@ -13,10 +13,9 @@ import SignUp from "./pages/Authentication/SignUp";
 import LandingPage from "./pages/LandingPage";
 import NotFound from "./pages/NotFound";
 import Loader from "./common/Loader";
-import JobPage from "./pages/user/JobPage";
+import HomePage from "./pages/user/HomePage";
 
 const AdminLayout = lazy(() => import("./layout/AdminLayout"));
-// const LandingLayout = lazy(() => import("./layout/LandingLayout"));
 const UserLayout = lazy(() => import("./layout/UserLayout"));
 
 import LandingLayout from "./layout/LandingLayout";
@@ -85,7 +84,7 @@ function App() {
                             index
                             element={
                                 <Suspense fallback={<Loader />}>
-                                    <JobPage />
+                                    <HomePage />
                                 </Suspense>
                             }
                         />

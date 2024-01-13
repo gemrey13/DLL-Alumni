@@ -65,7 +65,7 @@ const Header = () => {
                 <div className="navbar-center hidden lg:flex text-gray-400">
                     <ul className="menu menu-horizontal px-1">
                         <li>
-                            <NavLink to="/u/">Find Work</NavLink>
+                            <NavLink to="/u/jobs">Find Work</NavLink>
                         </li>
                         <li>
                             <details>
