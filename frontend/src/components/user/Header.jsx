@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
-import AuthContext from '../../context/AuthContext'
+import React, { useContext } from "react";
+import AuthContext from "../../context/AuthContext";
 import icon_alumni from "../../images/icon-alumni.png";
+import { NavLink, Link } from "react-router-dom";
 
 const Header = () => {
     let { logoutUser } = useContext(AuthContext);
@@ -51,20 +52,20 @@ const Header = () => {
                             </li>
                         </ul>
                     </div>
-                    <a className="btn btn-ghost text-xl text-white align-middle lg:flex hidden">
-                    {" "}
-                    <img
-                        src={icon_alumni}
-                        alt="Icon Alumni"
-                        className="hidden md:inline mr-2"
-                    />
-                    DLL Alumni Association
-                </a>
+                    <Link to="/u/" className="btn btn-ghost text-xl text-white align-middle lg:flex hidden">
+                        {" "}
+                        <img
+                            src={icon_alumni}
+                            alt="Icon Alumni"
+                            className="hidden md:inline mr-2"
+                        />
+                        DLL Alumni Association
+                    </Link>
                 </div>
                 <div className="navbar-center hidden lg:flex text-gray-400">
                     <ul className="menu menu-horizontal px-1">
                         <li>
-                            <a>Find Work</a>
+                            <NavLink to="/u/">Find Work</NavLink>
                         </li>
                         <li>
                             <details>
@@ -119,10 +120,12 @@ const Header = () => {
                             tabIndex={0}
                             className="bg-slate-800 menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow rounded-box w-52">
                             <li>
-                                <a className="justify-between">
+                                <NavLink
+                                    to="/u/my-profile/2"
+                                    className="justify-between">
                                     Profile
                                     <span className="badge">New</span>
-                                </a>
+                                </NavLink>
                             </li>
                             <li>
                                 <a>Settings</a>
