@@ -275,7 +275,7 @@ class AlumniMetricsSummary(ListAPIView):
             return percentage_change
         except ZeroDivisionError:
             # Handle the case where the old value is zero
-            return float("inf")
+            return None
 
 
 class TableAlumniPagination(PageNumberPagination):

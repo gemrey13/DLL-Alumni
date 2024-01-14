@@ -13,12 +13,24 @@ from .models import (
     Address,
     Job,
     JobCategory,
+    UserProfile
 )
 
+
+class UserProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = "__all__"
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
+        try:
+            user_profile = UserProfile.objects.get(user=user)
+            user_profile_serialized = UserProfileSerializer(user_profile)
+            
+        except UserProfile.DoesNotExist:
+            user_profile = None
         # try:
         # alumni_profile = AlumniProfile.objects.get(user=user)
         # alumni_profile_serialized = AlumniProfileSerializer(alumni_profile)
@@ -30,14 +42,13 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         # except CurrentJob.DoesNotExist:
         #     current_job_serialized = False
         token = super().get_token(user)
-
         token["username"] = user.username
         token["first_name"] = user.first_name
         token["last_name"] = user.last_name
         token["email"] = user.email
         token["is_staff"] = user.is_staff
         token["is_staff"] = user.is_superuser
-        # token['profile_info'] = alumni_profile_serialized.data
+        token['profile_info'] = user_profile_serialized.data
         # token['current_job'] = current_job_serialized.data if current_job_serialized else None
 
         return token

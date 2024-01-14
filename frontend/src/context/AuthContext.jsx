@@ -57,6 +57,7 @@ export const AuthProvider = ({ children }) => {
                 localStorage.setItem("authTokens", JSON.stringify(data));
                 setAuthTokens(data);
                 setUser(jwtDecode(data.access))
+                console.log(jwtDecode(data.access))
                 const temp = jwtDecode(data.access)
                 if (temp.is_staff) {
                     navigate('/admin')

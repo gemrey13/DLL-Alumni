@@ -45,7 +45,7 @@ const HomePage = () => {
                 <h1 className="text-4xl text-black-2 font-semibold">
                     Hi {user.first_name} ! 👋
                 </h1>
-                <Link to="/u/my-profile/" className="w-fit flex items-center">
+                <Link to="/u/my-profile/" className="w-fit flex hover:underline items-center">
                     <HiOutlinePencilAlt size={20} />
                     <p>Edit your profile</p>
                 </Link>
