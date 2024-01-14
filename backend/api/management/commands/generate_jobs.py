@@ -2,7 +2,7 @@ import random
 from django.core.management.base import BaseCommand
 from datetime import datetime, timedelta
 from faker import Faker
-from api.models import JobApplication, JobCategory, Job, UserProfile, UserSkill
+from api.models import JobApplication, JobCategory, Job, UserProfile, UserEducation, UserJob, Language, AccountLink
 from django.contrib.auth.models import User
 import numpy as np
 import json
@@ -72,6 +72,20 @@ class Command(BaseCommand):
             "Remote",
         ]
 
+        school_names = [
+            "Maplewood High School",
+            "Greenfield Elementary School",
+            "Pinecrest Middle School",
+            "Riverside Academy",
+            "Sunset Hills Elementary",
+            "Meadowbrook High School",
+            "Lakeview Junior High",
+            "Hilltop Elementary",
+            "Valley Forge High School",
+            "Springfield Middle School",
+        ]
+
+
         sample_bios = [
             "Passionate about technology and innovation. I love coding, exploring new frameworks, and building software solutions. Constantly seeking opportunities to expand my knowledge in the ever-evolving tech world.",
             "An artistic soul with a love for colors and forms. I express my creativity through various mediums, from traditional painting to digital design. Every creation tells a story, and I enjoy bringing imagination to life.",
@@ -80,6 +94,133 @@ class Command(BaseCommand):
         ]
 
         sex = ["Male", "Female"]
+
+        languages_list = [
+            "Tagalog",
+            "English",
+            "Spanish",
+            "French",
+            "German",
+            "Mandarin Chinese",
+            "Japanese",
+            "Korean",
+            "Arabic",
+            "Russian",
+            "Portuguese",
+            "Italian",
+            "Hindi",
+            "Swahili",
+            "Dutch",
+            "Swedish",
+            "Farsi (Persian)",
+            "Turkish",
+            "Vietnamese",
+            "Thai",
+            "Bahasa Indonesia",
+            "Malay",
+            "Filipino",
+            "Cebuano",
+            "Ilocano",
+        ]
+
+
+        school_years = [
+            "2021-2022",
+            "2020-2021",
+            "2019-2020",
+            "2018-2019",
+            "2017-2018",
+            "2016-2017",
+            "2015-2016",
+            "2014-2015",
+            "2013-2014",
+            "2012-2013",
+            "2011-2012",
+            "2010-2011",
+        ]
+
+        descriptions = [
+            "I am currently a college student with a focus on marketing. My coursework has provided me with a solid understanding of market trends, and I have applied this knowledge to practical projects. I am eager to contribute my creative and strategic thinking to a marketing role.",
+            
+            "My academic background is in civil engineering, and I am actively involved in hands-on projects related to structural design and construction. While I am still in college, my commitment to excellence and problem-solving skills make me a valuable asset to any engineering team.",
+            
+            "As a student in environmental engineering, my coursework has equipped me with the skills to address environmental challenges. I have actively participated in projects related to sustainability and conservation. I am eager to contribute to initiatives that prioritize environmental responsibility.",
+            
+            "I am pursuing a degree in nursing and have completed practical training in healthcare settings. My passion for patient care and my commitment to learning and adapting in dynamic environments position me as a dedicated and compassionate nursing student.",
+            
+            "I am a student majoring in sociology, and my coursework has provided me with a deep understanding of social structures and dynamics. I have actively engaged in community-based projects to apply my theoretical knowledge to real-world situations.",
+            
+            "My focus is on entrepreneurship and business analytics. Despite being in college, I have already developed and implemented data-driven strategies for small business ventures. I am excited to further refine my skills and contribute to the business world.",
+            
+            "I am a college student specializing in supply chain management. My coursework has equipped me with the knowledge of optimizing logistics and streamlining operations. I am eager to contribute my skills to organizations looking to enhance their supply chain processes.",
+            
+            "As a student majoring in criminal justice, I have gained a comprehensive understanding of the legal system and law enforcement. I am committed to social justice and am eager to apply my knowledge to contribute to a safer and more just society.",
+            
+            "I am currently pursuing a degree in medical laboratory science. Despite being in the early stages of my academic journey, I have gained practical experience in laboratory settings. I am eager to contribute to advancements in medical diagnostics and research.",
+            
+            "My academic focus is on human resources management. Through coursework and internships, I have developed a strong foundation in HR practices. I am eager to bring my interpersonal skills and organizational knowledge to a professional HR setting.",
+            
+            "I am a student with a concentration in finance. While I am still in college, I have actively engaged in financial analysis projects, honing my skills in budgeting and financial modeling. I am excited to contribute my analytical mindset to finance roles.",
+            
+            "In the field of architecture, I am a student with a passion for innovative design and sustainable practices. My coursework has provided me with a strong foundation in architectural principles, and I am eager to contribute to projects that prioritize both aesthetics and functionality.",
+            
+            "I am currently majoring in mobile app development. Despite being a student, I have successfully completed app development projects, showcasing my proficiency in programming languages. I am excited to apply my skills to contribute to the ever-evolving mobile technology landscape.",
+            
+            "My academic focus is on project management. Through coursework and practical projects, I have developed strong organizational and leadership skills. I am eager to contribute to the successful execution of projects in a professional setting.",
+        ]
+
+        specialties = [
+            # Technology Fields
+            "Web Development",
+            "Data Science",
+            "Cybersecurity",
+            "Mobile App Development",
+            "Network Administration",
+            "Software Engineering",
+            "Database Management",
+            
+            # Non-Technology Fields
+            "Public Administration",
+            "Accounting",
+            "Marketing",
+            "Human Resources Management",
+            "Project Management",
+            "Finance",
+            
+            # Construction and Engineering
+            "Civil Engineering",
+            "Architecture",
+            "Construction Management",
+            "Environmental Engineering",
+            
+            # Health Sciences
+            "Nursing",
+            "Physical Therapy",
+            "Medical Laboratory Science",
+            
+            # Social Sciences
+            "Psychology",
+            "Sociology",
+            "Criminal Justice",
+            
+            # Business
+            "Entrepreneurship",
+            "Business Analytics",
+            "Supply Chain Management",
+        ]
+
+        courses = [
+            "Bachelor of Science in Information Technology",
+            "Bachelor of Computer Science",
+            "Bachelor of Information Systems",
+            "Bachelor of Software Engineering",
+            "Bachelor of Cybersecurity",
+            "Bachelor of Data Science",
+            "Bachelor of Business Information Systems",
+            "Bachelor of Computer Engineering",
+            "Bachelor of Network Administration",
+            "Bachelor of Mobile App Development",
+        ]
 
         job_categories = [
             "Programming",
@@ -134,6 +275,24 @@ class Command(BaseCommand):
             "DHRS",
         ]
 
+        account_links = [
+            "https://www.facebook.com/user123",
+            "https://www.twitter.com/user123",
+            "https://www.linkedin.com/in/user123",
+            "https://www.instagram.com/user123",
+            "https://www.github.com/user123",
+            "https://www.pinterest.com/user123",
+            "https://www.snapchat.com/add/user123",
+            "https://www.tiktok.com/@user123",
+            "https://www.reddit.com/user/user123",
+            "https://www.behance.net/user123",
+            "https://www.youtube.com/user/user123",
+            "https://www.medium.com/@user123",
+            "https://www.twitch.tv/user123",
+            "https://www.spotify.com/user/user123",
+        ]
+
+
         User.objects.create_superuser(
             username="admin",
             password="admin",
@@ -145,6 +304,9 @@ class Command(BaseCommand):
         print("Admin Profile Generated", end="\n\n\n")
 
         categories = [JobCategory(name=i) for i in job_categories]
+
+        languages = [Language.objects.create(name=i) for i in languages_list]
+
         JobCategory.objects.bulk_create(categories)
 
         with transaction.atomic():
@@ -154,13 +316,33 @@ class Command(BaseCommand):
                 username = f"{first_name}_{last_name}"
                 email = f"{first_name}{last_name}_{job}@gmail.com"
 
-                user = User.objects.create(
+                user = User.objects.create_user(
                     username=username,
-                    password="123",
+                    password="Aa09205814477",
                     first_name=first_name,
                     last_name=last_name,
                     email=email,
                 )
+
+                for _ in range(random.randint(1, 4)):
+                    AccountLink.objects.create(
+                        user=user,
+                        link=random.choice(account_links)
+                    )
+
+                user_education = UserEducation.objects.create(
+                    user=user,
+                    school_name=random.choice(school_names),
+                    course=random.choice(courses),
+                    school_year=random.choice(school_years)
+                )
+
+                user_job = UserJob.objects.create(
+                    user=user,
+                    specialty=random.choice(specialties),
+                    description=random.choice(descriptions)
+                )
+
 
                 user_profile, created = UserProfile.objects.get_or_create(
                     user=user,
@@ -172,7 +354,6 @@ class Command(BaseCommand):
                 )
 
                 if not created:
-                    # UserProfile already exists, update fields if needed
                     user_profile.bio = random.choice(sample_bios)
                     user_profile.sex = random.choice(sex)
                     user_profile.course = random.choice(course_list)
@@ -181,7 +362,15 @@ class Command(BaseCommand):
                 user_skills = [
                     random.choice(categories) for _ in range(random.randint(1, 4))
                 ]
+
+                user_languages = [
+                    random.choice(languages) for _ in range(random.randint(1, 4))
+                ]
+
+                user_profile.save()
+
                 user_profile.skills.set(user_skills)
+                user_profile.languages.set(user_languages)
 
             users = User.objects.all()
 

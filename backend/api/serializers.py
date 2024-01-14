@@ -13,8 +13,29 @@ from .models import (
     Address,
     Job,
     JobCategory,
-    UserProfile
+    UserProfile,
+    UserJob,
+    UserEducation,
+    AccountLink,
+    UserSkill
 )
+
+
+class UserJobSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserJob
+        fields = "__all__"
+
+
+class UserEducationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserEducation
+        fields = "__all__"
+
+class AccountLinkSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AccountLink
+        fields = "__all__"
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -28,19 +49,30 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         try:
             user_profile = UserProfile.objects.get(user=user)
             user_profile_serialized = UserProfileSerializer(user_profile)
-            
+
+            user_job = UserJob.objects.get(user=user)
+            user_job_serialized = UserJobSerializer(user_job)
+
+            user_education = UserEducation.objects.get(user=user)
+            user_education_serialized = UserEducationSerializer(user_education)
+
+            accounts = AccountLink.objects.filter(user=user)
+            accounts_serialized = AccountLinkSerializer(accounts, many=True)
+
+            user_skills = UserSkill.objects.filter(user_profile=user_profile)
+            skill_ids = [skill.category_id for skill in user_skills]
+            skill_names = JobCategory.objects.filter(id__in=skill_ids).values_list('name', flat=True)
+            user_skills_serialized = {'skills': list(skill_names)}
+
         except UserProfile.DoesNotExist:
             user_profile = None
-        # try:
-        # alumni_profile = AlumniProfile.objects.get(user=user)
-        # alumni_profile_serialized = AlumniProfileSerializer(alumni_profile)
+        except UserJob.DoesNotExist:
+            user_job = None
+        except UserEducation.DoesNotExist:
+            user_education = None
+        except AccountLink.DoesNotExist:
+            accounts = None
 
-        # current_job = CurrentJob.objects.get(alumni=alumni_profile)
-        # current_job_serialized = CurrentJobSerializer(current_job)
-        # except AlumniProfile.DoesNotExist:
-        #     alumni_profile = None
-        # except CurrentJob.DoesNotExist:
-        #     current_job_serialized = False
         token = super().get_token(user)
         token["username"] = user.username
         token["first_name"] = user.first_name
@@ -49,7 +81,17 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token["is_staff"] = user.is_staff
         token["is_staff"] = user.is_superuser
         token['profile_info'] = user_profile_serialized.data
-        # token['current_job'] = current_job_serialized.data if current_job_serialized else None
+
+        languages = user_profile.languages.all()
+        language_names = [language.name for language in languages]
+
+        token['profile_info']['languages'] = language_names
+        token['profile_info']['skills'] = language_names
+
+        token['user_job'] = user_job_serialized.data
+        token['user_education'] = user_education_serialized.data
+        token['account_links'] = accounts_serialized.data
+        token['profile_info']['skills'] = user_skills_serialized
 
         return token
 

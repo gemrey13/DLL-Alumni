@@ -20,11 +20,37 @@ class UserSkill(models.Model):
         unique_together = ("user_profile", "category")
 
 
+class Language(models.Model):
+    name = models.CharField(max_length=100)
+
+
+class AccountLink(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="account_links"
+    )
+    link = models.URLField()
+
+
+class UserEducation(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    school_name = models.CharField(max_length=255)
+    course = models.CharField(max_length=255)
+    school_year = models.CharField(max_length=255)
+
+
+class UserJob(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    specialty = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     bio = models.TextField(blank=True)
     sex = models.CharField(max_length=64)
-    course = models.CharField(max_length=255)
+    languages = models.ManyToManyField(
+        "Language", related_name="user_profiles", blank=True
+    )
     skills = models.ManyToManyField(
         JobCategory, through=UserSkill, related_name="user_profiles", blank=True
     )
