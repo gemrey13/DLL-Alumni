@@ -1,6 +1,6 @@
 import React from "react";
 import icon_alumni from "../../images/icon-alumni.png";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 function Navbar() {
     return (
@@ -50,7 +50,7 @@ function Navbar() {
                         </li>
                     </ul>
                 </div>
-                <a className="btn btn-ghost text-xl text-white align-middle lg:flex hidden md:block">
+                <Link to="/" className="btn btn-ghost text-xl text-white align-middle lg:flex hidden md:block">
                     {" "}
                     <img
                         src={icon_alumni}
@@ -58,7 +58,7 @@ function Navbar() {
                         className="hidden md:inline mr-2"
                     />
                     DLL Alumni Association
-                </a>
+                </Link>
             </div>
 
             <div className="navbar-end">
