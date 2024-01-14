@@ -43,23 +43,23 @@ const Profile = () => {
                     <div className="mb-12">
                         <h3 className="text-black-2 text-2xl mb-4 font-medium">Education</h3>
 
-                        <p className="text-black text-lg font-medium">Dalubhasaang Lungsod ng Lucena</p>
+                        <p className="text-black text-lg font-medium">{user.user_education.school_name}</p>
                         <p className="font-medium">
-                            Bachelor of Science in Information Technology, Web
-                            development 2021-2024
+                            {user.user_education.course} {user.user_education.school_year}
                         </p>
                     </div>
 
                     <div className="mb-12">
                         <h3 className="text-black-2 text-2xl font-medium">Gender</h3>
-                        <p className="text-black text-lg font-medium">Male</p>
+                        <p className="text-black text-lg font-medium">{user.profile_info.sex}</p>
                     </div>
 
                     <div className="mb-12">
                         <h3 className="text-black-2 text-2xl font-medium">Languages</h3>
                         <ul>
-                            <li className="text-black text-lg font-medium">English: <span>Conversational</span></li>
-                            <li className="text-black text-lg font-medium">Tagalog: <span>Native or Bilingual</span></li>
+                            {user.profile_info.languages.map((lang, index) => (
+                                <li key={index} className="text-black text-lg font-medium">{lang}: <span>Conversational</span></li>
+                            ))}
                         </ul>
                     </div>
 
@@ -67,8 +67,9 @@ const Profile = () => {
                         <h3 className="text-black-2 text-2xl font-medium">Account Links</h3>
 
                         <ul>
-                            <li className="text-black text-lg font-medium">facebook.com</li>
-                            <li className="text-black text-lg font-medium">instagram.com</li>
+                            {user.account_links.map((link, index) => (
+                                <li key={index} className="text-black text-lg font-medium">{link.link}</li>
+                            ))}
                         </ul>
                     </div>
                 </aside>
@@ -100,25 +101,11 @@ const Profile = () => {
                         <h1 className="text-black-2 font-medium text-2xl pb-4">
                             Skills
                         </h1>
-                        <p className="badge badge-outline ml-0 m-4">
-                            Responsive Design
-                        </p>
-                        <p className="badge badge-outline ml-0 m-4">React</p>
-                        <p className="badge badge-outline ml-0 m-4">Django</p>
-                        <p className="badge badge-outline ml-0 m-4">
-                            Web Application
-                        </p>
-                        <p className="badge badge-outline ml-0 m-4">
-                            Web Development
-                        </p>
-                        <p className="badge badge-outline ml-0 m-4">
-                            JavaScript
-                        </p>
-                        <p className="badge badge-outline ml-0 m-4">PHP</p>
-                        <p className="badge badge-outline ml-0 m-4">Linux</p>
-                        <p className="badge badge-outline ml-0 m-4">
-                            Tailwind CSS
-                        </p>
+                        {user.profile_info.skills.skills.map((skill, index) => (
+                            <p key={index} className="badge badge-outline ml-0 m-4">
+                                {skill}
+                            </p>
+                        ))}
                     </section>
                 </section>
             </section>
