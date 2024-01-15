@@ -22,7 +22,7 @@ const Profile = () => {
                         </h1>
                         <p className="flex gap-2 text-sm lg:text-base font-semibold items-center">
                             <HiOutlineLocationMarker />
-                            Lucena City - {user.email}
+                            {user.profile_info.location} - {user.email}
                         </p>
                     </div>
 
@@ -88,7 +88,7 @@ const Profile = () => {
                             Work experience
                         </h1>
                         {user.user_work_experience.map((experience, index) => (
-                            <p>{experience.content}</p>
+                            <p key={index}>{experience.content}</p>
                         ))}
                     </section>
                     <section className="border-b border-slate-800 p-8">

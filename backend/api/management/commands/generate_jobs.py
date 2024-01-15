@@ -297,6 +297,21 @@ class Command(BaseCommand):
             "Developed and executed social media campaigns to boost brand awareness. Monitored engagement metrics and adjusted strategies for optimal results. Increased social media following by 30% within six months, contributing to overall brand growth.",
         ]
 
+        work_locations = [
+            "Manila, Philippines",
+            "Cebu City, Philippines",
+            "Quezon City, Philippines",
+            "Davao City, Philippines",
+            "Makati City, Philippines",
+            "Taguig City, Philippines",
+            "Pasig City, Philippines",
+            "Cagayan de Oro, Philippines",
+            "Iloilo City, Philippines",
+            "Baguio City, Philippines",
+            "Antipolo City, Philippines",
+            "Zamboanga City, Philippines"
+        ]
+
         User.objects.create_superuser(
             username="admin",
             password="admin",
@@ -322,7 +337,7 @@ class Command(BaseCommand):
 
                 user = User.objects.create_user(
                     username=username,
-                    password="Aa09205814477",
+                    password="123",
                     first_name=first_name,
                     last_name=last_name,
                     email=email,
@@ -356,6 +371,7 @@ class Command(BaseCommand):
                         "bio": random.choice(sample_bios),
                         "sex": random.choice(sex),
                         "course": random.choice(course_list),
+                        "location": random.choice(work_locations),
                     },
                 )
 
@@ -363,6 +379,7 @@ class Command(BaseCommand):
                     user_profile.bio = random.choice(sample_bios)
                     user_profile.sex = random.choice(sex)
                     user_profile.course = random.choice(course_list)
+                    user_profile.location = random.choice(work_locations)
                     user_profile.save()
 
                 user_skills = [

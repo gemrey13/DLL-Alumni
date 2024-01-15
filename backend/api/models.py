@@ -51,6 +51,7 @@ class UserWorkExperience(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+    location = models.CharField(max_length=255)
     bio = models.TextField(blank=True)
     sex = models.CharField(max_length=64)
     languages = models.ManyToManyField(
