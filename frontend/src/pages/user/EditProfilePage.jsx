@@ -1,5 +1,6 @@
 import React from "react";
 import { Tab } from "@headlessui/react";
+import UserAccountForm from "../../components/forms/UserAccountForm";
 
 const EditProfilePage = () => {
     return (
@@ -12,7 +13,9 @@ const EditProfilePage = () => {
                         <Tab className="w-[30%] p-2">Notification</Tab>
                     </Tab.List>
                     <Tab.Panels className="">
-                        <Tab.Panel>Content 1</Tab.Panel>
+                        <Tab.Panel>
+                            <UserAccountForm />
+                        </Tab.Panel>
                         <Tab.Panel>Content 2</Tab.Panel>
                         <Tab.Panel>Content 3</Tab.Panel>
                     </Tab.Panels>
