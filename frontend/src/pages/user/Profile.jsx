@@ -22,7 +22,7 @@ const Profile = () => {
                         </h1>
                         <p className="flex gap-2 text-sm lg:text-base font-semibold items-center">
                             <HiOutlineLocationMarker />
-                            Lucena City - 12:34 am
+                            Lucena City - {user.email}
                         </p>
                     </div>
 
@@ -77,25 +77,25 @@ const Profile = () => {
                 <section className="flex-1 w-full lg:w-3/4 border-slate-800 border-x lg:border-r lg:border-l-0">
                     <header className="border-b border-slate-800 p-8">
                         <h1 className="text-black-2 font-medium text-2xl pb-6">
-                            Web Developer | Django | Python | ReactJs
+                            {user.user_job.specialty}
                         </h1>
                         <p className="">
-                            My work focuses more on Web development. Im still in
-                            college so i have a little amount of experience but
-                            i done enough project to get a work here.
+                            {user.user_job.description}
                         </p>
                     </header>
                     <section className="border-b border-slate-800 p-8">
                         <h1 className="text-black-2 font-medium text-2xl pb-4">
-                            Work history
+                            Work experience
                         </h1>
-                        <p>No items</p>
+                        {user.user_work_experience.map((experience, index) => (
+                            <p>{experience.content}</p>
+                        ))}
                     </section>
                     <section className="border-b border-slate-800 p-8">
                         <h1 className="text-black-2 font-medium text-2xl pb-4">
                             BIO
                         </h1>
-                        <p>No items</p>
+                        <p>{user.profile_info.bio}</p>
                     </section>
                     <section className="border-b border-slate-800 p-8">
                         <h1 className="text-black-2 font-medium text-2xl pb-4">

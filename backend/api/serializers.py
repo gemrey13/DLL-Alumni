@@ -17,7 +17,8 @@ from .models import (
     UserJob,
     UserEducation,
     AccountLink,
-    UserSkill
+    UserSkill,
+    UserWorkExperience
 )
 
 
@@ -37,6 +38,11 @@ class AccountLinkSerializer(serializers.ModelSerializer):
         model = AccountLink
         fields = "__all__"
 
+
+class UserWorkExperienceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserWorkExperience
+        fields = '__all__'
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
@@ -64,6 +70,11 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             skill_names = JobCategory.objects.filter(id__in=skill_ids).values_list('name', flat=True)
             user_skills_serialized = {'skills': list(skill_names)}
 
+
+            user_work_experience = UserWorkExperience.objects.filter(user=user)
+            user_work_experience_serializer = UserWorkExperienceSerializer(user_work_experience, many=True)
+
+
         except UserProfile.DoesNotExist:
             user_profile = None
         except UserJob.DoesNotExist:
@@ -72,6 +83,8 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             user_education = None
         except AccountLink.DoesNotExist:
             accounts = None
+        except UserWorkExperience.DoesNotExist:
+            user_work_experience = None
 
         token = super().get_token(user)
         token["username"] = user.username
@@ -89,6 +102,7 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['profile_info']['skills'] = language_names
 
         token['user_job'] = user_job_serialized.data
+        token['user_work_experience'] = user_work_experience_serializer.data
         token['user_education'] = user_education_serialized.data
         token['account_links'] = accounts_serialized.data
         token['profile_info']['skills'] = user_skills_serialized

@@ -2,7 +2,17 @@ import random
 from django.core.management.base import BaseCommand
 from datetime import datetime, timedelta
 from faker import Faker
-from api.models import JobApplication, JobCategory, Job, UserProfile, UserEducation, UserJob, Language, AccountLink
+from api.models import (
+    JobApplication,
+    JobCategory,
+    Job,
+    UserProfile,
+    UserEducation,
+    UserJob,
+    Language,
+    AccountLink,
+    UserWorkExperience,
+)
 from django.contrib.auth.models import User
 import numpy as np
 import json
@@ -85,7 +95,6 @@ class Command(BaseCommand):
             "Springfield Middle School",
         ]
 
-
         sample_bios = [
             "Passionate about technology and innovation. I love coding, exploring new frameworks, and building software solutions. Constantly seeking opportunities to expand my knowledge in the ever-evolving tech world.",
             "An artistic soul with a love for colors and forms. I express my creativity through various mediums, from traditional painting to digital design. Every creation tells a story, and I enjoy bringing imagination to life.",
@@ -123,7 +132,6 @@ class Command(BaseCommand):
             "Ilocano",
         ]
 
-
         school_years = [
             "2021-2022",
             "2020-2021",
@@ -141,31 +149,18 @@ class Command(BaseCommand):
 
         descriptions = [
             "I am currently a college student with a focus on marketing. My coursework has provided me with a solid understanding of market trends, and I have applied this knowledge to practical projects. I am eager to contribute my creative and strategic thinking to a marketing role.",
-            
             "My academic background is in civil engineering, and I am actively involved in hands-on projects related to structural design and construction. While I am still in college, my commitment to excellence and problem-solving skills make me a valuable asset to any engineering team.",
-            
             "As a student in environmental engineering, my coursework has equipped me with the skills to address environmental challenges. I have actively participated in projects related to sustainability and conservation. I am eager to contribute to initiatives that prioritize environmental responsibility.",
-            
             "I am pursuing a degree in nursing and have completed practical training in healthcare settings. My passion for patient care and my commitment to learning and adapting in dynamic environments position me as a dedicated and compassionate nursing student.",
-            
             "I am a student majoring in sociology, and my coursework has provided me with a deep understanding of social structures and dynamics. I have actively engaged in community-based projects to apply my theoretical knowledge to real-world situations.",
-            
             "My focus is on entrepreneurship and business analytics. Despite being in college, I have already developed and implemented data-driven strategies for small business ventures. I am excited to further refine my skills and contribute to the business world.",
-            
             "I am a college student specializing in supply chain management. My coursework has equipped me with the knowledge of optimizing logistics and streamlining operations. I am eager to contribute my skills to organizations looking to enhance their supply chain processes.",
-            
             "As a student majoring in criminal justice, I have gained a comprehensive understanding of the legal system and law enforcement. I am committed to social justice and am eager to apply my knowledge to contribute to a safer and more just society.",
-            
             "I am currently pursuing a degree in medical laboratory science. Despite being in the early stages of my academic journey, I have gained practical experience in laboratory settings. I am eager to contribute to advancements in medical diagnostics and research.",
-            
             "My academic focus is on human resources management. Through coursework and internships, I have developed a strong foundation in HR practices. I am eager to bring my interpersonal skills and organizational knowledge to a professional HR setting.",
-            
             "I am a student with a concentration in finance. While I am still in college, I have actively engaged in financial analysis projects, honing my skills in budgeting and financial modeling. I am excited to contribute my analytical mindset to finance roles.",
-            
             "In the field of architecture, I am a student with a passion for innovative design and sustainable practices. My coursework has provided me with a strong foundation in architectural principles, and I am eager to contribute to projects that prioritize both aesthetics and functionality.",
-            
             "I am currently majoring in mobile app development. Despite being a student, I have successfully completed app development projects, showcasing my proficiency in programming languages. I am excited to apply my skills to contribute to the ever-evolving mobile technology landscape.",
-            
             "My academic focus is on project management. Through coursework and practical projects, I have developed strong organizational and leadership skills. I am eager to contribute to the successful execution of projects in a professional setting.",
         ]
 
@@ -178,7 +173,6 @@ class Command(BaseCommand):
             "Network Administration",
             "Software Engineering",
             "Database Management",
-            
             # Non-Technology Fields
             "Public Administration",
             "Accounting",
@@ -186,23 +180,19 @@ class Command(BaseCommand):
             "Human Resources Management",
             "Project Management",
             "Finance",
-            
             # Construction and Engineering
             "Civil Engineering",
             "Architecture",
             "Construction Management",
             "Environmental Engineering",
-            
             # Health Sciences
             "Nursing",
             "Physical Therapy",
             "Medical Laboratory Science",
-            
             # Social Sciences
             "Psychology",
             "Sociology",
             "Criminal Justice",
-            
             # Business
             "Entrepreneurship",
             "Business Analytics",
@@ -292,6 +282,20 @@ class Command(BaseCommand):
             "https://www.spotify.com/user/user123",
         ]
 
+        work_experience = [
+            "Managed customer service inquiries and resolved issues promptly. Utilized effective communication skills to address customer concerns and enhance overall satisfaction. Implemented a new ticketing system, resulting in a 20% reduction in response time.",
+            "Developed and implemented marketing strategies to increase sales. Conducted market research to identify opportunities and devised targeted campaigns. Collaborated with the sales team to analyze customer feedback and adjust strategies accordingly.",
+            "Coordinated and led team meetings to discuss project progress. Facilitated open communication among team members, fostering a collaborative work environment. Monitored project timelines and identified potential roadblocks, implementing proactive solutions.",
+            "Performed data analysis to identify trends and insights. Utilized tools such as Python and SQL to extract and analyze data. Generated comprehensive reports for stakeholders, informing strategic decision-making processes.",
+            "Provided technical support for software applications. Assisted end-users with troubleshooting and problem-solving. Collaborated with the development team to communicate user feedback and improve software functionality.",
+            "Conducted training sessions for new employees on company policies. Developed training materials and conducted orientation sessions for new hires. Ensured a smooth onboarding process, contributing to high employee satisfaction rates.",
+            "Collaborated with cross-functional teams to deliver successful projects. Worked closely with departments such as marketing, sales, and development to ensure cohesive project execution. Facilitated effective communication and resource allocation.",
+            "Streamlined internal processes, resulting in improved efficiency. Conducted process audits and identified areas for improvement. Implemented changes that reduced workflow bottlenecks and enhanced overall productivity.",
+            "Handled financial reporting and budgeting for the department. Prepared monthly financial statements and analyzed variances. Collaborated with the finance team to develop annual budgets and forecasts.",
+            "Led a team of developers in the creation of a new software product. Managed project timelines, allocated resources, and ensured adherence to quality standards. Coordinated testing and feedback cycles, leading to a successful product launch.",
+            "Implemented a customer relationship management (CRM) system to enhance client interactions. Trained sales and support teams on CRM usage and customization. Increased customer satisfaction by 25% through improved communication and personalized service.",
+            "Developed and executed social media campaigns to boost brand awareness. Monitored engagement metrics and adjusted strategies for optimal results. Increased social media following by 30% within six months, contributing to overall brand growth.",
+        ]
 
         User.objects.create_superuser(
             username="admin",
@@ -313,7 +317,7 @@ class Command(BaseCommand):
             for job in range(1, 100):
                 first_name = fake.first_name()
                 last_name = fake.last_name()
-                username = f"{first_name}_{last_name}"
+                username = f"{first_name}_{last_name}_{job}"
                 email = f"{first_name}{last_name}_{job}@gmail.com"
 
                 user = User.objects.create_user(
@@ -326,23 +330,25 @@ class Command(BaseCommand):
 
                 for _ in range(random.randint(1, 4)):
                     AccountLink.objects.create(
-                        user=user,
-                        link=random.choice(account_links)
+                        user=user, link=random.choice(account_links)
                     )
 
                 user_education = UserEducation.objects.create(
                     user=user,
                     school_name=random.choice(school_names),
                     course=random.choice(courses),
-                    school_year=random.choice(school_years)
+                    school_year=random.choice(school_years),
+                )
+
+                user_work_exprience = UserWorkExperience.objects.create(
+                    user=user, content=random.choice(work_experience)
                 )
 
                 user_job = UserJob.objects.create(
                     user=user,
                     specialty=random.choice(specialties),
-                    description=random.choice(descriptions)
+                    description=random.choice(descriptions),
                 )
-
 
                 user_profile, created = UserProfile.objects.get_or_create(
                     user=user,

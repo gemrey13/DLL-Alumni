@@ -44,6 +44,11 @@ class UserJob(models.Model):
     description = models.TextField(blank=True)
 
 
+class UserWorkExperience(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    content = models.TextField(blank=True)
+
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
     bio = models.TextField(blank=True)
