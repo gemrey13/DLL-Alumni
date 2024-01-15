@@ -230,13 +230,18 @@ class Command(BaseCommand):
         ]
 
         job_descriptions = [
-            "Software Engineer: Design, develop, and maintain software applications, analyze user needs, and implement efficient solutions.",
-            "Marketing Specialist: Plan and execute marketing campaigns, analyze market trends, and develop strategies to promote products/services.",
-            "Data Analyst: Collect and analyze data, create reports, and provide insights to support business decision-making.",
-            "Graphic Designer: Create visual concepts, design layouts, and produce high-quality graphics for various marketing materials.",
-            "Financial Analyst: Conduct financial analysis, prepare budgets, and provide recommendations to improve financial performance.",
-            "Customer Support Representative: Assist customers with inquiries, resolve issues, and provide excellent service via phone, email, or chat.",
-            "Project Manager: Plan, execute, and oversee projects, manage resources, and ensure successful project delivery within deadlines.",
+            "Software Engineer: Design, develop, and maintain scalable software solutions. Collaborate with cross-functional teams to analyze project requirements and implement efficient coding practices. Troubleshoot and debug applications, ensuring optimal performance and user experience.",
+            "Marketing Manager: Develop comprehensive marketing strategies to enhance brand visibility and drive customer engagement. Analyze market trends, conduct competitor research, and identify opportunities for growth. Oversee the execution of integrated marketing campaigns across various channels, including digital and traditional media.",
+            "Data Scientist: Leverage statistical methods and machine learning techniques to extract actionable insights from complex datasets. Build predictive models for forecasting and trend analysis. Collaborate with business stakeholders to communicate findings effectively and contribute to data-driven decision-making.",
+            "Human Resources Specialist: Manage end-to-end recruitment processes, from job posting to candidate selection. Conduct employee onboarding programs, ensuring a smooth transition for new hires. Address HR-related inquiries, administer benefits, and contribute to the development of HR policies.",
+            "Project Manager: Lead and coordinate project teams to ensure successful project delivery within scope, time, and budget constraints. Develop and maintain project plans, identifying risks and implementing mitigation strategies. Foster effective communication among team members and stakeholders.",
+            "Graphic Designer: Conceptualize and create visually appealing designs for various marketing materials, including digital and print assets. Collaborate with clients to understand design requirements and deliver creative solutions. Stay updated on design trends and technologies.",
+            "Customer Support Representative: Provide exceptional customer service by addressing product inquiries, resolving issues, and ensuring customer satisfaction. Collaborate with internal teams to escalate and resolve complex problems. Continuously identify areas for process improvement to enhance the overall customer experience.",
+            "Operations Manager: Streamline internal processes to optimize efficiency and productivity. Oversee day-to-day operations, including supply chain management, resource allocation, and quality control. Implement strategic initiatives to improve operational performance and achieve organizational goals.",
+            "Sales Representative: Identify and pursue sales opportunities, building and maintaining strong client relationships. Analyze market trends, customer needs, and competitor activities to position products effectively. Achieve and exceed sales targets through effective negotiation and communication skills.",
+            "Financial Analyst: Conduct financial analysis, prepare budgets, and provide recommendations to improve financial performance. Analyze market trends and economic conditions to support strategic decision-making. Collaborate with various departments to ensure accurate financial reporting.",
+            "Network Administrator: Manage and maintain computer networks, ensuring smooth operation and security. Install, support, and manage the networks and computer systems within an organization. Troubleshoot network and system issues, and implement necessary upgrades and improvements.",
+            "Content Writer: Develop engaging and relevant content for various platforms, including websites, blogs, and social media. Research industry trends and create content strategies to reach target audiences. Collaborate with marketing teams to align content with overall brand messaging.",
         ]
 
         locations = [
@@ -309,7 +314,7 @@ class Command(BaseCommand):
             "Iloilo City, Philippines",
             "Baguio City, Philippines",
             "Antipolo City, Philippines",
-            "Zamboanga City, Philippines"
+            "Zamboanga City, Philippines",
         ]
 
         User.objects.create_superuser(

@@ -1,7 +1,9 @@
 import React, {useContext} from "react";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 import AuthContext from "../../context/AuthContext";
-
+import {
+    descriptionFormatter,
+} from "../../utils/formatting";
 
 const Profile = () => {
     let { user } = useContext(AuthContext);
@@ -88,14 +90,14 @@ const Profile = () => {
                             Work experience
                         </h1>
                         {user.user_work_experience.map((experience, index) => (
-                            <p key={index}>{experience.content}</p>
+                            <p key={index}>{descriptionFormatter(experience.content)}</p>
                         ))}
                     </section>
                     <section className="border-b border-slate-800 p-8">
                         <h1 className="text-black-2 font-medium text-2xl pb-4">
                             BIO
                         </h1>
-                        <p>{user.profile_info.bio}</p>
+                        <p>{descriptionFormatter(user.profile_info.bio)}</p>
                     </section>
                     <section className="border-b border-slate-800 p-8">
                         <h1 className="text-black-2 font-medium text-2xl pb-4">

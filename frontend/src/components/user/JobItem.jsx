@@ -38,7 +38,7 @@ const JobItem = ({ data }) => {
                                     )}{" "}
                                     - {job_item.Job_type}
                                 </p>
-                                <p className="text-black-2">
+                                <p className="text-black-2 line-clamp-2">
                                     {job_item.description}
                                 </p>
                                 <p className="text-md">
