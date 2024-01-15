@@ -6,6 +6,8 @@ import baseURL from "@/apiConfig";
 import toast from "react-hot-toast";
 import { HiOutlinePencilAlt } from "react-icons/hi";
 import { Link } from "react-router-dom";
+import Loader from "../../common/Loader";
+
 
 const HomePage = () => {
     let { user } = useContext(AuthContext);
@@ -36,7 +38,11 @@ const HomePage = () => {
     };
 
     if (data.length === 0) {
-        return <div>Loading</div>;
+        return (
+            <div className="h-screen align-middle">
+                <Loader />
+            </div>
+        );
     }
 
     return (
@@ -45,7 +51,9 @@ const HomePage = () => {
                 <h1 className="text-4xl text-black-2 font-semibold">
                     Hi {user.first_name} ! 👋
                 </h1>
-                <Link to="/u/my-profile/" className="w-fit flex hover:underline items-center">
+                <Link
+                    to="/u/my-profile/"
+                    className="w-fit flex hover:underline items-center">
                     <HiOutlinePencilAlt size={20} />
                     <p>Edit your profile</p>
                 </Link>

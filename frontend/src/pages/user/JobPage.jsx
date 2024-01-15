@@ -5,6 +5,7 @@ import AuthContext from "../../context/AuthContext";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import baseURL from "@/apiConfig";
+import Loader from "../../common/Loader";
 
 const JobPage = () => {
     const { register, watch } = useForm();
@@ -17,6 +18,8 @@ const JobPage = () => {
     const [jobCategory, setJobCategory] = useState([]);
     const [jobType, setJobType] = useState([]);
     const [nextPage, setNextPage] = useState(null);
+
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetchData();
@@ -92,6 +95,7 @@ const JobPage = () => {
             });
             setNextPage(response.data.next);
             setData(response.data.results);
+            setLoading(false);
         } catch (error) {
             setData([]);
         }
@@ -107,6 +111,14 @@ const JobPage = () => {
             setNextPage(null);
         }
     };
+
+    if (loading) {
+        return (
+            <div className="h-screen align-middle">
+                <Loader />
+            </div>
+        );
+    }
 
     return (
         <>
@@ -139,9 +151,7 @@ const JobPage = () => {
                             <select
                                 {...register("job_category_mobile")}
                                 className="select select-sm border-gray-400 w-full max-w-xs">
-                                <option value="">
-                                    Select Categories
-                                </option>
+                                <option value="">Select Categories</option>
                                 {jobCategory.map((category, index) => (
                                     <option key={index} value={category}>
                                         {category}
@@ -280,9 +290,7 @@ const JobPage = () => {
                             <select
                                 {...register("Job_type_mobile")}
                                 className="select select-sm border-gray-400 w-full max-w-xs">
-                                <option value="">
-                                    Select Job Type
-                                </option>
+                                <option value="">Select Job Type</option>
                                 {jobType.map((type, index) => (
                                     <option key={index} value={type}>
                                         {type}
@@ -312,9 +320,7 @@ const JobPage = () => {
                     <select
                         {...register("job_category")}
                         className="select select-sm border-gray-400 w-full max-w-xs">
-                        <option value="">
-                            Select Categories
-                        </option>
+                        <option value="">Select Categories</option>
                         {jobCategory.map((category, index) => (
                             <option key={index} value={category}>
                                 {category}
@@ -455,9 +461,7 @@ const JobPage = () => {
                     <select
                         {...register("Job_type")}
                         className="select select-sm border-gray-400 w-full max-w-xs">
-                        <option value="">
-                            Select Job Type
-                        </option>
+                        <option value="">Select Job Type</option>
                         {jobType.map((type, index) => (
                             <option key={index} value={type}>
                                 {type}
@@ -470,9 +474,7 @@ const JobPage = () => {
                     <select
                         {...register("sort_by")}
                         className="self-end select select-sm border-gray-400 mb-8 max-w-xs hidden md:block">
-                        <option value="">
-                            Sort by:
-                        </option>
+                        <option value="">Sort by:</option>
                         <option value="newest">Newest</option>
                         <option value="oldest">Oldest</option>
                         <option value="relevance">Relevance</option>
