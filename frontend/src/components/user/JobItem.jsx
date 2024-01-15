@@ -1,55 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import {
+    formatSalary,
+    getExperienceLevel,
+    calculateTimeElapsed,
+    isNewJob,
+} from "../../utils/formatting";
 
 const JobItem = ({ data }) => {
-    const formatSalary = (salary) => {
-        return new Intl.NumberFormat("en-PH", {
-            style: "currency",
-            currency: "PHP",
-            minimumFractionDigits: 0,
-        }).format(salary);
-    };
-    const getExperienceLevel = (level) => {
-        switch (level) {
-            case 1:
-                return "Entry Level";
-            case 2:
-                return "Intermediate";
-            case 3:
-                return "Expert";
-            default:
-                return "Unknown";
-        }
-    };
-    const calculateTimeElapsed = (createdAt) => {
-        const now = new Date();
-        const createdDate = new Date(createdAt);
-        const timeDifference = now - createdDate;
-        const seconds = Math.floor(timeDifference / 1000);
-        const minutes = Math.floor(seconds / 60);
-        const hours = Math.floor(minutes / 60);
-        const days = Math.floor(hours / 24);
-
-        if (days > 0) {
-            return `${days} ${days === 1 ? "day" : "days"} ago`;
-        } else if (hours > 0) {
-            return `${hours} ${hours === 1 ? "hour" : "hours"} ago`;
-        } else if (minutes > 0) {
-            return `${minutes} ${minutes === 1 ? "minute" : "minutes"} ago`;
-        } else {
-            return `${seconds} ${seconds === 1 ? "second" : "seconds"} ago`;
-        }
-    };
-
-    const isNewJob = (createdAt) => {
-        const now = new Date();
-        const createdDate = new Date(createdAt);
-        const timeDifference = now - createdDate;
-        const hours = Math.floor(timeDifference / (1000 * 60 * 60));
-
-        return hours <= 1;
-    };
-
     return (
         <>
             {data &&

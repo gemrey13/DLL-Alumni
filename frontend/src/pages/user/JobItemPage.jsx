@@ -10,7 +10,16 @@ import {
 } from "react-icons/hi";
 import axios from "axios";
 import baseURL from "@/apiConfig";
-import AuthContext from "../../context/AuthContext";
+import Loader from "../../common/Loader";
+import {
+    formatSalary,
+    getExperienceLevel,
+    getExperienceLevelDescription,
+    calculateTimeElapsed,
+    isNewJob,
+    descriptionFormatter,
+    formatDate,
+} from "../../utils/formatting";
 
 const JobItemPage = () => {
     const { job_id } = useParams();
@@ -37,97 +46,6 @@ const JobItemPage = () => {
         fetchJobItemDetails();
     }, []);
 
-    const formatSalary = (salary) => {
-        return new Intl.NumberFormat("en-PH", {
-            style: "currency",
-            currency: "PHP",
-            minimumFractionDigits: 0,
-        }).format(salary);
-    };
-
-    const getExperienceLevel = (level) => {
-        switch (level) {
-            case 1:
-                return "Entry Level";
-            case 2:
-                return "Intermediate";
-            case 3:
-                return "Expert";
-            default:
-                return "Unknown";
-        }
-    };
-
-    const getExperienceLevelDescription = (level) => {
-        switch (level) {
-            case 1:
-                return "early graduates";
-            case 2:
-                return "have a experience in the fields";
-            case 3:
-                return "strong knowledge and mastery in the field";
-            default:
-                return "Unknown";
-        }
-    };
-
-    const calculateTimeElapsed = (createdAt) => {
-        const now = new Date();
-        const createdDate = new Date(createdAt);
-        const timeDifference = now - createdDate;
-        const seconds = Math.floor(timeDifference / 1000);
-        const minutes = Math.floor(seconds / 60);
-        const hours = Math.floor(minutes / 60);
-        const days = Math.floor(hours / 24);
-
-        if (days > 0) {
-            return `${days} ${days === 1 ? "day" : "days"} ago`;
-        } else if (hours > 0) {
-            return `${hours} ${hours === 1 ? "hour" : "hours"} ago`;
-        } else if (minutes > 0) {
-            return `${minutes} ${minutes === 1 ? "minute" : "minutes"} ago`;
-        } else {
-            return `${seconds} ${seconds === 1 ? "second" : "seconds"} ago`;
-        }
-    };
-
-    const isNewJob = (createdAt) => {
-        const now = new Date();
-        const createdDate = new Date(createdAt);
-        const timeDifference = now - createdDate;
-        const hours = Math.floor(timeDifference / (1000 * 60 * 60));
-
-        return hours <= 1;
-    };
-
-    const descriptionFormatter = (desc) => {
-        const sentences = desc.split(".");
-        try {
-            if (sentences.length === 2) {
-                return desc;
-            } else {
-                return sentences.map((sentence, sentenceIndex, array) => (
-                    <React.Fragment key={sentenceIndex}>
-                        {sentence.trim()}
-                        {sentenceIndex !== array.length - 1 && (
-                            <>
-                                .<br />
-                                <br />
-                            </>
-                        )}
-                    </React.Fragment>
-                ));
-            }
-        } catch (error) {
-            return desc;
-        }
-    };
-
-    const formatDate = (dateString) => {
-        const options = { year: "numeric", month: "long", day: "numeric" };
-        return new Date(dateString).toLocaleDateString(undefined, options);
-    };
-
     if (error) {
         return (
             <>
@@ -151,7 +69,11 @@ const JobItemPage = () => {
     }
 
     if (loading) {
-        return <span className="loading loading-spinner loading-lg"></span>;
+        return (
+            <div className="h-screen align-middle">
+                <Loader />
+            </div>
+        );
     }
 
     return (
@@ -160,7 +82,10 @@ const JobItemPage = () => {
                 <section className="flex-1 border-r-0 lg:border-r-[1px] border-slate-300">
                     <section className="border-b-[1px] border-slate-300 p-7">
                         <h1 className="text-2xl text-black-2 font-medium py-4">
-                            {data.title}
+                            {data.title}{" "}
+                            {isNewJob(data.created_at) && (
+                                <div className="badge badge-secondary">NEW</div>
+                            )}
                         </h1>
                         <div className="flex lg:flex-row flex-col text-base gap-4 lg:gap-8">
                             <p>
@@ -266,7 +191,9 @@ const JobItemPage = () => {
                             {calculateTimeElapsed(data.created_at)}
                         </p>
 
-                        <p className="font-medium mb-4">{data.posted_by.num_posted_jobs} jobs posted</p>
+                        <p className="font-medium mb-4">
+                            {data.posted_by.num_posted_jobs} jobs posted
+                        </p>
                         <p className="mb-7 text-sm">
                             Member since{" "}
                             {formatDate(data.posted_by.date_joined)}
