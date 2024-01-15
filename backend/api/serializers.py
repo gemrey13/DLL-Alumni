@@ -18,7 +18,7 @@ from .models import (
     UserEducation,
     AccountLink,
     UserSkill,
-    UserWorkExperience
+    UserWorkExperience,
 )
 
 
@@ -33,6 +33,7 @@ class UserEducationSerializer(serializers.ModelSerializer):
         model = UserEducation
         fields = "__all__"
 
+
 class AccountLinkSerializer(serializers.ModelSerializer):
     class Meta:
         model = AccountLink
@@ -42,39 +43,34 @@ class AccountLinkSerializer(serializers.ModelSerializer):
 class UserWorkExperienceSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserWorkExperience
-        fields = '__all__'
+        fields = "__all__"
+
 
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = "__all__"
 
+
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
+        user_profile = (
+            user_job
+        ) = user_education = accounts = user_work_experience = user_skills = None
+
         try:
             user_profile = UserProfile.objects.get(user=user)
-            user_profile_serialized = UserProfileSerializer(user_profile)
 
             user_job = UserJob.objects.get(user=user)
-            user_job_serialized = UserJobSerializer(user_job)
 
             user_education = UserEducation.objects.get(user=user)
-            user_education_serialized = UserEducationSerializer(user_education)
 
             accounts = AccountLink.objects.filter(user=user)
-            accounts_serialized = AccountLinkSerializer(accounts, many=True)
 
             user_skills = UserSkill.objects.filter(user_profile=user_profile)
-            skill_ids = [skill.category_id for skill in user_skills]
-            skill_names = JobCategory.objects.filter(id__in=skill_ids).values_list('name', flat=True)
-            user_skills_serialized = {'skills': list(skill_names)}
-
 
             user_work_experience = UserWorkExperience.objects.filter(user=user)
-            user_work_experience_serializer = UserWorkExperienceSerializer(user_work_experience, many=True)
-
-
         except UserProfile.DoesNotExist:
             user_profile = None
         except UserJob.DoesNotExist:
@@ -85,6 +81,23 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             accounts = None
         except UserWorkExperience.DoesNotExist:
             user_work_experience = None
+        except UserSkill.DoesNotExist:
+            user_skills = None
+
+        user_profile_serialized = UserProfileSerializer(user_profile)
+        user_job_serialized = UserJobSerializer(user_job)
+        user_education_serialized = UserEducationSerializer(user_education)
+        accounts_serialized = AccountLinkSerializer(accounts, many=True)
+        user_work_experience_serializer = UserWorkExperienceSerializer(
+            user_work_experience, many=True
+        )
+
+        if user_skills:
+            skill_ids = [skill.category_id for skill in user_skills]
+            skill_names = JobCategory.objects.filter(id__in=skill_ids).values_list(
+                "name", flat=True
+            )
+            user_skills_serialized = {"skills": list(skill_names)}
 
         token = super().get_token(user)
         token["username"] = user.username
@@ -93,19 +106,21 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token["email"] = user.email
         token["is_staff"] = user.is_staff
         token["is_staff"] = user.is_superuser
-        token['profile_info'] = user_profile_serialized.data
+        token["profile_info"] = user_profile_serialized.data
 
         languages = user_profile.languages.all()
         language_names = [language.name for language in languages]
 
-        token['profile_info']['languages'] = language_names
-        token['profile_info']['skills'] = language_names
+        token["profile_info"]["languages"] = language_names
+        token["profile_info"]["skills"] = language_names
 
-        token['user_job'] = user_job_serialized.data
-        token['user_work_experience'] = user_work_experience_serializer.data
-        token['user_education'] = user_education_serialized.data
-        token['account_links'] = accounts_serialized.data
-        token['profile_info']['skills'] = user_skills_serialized
+        token["user_job"] = user_job_serialized.data
+        token["user_work_experience"] = user_work_experience_serializer.data
+        token["user_education"] = user_education_serialized.data
+        token["account_links"] = accounts_serialized.data
+        token["profile_info"]["skills"] = (
+            user_skills_serialized if user_skills else None
+        )
 
         return token
 
