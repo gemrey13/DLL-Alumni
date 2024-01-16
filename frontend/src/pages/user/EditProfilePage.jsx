@@ -5,14 +5,14 @@ import UserAccountForm from "../../components/forms/UserAccountForm";
 const EditProfilePage = () => {
     return (
         <>
-            <section className="p-7 h-screen">
+            <section className="p-2 lg:p-7 h-screen">
                 <Tab.Group>
                     <Tab.List className="flex w-full justify-around">
                         <Tab className="w-[30%] p-2">Account</Tab>
                         <Tab className="w-[30%] p-2">Profile Information</Tab>
                         <Tab className="w-[30%] p-2">Notification</Tab>
                     </Tab.List>
-                    <Tab.Panels className="">
+                    <Tab.Panels className="pt-10">
                         <Tab.Panel>
                             <UserAccountForm />
                         </Tab.Panel>
