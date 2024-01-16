@@ -1,5 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 const UserAccountForm = () => {
   const {
@@ -11,6 +12,11 @@ const UserAccountForm = () => {
   } = useForm({
     mode: "onChange",
   });
+
+  const resetForm = () => {
+    reset();
+    toast.success("Form resetted!");
+  };
 
   return (
     <>
@@ -78,7 +84,7 @@ const UserAccountForm = () => {
               />
             </div>
 
-            <div className="w-full xl:w-1/2 mb-4.5">
+            <div className="w-full xl:w-1/2 mb-9">
               <label className="mb-2.5 block text-black dark:text-white">
                 Re-type Password <span className="text-meta-1">*</span>
               </label>
@@ -94,6 +100,19 @@ const UserAccountForm = () => {
               {errors.confirmPassword && (
                 <p>{errors.confirmPassword.message}</p>
               )}
+            </div>
+
+            <div className="lg:flex block justify-start mb-7 w-full">
+              <button
+                type="submit"
+                className="btn dark:btn-neutral w-full lg:w-[20%] flex justify-center p-3 bg-primary font-medium text-gray">
+                Submit
+              </button>
+              <div
+                onClick={resetForm}
+                className="btn-ghost border-graydark w-full mt-3 lg:mt-0 lg:w-[10%] btn">
+                Reset
+              </div>
             </div>
           </div>
         </form>
