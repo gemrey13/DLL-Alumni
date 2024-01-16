@@ -1,8 +1,13 @@
-import React from "react";
+import axios from "axios";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import baseURL from "@/apiConfig";
+import AuthContext from "../../context/AuthContext";
 
 const UserAccountForm = () => {
+  let { user } = useContext(AuthContext);
+
   const {
     register,
     handleSubmit,
@@ -18,6 +23,26 @@ const UserAccountForm = () => {
     toast.success("Form resetted!");
   };
 
+  const onSubmit = async (data) => {
+    const promise = toast.promise(
+      axios.put(
+        `${baseURL}/api/update-account-information/${user.user_id}/`,
+        data
+      ),
+      {
+        loading: "Updating account. Please wait...",
+        success: <b>Account Updated successfully!</b>,
+        error: <b>Something went wrong.</b>,
+      }
+    );
+    try {
+      const response = await promise;
+      reset();
+    } catch (error) {
+      toast.error("Error updating user account. Please try again.");
+    }
+  };
+
   return (
     <>
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -26,14 +51,14 @@ const UserAccountForm = () => {
             Edit Account
           </h3>
         </div>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <div className="py-6.5 px-4 lg:pl-20">
             <div className="w-full xl:w-1/2 mb-4.5">
               <label className="mb-2.5 block text-black dark:text-white">
                 First name <span className="text-meta-1">*</span>
               </label>
               <input
-                {...register("fname", {
+                {...register("first_name", {
                   required: "First name is required",
                 })}
                 type="text"
@@ -47,7 +72,7 @@ const UserAccountForm = () => {
                 Last name <span className="text-meta-1">*</span>
               </label>
               <input
-                {...register("lname", {
+                {...register("last_name", {
                   required: "Last name is required",
                 })}
                 type="text"

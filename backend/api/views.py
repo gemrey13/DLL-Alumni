@@ -489,6 +489,19 @@ class AlumniForm(APIView):
             return new_alumni_id
 
 
+class UpdateAccountInformationView(APIView):
+    def put(self, request, user_id):
+        try:
+            user = User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = UserSerializer(user, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 class UserRegistrationView(APIView):
     permission_classes = [AllowAny]
 
