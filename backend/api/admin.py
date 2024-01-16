@@ -12,7 +12,8 @@ from .models import (
     JobCategory,
     UserSkill,
     UserProfile,
-    UserWorkExperience
+    UserWorkExperience,
+    Language,
 )
 
 
@@ -52,5 +53,6 @@ admin.site.register(UserSkill)
 admin.site.register(UserWorkExperience)
 admin.site.register(JobCategory)
 admin.site.register(Job)
+admin.site.register(Language)
 admin.site.register(JobApplication)
 admin.site.register(Address, AddressAdmin)

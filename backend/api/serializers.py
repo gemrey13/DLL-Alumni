@@ -19,7 +19,14 @@ from .models import (
     AccountLink,
     UserSkill,
     UserWorkExperience,
+    Language,
 )
+
+
+class LanguageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Language
+        fields = "__all__"
 
 
 class UserJobSerializer(serializers.ModelSerializer):

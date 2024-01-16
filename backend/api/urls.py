@@ -24,6 +24,7 @@ from .views import (
     GetJobDetails,
     JobRecommendationForUser,
     UpdateAccountInformationView,
+    LanguageView,
 )
 
 
@@ -40,6 +41,7 @@ urlpatterns = [
     path("job-category-list/", JobCategoryList.as_view(), name="job-category-list"),
     path("job-list/", JobListView.as_view(), name="job-list"),
     path("job-details/", GetJobDetails.as_view(), name="job-details"),
+    path("language-list/", LanguageView.as_view(), name="language-list"),
     path(
         "job-recommendation/",
         JobRecommendationForUser.as_view(),

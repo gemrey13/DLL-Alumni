@@ -1,6 +1,7 @@
 import React from "react";
 import { Tab } from "@headlessui/react";
 import UserAccountForm from "../../components/forms/UserAccountForm";
+import UserProfileForm from "../../components/forms/UserProfileForm";
 
 const EditProfilePage = () => {
   return (
@@ -16,7 +17,9 @@ const EditProfilePage = () => {
             <Tab.Panel>
               <UserAccountForm />
             </Tab.Panel>
-            <Tab.Panel>Content 2</Tab.Panel>
+            <Tab.Panel>
+              <UserProfileForm />
+            </Tab.Panel>
             <Tab.Panel>Content 3</Tab.Panel>
           </Tab.Panels>
         </Tab.Group>

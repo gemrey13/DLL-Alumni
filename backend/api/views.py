@@ -23,6 +23,7 @@ from .serializers import (
     JobItemDetailsSerializer,
     JobCategorySerializer,
     UserDetailSerializer,
+    LanguageSerializer,
 )
 from .models import (
     GraduateInformation,
@@ -34,7 +35,20 @@ from .models import (
     EmploymentRecord,
     Job,
     JobCategory,
+    Language,
 )
+
+
+class LanguageView(ListAPIView):
+    serializer_class = LanguageSerializer
+
+    def get_queryset(self):
+        queryset = Language.objects.values_list("name", flat=True).distinct()
+        return queryset
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        return Response(queryset)
 
 
 class JobRecommendationForUserPagination(PageNumberPagination):
@@ -494,13 +508,16 @@ class UpdateAccountInformationView(APIView):
         try:
             user = User.objects.get(pk=user_id)
         except User.DoesNotExist:
-            return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+            return Response(
+                {"error": "User not found."}, status=status.HTTP_404_NOT_FOUND
+            )
 
         serializer = UserSerializer(user, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserRegistrationView(APIView):
     permission_classes = [AllowAny]
