@@ -48,6 +48,10 @@ const Profile = () => {
             </h3>
 
             <p className="text-black text-lg font-medium">
+              {!user.user_education.school_name && (
+                <p>No educational background.</p>
+              )}
+
               {user.user_education.school_name}
             </p>
             <p className="font-medium">
@@ -58,6 +62,7 @@ const Profile = () => {
           <div className="mb-12">
             <h3 className="text-black-2 text-2xl font-medium">Gender</h3>
             <p className="text-black text-lg font-medium">
+              {!user.profile_info.sex && <p>No gender.</p>}
               {user.profile_info.sex}
             </p>
           </div>
