@@ -58,6 +58,20 @@ const UserAccountForm = () => {
 
             <div className="w-full xl:w-1/2 mb-4.5">
               <label className="mb-2.5 block text-black dark:text-white">
+                Username <span className="text-meta-1">*</span>
+              </label>
+              <input
+                {...register("username", {
+                  required: "Username is required",
+                })}
+                type="text"
+                placeholder="Enter your username"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+              />
+            </div>
+
+            <div className="w-full xl:w-1/2 mb-4.5">
+              <label className="mb-2.5 block text-black dark:text-white">
                 Email <span className="text-meta-1">*</span>
               </label>
               <input

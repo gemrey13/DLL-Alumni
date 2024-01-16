@@ -41,6 +41,7 @@ class JobRecommendationForUserPagination(PageNumberPagination):
     page_size = 10
     ordering = "-created_at"
 
+
 class JobRecommendationForUser(ListAPIView):
     serializer_class = JobListSerializer
     pagination_class = JobRecommendationForUserPagination
@@ -57,7 +58,7 @@ class JobRecommendationForUser(ListAPIView):
             queryset = queryset.annotate(num_applicants=Count("applications"))
 
             return queryset
-        
+
         return None
 
     def list(self, request, *args, **kwargs):
@@ -69,6 +70,7 @@ class JobRecommendationForUser(ListAPIView):
                 return self.get_paginated_response(serializer.data)
 
         return Response([], status=status.HTTP_200_OK)
+
 
 class JobCategoryList(ListAPIView):
     serializer_class = JobCategorySerializer
