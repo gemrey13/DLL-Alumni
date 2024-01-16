@@ -8,84 +8,90 @@ import { HiOutlinePencilAlt } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import Loader from "../../common/Loader";
 
-
 const HomePage = () => {
-    let { user } = useContext(AuthContext);
-    const [data, setData] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
+  let { user } = useContext(AuthContext);
+  const [data, setData] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(
-                    `${baseURL}/api/job-recommendation`,
-                    {
-                        params: { user_id: user.user_id, page: currentPage },
-                    }
-                );
-                setData(response.data.results);
-                setTotalPages(Math.ceil(response.data.count / 10));
-            } catch (error) {
-                toast.error("Something went wrong...");
-            }
-        };
-        fetchData();
-    }, [currentPage]);
-
-    const handlePageChange = (newPage) => {
-        setCurrentPage(newPage);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${baseURL}/api/job-recommendation`, {
+          params: { user_id: user.user_id, page: currentPage },
+        });
+        setData(response.data.results);
+        setTotalPages(Math.ceil(response.data.count / 10));
+        setLoading(false);
+      } catch (error) {
+        toast.error("Something went wrong...");
+      }
     };
+    fetchData();
+  }, [currentPage]);
 
-    if (data.length === 0) {
-        return (
-            <div className="h-screen align-middle">
-                <Loader />
-            </div>
-        );
-    }
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+  };
 
+  if (loading) {
     return (
-        <>
-            <section className="py-12">
-                <h1 className="text-4xl text-black-2 font-semibold">
-                    Hi {user.first_name} ! 👋
-                </h1>
-                <Link
-                    to="/u/my-profile/"
-                    className="w-fit flex hover:underline items-center">
-                    <HiOutlinePencilAlt size={20} />
-                    <p>Edit your profile</p>
-                </Link>
-
-                <section className="flex flex-col flex-1 mt-0 md:mt-5 w-full mb-4">
-                    <h4 className="font-medium text-xl text-black-2 mt-10">
-                        Jobs recommended for you
-                    </h4>
-                    <JobItem data={data} />
-                </section>
-
-                <div className="join grid grid-cols-3">
-                    <button
-                        disabled={currentPage === 1}
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        className="join-item btn btn-outline">
-                        Previous
-                    </button>
-                    <span className="text-center">
-                        {" "}
-                        Page {currentPage} of {totalPages}{" "}
-                    </span>
-                    <button
-                        disabled={currentPage === totalPages}
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        className="join-item btn btn-outline">
-                        Next
-                    </button>
-                </div>
-            </section>
-        </>
+      <div className="h-screen align-middle">
+        <Loader />
+      </div>
     );
+  }
+
+  if (data.length === 0) {
+    return (
+      <div className="h-screen align-middle text-center pt-20 text-2xl text-black">
+        Please setup your account.
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <section className="py-12">
+        <h1 className="text-4xl text-black-2 font-semibold">
+          Hi {user.first_name} ! 👋
+        </h1>
+        <Link
+          to="/u/my-profile/"
+          className="w-fit flex hover:underline items-center">
+          <HiOutlinePencilAlt size={20} />
+          <p>Edit your profile</p>
+        </Link>
+
+        <section className="flex flex-col flex-1 mt-0 md:mt-5 w-full mb-4">
+          <h4 className="font-medium text-xl text-black-2 mt-10">
+            Jobs recommended for you
+          </h4>
+          <JobItem data={data} />
+        </section>
+
+        <div className="join grid grid-cols-3">
+          <button
+            disabled={currentPage === 1}
+            onClick={() => handlePageChange(currentPage - 1)}
+            className="join-item btn btn-outline">
+            Previous
+          </button>
+          <span className="text-center">
+            {" "}
+            Page {currentPage} of {totalPages}{" "}
+          </span>
+          <button
+            disabled={currentPage === totalPages}
+            onClick={() => handlePageChange(currentPage + 1)}
+            className="join-item btn btn-outline">
+            Next
+          </button>
+        </div>
+      </section>
+    </>
+  );
 };
 
 export default HomePage;
