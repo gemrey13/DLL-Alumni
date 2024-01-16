@@ -122,7 +122,7 @@ const Header = () => {
                 </NavLink>
               </li>
               <li>
-                <a>Settings</a>
+                <NavLink to="/u/settings/edit-profile">Settings</NavLink>
               </li>
               <li onClick={logoutUser}>
                 <a>Logout</a>
