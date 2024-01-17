@@ -5,11 +5,14 @@ import toast from "react-hot-toast";
 import baseURL from "@/apiConfig";
 import AuthContext from "../../context/AuthContext";
 import SearchSelect from "./SearchSelect";
+import { HiOutlineX } from "react-icons/hi";
 
 const UserProfileForm = () => {
-  const [selectedSkills, setSelectedSkills] = useState([]);
   let { user } = useContext(AuthContext);
+  const [selectedSkills, setSelectedSkills] = useState([]);
   const [languages, setLanguages] = useState([]);
+  const [accountLink, setAccountLink] = useState("");
+  const [accountLinks, setAccountLinks] = useState([]);
 
   const {
     register,
@@ -58,7 +61,29 @@ const UserProfileForm = () => {
     getLanguages();
   }, []);
 
-  console.log(selectedSkills);
+  const handleAccountLinkChange = (e) => {
+    setAccountLink(e.target.value);
+  };
+
+  const handleAddAccountLink = () => {
+    if (accountLink.trim() !== "") {
+      setAccountLinks((prevLinks) => [...prevLinks, accountLink]);
+      setAccountLink("");
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleAddAccountLink();
+    }
+  };
+
+  const handleRemoveOption = (option) => {
+    const updatedOptions = accountLinks.filter(
+      (selected) => selected !== option
+    );
+    setAccountLinks(updatedOptions);
+  };
 
   return (
     <>
@@ -88,7 +113,7 @@ const UserProfileForm = () => {
               <label className="mb-2.5 block text-black dark:text-white">
                 Language <span className="text-meta-1">*</span>
               </label>
-              <div className="relative z-20 bg-transparent dark:bg-form-input">
+              <div className="relative z-1 bg-transparent dark:bg-form-input">
                 <select
                   defaultValue=""
                   {...register("language", {
@@ -122,18 +147,18 @@ const UserProfileForm = () => {
               </div>
             </div>
 
-            <div>
+            <div className="mt-4">
               <SearchSelect
                 options={["JavaScript", "React", "Node.js", "HTML", "CSS"]}
                 onSelect={setSelectedSkills}
               />
             </div>
 
-            <div className="w-full xl:w-1/2">
+            <div className="w-full xl:w-1/2 mt-4">
               <label className="mb-2.5 block text-black dark:text-white">
                 Gender <span className="text-meta-1">*</span>
               </label>
-              <div className="relative z-20 bg-transparent dark:bg-form-input">
+              <div className="relative z-1 bg-transparent dark:bg-form-input">
                 <select
                   defaultValue=""
                   {...register("sex", {
@@ -164,80 +189,148 @@ const UserProfileForm = () => {
               </div>
             </div>
 
+            <div className="w-full xl:w-1/2 mb-4.5 mt-4">
+              <label for="bio" class="mb-2.5 block text-black dark:text-white">
+                BIO <span className="text-meta-1">*</span>
+              </label>
+              <textarea
+                {...register("bio", {
+                  required: "BIO is required",
+                })}
+                id="bio"
+                rows="4"
+                class="font-medium block p-2.5 w-full text-sm appearance-none rounded border border-stroke text-gray-900 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Write your bio here..."></textarea>
+            </div>
+
+            <div className="w-full xl:w-1/2 mb-4.5 mt-4">
+              <label
+                for="experience"
+                class="mb-2.5 block text-black dark:text-white">
+                Work Experience <span className="text-meta-1">*</span>
+              </label>
+              <textarea
+                {...register("experience", {
+                  required: "experience is required",
+                })}
+                id="experience"
+                rows="4"
+                class="font-medium block p-2.5 w-full text-sm appearance-none rounded border border-stroke text-gray-900 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Write your experience here..."></textarea>
+            </div>
+
             <div className="w-full xl:w-1/2 mb-4.5">
               <label className="mb-2.5 block text-black dark:text-white">
-                Last name <span className="text-meta-1">*</span>
+                Job specialty <span className="text-meta-1">*</span>
               </label>
               <input
-                {...register("last_name", {
-                  required: "Last name is required",
+                {...register("specialty", {
+                  required: "Location is required",
                 })}
                 type="text"
-                placeholder="Enter your last name"
+                placeholder="Enter your specialty"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+              />
+            </div>
+
+            <div className="w-full xl:w-1/2 mb-4.5 mt-4">
+              <label
+                for="description"
+                class="mb-2.5 block text-black dark:text-white">
+                Job description <span className="text-meta-1">*</span>
+              </label>
+              <textarea
+                {...register("description", {
+                  required: "description is required",
+                })}
+                id="description"
+                rows="4"
+                class="font-medium block p-2.5 w-full text-sm appearance-none rounded border border-stroke text-gray-900 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Write your job description here..."></textarea>
+            </div>
+
+            <hr />
+            <h3 className="text-black-2 font-medium text-xl mb-5">Education</h3>
+
+            <div className="w-full xl:w-1/2 mb-4.5">
+              <label className="mb-2.5 block text-black dark:text-white">
+                School name <span className="text-meta-1">*</span>
+              </label>
+              <input
+                {...register("school_name", {
+                  required: "School name is required",
+                })}
+                type="text"
+                placeholder="Enter your school name"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+              />
+            </div>
+
+            <div className="w-full xl:w-1/2 mb-4.5">
+              <label className="mb-2.5 block text-black dark:text-white">
+                Course <span className="text-meta-1">*</span>
+              </label>
+              <input
+                {...register("course", {
+                  required: "Course is required",
+                })}
+                type="text"
+                placeholder="Enter your course"
+                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+              />
+            </div>
+
+            <div className="w-full xl:w-1/2 mb-4.5">
+              <label className="mb-2.5 block text-black dark:text-white">
+                School year <span className="text-meta-1">*</span>
+              </label>
+              <input
+                {...register("school_year", {
+                  required: "School year is required",
+                })}
+                type="text"
+                placeholder="Enter your school year"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
               />
             </div>
 
             <hr />
+            <h3 className="text-black-2 font-medium text-xl mb-5">
+              Account links
+            </h3>
 
-            <div className="w-full xl:w-1/2 mb-4.5">
-              <label className="mb-2.5 block text-black dark:text-white">
-                Username <span className="text-meta-1">*</span>
+            <div className="mt-3 w-full xl:w-1/2 mb-4.5">
+              <label className="block text-black dark:text-white mb-1">
+                Add account link:
               </label>
-              <input
-                {...register("username", {
-                  required: "Username is required",
-                })}
-                type="text"
-                placeholder="Enter your username"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-              />
-            </div>
-
-            <div className="w-full xl:w-1/2 mb-4.5">
-              <label className="mb-2.5 block text-black dark:text-white">
-                Email <span className="text-meta-1">*</span>
-              </label>
-              <input
-                {...register("email", {
-                  required: "email is required",
-                })}
-                type="email"
-                placeholder="Enter your email"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-              />
-            </div>
-
-            <div className="w-full xl:w-1/2 mb-4.5">
-              <label className="mb-2.5 block text-black dark:text-white">
-                Password <span className="text-meta-1">*</span>
-              </label>
-              <input
-                {...register("password", {
-                  required: "password is required",
-                })}
-                type="password"
-                placeholder="Enter your password"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-              />
-            </div>
-
-            <div className="w-full xl:w-1/2 mb-9">
-              <label className="mb-2.5 block text-black dark:text-white">
-                Re-type Password <span className="text-meta-1">*</span>
-              </label>
-              <input
-                {...register("confirmPassword", {
-                  validate: (value) =>
-                    value === getValues("password") || "Passwords do not match",
-                })}
-                type="password"
-                placeholder="Re-type your password"
-                className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-              />
-              {errors.confirmPassword && (
-                <p>{errors.confirmPassword.message}</p>
-              )}
+              <div className="flex">
+                <input
+                  type="text"
+                  className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                  placeholder="Enter account link..."
+                  value={accountLink}
+                  onChange={handleAccountLinkChange}
+                  onKeyDown={handleKeyDown}
+                />
+                <div
+                  className="ml-2 px-4 py-2 btn bg-primary text-white rounded hover:bg-primary-dark focus:outline-none"
+                  onClick={handleAddAccountLink}>
+                  Add
+                </div>
+              </div>
+              <div className="mt-3">
+                <h4>Account Links:</h4>
+                {accountLinks.map((link, index) => (
+                  <span
+                    key={index}
+                    className="badge badge-outline m-2 text-base">
+                    {link}
+                    <div onClick={() => handleRemoveOption(link)}>
+                      <HiOutlineX />
+                    </div>
+                  </span>
+                ))}
+              </div>
             </div>
 
             <div className="lg:flex block justify-start mb-7 w-full">
