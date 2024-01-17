@@ -4,8 +4,10 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import baseURL from "@/apiConfig";
 import AuthContext from "../../context/AuthContext";
+import SearchSelect from "./SearchSelect";
 
 const UserProfileForm = () => {
+  const [selectedSkills, setSelectedSkills] = useState([]);
   let { user } = useContext(AuthContext);
   const [languages, setLanguages] = useState([]);
 
@@ -55,6 +57,8 @@ const UserProfileForm = () => {
     };
     getLanguages();
   }, []);
+
+  console.log(selectedSkills);
 
   return (
     <>
@@ -116,6 +120,13 @@ const UserProfileForm = () => {
                   </svg>
                 </span>
               </div>
+            </div>
+
+            <div>
+              <SearchSelect
+                options={["JavaScript", "React", "Node.js", "HTML", "CSS"]}
+                onSelect={setSelectedSkills}
+              />
             </div>
 
             <div className="w-full xl:w-1/2">
