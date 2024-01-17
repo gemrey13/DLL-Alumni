@@ -13,6 +13,7 @@ const UserProfileForm = () => {
   const [languages, setLanguages] = useState([]);
   const [accountLink, setAccountLink] = useState("");
   const [accountLinks, setAccountLinks] = useState([]);
+  const [categoryList, setCategoryList] = useState([]);
 
   const {
     register,
@@ -32,7 +33,6 @@ const UserProfileForm = () => {
   const onSubmit = async (data) => {
     data.accountLinks = accountLinks;
     data.selectedSkills = selectedSkills;
-    console.log(data);
     const promise = toast.promise(
       axios.put(
         `${baseURL}/api/update-profile-information/${user.user_id}/`,
@@ -62,7 +62,17 @@ const UserProfileForm = () => {
         console.error(error);
       }
     };
+
+    const getCategoryList = async () => {
+      try {
+        const response = await axios.get(`${baseURL}/api/job-category-list/`);
+        setCategoryList(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
     getLanguages();
+    getCategoryList();
   }, []);
 
   const handleAccountLinkChange = (e) => {
@@ -153,7 +163,7 @@ const UserProfileForm = () => {
 
             <div className="mt-4">
               <SearchSelect
-                options={["JavaScript", "React", "Node.js", "HTML", "CSS"]}
+                options={categoryList}
                 onSelect={setSelectedSkills}
               />
             </div>
