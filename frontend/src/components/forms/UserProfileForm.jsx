@@ -8,7 +8,7 @@ import SearchSelect from "./SearchSelect";
 import { HiOutlineX } from "react-icons/hi";
 
 const UserProfileForm = () => {
-  let { user, updateToken } = useContext(AuthContext);
+  let { user, updateToken, authTokens } = useContext(AuthContext);
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [languages, setLanguages] = useState([]);
   const [accountLink, setAccountLink] = useState("");
@@ -46,10 +46,10 @@ const UserProfileForm = () => {
     );
     try {
       const response = await promise;
-      updateToken();
+      await updateToken();
       // reset();
     } catch (error) {
-      toast.error("Error updating user account. Please try again.");
+      toast.error("Error updating user profile. Please try again.");
     }
   };
 
@@ -204,7 +204,9 @@ const UserProfileForm = () => {
             </div>
 
             <div className="w-full xl:w-1/2 mb-4.5 mt-4">
-              <label for="bio" class="mb-2.5 block text-black dark:text-white">
+              <label
+                htmlFor="bio"
+                className="mb-2.5 block text-black dark:text-white">
                 BIO <span className="text-meta-1">*</span>
               </label>
               <textarea
@@ -213,14 +215,14 @@ const UserProfileForm = () => {
                 })}
                 id="bio"
                 rows="4"
-                class="font-medium block p-2.5 w-full text-sm appearance-none rounded border border-stroke text-gray-900 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="font-medium block p-2.5 w-full text-sm appearance-none rounded border border-stroke text-gray-900 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Write your bio here..."></textarea>
             </div>
 
             <div className="w-full xl:w-1/2 mb-4.5 mt-4">
               <label
-                for="experience"
-                class="mb-2.5 block text-black dark:text-white">
+                htmlFor="experience"
+                className="mb-2.5 block text-black dark:text-white">
                 Work Experience <span className="text-meta-1">*</span>
               </label>
               <textarea
@@ -229,7 +231,7 @@ const UserProfileForm = () => {
                 })}
                 id="experience"
                 rows="4"
-                class="font-medium block p-2.5 w-full text-sm appearance-none rounded border border-stroke text-gray-900 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="font-medium block p-2.5 w-full text-sm appearance-none rounded border border-stroke text-gray-900 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Write your experience here..."></textarea>
             </div>
 
@@ -249,8 +251,8 @@ const UserProfileForm = () => {
 
             <div className="w-full xl:w-1/2 mb-4.5 mt-4">
               <label
-                for="description"
-                class="mb-2.5 block text-black dark:text-white">
+                htmlFor="description"
+                className="mb-2.5 block text-black dark:text-white">
                 Job description <span className="text-meta-1">*</span>
               </label>
               <textarea
@@ -259,7 +261,7 @@ const UserProfileForm = () => {
                 })}
                 id="description"
                 rows="4"
-                class="font-medium block p-2.5 w-full text-sm appearance-none rounded border border-stroke text-gray-900 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                className="font-medium block p-2.5 w-full text-sm appearance-none rounded border border-stroke text-gray-900 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Write your job description here..."></textarea>
             </div>
 

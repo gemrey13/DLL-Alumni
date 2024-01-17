@@ -54,7 +54,6 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("authTokens", JSON.stringify(data));
         setAuthTokens(data);
         setUser(jwtDecode(data.access));
-        console.log(jwtDecode(data.access));
         const temp = jwtDecode(data.access);
         if (temp.is_staff) {
           navigate("/admin");
@@ -80,7 +79,7 @@ export const AuthProvider = ({ children }) => {
     navigate("/");
   };
 
-  const updateToken = async () => {
+  let updateToken = async () => {
     try {
       const response = await axios.post(
         `${baseURL}/api/token/refresh/`,
@@ -100,6 +99,7 @@ export const AuthProvider = ({ children }) => {
         setAuthTokens(data);
         setUser(jwtDecode(data.access));
         localStorage.setItem("authTokens", JSON.stringify(data));
+        console.log("Updated");
       } else {
         logoutUser();
       }
