@@ -8,7 +8,7 @@ import SearchSelect from "./SearchSelect";
 import { HiOutlineX } from "react-icons/hi";
 
 const UserProfileForm = () => {
-  let { user, updateToken, authTokens } = useContext(AuthContext);
+  let { user, logoutUser } = useContext(AuthContext);
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [languages, setLanguages] = useState([]);
   const [accountLink, setAccountLink] = useState("");
@@ -44,13 +44,8 @@ const UserProfileForm = () => {
         error: <b>Something went wrong.</b>,
       }
     );
-    try {
-      const response = await promise;
-      await updateToken();
-      // reset();
-    } catch (error) {
-      toast.error("Error updating user profile. Please try again.");
-    }
+    logoutUser();
+    // reset();
   };
 
   useEffect(() => {
