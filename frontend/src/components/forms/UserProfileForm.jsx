@@ -8,7 +8,7 @@ import SearchSelect from "./SearchSelect";
 import { HiOutlineX } from "react-icons/hi";
 
 const UserProfileForm = () => {
-  let { user } = useContext(AuthContext);
+  let { user, updateToken } = useContext(AuthContext);
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [languages, setLanguages] = useState([]);
   const [accountLink, setAccountLink] = useState("");
@@ -30,9 +30,12 @@ const UserProfileForm = () => {
   };
 
   const onSubmit = async (data) => {
+    data.accountLinks = accountLinks;
+    data.selectedSkills = selectedSkills;
+    console.log(data);
     const promise = toast.promise(
       axios.put(
-        `${baseURL}/api/update-account-information/${user.user_id}/`,
+        `${baseURL}/api/update-profile-information/${user.user_id}/`,
         data
       ),
       {
@@ -43,7 +46,8 @@ const UserProfileForm = () => {
     );
     try {
       const response = await promise;
-      reset();
+      updateToken();
+      // reset();
     } catch (error) {
       toast.error("Error updating user account. Please try again.");
     }

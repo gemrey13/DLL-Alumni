@@ -129,6 +129,7 @@ export const AuthProvider = ({ children }) => {
     authTokens: authTokens,
     loginUser: loginUser,
     logoutUser: logoutUser,
+    updateToken: updateToken,
   };
 
   return (

@@ -25,6 +25,7 @@ from .views import (
     JobRecommendationForUser,
     UpdateAccountInformationView,
     LanguageView,
+    UpdateProfileForm,
 )
 
 
@@ -51,6 +52,11 @@ urlpatterns = [
         "update-account-information/<int:user_id>/",
         UpdateAccountInformationView.as_view(),
         name="update-account-information",
+    ),
+    path(
+        "update-profile-information/<int:user_id>/",
+        UpdateProfileForm.as_view(),
+        name="update-profile-information",
     ),
     # Registration
     path("signup/", UserRegistrationView.as_view(), name="sign-up"),

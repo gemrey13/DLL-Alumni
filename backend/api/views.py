@@ -36,6 +36,12 @@ from .models import (
     Job,
     JobCategory,
     Language,
+    UserJob,
+    UserEducation,
+    UserProfile,
+    AccountLink,
+    UserWorkExperience,
+    UserSkill,
 )
 
 
@@ -501,6 +507,74 @@ class AlumniForm(APIView):
             new_alumni_id = f"A0-{new_number:04d}"
 
             return new_alumni_id
+
+
+class UpdateProfileForm(APIView):
+    def put(self, request, user_id):
+        try:
+            user = User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            return Response(
+                {"error": "User not found."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        user_profile = UserProfile.objects.get(user=user)
+
+        # Update user profile fields
+        user_profile.location = request.data.get("location", user_profile.location)
+        user_profile.bio = request.data.get("bio", user_profile.bio)
+        user_profile.sex = request.data.get("sex", user_profile.sex)
+
+        language_name = request.data.get("language")
+        if language_name:
+            language, created = Language.objects.get_or_create(name=language_name)
+            user_profile.languages.set([language])
+
+        skills = request.data.get("selectedSkills", [])
+        if skills:
+            # Clear existing UserSkills
+            user_profile.skills.clear()
+            # Create new UserSkills
+            for skill_name in skills:
+                category, created = JobCategory.objects.get_or_create(name=skill_name)
+                UserSkill.objects.create(user_profile=user_profile, category=category)
+
+        # Update or create user job
+        specialty = request.data.get("specialty")
+        description = request.data.get("description")
+        user_job, created = UserJob.objects.update_or_create(
+            user=user, defaults={"specialty": specialty, "description": description}
+        )
+
+        # Update or create user education
+        school_name = request.data.get("school_name")
+        course = request.data.get("course")
+        school_year = request.data.get("school_year")
+        user_education, created = UserEducation.objects.update_or_create(
+            user=user,
+            defaults={
+                "school_name": school_name,
+                "course": course,
+                "school_year": school_year,
+            },
+        )
+
+        experience = request.data.get("experience")
+        user_work_experience, created = UserWorkExperience.objects.update_or_create(
+            user=user, defaults={"content": experience}
+        )
+
+        # Update or create account links
+        account_links = request.data.get("accountLinks", [])
+        AccountLink.objects.filter(user=user).delete()
+        AccountLink.objects.bulk_create(
+            [AccountLink(user=user, link=link) for link in account_links]
+        )
+
+        user_profile.save()
+        return Response(
+            {"message": "Profile updated successfully."}, status=status.HTTP_200_OK
+        )
 
 
 class UpdateAccountInformationView(APIView):
