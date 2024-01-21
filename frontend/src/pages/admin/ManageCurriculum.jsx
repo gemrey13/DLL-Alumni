@@ -6,25 +6,21 @@ import SwitcherFour from "../../components/admin/SwitcherFour";
 import SwitcherOne from "../../components/admin/SwitcherOne";
 import SwitcherThree from "../../components/admin/SwitcherThree";
 import SwitcherTwo from "../../components/admin/SwitcherTwo";
-import TaskHeader from "../../components/admin/TaskHeader";
 
 const ManageCurriculum = () => {
-    return (
-        <>
-            <Breadcrumb pageName="Curriculum Management" />
-            <div>ManageCurriculum</div>
-            <DataStats />
-            <div>Dropdown default</div>
-            <DropdownDefault />
-            <SwitcherFour />
-            <SwitcherOne />
-            <SwitcherThree />
-            <SwitcherTwo />
-            <div>
-                <TaskHeader />
-            </div>
-        </>
-    );
+  return (
+    <>
+      <Breadcrumb pageName="Curriculum Management" />
+      <div>ManageCurriculum</div>
+      <DataStats />
+      <div>Dropdown default</div>
+      <DropdownDefault />
+      <SwitcherFour />
+      <SwitcherOne />
+      <SwitcherThree />
+      <SwitcherTwo />
+    </>
+  );
 };
 
 export default ManageCurriculum;
