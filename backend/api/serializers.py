@@ -221,6 +221,25 @@ class JobItemDetailsSerializer(serializers.ModelSerializer):
         return obj.applications.all().count()
 
 
+class JobSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Job
+        fields = [
+            "id",
+            "posted_by",
+            "title",
+            "company_name",
+            "starting_salary",
+            "description",
+            "location",
+            "created_at",
+            "is_approved_by_admin",
+            "Job_type",
+            "category",
+            "experience_level",
+        ]
+
+
 class CurrentJobSerializer(serializers.ModelSerializer):
     class Meta:
         model = CurrentJob

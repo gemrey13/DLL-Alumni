@@ -24,6 +24,7 @@ from .serializers import (
     JobCategorySerializer,
     UserDetailSerializer,
     LanguageSerializer,
+    JobSerializer,
 )
 from .models import (
     GraduateInformation,
@@ -360,6 +361,17 @@ class GetJobDetails(APIView):
         data = {**job_serialize.data, "posted_by": user_serializer.data}
 
         return Response(data, status=status.HTTP_200_OK)
+
+    def post(self, request, *args, **kwargs):
+        # request.data["posted_by"] = request.user.id
+
+        serializer = JobSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class GetProfileView(APIView):
