@@ -1,10 +1,14 @@
 import React from "react";
 import Breadcrumb from "../../components/admin/Breadcrumb";
+import AddJobHeader from "../../components/admin/AddJobHeader";
 
 const AddJob = () => {
-  <Breadcrumb pageName="Add Job" />;
-
-  return <div>AddJob</div>;
+  return (
+    <>
+      <Breadcrumb pageName="Add Job" />
+      <AddJobHeader />
+    </>
+  );
 };
 
 export default AddJob;
