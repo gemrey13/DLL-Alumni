@@ -372,6 +372,8 @@ class GetJobDetails(APIView):
             new_category.append(item[0].pk)
         request.data["category"] = new_category
 
+        request.data["is_approved_by_admin"] = True
+
         serializer = JobSerializer(data=request.data)
 
         if serializer.is_valid():
