@@ -363,7 +363,14 @@ class GetJobDetails(APIView):
         return Response(data, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
-        # request.data["posted_by"] = request.user.id
+        request.data["posted_by"] = 1
+
+        categories = request.data["category"]
+        new_category = []
+        for category in categories:
+            item = JobCategory.objects.get_or_create(name=category.title())
+            new_category.append(item[0].pk)
+        request.data["category"] = new_category
 
         serializer = JobSerializer(data=request.data)
 

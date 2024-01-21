@@ -3,9 +3,10 @@ import { useForm } from "react-hook-form";
 import { HiOutlineX } from "react-icons/hi";
 import baseURL from "@/apiConfig";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 const AddJobHeader = () => {
-  const { register, watch, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const [jobCategory, setJobCategory] = useState("");
   const [jobCategories, setJobCategories] = useState([]);
   const [jobType, setJobType] = useState([]);
@@ -23,11 +24,11 @@ const AddJobHeader = () => {
     fetchJobType();
   }, []);
 
-  const handleAccountLinkChange = (e) => {
+  const handleJobCategoriesChange = (e) => {
     setJobCategory(e.target.value);
   };
 
-  const handleAddAccountLink = () => {
+  const handleAddJobCategories = () => {
     if (jobCategory.trim() !== "") {
       setJobCategories((prevLinks) => [...prevLinks, jobCategory]);
       setJobCategory("");
@@ -39,6 +40,20 @@ const AddJobHeader = () => {
       (selected) => selected !== option
     );
     setJobCategories(updatedOptions);
+  };
+
+  const onsubmit = async (data) => {
+    data.category = jobCategories;
+    try {
+      const response = await axios.post(`${baseURL}/api/job-details/`, data);
+      if (response.status === 201) {
+        toast.success("Job posted");
+        document.getElementById("add_job").close();
+        reset();
+      }
+    } catch (error) {
+      toast.error("Something went wrong.");
+    }
   };
 
   return (
@@ -78,7 +93,8 @@ const AddJobHeader = () => {
               <h3 className="font-bold text-xl text-black dark:text-white">
                 Add job details
               </h3>
-              <form className="py-4">
+
+              <form onSubmit={handleSubmit(onsubmit)} className="py-4">
                 <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                   <div className="w-full xl:w-1/2">
                     <label className="mb-2.5 block text-black dark:text-white">
@@ -183,7 +199,7 @@ const AddJobHeader = () => {
                     <div className="relative z-20 bg-transparent dark:bg-form-input">
                       <select
                         defaultValue=""
-                        {...register("job_type", {
+                        {...register("Job_type", {
                           required: "Job type is required",
                         })}
                         className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
@@ -225,9 +241,9 @@ const AddJobHeader = () => {
                       className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                       placeholder="Enter job category ex: Programming, Graphic Design etc..."
                       value={jobCategory}
-                      onChange={handleAccountLinkChange}
+                      onChange={handleJobCategoriesChange}
                     />
-                    <div className="ml-2 btn" onClick={handleAddAccountLink}>
+                    <div className="ml-2 btn" onClick={handleAddJobCategories}>
                       Add
                     </div>
                   </div>
