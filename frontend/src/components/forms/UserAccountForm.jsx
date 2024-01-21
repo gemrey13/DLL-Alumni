@@ -4,15 +4,17 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import baseURL from "@/apiConfig";
 import AuthContext from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const UserAccountForm = () => {
   let { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting, isValid },
+    formState: { errors },
     getValues,
   } = useForm({
     mode: "onChange",
@@ -24,20 +26,13 @@ const UserAccountForm = () => {
   };
 
   const onSubmit = async (data) => {
-    const promise = toast.promise(
-      axios.put(
+    try {
+      const response = await axios.put(
         `${baseURL}/api/update-account-information/${user.user_id}/`,
         data
-      ),
-      {
-        loading: "Updating account. Please wait...",
-        success: <b>Account Updated successfully!</b>,
-        error: <b>Something went wrong.</b>,
-      }
-    );
-    try {
-      const response = await promise;
+      );
       reset();
+      navigate("/confirm-changes");
     } catch (error) {
       toast.error("Error updating user account. Please try again.");
     }

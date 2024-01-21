@@ -6,22 +6,19 @@ import baseURL from "@/apiConfig";
 import AuthContext from "../../context/AuthContext";
 import SearchSelect from "./SearchSelect";
 import { HiOutlineX } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 
 const UserProfileForm = () => {
-  let { user, logoutUser } = useContext(AuthContext);
+  let { user } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const [selectedSkills, setSelectedSkills] = useState([]);
   const [languages, setLanguages] = useState([]);
   const [accountLink, setAccountLink] = useState("");
   const [accountLinks, setAccountLinks] = useState([]);
   const [categoryList, setCategoryList] = useState([]);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors, isSubmitting, isValid },
-    getValues,
-  } = useForm({
+  const { register, handleSubmit, reset } = useForm({
     mode: "onChange",
   });
 
@@ -33,19 +30,16 @@ const UserProfileForm = () => {
   const onSubmit = async (data) => {
     data.accountLinks = accountLinks;
     data.selectedSkills = selectedSkills;
-    const promise = toast.promise(
-      axios.put(
+    try {
+      const response = await axios.put(
         `${baseURL}/api/update-profile-information/${user.user_id}/`,
         data
-      ),
-      {
-        loading: "Updating account. Please wait...",
-        success: <b>Account Updated successfully!</b>,
-        error: <b>Something went wrong.</b>,
-      }
-    );
-    logoutUser();
-    // reset();
+      );
+      reset();
+      navigate("/confirm-changes");
+    } catch (error) {
+      toast.error("Error updating user information. Please try again.");
+    }
   };
 
   useEffect(() => {
