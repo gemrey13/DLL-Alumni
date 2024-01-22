@@ -50,9 +50,14 @@ const AddJobHeader = () => {
         toast.success("Job posted");
         document.getElementById("add_job").close();
         reset();
+        setJobCategories([]);
+        setTimeout(() => {
+          location.reload();
+        }, 500);
       }
     } catch (error) {
       toast.error("Something went wrong.");
+      console.error(error);
     }
   };
 
