@@ -5,18 +5,19 @@ const JobModal = forwardRef(({ jobData, onClose }, ref) => {
   return (
     <dialog ref={ref} className="modal" id="jobModal" open>
       <div className="modal-box w-11/12 max-w-5xl dark:bg-boxdark">
-        <h3 className="font-bold text-lg">
+        <h3 className="font-bold text-lg dark:text-white">
           {convertToTitleCase(jobData.title)}
         </h3>
         <p className="py-4">{jobData.description}</p>
+        <h3 className="dark:text-white">Applicants:</h3>
         <div className="overflow-x-auto">
           <table className="table">
             <thead>
-              <tr>
+              <tr className="dark:text-white">
                 <th></th>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Favorite Color</th>
+                <th>Username</th>
               </tr>
             </thead>
             <tbody>
@@ -29,7 +30,7 @@ const JobModal = forwardRef(({ jobData, onClose }, ref) => {
                     {applicant.first_name} {applicant.last_name}
                   </td>
                   <td>{applicant.email}</td>
-                  <td>Blue</td>
+                  <td>{applicant.username}</td>
                 </tr>
               ))}
             </tbody>
