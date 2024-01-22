@@ -56,7 +56,7 @@ class UserWorkExperienceSerializer(serializers.ModelSerializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
-        fields = "__all__"
+        fields = ["location", "bio", "sex", "languages", "skills"]
 
 
 class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
@@ -181,6 +181,18 @@ class JobListSerializer(serializers.ModelSerializer):
     category = serializers.StringRelatedField(many=True, read_only=True)
     created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
     num_applicants = serializers.IntegerField(read_only=True)
+    applicants_names = serializers.SerializerMethodField()
+
+    def get_applicants_names(self, obj):
+        applicants = obj.applications.all()
+        names = [
+            {
+                "first_name": applicant.user.first_name,
+                "last_name": applicant.user.last_name,
+            }
+            for applicant in applicants
+        ]
+        return names
 
     class Meta:
         model = Job
