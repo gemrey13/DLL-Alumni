@@ -189,6 +189,7 @@ class JobListSerializer(serializers.ModelSerializer):
             {
                 "first_name": applicant.user.first_name,
                 "last_name": applicant.user.last_name,
+                "email": applicant.user.email,
             }
             for applicant in applicants
         ]

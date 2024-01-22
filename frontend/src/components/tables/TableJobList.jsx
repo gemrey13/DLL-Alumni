@@ -1,15 +1,18 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import baseURL from "@/apiConfig";
 import {
   formatSalary,
   convertToTitleCase,
   calculateTimeElapsed,
 } from "../../utils/formatting";
+import JobModal from "../modals/JobModal";
 
 const TableJobList = () => {
   const [data, setData] = useState([]);
   const [nextPage, setNextPage] = useState(null);
+  const [selectedJob, setSelectedJob] = useState(null);
+  const modalRef = useRef(null);
 
   const fetchData = async () => {
     try {
@@ -33,6 +36,16 @@ const TableJobList = () => {
       setData([]);
       setNextPage(null);
     }
+  };
+
+  const openModal = (job) => {
+    setSelectedJob(job);
+    modalRef.current && modalRef.current.showModal();
+  };
+
+  const closeModal = () => {
+    setSelectedJob(null);
+    modalRef.current && modalRef.current.close();
   };
 
   useEffect(() => {
@@ -82,7 +95,9 @@ const TableJobList = () => {
                 </td>
                 <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
                   <div className="flex items-center space-x-3.5">
-                    <button className="hover:text-primary">
+                    <button
+                      className="hover:text-primary"
+                      onClick={() => openModal(job_item)}>
                       <svg
                         className="fill-current"
                         width="18"
@@ -160,6 +175,12 @@ const TableJobList = () => {
           </div>
         )}
       </div>
+
+      {selectedJob && (
+        <section className="z-9999">
+          <JobModal ref={modalRef} jobData={selectedJob} onClose={closeModal} />
+        </section>
+      )}
     </div>
   );
 };
