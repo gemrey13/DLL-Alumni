@@ -80,7 +80,7 @@ const AddJobHeader = () => {
                 fill=""
               />
             </svg>
-            Add task
+            Add job
           </button>
 
           <dialog id="add_job" className="modal">
