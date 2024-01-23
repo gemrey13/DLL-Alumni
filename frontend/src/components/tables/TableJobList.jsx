@@ -20,7 +20,6 @@ const TableJobList = () => {
       const data = response.data;
       setData(data.results);
       setNextPage(data.next);
-      console.log(response);
     } catch (error) {
       setData([]);
       setNextPage(null);
@@ -62,7 +61,6 @@ const TableJobList = () => {
         const response = await axios.delete(`${baseURL}/api/job-details/`, {
           params: { job_id: jobID },
         });
-        console.log(response);
         fetchData();
       } catch (error) {
         console.error("Error deleting job:", error);
