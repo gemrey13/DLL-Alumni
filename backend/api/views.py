@@ -4,12 +4,11 @@ from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from rest_framework import status
-from django.db import transaction
+from django.db import transaction, IntegrityError
 from django.contrib.auth.models import User
 from datetime import datetime
 from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404
-
 
 from .serializers import (
     TableAlumniInformationSerializer,
@@ -44,7 +43,7 @@ from .models import (
     AccountLink,
     UserWorkExperience,
     UserSkill,
-    JobApplication
+    JobApplication,
 )
 
 
@@ -405,27 +404,31 @@ class JobApplicationView(APIView):
     def post(self, request, *args, **kwargs):
         job_id = self.request.query_params.get("job_id", None)
         user_id = self.request.query_params.get("user_id", None)
-        print(job_id)
 
         if not job_id:
             return Response(
                 {"error": "Missing job_id parameter."}, status=status.HTTP_404_NOT_FOUND
             )
-        
+
         if not user_id:
             return Response(
-                {"error": "Missing user_id parameter."}, status=status.HTTP_404_NOT_FOUND
+                {"error": "Missing user_id parameter."},
+                status=status.HTTP_404_NOT_FOUND,
             )
-        
+
         job_instance = get_object_or_404(Job, id=job_id)
         user_instance = get_object_or_404(User, id=user_id)
 
-        JobApplication.objects.create(
-            job=job_instance,
-            user=user_instance
-        )
-
-        return Response({"message": "Application succcess."}, status=status.HTTP_200_OK)
+        try:
+            JobApplication.objects.create(job=job_instance, user=user_instance)
+            return Response(
+                {"message": "Application succcess."}, status=status.HTTP_200_OK
+            )
+        except IntegrityError:
+            return Response(
+                {"error": "Job application already exists."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
 
 class GetProfileView(APIView):

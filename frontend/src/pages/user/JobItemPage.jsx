@@ -21,6 +21,7 @@ import {
   descriptionFormatter,
   formatDate,
 } from "../../utils/formatting";
+import toast from "react-hot-toast";
 
 const JobItemPage = () => {
   let { user } = useContext(AuthContext);
@@ -37,7 +38,6 @@ const JobItemPage = () => {
           params: { job_id: job_id },
         });
         setData(response.data);
-        console.log(response.data);
         setLoading(false);
       } catch (error) {
         setError(true);
@@ -48,14 +48,18 @@ const JobItemPage = () => {
   }, []);
 
   const applyJob = async (jobId) => {
-    console.log(jobId, user.user_id);
     try {
       const response = await axios.post(
         `${baseURL}/api/job-application/?job_id=${jobId}&user_id=${user.user_id}`
       );
       console.log(response);
+      if (response.status === 200) {
+        toast.success(response.data.message);
+      }
     } catch (error) {
-      console.error(error);
+      if (error.response.status === 400) {
+        toast.error(error.response.data.error);
+      }
     }
   };
 
