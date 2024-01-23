@@ -8,6 +8,7 @@ from django.db import transaction
 from django.contrib.auth.models import User
 from datetime import datetime
 from django.db.models import Count, Q
+from django.shortcuts import get_object_or_404
 
 
 from .serializers import (
@@ -381,6 +382,22 @@ class GetJobDetails(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, *args, **kwargs):
+        job_id = self.request.query_params.get("job_id", None)
+
+        if not job_id:
+            return Response(
+                {"error": "Missing job_id parameter."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        job_instance = get_object_or_404(Job, id=job_id)
+
+        job_instance.delete()
+
+        return Response(
+            {"message": "Job deleted successfully"}, status=status.HTTP_204_NO_CONTENT
+        )
 
 
 class GetProfileView(APIView):

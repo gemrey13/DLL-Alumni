@@ -51,6 +51,25 @@ const TableJobList = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  const deleteJob = async (jobID) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete job item?"
+    );
+
+    if (confirmDelete) {
+      try {
+        const response = await axios.delete(`${baseURL}/api/job-details/`, {
+          params: { job_id: jobID },
+        });
+        console.log(response);
+        fetchData();
+      } catch (error) {
+        console.error("Error deleting job:", error);
+      }
+    }
+  };
+
   return (
     <div className="rounded-sm border border-stroke bg-white px-5 pt-6 pb-2.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
       <div className="max-w-full overflow-x-auto">
@@ -115,7 +134,9 @@ const TableJobList = () => {
                         />
                       </svg>
                     </button>
-                    <button className="hover:text-primary">
+                    <button
+                      className="hover:text-primary"
+                      onClick={() => deleteJob(job_item.id)}>
                       <svg
                         className="fill-current"
                         width="18"
