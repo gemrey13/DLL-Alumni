@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { HiOutlinePencilAlt } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import Loader from "../../common/Loader";
+import { convertToTitleCase } from "../../utils/formatting";
 
 const HomePage = () => {
   let { user } = useContext(AuthContext);
@@ -55,7 +56,7 @@ const HomePage = () => {
     <>
       <section className="py-12">
         <h1 className="text-4xl text-black-2 font-semibold">
-          Hi {user.first_name} ! 👋
+          Hi {convertToTitleCase(user.first_name)} ! 👋
         </h1>
         <Link
           to="/u/my-profile/"
