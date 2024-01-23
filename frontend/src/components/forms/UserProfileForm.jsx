@@ -109,6 +109,7 @@ const UserProfileForm = () => {
                 type="text"
                 placeholder="Enter your location"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                value={user.profile_info.location}
               />
             </div>
 
@@ -118,7 +119,6 @@ const UserProfileForm = () => {
               </label>
               <div className="relative z-1 bg-transparent dark:bg-form-input">
                 <select
-                  defaultValue=""
                   {...register("language", {
                     required: "Language is required",
                   })}
@@ -202,6 +202,7 @@ const UserProfileForm = () => {
                 {...register("bio", {
                   required: "BIO is required",
                 })}
+                value={user.profile_info.bio}
                 id="bio"
                 rows="4"
                 className="font-medium block p-2.5 w-full text-sm appearance-none rounded border border-stroke text-gray-900 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -218,6 +219,7 @@ const UserProfileForm = () => {
                 {...register("experience", {
                   required: "experience is required",
                 })}
+                value={user.user_work_experience[0].content}
                 id="experience"
                 rows="4"
                 className="font-medium block p-2.5 w-full text-sm appearance-none rounded border border-stroke text-gray-900 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -235,6 +237,7 @@ const UserProfileForm = () => {
                 type="text"
                 placeholder="Enter your specialty"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                value={user.user_job.specialty}
               />
             </div>
 
@@ -248,6 +251,7 @@ const UserProfileForm = () => {
                 {...register("description", {
                   required: "description is required",
                 })}
+                value={user.user_job.description}
                 id="description"
                 rows="4"
                 className="font-medium block p-2.5 w-full text-sm appearance-none rounded border border-stroke text-gray-900 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -268,6 +272,7 @@ const UserProfileForm = () => {
                 type="text"
                 placeholder="Enter your school name"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                value={user.user_education.school_name}
               />
             </div>
 
@@ -282,6 +287,7 @@ const UserProfileForm = () => {
                 type="text"
                 placeholder="Enter your course"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                value={user.user_education.course}
               />
             </div>
 
@@ -296,6 +302,7 @@ const UserProfileForm = () => {
                 type="text"
                 placeholder="Enter your school year"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                value={user.user_education.school_year}
               />
             </div>
 
