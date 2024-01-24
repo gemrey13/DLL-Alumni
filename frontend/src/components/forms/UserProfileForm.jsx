@@ -88,6 +88,26 @@ const UserProfileForm = () => {
     setAccountLinks(updatedOptions);
   };
 
+  if (
+    !user ||
+    !user.profile_info ||
+    !user.user_work_experience ||
+    !user.user_job ||
+    !user.user_education
+  ) {
+    return <div>sdasd</div>;
+  }
+
+  const location = user.profile_info?.location || "";
+  const bio = user.profile_info?.bio || "";
+  const specialty = user.user_job?.specialty || "";
+  const description = user.user_job?.description || "";
+  const school_name = user.user_education?.school_name || "";
+  const course = user.user_education?.course || "";
+  const school_year = user.user_education?.school_year || "";
+
+  const firstWorkExperience = user.user_work_experience[0] || "";
+
   return (
     <>
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -109,7 +129,7 @@ const UserProfileForm = () => {
                 type="text"
                 placeholder="Enter your location"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                defaultValue={user.profile_info.location}
+                defaultValue={location}
               />
             </div>
 
@@ -202,7 +222,7 @@ const UserProfileForm = () => {
                 {...register("bio", {
                   required: "BIO is required",
                 })}
-                defaultValue={user.profile_info.bio}
+                defaultValue={bio}
                 id="bio"
                 rows="4"
                 className="font-medium block p-2.5 w-full text-sm appearance-none rounded border border-stroke text-gray-900 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -219,7 +239,7 @@ const UserProfileForm = () => {
                 {...register("experience", {
                   required: "experience is required",
                 })}
-                defaultValue={user.user_work_experience[0].content}
+                defaultValue={firstWorkExperience.content}
                 id="experience"
                 rows="4"
                 className="font-medium block p-2.5 w-full text-sm appearance-none rounded border border-stroke text-gray-900 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -237,7 +257,7 @@ const UserProfileForm = () => {
                 type="text"
                 placeholder="Enter your specialty"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                defaultValue={user.user_job.specialty}
+                defaultValue={specialty}
               />
             </div>
 
@@ -251,7 +271,7 @@ const UserProfileForm = () => {
                 {...register("description", {
                   required: "description is required",
                 })}
-                defaultValue={user.user_job.description}
+                defaultValue={description}
                 id="description"
                 rows="4"
                 className="font-medium block p-2.5 w-full text-sm appearance-none rounded border border-stroke text-gray-900 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -272,7 +292,7 @@ const UserProfileForm = () => {
                 type="text"
                 placeholder="Enter your school name"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                defaultValue={user.user_education.school_name}
+                defaultValue={school_name}
               />
             </div>
 
@@ -287,7 +307,7 @@ const UserProfileForm = () => {
                 type="text"
                 placeholder="Enter your course"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                defaultValue={user.user_education.course}
+                defaultValue={course}
               />
             </div>
 
@@ -302,7 +322,7 @@ const UserProfileForm = () => {
                 type="text"
                 placeholder="Enter your school year"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                defaultValue={user.user_education.school_year}
+                defaultValue={school_year}
               />
             </div>
 
