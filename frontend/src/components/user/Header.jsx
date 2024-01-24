@@ -28,8 +28,19 @@ const Header = () => {
             <ul
               tabIndex={0}
               className="bg-slate-800 text-gray-400 menu menu-md dropdown-content mt-3 z-[1] p-2 shadow rounded-box w-64">
-              <li>
-                <NavLink to="/u/jobs">Find Work</NavLink>
+              <li className="py-2">
+                <a className="menu-title text-whiten">Find Work</a>
+                <ul className="px-3 py-4 shadow bg-black rounded-box w-52">
+                  <li>
+                    <NavLink to="/u/jobs">Find Work</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/u/sdfd">Saved Jobs</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/u/sdfd">Job Application</NavLink>
+                  </li>
+                </ul>
               </li>
               <li className="py-2">
                 <a className="menu-title text-whiten">News and Update</a>
@@ -62,8 +73,22 @@ const Header = () => {
         <div className="navbar-center hidden lg:flex text-gray-400">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <NavLink to="/u/jobs">Find Work</NavLink>
+              <details>
+                <summary>Find Work</summary>
+                <ul className="p-2 w-56 bg-slate-800">
+                  <li>
+                    <NavLink to="/u/jobs">Find Work</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/u/fg">Saved Jobs</NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/u/fgfd">Job Application</NavLink>
+                  </li>
+                </ul>
+              </details>
             </li>
+
             <li>
               <details>
                 <summary>News and Update</summary>
@@ -82,6 +107,7 @@ const Header = () => {
             </li>
           </ul>
         </div>
+
         <div className="navbar-end">
           <button className="btn btn-ghost btn-circle">
             <div className="indicator">
