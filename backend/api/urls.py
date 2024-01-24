@@ -28,6 +28,8 @@ from .views import (
     UpdateProfileForm,
     JobApplicationForUser,
     JobApplicationView,
+    SavedJobForUser,
+    SavedJobView,
 )
 
 
@@ -66,6 +68,13 @@ urlpatterns = [
         "user-job-application/",
         JobApplicationForUser.as_view(),
         name="user-job-application",
+    ),
+    # Saved Job
+    path("saved-job/", SavedJobView.as_view(), name="saved-job"),
+    path(
+        "user-saved-job/",
+        SavedJobForUser.as_view(),
+        name="user-saved-job",
     ),
     # Registration
     path("signup/", UserRegistrationView.as_view(), name="sign-up"),

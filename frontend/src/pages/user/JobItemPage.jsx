@@ -31,6 +31,7 @@ const JobItemPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [isApplied, setIsApplied] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
     const fetchJobItemDetails = async () => {
@@ -40,6 +41,7 @@ const JobItemPage = () => {
         });
         setData(response.data);
         setIsApplied(response.data.is_applied);
+        setIsSaved(response.data.is_saved);
         setLoading(false);
       } catch (error) {
         setError(true);
@@ -73,6 +75,38 @@ const JobItemPage = () => {
       if (response.status === 200) {
         toast.success(response.data.message);
         setIsApplied(!isApplied);
+      }
+    } catch (error) {
+      if (error.response.status === 400) {
+        toast.error(error.response.data.error);
+      }
+    }
+  };
+
+  const saveJob = async (jobId) => {
+    try {
+      const response = await axios.post(
+        `${baseURL}/api/saved-job/?job_id=${jobId}&user_id=${user.user_id}`
+      );
+      if (response.status === 200) {
+        toast.success(response.data.message);
+        setIsSaved(!isSaved);
+      }
+    } catch (error) {
+      if (error.response.status === 400) {
+        toast.error(error.response.data.error);
+      }
+    }
+  };
+
+  const unsavedJob = async (jobId) => {
+    try {
+      const response = await axios.delete(
+        `${baseURL}/api/saved-job/?job_id=${jobId}&user_id=${user.user_id}`
+      );
+      if (response.status === 200) {
+        toast.success(response.data.message);
+        setIsSaved(!isSaved);
       }
     } catch (error) {
       if (error.response.status === 400) {
@@ -200,9 +234,19 @@ const JobItemPage = () => {
               </button>
             )}
 
-            <button className="btn btn-md btn-outline rounded-full">
-              Save Job
-            </button>
+            {isSaved ? (
+              <button
+                onClick={() => unsavedJob(data.id)}
+                className="btn btn-md btn-outline rounded-full">
+                Unsaved Job
+              </button>
+            ) : (
+              <button
+                onClick={() => saveJob(data.id)}
+                className="btn btn-md btn-outline rounded-full">
+                Save Job
+              </button>
+            )}
           </div>
 
           <div className="mt-9">

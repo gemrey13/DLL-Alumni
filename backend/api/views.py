@@ -44,6 +44,7 @@ from .models import (
     UserWorkExperience,
     UserSkill,
     JobApplication,
+    SaveJob,
 )
 
 
@@ -113,6 +114,40 @@ class JobApplicationForUser(ListAPIView):
                 num_applicants=Count(
                     "applications", filter=Q(applications__in=user_applications)
                 )
+            )
+
+            return queryset
+
+        return None
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        if queryset is not None:
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = self.serializer_class(page, many=True)
+                return self.get_paginated_response(serializer.data)
+
+        return Response([], status=status.HTTP_200_OK)
+
+
+class SavedJobForUser(ListAPIView):
+    serializer_class = JobListSerializer
+    pagination_class = JobRecommendationForUserPagination
+
+    def get_queryset(self):
+        queryset = Job.objects.filter(is_approved_by_admin=True)
+        user_id = self.request.query_params.get("user_id", None)
+
+        if user_id:
+            user = User.objects.get(pk=user_id)
+            user_applications = SaveJob.objects.filter(user=user)
+
+            queryset = queryset.filter(saved__in=user_applications).order_by(
+                "-saved__saved_at"
+            )
+            queryset = queryset.annotate(
+                num_applicants=Count("saved", filter=Q(saved__in=user_applications))
             )
 
             return queryset
@@ -407,6 +442,8 @@ class GetJobDetails(APIView):
             user=user, job=job_instance
         ).exists()
 
+        is_saved_job = SaveJob.objects.filter(user=user, job=job_instance).exists()
+
         posted_by_user = job_instance.posted_by
         user_serializer = UserDetailSerializer(posted_by_user)
 
@@ -416,6 +453,7 @@ class GetJobDetails(APIView):
             **job_serialize.data,
             "posted_by": user_serializer.data,
             "is_applied": is_already_applied,
+            "is_saved": is_saved_job,
         }
 
         return Response(data, status=status.HTTP_200_OK)
@@ -518,6 +556,67 @@ class JobApplicationView(APIView):
         except JobApplication.DoesNotExist:
             return Response(
                 {"error": "Job application does not exist."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+
+class SavedJobView(APIView):
+    def post(self, request, *args, **kwargs):
+        job_id = self.request.query_params.get("job_id", None)
+        user_id = self.request.query_params.get("user_id", None)
+
+        if not job_id:
+            return Response(
+                {"error": "Missing job_id parameter."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        if not user_id:
+            return Response(
+                {"error": "Missing user_id parameter."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        job_instance = get_object_or_404(Job, id=job_id)
+        user_instance = get_object_or_404(User, id=user_id)
+
+        try:
+            SaveJob.objects.create(job=job_instance, user=user_instance)
+            return Response({"message": "Saved Job."}, status=status.HTTP_200_OK)
+        except IntegrityError:
+            return Response(
+                {"error": "Saved job already exists."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    def delete(self, request, *args, **kwargs):
+        job_id = self.request.query_params.get("job_id", None)
+        user_id = self.request.query_params.get("user_id", None)
+
+        if not job_id:
+            return Response(
+                {"error": "Missing job_id parameter."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if not user_id:
+            return Response(
+                {"error": "Missing user_id parameter."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        job_instance = get_object_or_404(Job, id=job_id)
+        user_instance = get_object_or_404(User, id=user_id)
+
+        try:
+            saved_job = SaveJob.objects.get(job=job_instance, user=user_instance)
+            saved_job.delete()
+            return Response(
+                {"message": "Unsaved job."},
+                status=status.HTTP_200_OK,
+            )
+        except JobApplication.DoesNotExist:
+            return Response(
+                {"error": "Saved job does not exist."},
                 status=status.HTTP_404_NOT_FOUND,
             )
 
