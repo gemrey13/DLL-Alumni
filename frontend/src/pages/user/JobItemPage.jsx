@@ -30,14 +30,16 @@ const JobItemPage = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [isApplied, setIsApplied] = useState(false);
 
   useEffect(() => {
     const fetchJobItemDetails = async () => {
       try {
         const response = await axios.get(`${baseURL}/api/job-details/`, {
-          params: { job_id: job_id },
+          params: { job_id: job_id, user_id: user.user_id },
         });
         setData(response.data);
+        setIsApplied(response.data.is_applied);
         setLoading(false);
       } catch (error) {
         setError(true);
@@ -52,9 +54,25 @@ const JobItemPage = () => {
       const response = await axios.post(
         `${baseURL}/api/job-application/?job_id=${jobId}&user_id=${user.user_id}`
       );
-      console.log(response);
       if (response.status === 200) {
         toast.success(response.data.message);
+        setIsApplied(!isApplied);
+      }
+    } catch (error) {
+      if (error.response.status === 400) {
+        toast.error(error.response.data.error);
+      }
+    }
+  };
+
+  const removeJob = async (jobId) => {
+    try {
+      const response = await axios.delete(
+        `${baseURL}/api/job-application/?job_id=${jobId}&user_id=${user.user_id}`
+      );
+      if (response.status === 200) {
+        toast.success(response.data.message);
+        setIsApplied(!isApplied);
       }
     } catch (error) {
       if (error.response.status === 400) {
@@ -168,11 +186,20 @@ const JobItemPage = () => {
 
         <aside className="py-7 pl-0 lg:pl-5 w-full lg:w-[20%]">
           <div className="flex flex-col ">
-            <button
-              onClick={() => applyJob(data.id)}
-              className="btn btn-md btn-primary rounded-full mb-3">
-              Apply Now
-            </button>
+            {isApplied ? (
+              <button
+                onClick={() => removeJob(data.id)}
+                className="btn btn-md btn-primary rounded-full mb-3">
+                Remove Application
+              </button>
+            ) : (
+              <button
+                onClick={() => applyJob(data.id)}
+                className="btn btn-md btn-primary rounded-full mb-3">
+                Apply Now
+              </button>
+            )}
+
             <button className="btn btn-md btn-outline rounded-full">
               Save Job
             </button>

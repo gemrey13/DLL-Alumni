@@ -106,7 +106,9 @@ class JobApplicationForUser(ListAPIView):
             user = User.objects.get(pk=user_id)
             user_applications = JobApplication.objects.filter(user=user)
 
-            queryset = queryset.filter(applications__in=user_applications).order_by("-applications__applied_at")
+            queryset = queryset.filter(applications__in=user_applications).order_by(
+                "-applications__applied_at"
+            )
             queryset = queryset.annotate(
                 num_applicants=Count(
                     "applications", filter=Q(applications__in=user_applications)
@@ -373,6 +375,7 @@ class TableAlumniView(ListAPIView):
 class GetJobDetails(APIView):
     def get(self, request, *args, **kwargs):
         job_id = self.request.query_params.get("job_id", None)
+        user_id = self.request.query_params.get("user_id", None)
 
         if not job_id:
             return Response(
@@ -380,20 +383,40 @@ class GetJobDetails(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        job_detail = Job.objects.filter(id=job_id)
-        if not job_detail.exists():
+        if not user_id:
+            return Response(
+                {"error": "Missing user_id parameter"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        try:
+            job_instance = Job.objects.get(id=job_id)
+        except Job.DoesNotExist:
             return Response(
                 {"error": "Job detail not found"}, status=status.HTTP_404_NOT_FOUND
             )
 
-        job_instance = job_detail.first()
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response(
+                {"error": "User not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        is_already_applied = JobApplication.objects.filter(
+            user=user, job=job_instance
+        ).exists()
 
         posted_by_user = job_instance.posted_by
         user_serializer = UserDetailSerializer(posted_by_user)
 
         job_serialize = JobItemDetailsSerializer(job_instance)
 
-        data = {**job_serialize.data, "posted_by": user_serializer.data}
+        data = {
+            **job_serialize.data,
+            "posted_by": user_serializer.data,
+            "is_applied": is_already_applied,
+        }
 
         return Response(data, status=status.HTTP_200_OK)
 
@@ -462,6 +485,40 @@ class JobApplicationView(APIView):
             return Response(
                 {"error": "Job application already exists."},
                 status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    def delete(self, request, *args, **kwargs):
+        job_id = self.request.query_params.get("job_id", None)
+        user_id = self.request.query_params.get("user_id", None)
+
+        if not job_id:
+            return Response(
+                {"error": "Missing job_id parameter."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        if not user_id:
+            return Response(
+                {"error": "Missing user_id parameter."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        job_instance = get_object_or_404(Job, id=job_id)
+        user_instance = get_object_or_404(User, id=user_id)
+
+        try:
+            application = JobApplication.objects.get(
+                job=job_instance, user=user_instance
+            )
+            application.delete()
+            return Response(
+                {"message": "Application removed successfully."},
+                status=status.HTTP_200_OK,
+            )
+        except JobApplication.DoesNotExist:
+            return Response(
+                {"error": "Job application does not exist."},
+                status=status.HTTP_404_NOT_FOUND,
             )
 
 
