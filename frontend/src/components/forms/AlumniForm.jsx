@@ -140,7 +140,6 @@ const AlumniForm = () => {
           `${baseURL}/api/curriculum-year-list/`
         );
         setYears(response.data);
-        console.log(response);
       } catch (error) {
         console.log(error);
       }
