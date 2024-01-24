@@ -5,8 +5,16 @@ const Profile = lazy(() => import("../pages/user/Profile"));
 const EditProfilePage = lazy(() => import("../pages/user/EditProfilePage"));
 const JobPage = lazy(() => import("../pages/user/JobPage"));
 const SavedJobsPage = lazy(() => import("../pages/user/SavedJobsPage"));
+const JobApplicationPage = lazy(
+  () => import("../pages/user/JobApplicationPage")
+);
 
 const coreRoutes = [
+  {
+    path: "/u/job-application",
+    title: "JobApplicationPage",
+    component: JobApplicationPage,
+  },
   {
     path: "/u/saved-jobs",
     title: "SavedJobsPage",
