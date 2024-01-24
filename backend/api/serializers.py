@@ -20,6 +20,7 @@ from .models import (
     UserSkill,
     UserWorkExperience,
     Language,
+    JobApplication,
 )
 
 
@@ -180,7 +181,7 @@ class JobListSerializer(serializers.ModelSerializer):
     posted_by = serializers.CharField(source="posted_by.username", read_only=True)
     category = serializers.StringRelatedField(many=True, read_only=True)
     created_at = serializers.DateTimeField(format="%Y-%m-%d %H:%M:%S", read_only=True)
-    num_applicants = serializers.IntegerField(read_only=True)
+    num_applicants = serializers.SerializerMethodField()
     applicants_names = serializers.SerializerMethodField()
 
     def get_applicants_names(self, obj):
@@ -195,6 +196,9 @@ class JobListSerializer(serializers.ModelSerializer):
             for applicant in applicants
         ]
         return names
+
+    def get_num_applicants(self, obj):
+        return len(obj.applications.all())
 
     class Meta:
         model = Job
@@ -236,6 +240,8 @@ class JobItemDetailsSerializer(serializers.ModelSerializer):
 
 
 class JobSerializer(serializers.ModelSerializer):
+    category = JobCategorySerializer(many=True, read_only=True)
+
     class Meta:
         model = Job
         fields = [
@@ -252,6 +258,14 @@ class JobSerializer(serializers.ModelSerializer):
             "category",
             "experience_level",
         ]
+
+
+class JobApplicationSerializer(serializers.ModelSerializer):
+    job_details = JobSerializer(source="job", read_only=True)
+
+    class Meta:
+        model = JobApplication
+        fields = ["id", "applied_at", "job", "user", "job_details"]
 
 
 class CurrentJobSerializer(serializers.ModelSerializer):

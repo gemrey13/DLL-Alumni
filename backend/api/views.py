@@ -6,7 +6,6 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from rest_framework import status
 from django.db import transaction, IntegrityError
 from django.contrib.auth.models import User
-from datetime import datetime
 from django.db.models import Count, Q
 from django.shortcuts import get_object_or_404
 
@@ -25,6 +24,7 @@ from .serializers import (
     UserDetailSerializer,
     LanguageSerializer,
     JobSerializer,
+    JobApplicationSerializer,
 )
 from .models import (
     GraduateInformation,
@@ -78,6 +78,40 @@ class JobRecommendationForUser(ListAPIView):
 
             queryset = queryset.filter(category__in=user_skills)
             queryset = queryset.annotate(num_applicants=Count("applications"))
+
+            return queryset
+
+        return None
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        if queryset is not None:
+            page = self.paginate_queryset(queryset)
+            if page is not None:
+                serializer = self.serializer_class(page, many=True)
+                return self.get_paginated_response(serializer.data)
+
+        return Response([], status=status.HTTP_200_OK)
+
+
+class JobApplicationForUser(ListAPIView):
+    serializer_class = JobListSerializer
+    pagination_class = JobRecommendationForUserPagination
+
+    def get_queryset(self):
+        queryset = Job.objects.filter(is_approved_by_admin=True)
+        user_id = self.request.query_params.get("user_id", None)
+
+        if user_id:
+            user = User.objects.get(pk=user_id)
+            user_applications = JobApplication.objects.filter(user=user)
+
+            queryset = queryset.filter(applications__in=user_applications).order_by("-applications__applied_at")
+            queryset = queryset.annotate(
+                num_applicants=Count(
+                    "applications", filter=Q(applications__in=user_applications)
+                )
+            )
 
             return queryset
 

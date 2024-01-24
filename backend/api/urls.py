@@ -26,6 +26,7 @@ from .views import (
     UpdateAccountInformationView,
     LanguageView,
     UpdateProfileForm,
+    JobApplicationForUser,
     JobApplicationView,
 )
 
@@ -61,6 +62,11 @@ urlpatterns = [
     ),
     # Job Application
     path("job-application/", JobApplicationView.as_view(), name="job-application"),
+    path(
+        "user-job-application/",
+        JobApplicationForUser.as_view(),
+        name="user-job-application",
+    ),
     # Registration
     path("signup/", UserRegistrationView.as_view(), name="sign-up"),
     # Metrics
