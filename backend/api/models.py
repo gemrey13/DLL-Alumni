@@ -99,6 +99,18 @@ class JobApplication(models.Model):
         unique_together = ("job", "user")
 
 
+class SaveJob(models.Model):
+    job = models.ForeignKey(Job, related_name="saved", on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    saved_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Saved job for {self.job.title} by {self.user.username}"
+
+    class Meta:
+        unique_together = ("job", "user")
+
+
 # Tracer Form Survey
 class Address(models.Model):
     country = models.CharField(max_length=80)
