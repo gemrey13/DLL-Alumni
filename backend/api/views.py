@@ -406,6 +406,34 @@ class TableAlumniView(ListAPIView):
         return queryset
 
 
+class CurriculumView(APIView):
+    def post(self, request, *args, **kwargs):
+        print(request.data)
+        serializer = CurriculumSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, *args, **kwargs):
+        cmo_no = self.request.query_params.get("cmo_no", None)
+
+        if not cmo_no:
+            return Response(
+                {"error": "Missing cmo_no parameter"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        curriculum_instance = get_object_or_404(Curriculum, cmo_no=cmo_no)
+        curriculum_instance.delete()
+
+        return Response(
+            {"message": "Curriculum deleted successfully"},
+            status=status.HTTP_204_NO_CONTENT,
+        )
+
+
 class GetJobDetails(APIView):
     def get(self, request, *args, **kwargs):
         job_id = self.request.query_params.get("job_id", None)

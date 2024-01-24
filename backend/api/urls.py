@@ -30,6 +30,7 @@ from .views import (
     JobApplicationView,
     SavedJobForUser,
     SavedJobView,
+    CurriculumView,
 )
 
 
@@ -41,6 +42,7 @@ urlpatterns = [
     path("table-alumni/", TableAlumniView.as_view(), name="table-alumni"),
     path("alumni-form/", AlumniForm.as_view(), name="alumni-form"),
     path("get-profile/", GetProfileView.as_view(), name="get-profile"),
+    path("curriculum-handler/", CurriculumView.as_view(), name="curriculum-handler"),
     # user
     path("job-type-list/", JobTypeList.as_view(), name="job-type-list"),
     path("job-category-list/", JobCategoryList.as_view(), name="job-category-list"),
