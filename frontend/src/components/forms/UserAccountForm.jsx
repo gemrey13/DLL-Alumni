@@ -59,7 +59,7 @@ const UserAccountForm = () => {
                 type="text"
                 placeholder="Enter your first name"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                value={user.first_name}
+                defaultValue={user.first_name}
               />
             </div>
 
@@ -74,7 +74,7 @@ const UserAccountForm = () => {
                 type="text"
                 placeholder="Enter your last name"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                value={user.last_name}
+                defaultValue={user.last_name}
               />
             </div>
 
@@ -89,7 +89,7 @@ const UserAccountForm = () => {
                 type="text"
                 placeholder="Enter your username"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                value={user.username}
+                defaultValue={user.username}
               />
             </div>
 
@@ -104,7 +104,7 @@ const UserAccountForm = () => {
                 type="email"
                 placeholder="Enter your email"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
-                value={user.email}
+                defaultValue={user.email}
               />
             </div>
 
@@ -128,8 +128,9 @@ const UserAccountForm = () => {
               </label>
               <input
                 {...register("confirmPassword", {
-                  validate: (value) =>
-                    value === getValues("password") || "Passwords do not match",
+                  validate: (defaultValue) =>
+                    defaultValue === getValues("password") ||
+                    "Passwords do not match",
                 })}
                 type="password"
                 placeholder="Re-type your password"
