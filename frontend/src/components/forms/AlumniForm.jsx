@@ -3,6 +3,7 @@ import axios from "axios";
 import baseURL from "@/apiConfig";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import Loader from "../../common/Loader";
 
 const AlumniForm = () => {
   const { register, watch, handleSubmit, reset } = useForm();
@@ -12,6 +13,7 @@ const AlumniForm = () => {
   const [isPromoted, setIsPromoted] = useState(false);
   const [isRelated, setIsRelated] = useState(false);
   const [isPursued, setIsPursued] = useState(false);
+  const [years, setYears] = useState([]);
   const [rows, setRows] = useState([
     {
       name: "",
@@ -45,8 +47,6 @@ const AlumniForm = () => {
     };
     fetchCoursesForCurriculum(data);
   }, [watch("year_graduated")]);
-
-  const years = Array.from({ length: 20 }, (_, index) => 2005 + index);
 
   const fetchCoursesForCurriculum = async (year_graduated) => {
     try {
@@ -132,6 +132,21 @@ const AlumniForm = () => {
     "Remote",
     "Student",
   ];
+
+  useEffect(() => {
+    const fetchCurriculumYears = async () => {
+      try {
+        const response = await axios.get(
+          `${baseURL}/api/curriculum-year-list/`
+        );
+        setYears(response.data);
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchCurriculumYears();
+  }, []);
 
   return (
     <>

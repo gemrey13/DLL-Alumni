@@ -6,7 +6,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser, AllowAny
 from rest_framework import status
 from django.db import transaction, IntegrityError
 from django.contrib.auth.models import User
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Min, Max
 from django.shortcuts import get_object_or_404
 
 from .serializers import (
@@ -282,6 +282,23 @@ class CurriculumCourseView(ListAPIView):
                 queryset = Course.objects.none()
         return queryset
 
+
+class CurriculumYearList(ListAPIView):
+    serializer_class = CurriculumSerializer
+
+    def get_queryset(self):
+        result = Curriculum.objects.aggregate(min_year=Min('start_year'), max_year=Max('end_year'))
+        min_year = result['min_year']
+        max_year = result['max_year']
+
+        all_years = list(range(min_year, max_year + 1))
+
+        return all_years
+    
+    def list(self, request, *args, **kwargs):
+        data = self.get_queryset()
+
+        return Response(data)
 
 class AlumniMetricsSummary(ListAPIView):
     serializer_class = CurrentJobSerializer
