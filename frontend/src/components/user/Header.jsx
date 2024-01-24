@@ -35,7 +35,7 @@ const Header = () => {
                     <NavLink to="/u/jobs">Find Work</NavLink>
                   </li>
                   <li>
-                    <NavLink to="/u/sdfd">Saved Jobs</NavLink>
+                    <NavLink to="/u/saved-jobs">Saved Jobs</NavLink>
                   </li>
                   <li>
                     <NavLink to="/u/sdfd">Job Application</NavLink>
@@ -80,7 +80,7 @@ const Header = () => {
                     <NavLink to="/u/jobs">Find Work</NavLink>
                   </li>
                   <li>
-                    <NavLink to="/u/fg">Saved Jobs</NavLink>
+                    <NavLink to="/u/saved-jobs">Saved Jobs</NavLink>
                   </li>
                   <li>
                     <NavLink to="/u/fgfd">Job Application</NavLink>
