@@ -24,7 +24,6 @@ from .serializers import (
     UserDetailSerializer,
     LanguageSerializer,
     JobSerializer,
-    JobApplicationSerializer,
 )
 from .models import (
     GraduateInformation,

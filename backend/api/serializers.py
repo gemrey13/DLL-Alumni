@@ -182,14 +182,6 @@ class JobSerializer(serializers.ModelSerializer):
         ]
 
 
-class JobApplicationSerializer(serializers.ModelSerializer):
-    job_details = JobSerializer(source="job", read_only=True)
-
-    class Meta:
-        model = JobApplication
-        fields = ["id", "applied_at", "job", "user", "job_details"]
-
-
 class CurrentJobSerializer(serializers.ModelSerializer):
     class Meta:
         model = CurrentJob
