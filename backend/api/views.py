@@ -287,18 +287,21 @@ class CurriculumYearList(ListAPIView):
     serializer_class = CurriculumSerializer
 
     def get_queryset(self):
-        result = Curriculum.objects.aggregate(min_year=Min('start_year'), max_year=Max('end_year'))
-        min_year = result['min_year']
-        max_year = result['max_year']
+        result = Curriculum.objects.aggregate(
+            min_year=Min("start_year"), max_year=Max("end_year")
+        )
+        min_year = result["min_year"]
+        max_year = result["max_year"]
 
         all_years = list(range(min_year, max_year + 1))
 
         return all_years
-    
+
     def list(self, request, *args, **kwargs):
         data = self.get_queryset()
 
         return Response(data)
+
 
 class AlumniMetricsSummary(ListAPIView):
     serializer_class = CurrentJobSerializer
@@ -421,6 +424,38 @@ class TableAlumniView(ListAPIView):
             queryset = queryset.filter(alumni__course__no_units=no_of_units)
 
         return queryset
+
+
+class CurriculumWithCoursesList(APIView):
+    def get(self, request, *args, **kwargs):
+        curriculums = Curriculum.objects.all().order_by("-cmo_no")
+        serializer = CurriculumSerializer(curriculums, many=True)
+        data = serializer.data
+
+        for curriculum_data in data:
+            curriculum = Curriculum.objects.get(cmo_no=curriculum_data["cmo_no"])
+            courses = Course.objects.filter(curriculum=curriculum)
+            course_serializer = CourseSerializer(courses, many=True)
+            curriculum_data["courses"] = course_serializer.data
+
+        return Response(data)
+
+    def delete(self, request, *args, **kwargs):
+        course_id = self.request.query_params.get("course_id", None)
+
+        if not course_id:
+            return Response(
+                {"error": "Missing course_id parameter"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        course_instance = get_object_or_404(Course, course_id=course_id)
+        course_instance.delete()
+
+        return Response(
+            {"message": "Course deleted successfully"},
+            status=status.HTTP_204_NO_CONTENT,
+        )
 
 
 class CurriculumView(APIView):

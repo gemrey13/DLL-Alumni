@@ -32,12 +32,18 @@ from .views import (
     SavedJobView,
     CurriculumView,
     CurriculumYearList,
+    CurriculumWithCoursesList,
 )
 
 
 urlpatterns = [
     # admin
     path("curriculum-list/", CurriculumList.as_view(), name="curriculum-list"),
+    path(
+        "curriculum-with-courses-list/",
+        CurriculumWithCoursesList.as_view(),
+        name="curriculum-with-courses-list",
+    ),
     path(
         "curriculum-year-list/",
         CurriculumYearList.as_view(),
