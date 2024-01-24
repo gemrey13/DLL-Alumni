@@ -48,7 +48,7 @@ const TableCurriculumList = () => {
         );
         fetchData();
       } catch (error) {
-        console.error("Error deleting job:", error);
+        console.error("Error deleting curriculum:", error);
       }
     }
   };
