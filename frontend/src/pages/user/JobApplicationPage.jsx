@@ -49,7 +49,7 @@ const JobApplicationPage = () => {
   if (data.length === 0) {
     return (
       <div className="h-screen align-middle text-center pt-20 text-2xl text-black">
-        Please setup your account.
+        No Job Application.
       </div>
     );
   }
