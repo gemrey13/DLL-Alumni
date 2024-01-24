@@ -15,7 +15,6 @@ const TableCoursesList = () => {
       );
       const data = response.data;
       setData(data);
-      console.log(data);
     } catch (error) {
       setData([]);
     }
