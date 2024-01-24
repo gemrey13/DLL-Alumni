@@ -25,7 +25,7 @@ class Command(BaseCommand):
     help = "Generate dummy data for testing purposes"
 
     def handle(self, *args, **options):
-        self.stdout.write(self.style.SUCCESS("Generating dummy data..."))
+        self.stdout.write(self.style.SUCCESS("Generating dummy job data..."))
 
         job_positions = [
             "Software Engineer",
@@ -317,16 +317,6 @@ class Command(BaseCommand):
             "Zamboanga City, Philippines",
         ]
 
-        User.objects.create_superuser(
-            username="admin",
-            password="admin",
-            first_name="Gem Rey",
-            last_name="Rañola",
-            email="gemreyranola@gmail.com",
-        )
-
-        print("Admin Profile Generated", end="\n\n\n")
-
         categories = [JobCategory(name=i) for i in job_categories]
 
         languages = [Language.objects.create(name=i) for i in languages_list]
@@ -431,4 +421,4 @@ class Command(BaseCommand):
                 if not existing_application:
                     JobApplication.objects.create(job=random_job, user=random_user)
 
-        self.stdout.write(self.style.SUCCESS("Dummy data generation completed."))
+        self.stdout.write(self.style.SUCCESS("Dummy data jobs record completed."))

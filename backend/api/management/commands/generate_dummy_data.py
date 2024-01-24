@@ -23,7 +23,9 @@ class Command(BaseCommand):
     help = "Generate dummy data for testing purposes"
 
     def handle(self, *args, **options):
-        self.stdout.write(self.style.SUCCESS("Generating dummy data..."))
+        self.stdout.write(
+            self.style.SUCCESS("Generating dummy data for alumni tracer...")
+        )
 
         job_positions = [
             "Software Engineer",
@@ -121,29 +123,6 @@ class Command(BaseCommand):
 
             Course.objects.bulk_create(courses_list)
 
-        admin_address = Address.objects.create(
-            country="Phillipines",
-            region="Region 4A",
-            province="Quezon",
-            city="Lucena City",
-            barangay="Cotta",
-            zip_code="4301",
-        )
-
-        superuser = User.objects.create_superuser(
-            username="admin",
-            password="admin",
-            first_name="Gem Rey",
-            last_name="Rañola",
-            email="gemreyranola@gmail.com",
-        )
-
-        print()
-        print()
-        print("Admin Profile Generated", end="\n")
-        print()
-        print()
-
         province = ["Quezon", "Batangas", "Laguna"]
         religion = ["Catholic", "INC", "Muslim"]
         marital = ["Single", "Married", "Widowed"]
@@ -199,7 +178,6 @@ class Command(BaseCommand):
                     year_range, weights=increasing_weights, k=3
                 )[0]
 
-                print(f"{i+1}.) {first_name} {last_name}")
                 random.shuffle(region_codes)
                 region_code = region_codes[0]
 
@@ -295,7 +273,6 @@ class Command(BaseCommand):
                 curriculum = graduate_info.curriculum
                 if curriculum:
                     selected_course = random.choice(graduate_info.courses)
-                    # Now you can use the selected_course as needed in your AlumniProfile creation logic
                     alumni_profile.course = selected_course
                     alumni_profile.save()
 
@@ -330,7 +307,6 @@ class Command(BaseCommand):
                             date_employed=date_employed,
                         )
                         latest_employment_date = date_employed
-                    print("\trecord:", k + 1)
 
                 random_current_jobs = [True, False]
                 random_current_job_prob = [0.8, 0.2]
@@ -368,7 +344,6 @@ class Command(BaseCommand):
                     return random_date_result
 
                 if random_current_job:
-                    print("\thave current job")
                     current_job = CurrentJob.objects.create(
                         alumni=alumni_profile,
                         job_position=random.choice(job_positions),
@@ -389,7 +364,4 @@ class Command(BaseCommand):
                         date_employed=random_current_date(graduation_year),
                     )
 
-                print()
-                print()
-
-        self.stdout.write(self.style.SUCCESS("Dummy data generation completed."))
+        self.stdout.write(self.style.SUCCESS("Dummy data for alumni tracer completed."))
