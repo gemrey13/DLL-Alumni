@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }) => {
         toast.error("Something went wrong while logging in the user!");
       }
     } catch (error) {
-      toast.error("Login errors:", error);
+      toast.error("Error Credentials");
     }
   };
 
