@@ -4,7 +4,9 @@ import News from "../components/landing/News";
 const NewsPage = () => {
   return (
     <>
-      <News />
+      <section className="pb-20">
+        <News />
+      </section>
     </>
   );
 };
