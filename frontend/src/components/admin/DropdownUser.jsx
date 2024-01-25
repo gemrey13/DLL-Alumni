@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import { Link } from "react-router-dom";
-import Me from "../../images/me.png";
+import { HiOutlineDocumentText } from "react-icons/hi";
 
 const DropdownUser = () => {
   let { logoutUser, user } = useContext(AuthContext);
@@ -101,6 +101,14 @@ const DropdownUser = () => {
                 />
               </svg>
               Account Settings
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/admin/add-job"
+              className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+              <HiOutlineDocumentText size={20} />
+              Add Job
             </Link>
           </li>
         </ul>
