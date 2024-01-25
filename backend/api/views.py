@@ -442,7 +442,6 @@ class CurriculumWithCoursesList(APIView):
 
     def post(self, request, *args, **kwargs):
         data = request.data
-        print(data)
 
         try:
             curriculum_instance = get_object_or_404(

@@ -23,7 +23,6 @@ const AddCoursesHeader = () => {
         }, 500);
       }
     } catch (error) {
-      console.log(error);
       toast.error(error.response.data.error);
     }
   };
@@ -33,7 +32,6 @@ const AddCoursesHeader = () => {
       try {
         const response = await axios.get(`${baseURL}/api/curriculum-list/`);
         setCurriculumList(response.data);
-        console.log(response.data);
       } catch (error) {
         console.error(error);
       }
