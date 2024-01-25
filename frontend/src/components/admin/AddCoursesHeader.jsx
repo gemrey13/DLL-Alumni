@@ -23,6 +23,8 @@ const AddCoursesHeader = () => {
         }, 500);
       }
     } catch (error) {
+      document.getElementById("add_course").close();
+
       toast.error(error.response.data.error);
     }
   };

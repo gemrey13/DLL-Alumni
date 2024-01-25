@@ -81,7 +81,7 @@ const TableCoursesList = () => {
                   <tr key={course.course_id}>
                     <td className="border-b border-[#eee] py-5 px-4 pl-9 dark:border-strokedark xl:pl-11">
                       <h5 className="font-medium text-black dark:text-white">
-                        {course.course_name}
+                        {course.course_name.toUpperCase()}
                       </h5>
                     </td>
                     <td className="border-b border-[#eee] py-5 px-4 dark:border-strokedark">
