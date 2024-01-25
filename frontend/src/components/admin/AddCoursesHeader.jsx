@@ -11,19 +11,20 @@ const AddCoursesHeader = () => {
   const onsubmit = async (data) => {
     try {
       const response = await axios.post(
-        `${baseURL}/api/curriculum-handler/`,
+        `${baseURL}/api/curriculum-with-courses-list/`,
         data
       );
       if (response.status === 201) {
-        toast.success("Curriculum Added");
-        document.getElementById("add_curriculum").close();
+        toast.success("Course Added");
+        document.getElementById("add_course").close();
         reset();
         setTimeout(() => {
           location.reload();
         }, 500);
       }
     } catch (error) {
-      toast.error("Something went wrong.");
+      console.log(error);
+      toast.error(error.response.data.error);
     }
   };
 
@@ -50,9 +51,7 @@ const AddCoursesHeader = () => {
       <div className="flex flex-col gap-4 2xsm:flex-row 2xsm:items-center">
         <div>
           <button
-            onClick={() =>
-              document.getElementById("add_curriculum").showModal()
-            }
+            onClick={() => document.getElementById("add_course").showModal()}
             className="flex items-center gap-2 rounded bg-primary py-2 px-4.5 font-medium text-white hover:bg-opacity-80">
             <svg
               className="fill-current"
@@ -69,7 +68,7 @@ const AddCoursesHeader = () => {
             Add course
           </button>
 
-          <dialog id="add_curriculum" className="modal">
+          <dialog id="add_course" className="modal">
             <div className="modal-box w-11/12 max-w-5xl dark:bg-boxdark">
               <form method="dialog">
                 <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">

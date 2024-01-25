@@ -440,6 +440,39 @@ class CurriculumWithCoursesList(APIView):
 
         return Response(data)
 
+    def post(self, request, *args, **kwargs):
+        data = request.data
+        print(data)
+
+        try:
+            curriculum_instance = get_object_or_404(
+                Curriculum, cmo_no=data["curriculum"]
+            )
+        except Curriculum.DoesNotExist:
+            return Response(
+                {"error": "Curriculum not found"}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        try:
+            Course.objects.create(
+                curriculum=curriculum_instance,
+                course_id=data["course_id"],
+                course_name=data["course_name"],
+                course_desc=data["course_desc"],
+                no_units=data["no_units"],
+            )
+            return Response(data, status=status.HTTP_201_CREATED)
+        except IntegrityError:
+            return Response(
+                {"error": "Course might already exist"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        except Exception as e:
+            return Response(
+                {"error": f"An unexpected error occurred: {e}"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            )
+
     def delete(self, request, *args, **kwargs):
         course_id = self.request.query_params.get("course_id", None)
 
