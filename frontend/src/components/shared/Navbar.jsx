@@ -25,7 +25,7 @@ function Navbar() {
               />
             </svg>
           </div>
-          <ul className="menu menu-sm dropdown-content mt-3 z-[1] px-3 py-4 shadow bg-black rounded-box w-52">
+          <ul className="menu menu-sm dropdown-content mt-3 z-[1] px-3 py-4 shadow bg-black rounded-box w-64">
             <li className="">
               <NavLink to="/" className="text-base py-1">
                 Home
@@ -36,10 +36,16 @@ function Navbar() {
                 About
               </NavLink>
             </li>
-            <li>
-              <NavLink to="/news" className="text-base py-1">
-                News and Update
-              </NavLink>
+            <li className="py-2">
+              <a className="menu-title text-whiten">News and Update</a>
+              <ul className="px-3 py-4 shadow bg-black rounded-box w-52">
+                <li>
+                  <NavLink to="/news">News</NavLink>
+                </li>
+                <li>
+                  <a>System Updates</a>
+                </li>
+              </ul>
             </li>
             <li>
               <NavLink to="/tracer-survey-form" className="text-base py-1">
