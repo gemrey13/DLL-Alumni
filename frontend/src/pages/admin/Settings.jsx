@@ -1,40 +1,43 @@
 import Breadcrumb from "../../components/admin/Breadcrumb";
-import userThree from "../../images/admin/user/user-03.png";
-import fireToast from "../../hooks/fireToast";
-import { useState, useEffect, useContext } from "react";
+import { useContext } from "react";
+import toast from "react-hot-toast";
+import baseURL from "@/apiConfig";
 import AuthContext from "../../context/AuthContext";
+import axios from "axios";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 const Settings = () => {
   let { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const [modalOpen, setModalOpen] = useState(false);
-  const [rows, setRows] = useState(
-    localStorage.getItem("alertSettings")
-      ? JSON.parse(localStorage.getItem("alertSettings"))
-      : []
-  );
-  useEffect(() => {
-    // storing input name
-    localStorage.setItem("alertSettings", JSON.stringify(rows));
-  }, [rows]);
-  const [rowToEdit, setRowToEdit] = useState(null);
-  const handleDeleteRow = (targetIndex) => {
-    setRows(rows.filter((_, idx) => idx !== targetIndex));
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting, isValid },
+    getValues,
+  } = useForm({
+    mode: "onChange",
+  });
+
+  const resetForm = () => {
+    reset();
+    toast.success("Form resetted!");
   };
-  const handleEditRow = (idx) => {
-    setRowToEdit(idx);
-    setModalOpen(true);
+
+  const onSubmit = async (data) => {
+    try {
+      const response = await axios.put(
+        `${baseURL}/api/update-account-information/${user.user_id}/`,
+        data
+      );
+      navigate("/confirm-changes");
+    } catch (error) {
+      toast.error("Error updating user account. Please try again.");
+    }
   };
-  const handleSubmit = (newRow) => {
-    rowToEdit === null
-      ? setRows([...rows, newRow])
-      : setRows(
-          rows.map((currRow, idx) => {
-            if (idx !== rowToEdit) return currRow;
-            return newRow;
-          })
-        );
-  };
+
   return (
     <>
       <div className="mx-auto max-w-270">
@@ -49,13 +52,13 @@ const Settings = () => {
                 </h3>
               </div>
               <div className="p-7">
-                <form action="#">
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="mb-5.5 flex flex-col gap-5.5 sm:flex-row">
                     <div className="w-full sm:w-1/2">
                       <label
                         className="mb-3 block text-sm font-medium text-black dark:text-white"
-                        htmlFor="fullName">
-                        Full Name
+                        htmlFor="first_name">
+                        First Name
                       </label>
                       <div className="relative">
                         <span className="absolute left-4.5 top-4">
@@ -83,12 +86,15 @@ const Settings = () => {
                           </svg>
                         </span>
                         <input
+                          {...register("first_name", {
+                            required: "first_name is required",
+                          })}
                           className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                           type="text"
-                          name="fullName"
-                          id="fullName"
-                          placeholder="Devid Jhon"
-                          defaultValue={`${user.first_name} ${user.last_name}`}
+                          name="first_name"
+                          id="first_name"
+                          placeholder="Enter a First Name"
+                          defaultValue={user.first_name}
                         />
                       </div>
                     </div>
@@ -96,15 +102,19 @@ const Settings = () => {
                     <div className="w-full sm:w-1/2">
                       <label
                         className="mb-3 block text-sm font-medium text-black dark:text-white"
-                        htmlFor="phoneNumber">
-                        Phone Number
+                        htmlFor="last_name">
+                        Last Name
                       </label>
                       <input
+                        {...register("last_name", {
+                          required: "last_name is required",
+                        })}
                         className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                         type="text"
-                        name="phoneNumber"
-                        id="phoneNumber"
-                        placeholder="+990 3343 7865"
+                        name="last_name"
+                        id="last_name"
+                        placeholder="Enter a Last Name"
+                        defaultValue={user.last_name}
                       />
                     </div>
                   </div>
@@ -141,11 +151,14 @@ const Settings = () => {
                         </svg>
                       </span>
                       <input
+                        {...register("email", {
+                          required: "email is required",
+                        })}
                         className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                         type="email"
                         name="emailAddress"
                         id="emailAddress"
-                        placeholder={`${user.email}`}
+                        defaultValue={user.email}
                       />
                     </div>
                   </div>
@@ -157,72 +170,107 @@ const Settings = () => {
                       Username
                     </label>
                     <input
+                      {...register("username", {
+                        required: "Username is required",
+                      })}
                       className="w-full rounded border border-stroke bg-gray py-3 px-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
                       type="text"
-                      name="Username"
+                      name="username"
                       id="Username"
                       placeholder="devidjhon24"
                       defaultValue={`${user.username}`}
                     />
                   </div>
-
-                  <div className="mb-5.5">
-                    <label
-                      className="mb-3 block text-sm font-medium text-black dark:text-white"
-                      htmlFor="Username">
-                      BIO
+                  <div className="mb-4">
+                    <label className="mb-2.5 block font-medium text-black dark:text-white">
+                      Password
                     </label>
                     <div className="relative">
-                      <span className="absolute left-4.5 top-4">
+                      <input
+                        {...register("password", {
+                          required: "Password is required",
+                        })}
+                        type="password"
+                        placeholder="Enter your password"
+                        className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                      />
+                      {errors.password && <p>{errors.password.message}</p>}
+
+                      <span className="absolute right-4 top-4">
                         <svg
                           className="fill-current"
-                          width="20"
-                          height="20"
-                          viewBox="0 0 20 20"
+                          width="22"
+                          height="22"
+                          viewBox="0 0 22 22"
                           fill="none"
                           xmlns="http://www.w3.org/2000/svg">
-                          <g opacity="0.8" clipPath="url(#clip0_88_10224)">
+                          <g opacity="0.5">
                             <path
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M1.56524 3.23223C2.03408 2.76339 2.66997 2.5 3.33301 2.5H9.16634C9.62658 2.5 9.99967 2.8731 9.99967 3.33333C9.99967 3.79357 9.62658 4.16667 9.16634 4.16667H3.33301C3.11199 4.16667 2.90003 4.25446 2.74375 4.41074C2.58747 4.56702 2.49967 4.77899 2.49967 5V16.6667C2.49967 16.8877 2.58747 17.0996 2.74375 17.2559C2.90003 17.4122 3.11199 17.5 3.33301 17.5H14.9997C15.2207 17.5 15.4326 17.4122 15.5889 17.2559C15.7452 17.0996 15.833 16.8877 15.833 16.6667V10.8333C15.833 10.3731 16.2061 10 16.6663 10C17.1266 10 17.4997 10.3731 17.4997 10.8333V16.6667C17.4997 17.3297 17.2363 17.9656 16.7674 18.4344C16.2986 18.9033 15.6627 19.1667 14.9997 19.1667H3.33301C2.66997 19.1667 2.03408 18.9033 1.56524 18.4344C1.0964 17.9656 0.833008 17.3297 0.833008 16.6667V5C0.833008 4.33696 1.0964 3.70107 1.56524 3.23223Z"
+                              d="M16.1547 6.80626V5.91251C16.1547 3.16251 14.0922 0.825009 11.4797 0.618759C10.0359 0.481259 8.59219 0.996884 7.52656 1.95938C6.46094 2.92188 5.84219 4.29688 5.84219 5.70626V6.80626C3.84844 7.18438 2.33594 8.93751 2.33594 11.0688V17.2906C2.33594 19.5594 4.19219 21.3813 6.42656 21.3813H15.5016C17.7703 21.3813 19.6266 19.525 19.6266 17.2563V11C19.6609 8.93751 18.1484 7.21876 16.1547 6.80626ZM8.55781 3.09376C9.31406 2.40626 10.3109 2.06251 11.3422 2.16563C13.1641 2.33751 14.6078 3.98751 14.6078 5.91251V6.70313H7.38906V5.67188C7.38906 4.70938 7.80156 3.78126 8.55781 3.09376ZM18.1141 17.2906C18.1141 18.7 16.9453 19.8688 15.5359 19.8688H6.46094C5.05156 19.8688 3.91719 18.7344 3.91719 17.325V11.0688C3.91719 9.52189 5.15469 8.28438 6.70156 8.28438H15.2953C16.8422 8.28438 18.1141 9.52188 18.1141 11V17.2906Z"
                               fill=""
                             />
                             <path
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M16.6664 2.39884C16.4185 2.39884 16.1809 2.49729 16.0056 2.67253L8.25216 10.426L7.81167 12.188L9.57365 11.7475L17.3271 3.99402C17.5023 3.81878 17.6008 3.5811 17.6008 3.33328C17.6008 3.08545 17.5023 2.84777 17.3271 2.67253C17.1519 2.49729 16.9142 2.39884 16.6664 2.39884ZM14.8271 1.49402C15.3149 1.00622 15.9765 0.732178 16.6664 0.732178C17.3562 0.732178 18.0178 1.00622 18.5056 1.49402C18.9934 1.98182 19.2675 2.64342 19.2675 3.33328C19.2675 4.02313 18.9934 4.68473 18.5056 5.17253L10.5889 13.0892C10.4821 13.196 10.3483 13.2718 10.2018 13.3084L6.86847 14.1417C6.58449 14.2127 6.28409 14.1295 6.0771 13.9225C5.87012 13.7156 5.78691 13.4151 5.85791 13.1312L6.69124 9.79783C6.72787 9.65131 6.80364 9.51749 6.91044 9.41069L14.8271 1.49402Z"
+                              d="M10.9977 11.8594C10.5852 11.8594 10.207 12.2031 10.207 12.65V16.2594C10.207 16.6719 10.5508 17.05 10.9977 17.05C11.4102 17.05 11.7883 16.7063 11.7883 16.2594V12.6156C11.7883 12.2031 11.4102 11.8594 10.9977 11.8594Z"
                               fill=""
                             />
                           </g>
-                          <defs>
-                            <clipPath id="clip0_88_10224">
-                              <rect width="20" height="20" fill="white" />
-                            </clipPath>
-                          </defs>
                         </svg>
                       </span>
+                    </div>
+                  </div>
 
-                      <textarea
-                        className="w-full rounded border border-stroke bg-gray py-3 pl-11.5 pr-4.5 text-black focus:border-primary focus-visible:outline-none dark:border-strokedark dark:bg-meta-4 dark:text-white dark:focus:border-primary"
-                        name="bio"
-                        id="bio"
-                        rows={6}
-                        placeholder="Write your bio here"
-                        defaultValue="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque posuere fermentum urna, eu condimentum mauris tempus ut. Donec fermentum blandit aliquet."></textarea>
+                  <div className="mb-6">
+                    <label className="mb-2.5 block font-medium text-black dark:text-white">
+                      Re-type Password
+                    </label>
+                    <div className="relative">
+                      <input
+                        {...register("confirmPassword", {
+                          validate: (value) =>
+                            value === getValues("password") ||
+                            "Passwords do not match",
+                        })}
+                        type="password"
+                        placeholder="Re-enter your password"
+                        className="w-full rounded-lg border border-stroke bg-transparent py-4 pl-6 pr-10 outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
+                      />
+                      {errors.confirmPassword && (
+                        <p>{errors.confirmPassword.message}</p>
+                      )}
+
+                      <span className="absolute right-4 top-4">
+                        <svg
+                          className="fill-current"
+                          width="22"
+                          height="22"
+                          viewBox="0 0 22 22"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg">
+                          <g opacity="0.5">
+                            <path
+                              d="M16.1547 6.80626V5.91251C16.1547 3.16251 14.0922 0.825009 11.4797 0.618759C10.0359 0.481259 8.59219 0.996884 7.52656 1.95938C6.46094 2.92188 5.84219 4.29688 5.84219 5.70626V6.80626C3.84844 7.18438 2.33594 8.93751 2.33594 11.0688V17.2906C2.33594 19.5594 4.19219 21.3813 6.42656 21.3813H15.5016C17.7703 21.3813 19.6266 19.525 19.6266 17.2563V11C19.6609 8.93751 18.1484 7.21876 16.1547 6.80626ZM8.55781 3.09376C9.31406 2.40626 10.3109 2.06251 11.3422 2.16563C13.1641 2.33751 14.6078 3.98751 14.6078 5.91251V6.70313H7.38906V5.67188C7.38906 4.70938 7.80156 3.78126 8.55781 3.09376ZM18.1141 17.2906C18.1141 18.7 16.9453 19.8688 15.5359 19.8688H6.46094C5.05156 19.8688 3.91719 18.7344 3.91719 17.325V11.0688C3.91719 9.52189 5.15469 8.28438 6.70156 8.28438H15.2953C16.8422 8.28438 18.1141 9.52188 18.1141 11V17.2906Z"
+                              fill=""
+                            />
+                            <path
+                              d="M10.9977 11.8594C10.5852 11.8594 10.207 12.2031 10.207 12.65V16.2594C10.207 16.6719 10.5508 17.05 10.9977 17.05C11.4102 17.05 11.7883 16.7063 11.7883 16.2594V12.6156C11.7883 12.2031 11.4102 11.8594 10.9977 11.8594Z"
+                              fill=""
+                            />
+                          </g>
+                        </svg>
+                      </span>
                     </div>
                   </div>
 
                   <div className="flex justify-end gap-4.5">
                     <button
-                      className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white"
-                      type="submit">
-                      Cancel
+                      onClick={resetForm}
+                      className="flex justify-center rounded border border-stroke py-2 px-6 font-medium text-black hover:shadow-1 dark:border-strokedark dark:text-white">
+                      Reset
                     </button>
                     <button
+                      disabled={isSubmitting || !isValid}
                       className="flex justify-center rounded bg-primary py-2 px-6 font-medium text-gray hover:shadow-1"
-                      type="submit"
-                      onClick={fireToast}>
+                      type="submit">
                       Save
                     </button>
                   </div>
