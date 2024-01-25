@@ -46,7 +46,7 @@ const Header = () => {
                 <a className="menu-title text-whiten">News and Update</a>
                 <ul className="px-3 py-4 shadow bg-black rounded-box w-52">
                   <li>
-                    <a>News</a>
+                    <NavLink to="/news">News</NavLink>
                   </li>
                   <li>
                     <a>System Updates</a>
@@ -94,7 +94,7 @@ const Header = () => {
                 <summary>News and Update</summary>
                 <ul className="p-2 bg-slate-800">
                   <li>
-                    <a>News</a>
+                    <NavLink to="/news">News</NavLink>
                   </li>
                   <li>
                     <a>System Updates</a>
