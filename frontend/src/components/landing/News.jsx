@@ -95,7 +95,7 @@ function News() {
         </aside>
       </section>
 
-      <section className="block md:flex px-7 md:px-20 mt-14 lg:mt-8 justify-evenly relative overflow-hidden">
+      <section className="block md:flex px-7 md:px-20 mt-14 justify-evenly relative overflow-hidden">
         {newsToDisplay.map((news, index) => (
           <Link
             key={index}
