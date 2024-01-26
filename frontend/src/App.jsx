@@ -17,7 +17,8 @@ import Loader from "./common/Loader";
 import HomePage from "./pages/user/HomePage";
 
 const AdminLayout = lazy(() => import("./layout/AdminLayout"));
-const UserLayout = lazy(() => import("./layout/UserLayout"));
+// const UserLayout = lazy(() => import("./layout/UserLayout"));
+import UserLayout from "./layout/UserLayout";
 
 import LandingLayout from "./layout/LandingLayout";
 
