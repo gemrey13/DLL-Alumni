@@ -17,7 +17,6 @@ function News() {
     const fetchNews = async () => {
       try {
         const response = await axios.get(`${baseURL}/api/news-list/`);
-        console.log(response);
         setNews(response.data);
         setLoading(false);
       } catch (error) {
