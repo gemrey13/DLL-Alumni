@@ -435,6 +435,21 @@ class NewsListView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
+class NewsDetailsView(APIView):
+    def get(self, request, *args, **kwargs):
+        header = self.request.query_params.get("header", None)
+
+        if not header:
+            return Response(
+                {"error": "Missing header parameter."}, status=status.HTTP_404_NOT_FOUND
+            )
+
+        news_instance = get_object_or_404(News, header=header)
+        serializer = NewsSerializer(news_instance)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
 class CurriculumWithCoursesList(APIView):
     def get(self, request, *args, **kwargs):
         curriculums = Curriculum.objects.all().order_by("-cmo_no")
