@@ -1,6 +1,7 @@
 import React from "react";
 import news_4 from "../images/news-4.png";
 import block_cage_1 from "../images/Block_Cage_1.png";
+import { useParams } from "react-router-dom";
 
 import {
   formatDate,
@@ -9,6 +10,9 @@ import {
 } from "../utils/formatting";
 
 const NewsItemPage = () => {
+  const { header } = useParams();
+  console.log(header);
+
   return (
     <>
       <section className="w-8/12 mx-auto py-16 relative">
