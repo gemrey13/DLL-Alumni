@@ -2,6 +2,17 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+class News(models.Model):
+    header = models.CharField(max_length=255, unique=True)
+    posted_at = models.DateTimeField()
+    summary = models.CharField(max_length=255, blank=False, null=False)
+    description = models.TextField()
+    cover_image = models.ImageField(upload_to="news_cover/", blank=True, null=True)
+
+    def __str__(self):
+        return self.header
+
+
 class JobCategory(models.Model):
     name = models.CharField(max_length=255, unique=True)
 

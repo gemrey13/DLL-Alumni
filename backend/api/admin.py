@@ -15,6 +15,7 @@ from .models import (
     UserWorkExperience,
     Language,
     SaveJob,
+    News,
 )
 
 
@@ -43,10 +44,15 @@ class EmploymentRecordAdmin(admin.ModelAdmin):
     ]
 
 
+class NewsAdmin(admin.ModelAdmin):
+    list_display = ["header", "summary", "posted_at"]
+
+
 admin.site.register(AlumniProfile, AlumniProfileAdmin)
 admin.site.register(GraduateInformation)
 admin.site.register(Curriculum)
 admin.site.register(Course)
+admin.site.register(News, NewsAdmin)
 admin.site.register(CurrentJob)
 admin.site.register(EmploymentRecord, EmploymentRecordAdmin)
 admin.site.register(UserProfile)
