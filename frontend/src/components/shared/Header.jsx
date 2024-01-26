@@ -7,7 +7,7 @@ const Header = () => {
   let { logoutUser, user } = useContext(AuthContext);
   return (
     <>
-      <div className="navbar text-white sticky top-0 w-full md:px-9 sm:px-0 z-9999 bg-gradient-to-r from-slate-800 via-slate-900 to-slate-950">
+      <div className="navbar text-white sticky top-0 w-full md:px-9 sm:px-0 z-99 bg-gradient-to-r from-slate-800 via-slate-900 to-slate-950">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
