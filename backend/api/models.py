@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from .utils import set_cover_image_name
 
 
 class News(models.Model):
@@ -7,7 +8,9 @@ class News(models.Model):
     posted_at = models.DateTimeField()
     summary = models.CharField(max_length=255, blank=False, null=False)
     description = models.TextField()
-    cover_image = models.ImageField(upload_to="news_cover/", blank=True, null=True)
+    cover_image = models.ImageField(
+        upload_to=set_cover_image_name, blank=True, null=True
+    )
 
     def __str__(self):
         return self.header
