@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import sir_rovie from "../../images/sir_rovie.png";
+import AuthContext from "../../context/AuthContext";
+import { Link } from "react-router-dom";
 
 function Hero() {
+  let { user } = useContext(AuthContext);
+
   return (
     <div className="hero pt-8 px-5">
       <div className="hero-content flex-col-reverse lg:flex-row-reverse">
@@ -25,7 +29,13 @@ function Hero() {
             Your All-in-One Online Portal and Alumni Office Information <br />
             System with Tracer Study for Curriculum Analysis.
           </p>
-          <button className="btn btn-warning text-white">Get Started</button>
+          {user ? (
+            <Link to="/u/jobs" className="btn btn-warning text-white">
+              Find Work
+            </Link>
+          ) : (
+            <button className="btn btn-warning text-white">Get Started</button>
+          )}
         </div>
       </div>
     </div>
