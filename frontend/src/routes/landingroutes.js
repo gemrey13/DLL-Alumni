@@ -1,9 +1,13 @@
-import { lazy } from "react";
-
 import SurveyPage from "../pages/SurveyPage";
 import NewsPage from "../pages/NewsPage";
+import NewsItemPage from "../pages/NewsItemPage";
 
 const coreRoutes = [
+  {
+    path: "/news/item",
+    title: "NewsItemPage",
+    component: NewsItemPage,
+  },
   {
     path: "/news",
     title: "NewsPage",
