@@ -24,6 +24,7 @@ from .serializers import (
     UserDetailSerializer,
     LanguageSerializer,
     JobSerializer,
+    NewsSerializer
 )
 from .models import (
     GraduateInformation,
@@ -44,6 +45,7 @@ from .models import (
     UserSkill,
     JobApplication,
     SaveJob,
+    News
 )
 
 
@@ -424,6 +426,14 @@ class TableAlumniView(ListAPIView):
             queryset = queryset.filter(alumni__course__no_units=no_of_units)
 
         return queryset
+
+
+
+class NewsListView(APIView):
+    def get(self, request, *args, **kwargs):
+        news = News.objects.all()
+        serializer = NewsSerializer(news, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class CurriculumWithCoursesList(APIView):

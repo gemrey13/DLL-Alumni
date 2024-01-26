@@ -1,11 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import news_1 from "../../images/news-1.png";
 import news_2 from "../../images/news-2.png";
 import news_3 from "../../images/news-3.png";
 import news_4 from "../../images/news-4.png";
 import block_cage_1 from "../../images/Block_Cage_1.png";
+import axios from "axios";
+import baseURL from "@/apiConfig";
+import { formatDate, formatTimestamp } from "../../utils/formatting";
+import Loader from "../../common/Loader";
 
 function News() {
+  const [news, setNews] = useState([]);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const fetchNews = async () => {
+      try {
+        const response = await axios.get(`${baseURL}/api/news-list/`);
+        console.log(response);
+        setNews(response.data);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchNews();
+  }, []);
+
+  const newsToDisplay = news.slice(1, 4);
+
+  if (loading) {
+    return (
+      <section className="h-screen">
+        <Loader />
+      </section>
+    );
+  }
+
   return (
     <>
       <div className="hidden lg:flex px-20 justify-between text-2xl mt-20 mb-8">
@@ -15,18 +45,16 @@ function News() {
       <section className="block lg:flex px-7 lg:px-20 mt-10 lg:mt-0">
         <div className="block lg:flex bg-gray-950 justify-between lg:mr-11">
           <div className="w-[100%] lg:w-[30%] p-8">
-            <h2 className="text-white text-2xl">
-              New Feature Alert: Introducing Alumni Mentorship Program!
-            </h2>
-            <p className="text-red-600">November 1, 2023</p>
-            <p className="text-gray-400 text-xl">
-              As part of our commitment to empowering our students and recent
-              graduates, this program connects them with experienced alumni
-              mentors in their chosen fields.
-            </p>
+            <h2 className="text-white text-2xl">{news[0].header}</h2>
+            <p className="text-red-600">{formatDate(news[0].posted_at)}</p>
+            <p className="text-gray-400 text-xl">{news[0].summary}</p>
           </div>
           <div className="flex-1">
-            <img src={news_1} alt="News 1" className="object-fill h-full" />
+            <img
+              src={`${baseURL}/${news[0].cover_image}`}
+              alt={news[0].header}
+              className="object-fill h-full"
+            />
           </div>
         </div>
         <aside>
@@ -67,39 +95,19 @@ function News() {
       </section>
 
       <section className="block md:flex px-7 md:px-20 mt-14 lg:mt-8 justify-evenly relative overflow-hidden">
-        <div className="flex-col mb-6 lg:mb-0">
-          <div className="w-[100%] md:w-[70%]">
-            <img src={news_2} alt="News 2"></img>
+        {newsToDisplay.map((news, index) => (
+          <div key={index} className="flex-col mb-6 lg:mb-0">
+            <div className="w-[100%] md:w-[70%]">
+              <img src={`${baseURL}/${news.cover_image}`} alt="News 2"></img>
+            </div>
+            <div className="w-[100%] md:w-[70%]">
+              <p className="text-gray-800 font-semibold mt-2">{news.header}</p>
+              <p>
+                {formatDate(news.posted_at)} • {formatTimestamp(news.posted_at)}
+              </p>
+            </div>
           </div>
-          <div className="w-[100%] md:w-[70%]">
-            <p className="text-gray-800 font-semibold mt-2">
-              Debating for a Brighter Tomorrow: Exploring Contemporary Issues
-            </p>
-            <p>October 26, 2023 • 3:28 PM</p>
-          </div>
-        </div>
-        <div className="flex-col mb-6 lg:mb-0">
-          <div className="w-[100%] md:w-[70%]">
-            <img src={news_3} alt="News 3"></img>
-          </div>
-          <div className="w-[100%] md:w-[70%]">
-            <p className="text-gray-800 font-semibold mt-2">
-              Culinary Creations: A Flavorful Showdown
-            </p>
-            <p>October 26, 2023 • 3:28 PM</p>
-          </div>
-        </div>
-        <div className="flex-col mb-6 lg:mb-0">
-          <div className="w-[100%] md:w-[70%]">
-            <img src={news_4} alt="News 4"></img>
-          </div>
-          <div className="w-[100%] md:w-[70%]">
-            <p className="text-gray-800 font-semibold mt-2">
-              Stride for Success: School Fun Run Extravaganza
-            </p>
-            <p>October 26, 2023 • 3:28 PM</p>
-          </div>
-        </div>
+        ))}
         <img
           className="w-96 h-80 absolute -z-10 -right-36 -bottom-10"
           src={block_cage_1}

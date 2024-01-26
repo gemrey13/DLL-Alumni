@@ -19,8 +19,14 @@ from .models import (
     UserSkill,
     UserWorkExperience,
     Language,
-    JobApplication,
+    News,
 )
+
+
+class NewsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = News
+        fields = "__all__"
 
 
 class LanguageSerializer(serializers.ModelSerializer):

@@ -33,10 +33,13 @@ from .views import (
     CurriculumView,
     CurriculumYearList,
     CurriculumWithCoursesList,
+    NewsListView,
 )
 
 
 urlpatterns = [
+    # News
+    path("news-list/", NewsListView.as_view(), name="news-list"),
     # admin
     path("curriculum-list/", CurriculumList.as_view(), name="curriculum-list"),
     path(
