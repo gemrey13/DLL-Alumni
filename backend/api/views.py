@@ -8,6 +8,7 @@ from django.db import transaction, IntegrityError
 from django.contrib.auth.models import User
 from django.db.models import Count, Q, Min, Max
 from django.shortcuts import get_object_or_404
+from rest_framework.parsers import MultiPartParser, FormParser
 
 from .serializers import (
     TableAlumniInformationSerializer,
@@ -429,10 +430,20 @@ class TableAlumniView(ListAPIView):
 
 
 class NewsListView(APIView):
+    parser_classes = (MultiPartParser, FormParser)
+
     def get(self, request, *args, **kwargs):
         news = News.objects.all().order_by("-posted_at")
         serializer = NewsSerializer(news, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, *args, **kwargs):
+        serializer = NewsSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class NewsDetailsView(APIView):

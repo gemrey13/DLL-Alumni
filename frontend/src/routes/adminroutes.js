@@ -14,8 +14,14 @@ const SurveyForm = lazy(() => import("../pages/admin/SurveyForm"));
 const ManageCurriculum = lazy(() => import("../pages/admin/ManageCurriculum"));
 const ManageCourses = lazy(() => import("../pages/admin/ManageCourses"));
 const AddJob = lazy(() => import("../pages/admin/AddJob"));
+const AddNews = lazy(() => import("../pages/admin/AddNews"));
 
 const coreRoutes = [
+  {
+    path: "/admin/add-news",
+    title: "AddNews",
+    component: AddNews,
+  },
   {
     path: "/admin/add-job",
     title: "AddJob",

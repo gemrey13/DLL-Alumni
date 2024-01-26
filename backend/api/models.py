@@ -5,7 +5,7 @@ from .utils import set_cover_image_name
 
 class News(models.Model):
     header = models.CharField(max_length=255, unique=True)
-    posted_at = models.DateTimeField()
+    posted_at = models.DateTimeField(auto_now_add=True)
     summary = models.CharField(max_length=255, blank=False, null=False)
     description = models.TextField()
     cover_image = models.ImageField(
