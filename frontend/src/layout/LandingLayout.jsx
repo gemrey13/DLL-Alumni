@@ -3,14 +3,16 @@ import { Outlet } from "react-router-dom";
 import Navbar from "../components/shared/Navbar";
 import Footer from "../components/shared/Footer";
 import ScrollToTop from "../components/shared/ScrollToTop";
+import Header from "../components/shared/Header";
 
 const LandingLayout = () => {
   return (
     <>
       <ScrollToTop />
-      <div className="sticky top-0 w-full md:px-9 sm:px-0 z-9999 bg-gradient-to-r from-slate-800 via-slate-900 to-slate-950">
+      <Header />
+      {/* <div className="sticky top-0 w-full md:px-9 sm:px-0 z-9999 bg-gradient-to-r from-slate-800 via-slate-900 to-slate-950">
         <Navbar />
-      </div>
+      </div> */}
       <main>
         <Outlet />
       </main>
