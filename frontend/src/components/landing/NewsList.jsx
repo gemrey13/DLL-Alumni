@@ -14,12 +14,9 @@ const NewsList = () => {
     const fetchNews = async () => {
       try {
         const response = await axios.get(`${baseURL}/api/news-list/`);
-        console.log(response.data.length);
-        console.log(response.data);
         if (response.data.length > 4) {
           const news_item = response.data.slice(4);
           setNews(news_item);
-          console.log(news_item);
         }
         setLoading(false);
       } catch (error) {
@@ -41,7 +38,9 @@ const NewsList = () => {
     <>
       {news &&
         news.map((news) => (
-          <Link className="block lg:flex mx-7 lg:px-20 py-5 border-t hover:bg-meta-9 opacity-100 transition duration-300 ease-in-out hover:opacity-80">
+          <Link
+            to={`/news/${news.header}`}
+            className="block lg:flex mx-7 lg:px-20 py-5 border-t hover:bg-meta-9 opacity-100 transition duration-300 ease-in-out hover:opacity-80">
             <div className="w-full lg:w-[30%]">
               <img
                 src={`${baseURL}/${news.cover_image}`}

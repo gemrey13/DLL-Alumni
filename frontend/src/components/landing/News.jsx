@@ -43,7 +43,9 @@ function News() {
         <h2 className="w-[18%]">System Updates</h2>
       </div>
       <section className="block lg:flex px-7 lg:px-20 mt-10 lg:mt-0">
-        <Link className="block lg:flex bg-gray-950 justify-between lg:mr-11 opacity-100 transition duration-300 ease-in-out hover:opacity-90">
+        <Link
+          to={`/news/${news[0].header}`}
+          className="block lg:flex bg-gray-950 justify-between lg:mr-11 opacity-100 transition duration-300 ease-in-out hover:opacity-90">
           <div className="w-[100%] lg:w-[30%] p-8">
             <h2 className="text-white text-2xl">{news[0].header}</h2>
             <p className="text-red-600">{formatDate(news[0].posted_at)}</p>
@@ -97,6 +99,7 @@ function News() {
       <section className="block md:flex px-7 md:px-20 mt-14 justify-evenly relative overflow-hidden">
         {newsToDisplay.map((news, index) => (
           <Link
+            to={`/news/${news.header}`}
             key={index}
             className="flex-col mb-6 lg:mb-0 opacity-100 transition duration-300 ease-in-out hover:opacity-80">
             <div className="w-[100%] md:w-[70%]">
