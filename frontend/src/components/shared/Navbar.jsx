@@ -1,8 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 import icon_alumni from "../../images/icon-alumni.png";
 import { NavLink, Link } from "react-router-dom";
+import AuthContext from "../../context/AuthContext";
+import toast from "react-hot-toast";
 
 function Navbar() {
+  let { user, logoutUser } = useContext(AuthContext);
+
+  const logout = async () => {
+    logoutUser();
+    toast.success(`${user.first_name} has sign-out.`);
+  };
+
   return (
     <div className="navbar text-gray-400">
       <div className="navbar-start">
@@ -94,12 +103,25 @@ function Navbar() {
             </li>
           </ul>
         </div>
-        <NavLink to="/auth/signin" className="btn bg-[#FFC700] btn-sm">
-          Login
-        </NavLink>
-        <NavLink to="/auth/signup" className="btn btn-ghost btn-sm text-white">
-          Register
-        </NavLink>
+
+        {user ? (
+          <>
+            <button onClick={logout} className="btn bg-[#FFC700] btn-sm">
+              Logout
+            </button>
+          </>
+        ) : (
+          <>
+            <NavLink to="/auth/signin" className="btn bg-[#FFC700] btn-sm">
+              Login
+            </NavLink>
+            <NavLink
+              to="/auth/signup"
+              className="btn btn-ghost btn-sm text-white">
+              Register
+            </NavLink>
+          </>
+        )}
       </div>
     </div>
   );
