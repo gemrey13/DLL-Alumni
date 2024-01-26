@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { HiOutlineX } from "react-icons/hi";
 import baseURL from "@/apiConfig";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { convertToTitleCase } from "../../utils/formatting";
 
 const AddNewsHeader = () => {
   const { register, handleSubmit, reset } = useForm();
@@ -33,8 +33,15 @@ const AddNewsHeader = () => {
         }, 500);
       }
     } catch (error) {
-      console.error(error);
-      toast.error("Something went wrong.");
+      document.getElementById("add_news").close();
+      const errors = error.response.data;
+      if (errors) {
+        Object.entries(errors).forEach(([key, value]) => {
+          toast.error(`${convertToTitleCase(key)}: ${value}`);
+        });
+      } else {
+        toast.error("Something went wrong!");
+      }
     }
   };
 
@@ -144,7 +151,7 @@ const AddNewsHeader = () => {
 
                 <div className="w-full flex justify-end">
                   <button type="submit" className="btn btn-primary">
-                    Post the job
+                    Post the news
                   </button>
                 </div>
               </form>
