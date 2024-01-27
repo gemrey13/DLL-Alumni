@@ -9,6 +9,7 @@ const AddNews = () => {
     <>
       <Breadcrumb pageName="News " />
       <AddNewsHeader />
+
       <TableNewsList />
     </>
   );
