@@ -91,9 +91,11 @@ const TableNewsList = () => {
             className="grid grid-cols-6 border-t gap-3 border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
             <div className="col-span-3 flex items-center">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-                <div className="h-12.5 w-15 rounded-md">
-                  <img src={`${baseURL}${news.cover_image}`} alt="Product" />
-                </div>
+                <img
+                  src={`${baseURL}${news.cover_image}`}
+                  alt="Product"
+                  className="object-scale-down h-12.5 w-15 rounded-md"
+                />
                 <p className="text-sm line-clamp-2 text-black dark:text-white">
                   {news.header}
                 </p>
