@@ -85,7 +85,7 @@ const DropdownUser = () => {
             <Link
               to="/admin/settings"
               className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
-              <HiOutlineCog8Tooth size={23} />
+              <HiOutlineCog8Tooth size={24} />
               Account Settings
             </Link>
           </li>
