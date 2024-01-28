@@ -32,7 +32,6 @@ const TableNewsList = () => {
         const response = await axios.get(`${baseURL}/api/news-list/`);
         const data = response.data;
         setData(data);
-        console.log(data);
         setLoading(false);
       } catch (error) {
         setData([]);
