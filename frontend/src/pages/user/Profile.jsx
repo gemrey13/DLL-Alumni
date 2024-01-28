@@ -49,7 +49,7 @@ const Profile = () => {
 
             <p className="text-black text-lg font-medium">
               {!user.user_education.school_name && (
-                <p>No educational background.</p>
+                <>No educational background.</>
               )}
 
               {user.user_education.school_name}
@@ -62,7 +62,7 @@ const Profile = () => {
           <div className="mb-12">
             <h3 className="text-black-2 text-2xl font-medium">Gender</h3>
             <p className="text-black text-lg font-medium">
-              {!user.profile_info.sex && <p>No gender.</p>}
+              {!user.profile_info.sex && <>No gender.</>}
               {user.profile_info.sex}
             </p>
           </div>
@@ -75,6 +75,9 @@ const Profile = () => {
                   {lang}: <span>Conversational</span>
                 </li>
               ))}
+              {user.profile_info.languages.length === 0 && (
+                <p className="text-black text-lg font-medium">No languages.</p>
+              )}
             </ul>
           </div>
 
@@ -87,6 +90,11 @@ const Profile = () => {
                   {link.link}
                 </li>
               ))}
+              {user.account_links.length === 0 && (
+                <p className="text-black text-lg font-medium">
+                  No account link.
+                </p>
+              )}
             </ul>
           </div>
         </aside>
@@ -95,6 +103,7 @@ const Profile = () => {
           <header className="border-b border-slate-800 p-8">
             <h1 className="text-black-2 font-medium text-2xl pb-6">
               {user.user_job.specialty}
+              {!user.user_job.specialty && <>No Job</>}
             </h1>
             <p className="">{user.user_job.description}</p>
           </header>
@@ -102,22 +111,34 @@ const Profile = () => {
             <h1 className="text-black-2 font-medium text-2xl pb-4">
               Work experience
             </h1>
-            {user.user_work_experience.map((experience, index) => (
-              <p key={index}>{descriptionFormatter(experience.content)}</p>
-            ))}
+            {user.user_work_experience ? (
+              user.user_work_experience.map((experience, index) => (
+                <p key={index}>{descriptionFormatter(experience.content)}</p>
+              ))
+            ) : (
+              <p className="text-black text-lg font-medium">
+                No work experience.
+              </p>
+            )}
           </section>
           <section className="border-b border-slate-800 p-8">
             <h1 className="text-black-2 font-medium text-2xl pb-4">BIO</h1>
             <p>{descriptionFormatter(user.profile_info.bio)}</p>
+            {!user.user_job.specialty && (
+              <p className="text-black text-lg font-medium">No bio.</p>
+            )}
           </section>
           <section className="border-b border-slate-800 p-8">
             <h1 className="text-black-2 font-medium text-2xl pb-4">Skills</h1>
-            {user.profile_info.skills &&
+            {user.profile_info.skills ? (
               user.profile_info.skills.skills.map((skill, index) => (
                 <p key={index} className="badge badge-outline ml-0 m-4">
                   {skill}
                 </p>
-              ))}
+              ))
+            ) : (
+              <p className="text-black text-lg font-medium">No skills.</p>
+            )}
           </section>
         </section>
       </section>
