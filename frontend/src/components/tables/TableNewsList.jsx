@@ -93,7 +93,7 @@ const TableNewsList = () => {
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                 <img
                   src={`${baseURL}${news.cover_image}`}
-                  alt="Product"
+                  alt={news.header}
                   className="object-scale-down h-12.5 w-15 rounded-md"
                 />
                 <p className="text-sm line-clamp-2 text-black dark:text-white">
