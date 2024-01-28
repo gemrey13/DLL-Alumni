@@ -24,11 +24,9 @@ const NewsItemPage = () => {
           `${baseURL}/api/news-details/?header=${header}`
         );
         setDetails(response.data);
-        console.log(response.data);
         setLoading(false);
       } catch (error) {
-        toast.error("Something went wrong!");
-        console.log(error);
+        toast.error("Something went wrong....");
       }
     };
     fetchNewsDetails();
