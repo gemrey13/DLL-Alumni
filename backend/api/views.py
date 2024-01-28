@@ -445,6 +445,23 @@ class NewsListView(APIView):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def delete(self, request, *args, **kwargs):
+        news_id = self.request.query_params.get("news_id", None)
+
+        if not news_id:
+            return Response(
+                {"error": "Missing news_id parameter"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        news_instance = get_object_or_404(News, pk=news_id)
+        news_instance.delete()
+
+        return Response(
+            {"message": "News deleted successfully"},
+            status=status.HTTP_204_NO_CONTENT,
+        )
+
 
 class NewsDetailsView(APIView):
     def get(self, request, *args, **kwargs):
