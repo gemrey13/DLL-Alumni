@@ -26,34 +26,36 @@ const TableNewsList = () => {
     modalRef.current && modalRef.current.close();
   };
 
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(`${baseURL}/api/news-list/`);
+      const data = response.data;
+      setData(data);
+      setLoading(false);
+    } catch (error) {
+      setData([]);
+      toast.error("Something went wrong.....");
+    }
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${baseURL}/api/news-list/`);
-        const data = response.data;
-        setData(data);
-        setLoading(false);
-      } catch (error) {
-        setData([]);
-        toast.error("Something went wrong.....");
-      }
-    };
     fetchData();
   }, []);
 
-  const deleteJob = async (jobID) => {
+  const deleteNews = async (newsID) => {
     const confirmDelete = window.confirm(
       "Are you sure you want to delete news item?"
     );
 
     if (confirmDelete) {
       try {
-        const response = await axios.delete(`${baseURL}/api/job-details/`, {
-          params: { job_id: jobID },
+        const response = await axios.delete(`${baseURL}/api/news-list/`, {
+          params: { news_id: newsID },
         });
         fetchData();
+        toast.success(response.data.message);
       } catch (error) {
-        console.error("Error deleting job:", error);
+        toast.error("Something went wrong....");
       }
     }
   };
@@ -133,7 +135,7 @@ const TableNewsList = () => {
               </button>
               <button
                 className="hover:text-primary"
-                onClick={() => deleteJob(news.id)}>
+                onClick={() => deleteNews(news.id)}>
                 <svg
                   className="fill-current"
                   width="18"
