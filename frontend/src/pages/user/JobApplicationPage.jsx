@@ -48,9 +48,9 @@ const JobApplicationPage = () => {
 
   if (data.length === 0) {
     return (
-      <div className="h-screen align-middle text-center pt-20 text-2xl text-black">
-        No Job Application.
-      </div>
+      <section className="flex items-center justify-center h-screen w-full">
+        <h1 className="text-3xl"> No Job Application.</h1>
+      </section>
     );
   }
 
