@@ -70,6 +70,7 @@ export const AuthProvider = ({ children }) => {
 
   let logoutUser = (e) => {
     localStorage.removeItem("authTokens");
+    localStorage.removeItem("color-theme");
     setAuthTokens(null);
     setUser(null);
     toast("Logout!", {
