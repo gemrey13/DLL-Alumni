@@ -26,6 +26,7 @@ from .serializers import (
     LanguageSerializer,
     JobSerializer,
     NewsSerializer,
+    EventSerializer
 )
 from .models import (
     GraduateInformation,
@@ -47,6 +48,7 @@ from .models import (
     JobApplication,
     SaveJob,
     News,
+    Event
 )
 
 
@@ -427,6 +429,14 @@ class TableAlumniView(ListAPIView):
             queryset = queryset.filter(alumni__course__no_units=no_of_units)
 
         return queryset
+
+
+class EventView(APIView):
+    def get(self, request, *args, **kwargs):
+        events = Event.objects.all()
+        serializer = EventSerializer(events, many=True)
+
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 
 class NewsListView(APIView):

@@ -20,7 +20,33 @@ from .models import (
     UserWorkExperience,
     Language,
     News,
+    Event,
 )
+
+
+class EventSerializer(serializers.ModelSerializer):
+    num_participants = serializers.SerializerMethodField()
+    participants_names = serializers.SerializerMethodField()
+
+    def get_participants_names(self, obj):
+        participants = obj.participants.all()
+        names = [
+            {
+                "first_name": participant.user.first_name,
+                "last_name": participant.user.last_name,
+                "email": participant.user.email,
+                "username": participant.user.username,
+            }
+            for participant in participants
+        ]
+        return names
+
+    def get_num_participants(self, obj):
+        return len(obj.participants.all())
+
+    class Meta:
+        model = Event
+        fields = "__all__"
 
 
 class NewsSerializer(serializers.ModelSerializer):

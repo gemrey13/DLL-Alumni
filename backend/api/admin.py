@@ -16,6 +16,8 @@ from .models import (
     Language,
     SaveJob,
     News,
+    Event,
+    EventParticipant,
 )
 
 
@@ -60,6 +62,8 @@ admin.site.register(UserSkill)
 admin.site.register(UserWorkExperience)
 admin.site.register(JobCategory)
 admin.site.register(Job)
+admin.site.register(Event)
+admin.site.register(EventParticipant)
 admin.site.register(SaveJob)
 admin.site.register(Language)
 admin.site.register(JobApplication)

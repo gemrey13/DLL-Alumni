@@ -35,10 +35,13 @@ from .views import (
     CurriculumWithCoursesList,
     NewsListView,
     NewsDetailsView,
+    EventView,
 )
 
 
 urlpatterns = [
+    # Event
+    path("event-list/", EventView.as_view(), name="event-list"),
     # News
     path("news-list/", NewsListView.as_view(), name="news-list"),
     path("news-details/", NewsDetailsView.as_view(), name="news-details"),
