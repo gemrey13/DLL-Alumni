@@ -7,6 +7,7 @@ import {
   calculateTimeElapsed,
 } from "../../utils/formatting";
 import JobModal from "../modals/JobModal";
+import toast from "react-hot-toast";
 
 const TableNewsList = () => {
   const [data, setData] = useState([]);
@@ -16,13 +17,12 @@ const TableNewsList = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`${baseURL}/api/job-list/`);
+      const response = await axios.get(`${baseURL}/api/news-list/`);
       const data = response.data;
-      setData(data.results);
-      setNextPage(data.next);
+      setData(data);
     } catch (error) {
       setData([]);
-      setNextPage(null);
+      toast.error("Something went wrong.....");
     }
   };
 
