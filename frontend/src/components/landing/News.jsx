@@ -36,6 +36,16 @@ function News() {
     );
   }
 
+  if (news.length === 0) {
+    return (
+      <>
+        <section className="flex items-center justify-center h-screen w-full">
+          <h1 className="text-3xl">Theres no news posted.</h1>
+        </section>
+      </>
+    );
+  }
+
   return (
     <>
       <div className="hidden lg:flex px-20 justify-between text-2xl mt-20 mb-8">
