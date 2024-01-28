@@ -48,7 +48,14 @@ function App() {
         <Routes>
           <Route path="/auth/signin" element={<SignIn />} />
           <Route path="/auth/signup" element={<SignUp />} />
-          <Route path="/confirm-changes" element={<ReLogin />} />
+          <Route
+            path="/confirm-changes"
+            element={
+              <PrivateUserRoute>
+                <ReLogin />
+              </PrivateUserRoute>
+            }
+          />
 
           <Route
             path="/admin/"
