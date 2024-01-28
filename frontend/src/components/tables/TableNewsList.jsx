@@ -1,11 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import baseURL from "@/apiConfig";
-import {
-  formatSalary,
-  convertToTitleCase,
-  calculateTimeElapsed,
-} from "../../utils/formatting";
+import { calculateTimeElapsed } from "../../utils/formatting";
 import toast from "react-hot-toast";
 import NewsModal from "../modals/NewsModal";
 import Loader from "../../common/Loader";
