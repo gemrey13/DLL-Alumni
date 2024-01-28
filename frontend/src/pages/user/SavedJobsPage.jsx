@@ -48,9 +48,9 @@ const SavedJobsPage = () => {
 
   if (data.length === 0) {
     return (
-      <div className="h-screen align-middle text-center pt-20 text-2xl text-black">
-        No Saved Job.
-      </div>
+      <section className="flex items-center justify-center h-screen w-full">
+        <h1 className="text-3xl">Theres no saved jobs.</h1>
+      </section>
     );
   }
 
