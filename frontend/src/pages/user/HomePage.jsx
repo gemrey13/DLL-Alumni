@@ -46,9 +46,17 @@ const HomePage = () => {
 
   if (data.length === 0) {
     return (
-      <div className="h-screen align-middle text-center pt-20 text-2xl text-black">
-        Please setup your account.
-      </div>
+      <section className="flex flex-col items-center justify-center h-screen w-full">
+        <h1 className="text-3xl">Please update your profile</h1>
+        <div>
+          <Link
+            to="/u/my-profile/"
+            className="w-fit flex hover:underline items-center">
+            <HiOutlinePencilAlt size={20} />
+            <p>Update your profile here</p>
+          </Link>
+        </div>
+      </section>
     );
   }
 
