@@ -167,6 +167,13 @@ const Header = () => {
                       <span className="badge">New</span>
                     </NavLink>
                   </li>
+                  {user.is_staff && (
+                    <li>
+                      <NavLink to="/admin/" className="justify-between">
+                        Admin Panel
+                      </NavLink>
+                    </li>
+                  )}
                   <li>
                     <NavLink to="/u/settings/edit-profile">Settings</NavLink>
                   </li>

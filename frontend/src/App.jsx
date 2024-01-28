@@ -17,8 +17,8 @@ import NotFound from "./pages/NotFound";
 import Loader from "./common/Loader";
 import HomePage from "./pages/user/HomePage";
 
-const AdminLayout = lazy(() => import("./layout/AdminLayout"));
 import UserLayout from "./layout/UserLayout";
+import AdminLayout from "./layout/AdminLayout";
 import LandingLayout from "./layout/LandingLayout";
 
 function App() {
