@@ -4,6 +4,7 @@ import { Toaster } from "react-hot-toast";
 
 import { AuthProvider } from "./context/AuthContext";
 import PrivateRoute from "./utils/PrivateRoute";
+import PrivateUserRoute from "./utils/PrivateUserRoute";
 import adminroutes from "./routes/adminroutes";
 import landingroutes from "./routes/landingroutes";
 import userroutes from "./routes/userroutes";
@@ -17,9 +18,7 @@ import Loader from "./common/Loader";
 import HomePage from "./pages/user/HomePage";
 
 const AdminLayout = lazy(() => import("./layout/AdminLayout"));
-// const UserLayout = lazy(() => import("./layout/UserLayout"));
 import UserLayout from "./layout/UserLayout";
-
 import LandingLayout from "./layout/LandingLayout";
 
 function App() {
@@ -82,7 +81,13 @@ function App() {
             })}
           </Route>
 
-          <Route path="/u/" element={<UserLayout />}>
+          <Route
+            path="/u/"
+            element={
+              <PrivateUserRoute>
+                <UserLayout />
+              </PrivateUserRoute>
+            }>
             <Route
               index
               element={
