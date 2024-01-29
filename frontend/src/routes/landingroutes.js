@@ -1,8 +1,14 @@
 import SurveyPage from "../pages/SurveyPage";
 import NewsPage from "../pages/NewsPage";
+import EventPage from "../pages/EventPage";
 import NewsItemPage from "../pages/NewsItemPage";
 
 const coreRoutes = [
+  {
+    path: "/news",
+    title: "EventPage",
+    component: EventPage,
+  },
   {
     path: "/news/:header",
     title: "NewsItemPage",
