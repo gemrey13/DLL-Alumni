@@ -1,6 +1,7 @@
 import Breadcrumb from "../../components/admin/Breadcrumb";
 import CoverOne from "../../images/admin/cover/cover-01.png";
 import { useParams } from "react-router-dom";
+import { HiXCircle, HiCheckCircle } from "react-icons/hi2";
 import axios from "axios";
 import baseURL from "@/apiConfig";
 import React, { useEffect, useState } from "react";
@@ -20,7 +21,11 @@ const Profile = () => {
         params: { alumni_id: alumni_id },
       });
       setProfile(response.data);
-      setCurrentJob(response.data.current_jobs[0]);
+      if (response.data.current_jobs.length === 0) {
+        setCurrentJob([]);
+      } else {
+        setCurrentJob(response.data.current_jobs[0]);
+      }
       setEmploymentRecord(response.data.employment_record);
       setLoading(false);
     } catch (error) {
@@ -40,6 +45,7 @@ const Profile = () => {
     );
   }
 
+  console.log(profile);
   return (
     <>
       <Breadcrumb pageName={alumni_id} />
@@ -134,42 +140,71 @@ const Profile = () => {
               {profile.fname} {profile.lname}
             </h3>
             <p className="font-medium">{currentJob.job_position}</p>
-            {/* <div className="mx-auto mt-4.5 mb-5.5 grid max-w-94 grid-cols-3 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]">
+
+            <div className="mx-auto mt-4.5 mb-5.5 grid max-w-100 grid-cols-4 rounded-md border border-stroke py-2.5 shadow-1 dark:border-strokedark dark:bg-[#37404F]">
               <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row">
                 <span className="font-semibold text-black dark:text-white">
-                  259
+                  {profile.sex}
                 </span>
-                <span className="text-sm">Posts</span>
+                <span className="text-sm">Gender</span>
               </div>
               <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row">
                 <span className="font-semibold text-black dark:text-white">
-                  129K
+                  {profile.religion}
                 </span>
-                <span className="text-sm">Followers</span>
+                <span className="text-sm">Religion</span>
+              </div>
+              <div className="flex flex-col items-center justify-center gap-1 border-r border-stroke px-4 dark:border-strokedark xsm:flex-row">
+                <span className="font-semibold text-black dark:text-white">
+                  {profile.civil_status}
+                </span>
+                <span className="text-sm">Civil Status</span>
               </div>
               <div className="flex flex-col items-center justify-center gap-1 px-4 xsm:flex-row">
                 <span className="font-semibold text-black dark:text-white">
-                  2K
+                  {profile.graduate_information.year_graduated}
                 </span>
-                <span className="text-sm">Following</span>
+                <span className="text-sm">Year Graduated</span>
               </div>
-            </div> */}
+            </div>
+
+            <section className="mx-auto w-[40%]">
+              <p className="flex items-center justify-between">
+                Employed within 6 months of graduation
+                {currentJob.employed_within_6mo ? (
+                  <HiCheckCircle size={23} />
+                ) : (
+                  <HiXCircle size={23} />
+                )}
+              </p>
+              <p className="flex items-center justify-between">
+                Promoted in this job
+                {currentJob.promoted_in_current_job ? (
+                  <HiCheckCircle size={23} />
+                ) : (
+                  <HiXCircle size={23} />
+                )}
+              </p>
+              <p className="flex items-center justify-between">
+                Job related to course
+                {currentJob.getting_jobs_related_to_experience ? (
+                  <HiCheckCircle size={23} />
+                ) : (
+                  <HiXCircle size={23} />
+                )}
+              </p>
+              <p className="flex items-center justify-between">
+                Pursued Higher Education
+                {profile.pursued_further_education ? (
+                  <HiCheckCircle size={23} />
+                ) : (
+                  <HiXCircle size={23} />
+                )}
+              </p>
+            </section>
 
             <div className="mt-4">
               <TableEmploymentRecord records={employmentRecord} />
-            </div>
-
-            <div className="mx-auto max-w-180 mt-6">
-              <h4 className="font-semibold text-black dark:text-white">
-                About Me
-              </h4>
-              <p className="mt-4.5">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Pellentesque posuere fermentum urna, eu condimentum mauris
-                tempus ut. Donec fermentum blandit aliquet. Etiam dictum dapibus
-                ultricies. Sed vel aliquet libero. Nunc a augue fermentum,
-                pharetra ligula sed, aliquam lacus.
-              </p>
             </div>
 
             <div className="mt-6.5">
