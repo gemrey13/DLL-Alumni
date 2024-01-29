@@ -6,10 +6,12 @@ import axios from "axios";
 import baseURL from "@/apiConfig";
 import React, { useEffect, useState } from "react";
 import TableEmploymentRecord from "../../components/tables/TableEmploymentRecord";
+import Loader from "../../common/Loader";
 
 const Profile = () => {
   const { alumni_id } = useParams();
   const [profile, setProfile] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [currentJob, setCurrentJob] = useState([]);
   const [employmentRecord, setEmploymentRecord] = useState([]);
 
@@ -21,6 +23,7 @@ const Profile = () => {
       setProfile(response.data);
       setCurrentJob(response.data.current_jobs[0]);
       setEmploymentRecord(response.data.employment_record);
+      setLoading(false);
     } catch (error) {
       console.error(error);
     }
@@ -30,7 +33,13 @@ const Profile = () => {
     fetchProfile();
   }, []);
 
-  // console.log(profile)
+  if (loading) {
+    return (
+      <div className="">
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <>
@@ -75,9 +84,12 @@ const Profile = () => {
           </div>
         </div>
         <div className="px-4 pb-6 text-center lg:pb-8 xl:pb-11.5">
-          <div className="relative z-30 mx-auto -mt-22 h-30 w-full max-w-30 rounded-full bg-white/20 p-1 backdrop-blur sm:h-44 sm:max-w-44 sm:p-3">
+          <div className="avatar placeholder text-neutral-content bg-boxdark relative z-30 mx-auto -mt-22 h-30 w-full max-w-30 rounded-full bg-white/20 p-1 backdrop-blur sm:h-44 sm:max-w-44 sm:p-3">
             <div className="relative drop-shadow-2">
-              <img src={userSix} alt="profile" />
+              <span className="text-5xl">
+                {profile.fname[0]}
+                {profile.lname[0]}
+              </span>
               <label
                 htmlFor="profile"
                 className="absolute bottom-0 right-0 flex h-8.5 w-8.5 cursor-pointer items-center justify-center rounded-full bg-primary text-white hover:bg-opacity-90 sm:bottom-2 sm:right-2">
