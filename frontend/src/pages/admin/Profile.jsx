@@ -1,6 +1,5 @@
 import Breadcrumb from "../../components/admin/Breadcrumb";
 import CoverOne from "../../images/admin/cover/cover-01.png";
-import userSix from "../../images/admin/user/user-06.png";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import baseURL from "@/apiConfig";
@@ -56,7 +55,13 @@ const Profile = () => {
             <label
               htmlFor="cover"
               className="flex cursor-pointer items-center justify-center gap-2 rounded bg-primary py-1 px-2 text-sm font-medium text-white hover:bg-opacity-80 xsm:px-4">
-              <input type="file" name="cover" id="cover" className="sr-only" />
+              <input
+                disabled
+                type="file"
+                name="cover"
+                id="cover"
+                className="sr-only"
+              />
               <span>
                 <svg
                   className="fill-current"
@@ -114,6 +119,7 @@ const Profile = () => {
                   />
                 </svg>
                 <input
+                  disabled
                   type="file"
                   name="profile"
                   id="profile"
