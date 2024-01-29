@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from .utils import set_cover_image_name
+from .utils import set_cover_image_name, set_poster_image_name
 
 
 class Event(models.Model):
@@ -11,6 +11,9 @@ class Event(models.Model):
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     created_at = models.DateTimeField(auto_now_add=True)
+    poster_image = models.ImageField(
+        upload_to=set_poster_image_name, blank=True, null=True
+    )
 
     def __str__(self):
         return self.title
