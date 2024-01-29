@@ -434,9 +434,13 @@ class TableAlumniView(ListAPIView):
 
 class EventView(APIView):
     def get(self, request, *args, **kwargs):
-        events = Event.objects.all().order_by("-posted_at")
-        serializer = EventSerializer(events, many=True)
+        events = Event.objects.all().order_by("-created_at")
+        event_id = self.request.query_params.get("event_id", None)
 
+        if event_id:
+            events = events.filter(id=event_id)
+
+        serializer = EventSerializer(events, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request, *args, **kwargs):
