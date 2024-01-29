@@ -62,7 +62,7 @@ const Header = () => {
                 <NavLink to="/tracer-survey-form">Tracer Form</NavLink>
               </li>
               <li>
-                <a>Events</a>
+                <NavLink to="/event">Event</NavLink>
               </li>
             </ul>
           </div>
@@ -81,7 +81,7 @@ const Header = () => {
         </div>
         <div className="navbar-center hidden lg:flex text-gray-400">
           <ul className="menu menu-horizontal px-1">
-            <li className="px-2">
+            <li>
               <NavLink to="/">Home</NavLink>
             </li>
 
@@ -117,11 +117,11 @@ const Header = () => {
                 </ul>
               </details>
             </li>
-            <li className="px-2">
+            <li>
               <NavLink to="/tracer-survey-form">Tracer Form</NavLink>
             </li>
             <li>
-              <a>Events</a>
+              <NavLink to="/event">Events</NavLink>
             </li>
           </ul>
         </div>

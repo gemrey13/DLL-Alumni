@@ -5,7 +5,7 @@ import NewsItemPage from "../pages/NewsItemPage";
 
 const coreRoutes = [
   {
-    path: "/news",
+    path: "/event",
     title: "EventPage",
     component: EventPage,
   },
