@@ -27,6 +27,7 @@ from .serializers import (
     JobSerializer,
     NewsSerializer,
     EventSerializer,
+    GraduateInformationSerializer,
 )
 from .models import (
     GraduateInformation,
@@ -834,10 +835,16 @@ class GetProfileView(APIView):
             employment_record, many=True
         )
 
+        graduate_information = GraduateInformation.objects.get(alumni=alumni_instance)
+        graduate_information_serializer = GraduateInformationSerializer(
+            graduate_information
+        )
+
         data = {
             **AlumniProfileSerializer(alumni_instance).data,
             "current_jobs": current_jobs_serializer.data,
             "employment_record": employment_record_serializer.data,
+            "graduate_information": graduate_information_serializer.data,
         }
         return Response(data, status=status.HTTP_200_OK)
 
