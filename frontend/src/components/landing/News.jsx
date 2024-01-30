@@ -106,15 +106,17 @@ function News() {
         </aside>
       </section>
 
-      <section className="block md:flex px-7 md:px-20 mt-14 justify-evenly relative overflow-hidden">
+      <section className="block md:flex px-7 gap-4 md:px-20 mt-14 justify-evenly relative overflow-hidden">
         {newsToDisplay.map((news, index) => (
           <Link
             to={`/news/${news.header}`}
             key={index}
-            className="flex-col mb-6 lg:mb-0 opacity-100 transition duration-300 ease-in-out hover:opacity-80">
-            <div className="w-[100%] md:w-[70%]">
-              <img src={`${baseURL}/${news.cover_image}`} alt="News 2"></img>
-            </div>
+            className="w-4/6 flex-col mb-6 lg:mb-0 opacity-100 transition duration-300 ease-in-out hover:opacity-80">
+            <img
+              src={`${baseURL}/${news.cover_image}`}
+              alt={news.header}
+              className="object-cover w-[90%] h-[70%] max-w-94 max-h-94"
+            />
             <div className="w-[100%] md:w-[70%]">
               <p className="text-gray-800 font-semibold mt-2">{news.header}</p>
               <p>
