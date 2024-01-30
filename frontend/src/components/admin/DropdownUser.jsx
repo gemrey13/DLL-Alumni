@@ -2,7 +2,11 @@ import { useEffect, useRef, useState, useContext } from "react";
 import AuthContext from "../../context/AuthContext";
 import { Link } from "react-router-dom";
 import { HiOutlineDocumentText } from "react-icons/hi";
-import { HiOutlineGlobeAlt, HiOutlineCog8Tooth } from "react-icons/hi2";
+import {
+  HiOutlineGlobeAlt,
+  HiOutlineCog8Tooth,
+  HiOutlineCalendarDays,
+} from "react-icons/hi2";
 
 const DropdownUser = () => {
   let { logoutUser, user } = useContext(AuthContext);
@@ -103,6 +107,14 @@ const DropdownUser = () => {
               className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
               <HiOutlineDocumentText size={24} />
               Add Job
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/admin/manage-event"
+              className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base">
+              <HiOutlineCalendarDays size={24} />
+              Add event
             </Link>
           </li>
         </ul>
