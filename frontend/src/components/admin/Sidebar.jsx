@@ -3,7 +3,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import icon_alumni from "../../images/icon-alumni.png";
 import SidebarLinkGroup from "./SidebarLinkGroup";
 import { HiOutlineDocumentText } from "react-icons/hi";
-import { HiOutlineNewspaper } from "react-icons/hi2";
+import { HiOutlineNewspaper, HiOutlineCalendarDays } from "react-icons/hi2";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const location = useLocation();
@@ -346,6 +346,18 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
                   }`}>
                   <HiOutlineNewspaper size={20} />
                   Add News
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink
+                  to="/admin/manage-event"
+                  className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
+                    pathname.includes("manage-event") &&
+                    "bg-graydark dark:bg-meta-4"
+                  }`}>
+                  <HiOutlineCalendarDays size={20} />
+                  Events
                 </NavLink>
               </li>
             </ul>
