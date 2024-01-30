@@ -38,19 +38,16 @@ const TableEventList = () => {
     fetchData();
   }, []);
 
-  const deleteEvent = async (newsID) => {
+  const deleteEvent = async (eventID) => {
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete participant item?"
+      "Are you sure you want to delete event item?"
     );
 
     if (confirmDelete) {
       try {
-        const response = await axios.delete(
-          `${baseURL}/api/participant-list/`,
-          {
-            params: { news_id: newsID },
-          }
-        );
+        const response = await axios.delete(`${baseURL}/api/event-list/`, {
+          params: { event_id: eventID },
+        });
         fetchData();
         toast.success(response.data.message);
       } catch (error) {
@@ -85,36 +82,36 @@ const TableEventList = () => {
           </div>
         </div>
 
-        {data.map((participant) => (
+        {data.map((event) => (
           <div
-            key={participant.id}
+            key={event.id}
             className="grid grid-cols-6 border-t gap-3 border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
             <div className="col-span-3 flex items-center">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                 <img
-                  src={`${baseURL}${participant.poster_image}`}
-                  alt={participant.title}
+                  src={`${baseURL}${event.poster_image}`}
+                  alt={event.title}
                   className="object-scale-down h-12.5 w-15 rounded-md"
                 />
                 <p className="text-sm line-clamp-2 text-black dark:text-white">
-                  {participant.title}
+                  {event.title}
                 </p>
               </div>
             </div>
             <div className="col-span-1 hidden items-center sm:flex">
               <p className="text-sm text-black dark:text-white">
-                {calculateTimeElapsed(participant.created_at)}
+                {calculateTimeElapsed(event.created_at)}
               </p>
             </div>
             <div className="col-span-2 lg:col-span-3 flex items-center">
               <p className="line-clamp-2 text-sm text-black dark:text-white">
-                {participant.organizer}
+                {event.organizer}
               </p>
             </div>
             <div className="col-span-1 flex lg:flex-row flex-col justify-evenly items-baseline lg:justify-start lg:items-center  space-x-3.5">
               <button
                 className="hover:text-primary"
-                onClick={() => openModal(participant)}>
+                onClick={() => openModal(event)}>
                 <svg
                   className="fill-current"
                   width="18"
@@ -134,7 +131,7 @@ const TableEventList = () => {
               </button>
               <button
                 className="hover:text-primary"
-                onClick={() => deleteEvent(participant.id)}>
+                onClick={() => deleteEvent(event.id)}>
                 <svg
                   className="fill-current"
                   width="18"
