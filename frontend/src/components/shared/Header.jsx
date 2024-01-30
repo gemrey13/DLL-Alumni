@@ -47,16 +47,8 @@ const Header = () => {
                   </ul>
                 </li>
               )}
-              <li className="py-2">
-                <a className="menu-title text-whiten">News and Update</a>
-                <ul className="px-3 py-4 shadow bg-black rounded-box w-52">
-                  <li>
-                    <NavLink to="/news">News</NavLink>
-                  </li>
-                  <li>
-                    <a>System Updates</a>
-                  </li>
-                </ul>
+              <li>
+                <NavLink to="/news">News and Updates</NavLink>
               </li>
               <li>
                 <NavLink to="/tracer-survey-form">Tracer Form</NavLink>
@@ -103,19 +95,8 @@ const Header = () => {
                 </details>
               </li>
             )}
-
             <li>
-              <details>
-                <summary>News and Update</summary>
-                <ul className="p-2 bg-slate-800">
-                  <li>
-                    <NavLink to="/news">News</NavLink>
-                  </li>
-                  <li>
-                    <a>System Updates</a>
-                  </li>
-                </ul>
-              </details>
+              <NavLink to="/news">News and Updates</NavLink>
             </li>
             <li>
               <NavLink to="/tracer-survey-form">Tracer Form</NavLink>
