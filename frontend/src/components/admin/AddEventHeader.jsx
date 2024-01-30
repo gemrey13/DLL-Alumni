@@ -33,7 +33,7 @@ const AddEventHeader = () => {
       if (response.status === 201) {
         toast.success("Event posted");
         document.getElementById("add_event").close();
-        reset(); // Reset the form
+        reset();
         setTimeout(() => {
           location.reload();
         }, 500);
@@ -152,7 +152,7 @@ const AddEventHeader = () => {
                         {...register("start_date", {
                           required: "Start date is required",
                         })}
-                        type="date"
+                        type="datetime-local"
                         className="w-full rounded border-[1.5px] border-stroke bg-transparent py-2.5 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                       />
                     </div>
@@ -167,7 +167,7 @@ const AddEventHeader = () => {
                         {...register("end_date", {
                           required: "End date is required",
                         })}
-                        type="date"
+                        type="datetime-local"
                         className="w-full rounded border-[1.5px] border-stroke bg-transparent py-2.5 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
                       />
                     </div>

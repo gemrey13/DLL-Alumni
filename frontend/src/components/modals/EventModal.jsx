@@ -7,7 +7,6 @@ import {
 } from "../../utils/formatting";
 
 const EventModal = forwardRef(({ eventData, onClose }, ref) => {
-  console.log(eventData);
   return (
     <dialog ref={ref} className="modal" id="jobModal" open>
       <div className="modal-box w-11/12 max-w-5xl dark:bg-boxdark">
@@ -20,7 +19,7 @@ const EventModal = forwardRef(({ eventData, onClose }, ref) => {
         <p className="py-4 dark:text-white text-black">
           Organizer: {eventData.organizer}
         </p>
-        <hr />
+        <hr className="my-4" />
 
         <section className="sm:flex items-center gap-5">
           <img
@@ -48,7 +47,7 @@ const EventModal = forwardRef(({ eventData, onClose }, ref) => {
           </div>
         </section>
 
-        <hr className="py-4" />
+        <hr className="my-4" />
         {eventData.num_participants !== 0 && (
           <>
             <h3 className="dark:text-white ">Participants:</h3>
