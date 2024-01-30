@@ -12,8 +12,8 @@ const TableNewsList = () => {
   const [loading, setLoading] = useState(true);
   const modalRef = useRef(null);
 
-  const openModal = (job) => {
-    setSelectedNews(job);
+  const openModal = (news) => {
+    setSelectedNews(news);
     modalRef.current && modalRef.current.showModal();
   };
 
