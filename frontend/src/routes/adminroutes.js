@@ -15,8 +15,14 @@ const ManageCurriculum = lazy(() => import("../pages/admin/ManageCurriculum"));
 const ManageCourses = lazy(() => import("../pages/admin/ManageCourses"));
 const AddJob = lazy(() => import("../pages/admin/AddJob"));
 const AddNews = lazy(() => import("../pages/admin/AddNews"));
+const ManageEvent = lazy(() => import("../pages/admin/ManageEvent"));
 
 const coreRoutes = [
+  {
+    path: "/admin/manage-event",
+    title: "ManageEvent",
+    component: ManageEvent,
+  },
   {
     path: "/admin/add-news",
     title: "AddNews",
