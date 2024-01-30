@@ -3,8 +3,8 @@ import React, { useEffect, useRef, useState } from "react";
 import baseURL from "@/apiConfig";
 import { calculateTimeElapsed } from "../../utils/formatting";
 import toast from "react-hot-toast";
-import NewsModal from "../modals/NewsModal";
 import Loader from "../../common/Loader";
+import EventModal from "../modals/EventModal";
 
 const TableEventList = () => {
   const [data, setData] = useState([]);
@@ -12,8 +12,8 @@ const TableEventList = () => {
   const [loading, setLoading] = useState(true);
   const modalRef = useRef(null);
 
-  const openModal = (job) => {
-    setSelectedEvent(job);
+  const openModal = (event) => {
+    setSelectedEvent(event);
     modalRef.current && modalRef.current.showModal();
   };
 
@@ -40,14 +40,17 @@ const TableEventList = () => {
 
   const deleteEvent = async (newsID) => {
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete event item?"
+      "Are you sure you want to delete participant item?"
     );
 
     if (confirmDelete) {
       try {
-        const response = await axios.delete(`${baseURL}/api/event-list/`, {
-          params: { news_id: newsID },
-        });
+        const response = await axios.delete(
+          `${baseURL}/api/participant-list/`,
+          {
+            params: { news_id: newsID },
+          }
+        );
         fetchData();
         toast.success(response.data.message);
       } catch (error) {
@@ -82,36 +85,36 @@ const TableEventList = () => {
           </div>
         </div>
 
-        {data.map((event) => (
+        {data.map((participant) => (
           <div
-            key={event.id}
+            key={participant.id}
             className="grid grid-cols-6 border-t gap-3 border-stroke py-4.5 px-4 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
             <div className="col-span-3 flex items-center">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                 <img
-                  src={`${baseURL}${event.poster_image}`}
-                  alt={event.title}
+                  src={`${baseURL}${participant.poster_image}`}
+                  alt={participant.title}
                   className="object-scale-down h-12.5 w-15 rounded-md"
                 />
                 <p className="text-sm line-clamp-2 text-black dark:text-white">
-                  {event.title}
+                  {participant.title}
                 </p>
               </div>
             </div>
             <div className="col-span-1 hidden items-center sm:flex">
               <p className="text-sm text-black dark:text-white">
-                {calculateTimeElapsed(event.created_at)}
+                {calculateTimeElapsed(participant.created_at)}
               </p>
             </div>
             <div className="col-span-2 lg:col-span-3 flex items-center">
               <p className="line-clamp-2 text-sm text-black dark:text-white">
-                {event.organizer}
+                {participant.organizer}
               </p>
             </div>
             <div className="col-span-1 flex lg:flex-row flex-col justify-evenly items-baseline lg:justify-start lg:items-center  space-x-3.5">
               <button
                 className="hover:text-primary"
-                onClick={() => openModal(event)}>
+                onClick={() => openModal(participant)}>
                 <svg
                   className="fill-current"
                   width="18"
@@ -131,7 +134,7 @@ const TableEventList = () => {
               </button>
               <button
                 className="hover:text-primary"
-                onClick={() => deleteEvent(event.id)}>
+                onClick={() => deleteEvent(participant.id)}>
                 <svg
                   className="fill-current"
                   width="18"
@@ -163,9 +166,9 @@ const TableEventList = () => {
 
         {selectedEvent && (
           <section className="z-9999">
-            <NewsModal
+            <EventModal
               ref={modalRef}
-              newsData={selectedEvent}
+              eventData={selectedEvent}
               onClose={closeModal}
             />
           </section>
