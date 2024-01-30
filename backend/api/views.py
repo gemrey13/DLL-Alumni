@@ -452,6 +452,23 @@ class EventView(APIView):
             )
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def delete(self, request, *args, **kwargs):
+        event_id = self.request.query_params.get("event_id", None)
+
+        if not event_id:
+            return Response(
+                {"error": "Missing event_id parameter"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        event_instance = get_object_or_404(Event, pk=event_id)
+        event_instance.delete()
+
+        return Response(
+            {"message": "Event deleted successfully"},
+            status=status.HTTP_200_OK,
+        )
+
 
 class NewsListView(APIView):
     parser_classes = (MultiPartParser, FormParser)
