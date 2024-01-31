@@ -50,6 +50,7 @@ from .models import (
     SaveJob,
     News,
     Event,
+    EventParticipant,
 )
 
 
@@ -468,6 +469,70 @@ class EventView(APIView):
             {"message": "Event deleted successfully"},
             status=status.HTTP_200_OK,
         )
+
+
+class EventParticipateView(APIView):
+    def post(self, request, *args, **kwargs):
+        event_id = self.request.query_params.get("event_id", None)
+        user_id = self.request.query_params.get("user_id", None)
+
+        if not event_id:
+            return Response(
+                {"error": "Missing event_id parameter."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        if not user_id:
+            return Response(
+                {"error": "Missing user_id parameter."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        event_instance = get_object_or_404(Event, id=event_id)
+        user_instance = get_object_or_404(User, id=user_id)
+        try:
+            EventParticipant.objects.create(event=event_instance, user=user_instance)
+            return Response(
+                {"message": "Participation success."}, status=status.HTTP_200_OK
+            )
+        except IntegrityError:
+            return Response(
+                {"error": "Participation already exists."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+    def delete(self, request, *args, **kwargs):
+        event_id = self.request.query_params.get("event_id", None)
+        user_id = self.request.query_params.get("user_id", None)
+
+        if not event_id:
+            return Response(
+                {"error": "Missing event_id parameter."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        if not user_id:
+            return Response(
+                {"error": "Missing user_id parameter."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        event_instance = get_object_or_404(Event, id=event_id)
+        user_instance = get_object_or_404(User, id=user_id)
+        try:
+            event_participant = EventParticipant.objects.get(
+                event=event_instance, user=user_instance
+            )
+            event_participant.delete()
+            return Response(
+                {"message": "Participation removed successfully."},
+                status=status.HTTP_200_OK,
+            )
+        except Event.DoesNotExist:
+            return Response(
+                {"error": "Participation does not exist."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
 
 
 class NewsListView(APIView):

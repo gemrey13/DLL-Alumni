@@ -29,6 +29,9 @@ class EventParticipant(models.Model):
     def __str__(self):
         return f"{self.user} - {self.event.title}"
 
+    class Meta:
+        unique_together = ("event", "user")
+
 
 class News(models.Model):
     header = models.CharField(max_length=255, unique=True)

@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import baseURL from "@/apiConfig";
 import toast from "react-hot-toast";
 import axios from "axios";
 import Loader from "../common/Loader";
+import AuthContext from "../context/AuthContext";
 import { HiOutlineLocationMarker, HiOutlineChevronLeft } from "react-icons/hi";
 import {
   formatDate,
@@ -15,8 +16,10 @@ import blob_cross from "../images/blob-cross.png";
 
 const EventItemPage = () => {
   const { title } = useParams();
+  let { user } = useContext(AuthContext);
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isParticipate, setIsParticipate] = useState(false);
 
   const fetchData = async () => {
     try {
@@ -29,6 +32,38 @@ const EventItemPage = () => {
     } catch (error) {
       console.error(error);
       toast.error("Something went wrong.....");
+    }
+  };
+
+  const participateEvent = async (eventID) => {
+    try {
+      const response = await axios.post(
+        `${baseURL}/api/event-participate/?event_id=${eventID}&user_id=${user.user_id}`
+      );
+      if (response.status === 200) {
+        toast.success(response.data.message);
+        setIsParticipate(!isParticipate);
+      }
+    } catch (error) {
+      if (error.response.status === 400) {
+        toast.error(error.response.data.error);
+      }
+    }
+  };
+
+  const unparticipateEvent = async (eventID) => {
+    try {
+      const response = await axios.delete(
+        `${baseURL}/api/event-participate/?event_id=${eventID}&user_id=${user.user_id}`
+      );
+      if (response.status === 200) {
+        toast.success(response.data.message);
+        setIsParticipate(!isParticipate);
+      }
+    } catch (error) {
+      if (error.response.status === 400) {
+        toast.error(error.response.data.error);
+      }
     }
   };
 
@@ -93,13 +128,27 @@ const EventItemPage = () => {
               </p>
               <p className="text-right mt-5 lg:mt-7">-{data.organizer}</p>
             </div>
-            <div className="self-end mt-4 w-full">
-              <button
-                // onClick={() => removeJob(data.id)}
-                className="btn btn-md btn-primary rounded-lg mb-3 w-full">
-                Participate
-              </button>
-            </div>
+            {user && (
+              <>
+                {isParticipate ? (
+                  <div className="self-end mt-4 w-full">
+                    <button
+                      onClick={() => unparticipateEvent(data.id)}
+                      className="btn btn-md btn-outline rounded-lg mb-3 w-full">
+                      Unparticipate
+                    </button>
+                  </div>
+                ) : (
+                  <div className="self-end mt-4 w-full">
+                    <button
+                      onClick={() => participateEvent(data.id)}
+                      className="btn btn-md btn-primary rounded-lg mb-3 w-full">
+                      Participate
+                    </button>
+                  </div>
+                )}
+              </>
+            )}
           </div>
         </section>
 
