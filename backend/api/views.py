@@ -472,6 +472,35 @@ class EventView(APIView):
 
 
 class EventParticipateView(APIView):
+    def get(self, request, *args, **kwargs):
+        title = self.request.query_params.get("title", None)
+        user_id = self.request.query_params.get("user_id", None)
+
+        if not title:
+            return Response(
+                {"error": "Missing title parameter."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        if not user_id:
+            return Response(
+                {"error": "Missing user_id parameter."},
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
+        event = get_object_or_404(Event, title=title)
+        user = get_object_or_404(User, pk=user_id)
+
+        is_participate = EventParticipant.objects.filter(
+            event=event, user=user
+        ).exists()
+
+        serializer = EventSerializer(event)
+
+        data = {**serializer.data, "is_participate": is_participate}
+
+        return Response(data, status=status.HTTP_200_OK)
+
     def post(self, request, *args, **kwargs):
         event_id = self.request.query_params.get("event_id", None)
         user_id = self.request.query_params.get("user_id", None)

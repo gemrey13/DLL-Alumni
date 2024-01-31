@@ -23,14 +23,25 @@ const EventItemPage = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(
-        `${baseURL}/api/event-list/?title=${title}`
-      );
-      setData(response.data[0]);
-      console.log(response.data[0]);
+      const response = await axios.get(`${baseURL}/api/event-participate/`, {
+        params: { title: title, user_id: user.user_id },
+      });
+      setData(response.data);
+      setIsParticipate(response.data.is_participate);
       setLoading(false);
     } catch (error) {
-      console.error(error);
+      toast.error("Something went wrong.....");
+    }
+  };
+
+  const fetchEventDetails = async () => {
+    try {
+      const response = await axios.get(`${baseURL}/api/event-list/`, {
+        params: { title: title },
+      });
+      setData(response.data[0]);
+      setLoading(false);
+    } catch (error) {
       toast.error("Something went wrong.....");
     }
   };
@@ -68,7 +79,11 @@ const EventItemPage = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    if (user) {
+      fetchData();
+    } else {
+      fetchEventDetails();
+    }
   }, []);
 
   if (loading) {
@@ -78,6 +93,7 @@ const EventItemPage = () => {
       </section>
     );
   }
+
   return (
     <>
       <section className="py-10 px-3 lg:py-20 lg:px-15 relative overflow-hidden">
