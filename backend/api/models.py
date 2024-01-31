@@ -3,6 +3,14 @@ from django.contrib.auth.models import User
 from .utils import set_cover_image_name, set_poster_image_name
 
 
+class SystemUpdate(models.Model):
+    title = models.CharField(max_length=255, unique=True)
+    description = models.TextField()
+    release_date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+    
 class Event(models.Model):
     title = models.CharField(max_length=255, unique=True)
     location = models.CharField(max_length=255, blank=False, null=False)

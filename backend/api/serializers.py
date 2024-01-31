@@ -21,8 +21,14 @@ from .models import (
     Language,
     News,
     Event,
+    SystemUpdate
 )
 
+
+class SystemUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = SystemUpdate
+        fields = '__all__'
 
 class EventSerializer(serializers.ModelSerializer):
     num_participants = serializers.SerializerMethodField()

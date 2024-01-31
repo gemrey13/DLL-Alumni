@@ -28,6 +28,7 @@ from .serializers import (
     NewsSerializer,
     EventSerializer,
     GraduateInformationSerializer,
+    SystemUpdateSerializer
 )
 from .models import (
     GraduateInformation,
@@ -51,6 +52,7 @@ from .models import (
     News,
     Event,
     EventParticipant,
+    SystemUpdate
 )
 
 
@@ -703,6 +705,16 @@ class CurriculumView(APIView):
             {"message": "Curriculum deleted successfully"},
             status=status.HTTP_204_NO_CONTENT,
         )
+
+
+
+class SystemUpdateView(APIView):
+    def get(self, request, *args, **kwargs):
+        system_updates = SystemUpdate.objects.all().order_by('-release_date')[:3]
+        system_updates_instance = SystemUpdateSerializer(system_updates, many=True)
+
+        return Response(system_updates_instance.data, status=status.HTTP_200_OK)
+
 
 
 class GetJobDetails(APIView):

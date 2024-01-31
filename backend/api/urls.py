@@ -37,10 +37,15 @@ from .views import (
     NewsDetailsView,
     EventView,
     EventParticipateView,
+    SystemUpdateView,
 )
 
 
 urlpatterns = [
+    # System Updates
+    path(
+        "system-updates-list/", SystemUpdateView.as_view(), name="system-updates-list"
+    ),
     # Event
     path("event-list/", EventView.as_view(), name="event-list"),
     path(

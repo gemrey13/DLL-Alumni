@@ -38,6 +38,7 @@ class Command(BaseCommand):
 
         call_command("generate_jobs")
         call_command("generate_dummy_data")
+        call_command("generate_news_updates")
 
         self.stdout.write(
             self.style.SUCCESS("Successfully ran data generation commands")
