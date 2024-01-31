@@ -24,14 +24,13 @@ export const AuthProvider = ({ children }) => {
   );
   let [loading, setLoading] = useState(true);
 
-  let loginUser = async (e) => {
-    e.preventDefault();
+  let loginUser = async (d) => {
     try {
       const response = await axios.post(
         `${baseURL}/api/token/`,
         {
-          username: e.target.username.value,
-          password: e.target.password.value,
+          username: d.username,
+          password: d.password,
         },
         {
           headers: {

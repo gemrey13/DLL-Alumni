@@ -3,10 +3,10 @@ import axios from "axios";
 import baseURL from "@/apiConfig";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import Loader from "../../common/Loader";
 
 const AlumniForm = () => {
-  const { register, watch, handleSubmit, reset } = useForm();
+  const { register, watch, handleSubmit, reset, formState } = useForm();
+  const { isSubmitting } = formState;
 
   const [coursesData, setCoursesData] = useState([]);
   const [isEmployed, setIsEmployed] = useState(false);
@@ -871,8 +871,12 @@ const AlumniForm = () => {
                         checkbox.checked = false;
                       }
                     }}
+                    disabled={isSubmitting}
                     type="submit"
                     className="btn w-1/3 flex justify-center rounded-lg bg-primary p-3 font-medium text-gray">
+                    {isSubmitting && (
+                      <span className="w-fit animate-spin rounded-full border-4 border-solid border-primary border-t-transparent"></span>
+                    )}
                     Submit Entry
                   </button>
                   <label htmlFor="my_modal_6" className="btn">

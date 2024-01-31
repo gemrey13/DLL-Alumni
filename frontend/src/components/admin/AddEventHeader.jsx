@@ -6,7 +6,9 @@ import toast from "react-hot-toast";
 import { convertToTitleCase } from "../../utils/formatting";
 
 const AddEventHeader = () => {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, formState } = useForm();
+  const { isSubmitting } = formState;
+
   const [posterImage, setPosterImage] = useState([]);
 
   const onsubmit = async (data) => {
@@ -203,7 +205,13 @@ const AddEventHeader = () => {
                 </div>
 
                 <div className="w-full pt-4 flex justify-end">
-                  <button type="submit" className="btn btn-primary">
+                  <button
+                    disabled={isSubmitting}
+                    type="submit"
+                    className="btn btn-primary">
+                    {isSubmitting && (
+                      <span className="w-fit animate-spin rounded-full border-4 border-solid border-primary border-t-transparent"></span>
+                    )}
                     Post the event
                   </button>
                 </div>

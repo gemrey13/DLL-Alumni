@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
-import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
 const ReLogin = () => {
   let { loginUser } = useContext(AuthContext);
+  const { formState, handleSubmit, register } = useForm();
+  const { isSubmitting } = formState;
 
   return (
     <>
@@ -15,7 +16,9 @@ const ReLogin = () => {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Confirm Changes
               </h1>
-              <form onSubmit={loginUser} className="space-y-4 md:space-y-6">
+              <form
+                onSubmit={handleSubmit(loginUser)}
+                className="space-y-4 md:space-y-6">
                 <div>
                   <label
                     htmlFor="username"
@@ -23,6 +26,7 @@ const ReLogin = () => {
                     Your username
                   </label>
                   <input
+                    {...register("username")}
                     type="text"
                     name="username"
                     id="username"
@@ -38,6 +42,7 @@ const ReLogin = () => {
                     Enter a password
                   </label>
                   <input
+                    {...register("password")}
                     type="password"
                     name="password"
                     id="password"
@@ -47,8 +52,12 @@ const ReLogin = () => {
                   />
                 </div>
                 <button
+                  disabled={isSubmitting}
                   type="submit"
-                  className="w-full text-white bg-primary hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                  className="w-full btn btn-primary transition bg-opacity-100 hover:bg-opacity-80">
+                  {isSubmitting && (
+                    <span className="w-fit animate-spin rounded-full border-4 border-solid border-primary border-t-transparent"></span>
+                  )}
                   Proceed
                 </button>
               </form>

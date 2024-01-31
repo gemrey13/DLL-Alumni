@@ -14,7 +14,7 @@ const UserAccountForm = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isSubmitting },
     getValues,
   } = useForm({
     mode: "onChange",
@@ -143,8 +143,12 @@ const UserAccountForm = () => {
 
             <div className="lg:flex block justify-start mb-7 w-full">
               <button
+                disabled={isSubmitting}
                 type="submit"
-                className="btn dark:btn-neutral w-full lg:w-[20%] flex justify-center p-3 bg-primary font-medium text-gray">
+                className="w-full lg:w-[20%] btn btn-primary transition bg-opacity-100 hover:bg-opacity-80">
+                {isSubmitting && (
+                  <span className="w-fit animate-spin rounded-full border-4 border-solid border-primary border-t-transparent"></span>
+                )}
                 Submit
               </button>
               <div

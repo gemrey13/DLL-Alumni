@@ -2,9 +2,12 @@ import { Link } from "react-router-dom";
 import icon_alumni from "../../images/icon-alumni.png";
 import React, { useContext } from "react";
 import AuthContext from "../../context/AuthContext";
+import { useForm } from "react-hook-form";
 
 const SignIn = () => {
   let { loginUser } = useContext(AuthContext);
+  const { formState, handleSubmit, register } = useForm();
+  const { isSubmitting } = formState;
 
   return (
     <>
@@ -157,13 +160,14 @@ const SignIn = () => {
                 Sign In to DLL Alumni Association
               </h2>
 
-              <form onSubmit={loginUser}>
+              <form onSubmit={handleSubmit(loginUser)}>
                 <div className="mb-4">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
                     Username
                   </label>
                   <div className="relative">
                     <input
+                      {...register("username")}
                       type="text"
                       name="username"
                       placeholder="Enter your username"
@@ -195,6 +199,7 @@ const SignIn = () => {
                   </label>
                   <div className="relative">
                     <input
+                      {...register("password")}
                       type="password"
                       name="password"
                       placeholder="6+ Characters, 1 Capital letter"
@@ -225,11 +230,15 @@ const SignIn = () => {
                 </div>
 
                 <div className="mb-5">
-                  <input
+                  <button
+                    disabled={isSubmitting}
                     type="submit"
-                    value="Sign In"
-                    className="w-full cursor-pointer rounded-lg border border-primary bg-primary p-4 text-white transition hover:bg-opacity-90"
-                  />
+                    className="w-full btn btn-primary transition bg-opacity-100 hover:bg-opacity-80">
+                    {isSubmitting && (
+                      <span className="w-fit animate-spin rounded-full border-4 border-solid border-primary border-t-transparent"></span>
+                    )}
+                    Sign in
+                  </button>
                 </div>
 
                 <button className="btn-disabled flex w-full items-center justify-center gap-3.5 rounded-lg border border-stroke bg-gray p-4 hover:bg-opacity-50 dark:border-strokedark dark:bg-meta-4 dark:hover:bg-opacity-50">

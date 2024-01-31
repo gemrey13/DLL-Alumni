@@ -6,7 +6,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 
 const AddCurriculumHeader = () => {
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset, formState } = useForm();
+  const { isSubmitting } = formState;
 
   const onsubmit = async (data) => {
     try {
@@ -128,7 +129,13 @@ const AddCurriculumHeader = () => {
                 </div>
 
                 <div className="w-full flex justify-end">
-                  <button type="submit" className="btn btn-primary">
+                  <button
+                    disabled={isSubmitting}
+                    type="submit"
+                    className="btn btn-primary">
+                    {isSubmitting && (
+                      <span className="w-fit animate-spin rounded-full border-4 border-solid border-primary border-t-transparent"></span>
+                    )}
                     Post the curriculum
                   </button>
                 </div>
