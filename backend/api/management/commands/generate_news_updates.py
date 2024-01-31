@@ -20,4 +20,5 @@ class Command(BaseCommand):
             title="What's New?",
             description="Explore our latest feature additions that enhance your experience and provide even more capabilities.",
         )
+
         self.stdout.write(self.style.SUCCESS("Generated system updates"))

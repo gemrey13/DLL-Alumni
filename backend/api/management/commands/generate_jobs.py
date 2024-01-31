@@ -317,11 +317,9 @@ class Command(BaseCommand):
             "Zamboanga City, Philippines",
         ]
 
-        categories = [JobCategory(name=i) for i in job_categories]
+        categories = [JobCategory.objects.create(name=i) for i in job_categories]
 
         languages = [Language.objects.create(name=i) for i in languages_list]
-
-        JobCategory.objects.bulk_create(categories)
 
         with transaction.atomic():
             for job in range(1, 100):
@@ -385,10 +383,9 @@ class Command(BaseCommand):
                     random.choice(languages) for _ in range(random.randint(1, 4))
                 ]
 
-                user_profile.save()
-
                 user_profile.skills.set(user_skills)
                 user_profile.languages.set(user_languages)
+                user_profile.save()
 
             users = User.objects.all()
 
