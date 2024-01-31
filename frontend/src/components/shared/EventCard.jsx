@@ -11,7 +11,7 @@ const EventCard = ({ eventList }) => {
           <Link
             to={`/event/${eventItem.title}`}
             key={eventItem.id}
-            className="m-8 flex h-150 flex-col gap-5 bg-bodydark1 rounded-md opacity-100 transition duration-300 ease-in-out hover:opacity-70">
+            className="m-8 flex h-150 flex-col gap-5 border-t-4 border-slate-800  bg-bodydark1 rounded-md opacity-100 transition duration-300 ease-in-out hover:opacity-70">
             <img
               src={`${baseURL}${eventItem.poster_image}`}
               alt={eventItem.title}
