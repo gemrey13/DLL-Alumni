@@ -1,7 +1,6 @@
 import React from "react";
 import baseURL from "@/apiConfig";
 import { Link } from "react-router-dom";
-import toast from "react-hot-toast";
 import { HiOutlineLocationMarker } from "react-icons/hi";
 
 const EventCard = ({ eventList }) => {
@@ -10,6 +9,7 @@ const EventCard = ({ eventList }) => {
       {eventList &&
         eventList.map((eventItem) => (
           <Link
+            to={`/event/${eventItem.title}`}
             key={eventItem.id}
             className="m-8 flex h-150 flex-col gap-5 bg-bodydark1 rounded-md opacity-100 transition duration-300 ease-in-out hover:opacity-70">
             <img

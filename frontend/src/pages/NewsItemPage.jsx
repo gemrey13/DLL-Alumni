@@ -1,4 +1,3 @@
-import news_4 from "../images/news-4.png";
 import block_cage_1 from "../images/Block_Cage_1.png";
 import { useParams } from "react-router-dom";
 import axios from "axios";

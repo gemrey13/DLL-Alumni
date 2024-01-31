@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import image from "../images/news-1.png";
-import image2 from "../images/me.png";
 import baseURL from "@/apiConfig";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -12,7 +10,6 @@ const EventPage = () => {
   const fetchData = async () => {
     try {
       const response = await axios.get(`${baseURL}/api/event-list/`);
-      console.log(response);
       setData(response.data);
     } catch (error) {
       toast.error("Something went wrong....");
