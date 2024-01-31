@@ -435,10 +435,10 @@ class TableAlumniView(ListAPIView):
 class EventView(APIView):
     def get(self, request, *args, **kwargs):
         events = Event.objects.all().order_by("-created_at")
-        event_id = self.request.query_params.get("event_id", None)
+        title = self.request.query_params.get("title", None)
 
-        if event_id:
-            events = events.filter(id=event_id)
+        if title:
+            events = events.filter(title=title)
 
         serializer = EventSerializer(events, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
