@@ -83,7 +83,7 @@ const AlumniForm = () => {
       {
         loading: "Submitting...",
         success: <b>Form submitted successfully!</b>,
-        error: <b>Failed to submit form.</b>,
+        error: <b>Please fill-up the form correctly.</b>,
       }
     );
     try {
@@ -418,7 +418,9 @@ const AlumniForm = () => {
                   Current Job Position
                 </label>
                 <input
-                  {...register("job_position")}
+                  {...register("job_position", {
+                    required: "Job position is required",
+                  })}
                   type="text"
                   placeholder="Enter job position"
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -430,7 +432,9 @@ const AlumniForm = () => {
                   Approximate Monthly Salary
                 </label>
                 <input
-                  {...register("salary")}
+                  {...register("salary", {
+                    required: "Salary is required",
+                  })}
                   type="number"
                   placeholder="Enter salary"
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -447,7 +451,9 @@ const AlumniForm = () => {
                   </span>{" "}
                 </label>
                 <input
-                  {...register("current_job_address")}
+                  {...register("current_job_address", {
+                    required: "Company Address is required",
+                  })}
                   type="text"
                   placeholder="Enter your job address"
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -459,7 +465,9 @@ const AlumniForm = () => {
                   Company Affiliation
                 </label>
                 <input
-                  {...register("company_affiliation")}
+                  {...register("company_affiliation", {
+                    required: "Company Affiliation is required",
+                  })}
                   type="text"
                   placeholder="Enter company name"
                   className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
@@ -550,7 +558,9 @@ const AlumniForm = () => {
                   className="flex cursor-pointer select-none items-center">
                   <div className="relative">
                     <input
-                      {...register("employed_within_6mo")}
+                      {...register("employed_within_6mo", {
+                        required: "Employed within 6 months is required",
+                      })}
                       type="checkbox"
                       id="checkboxLabelOne"
                       className="sr-only"
@@ -591,7 +601,9 @@ const AlumniForm = () => {
                   className="flex cursor-pointer select-none items-center">
                   <div className="relative">
                     <input
-                      {...register("promoted_in_current_job")}
+                      {...register("promoted_in_current_job", {
+                        required: "Promoted in current job is required",
+                      })}
                       type="checkbox"
                       id="checkboxLabelTwo"
                       className="sr-only"
@@ -631,7 +643,9 @@ const AlumniForm = () => {
                   className="flex cursor-pointer select-none items-center">
                   <div className="relative">
                     <input
-                      {...register("pursued_further_education")}
+                      {...register("pursued_further_education", {
+                        required: "Pursued further education is required",
+                      })}
                       type="checkbox"
                       id="checkboxLabelFour"
                       className="sr-only"
@@ -671,7 +685,10 @@ const AlumniForm = () => {
                   className="flex cursor-pointer select-none items-center">
                   <div className="relative">
                     <input
-                      {...register("getting_jobs_related_to_experience")}
+                      {...register("getting_jobs_related_to_experience", {
+                        required:
+                          "Getting jobs related to experience is required",
+                      })}
                       type="checkbox"
                       id="checkboxLabelThree"
                       className="sr-only"
@@ -839,7 +856,9 @@ const AlumniForm = () => {
 
             <div className="mb-6">
               <textarea
-                {...register("description")}
+                {...register("description", {
+                  required: "Professional Growth is required",
+                })}
                 rows={6}
                 placeholder="(Please state higher educational attainment earned, training, skills,affiliations,professional registrations/licenses, awards and recognitions achieved)"
                 className="w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"></textarea>
