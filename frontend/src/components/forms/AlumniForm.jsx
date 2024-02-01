@@ -558,9 +558,7 @@ const AlumniForm = () => {
                   className="flex cursor-pointer select-none items-center">
                   <div className="relative">
                     <input
-                      {...register("employed_within_6mo", {
-                        required: "Employed within 6 months is required",
-                      })}
+                      {...register("employed_within_6mo")}
                       type="checkbox"
                       id="checkboxLabelOne"
                       className="sr-only"
@@ -601,9 +599,7 @@ const AlumniForm = () => {
                   className="flex cursor-pointer select-none items-center">
                   <div className="relative">
                     <input
-                      {...register("promoted_in_current_job", {
-                        required: "Promoted in current job is required",
-                      })}
+                      {...register("promoted_in_current_job")}
                       type="checkbox"
                       id="checkboxLabelTwo"
                       className="sr-only"
@@ -643,9 +639,7 @@ const AlumniForm = () => {
                   className="flex cursor-pointer select-none items-center">
                   <div className="relative">
                     <input
-                      {...register("pursued_further_education", {
-                        required: "Pursued further education is required",
-                      })}
+                      {...register("pursued_further_education")}
                       type="checkbox"
                       id="checkboxLabelFour"
                       className="sr-only"
@@ -685,10 +679,7 @@ const AlumniForm = () => {
                   className="flex cursor-pointer select-none items-center">
                   <div className="relative">
                     <input
-                      {...register("getting_jobs_related_to_experience", {
-                        required:
-                          "Getting jobs related to experience is required",
-                      })}
+                      {...register("getting_jobs_related_to_experience")}
                       type="checkbox"
                       id="checkboxLabelThree"
                       className="sr-only"
