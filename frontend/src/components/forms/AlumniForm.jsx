@@ -406,7 +406,10 @@ const AlumniForm = () => {
 
             <hr className="mb-2.5 border-b border-stroke dark:border-strokedark" />
             <label className="font-medium mb-4.5 block text-black dark:text-white">
-              Current Job
+              Current Job{" "}
+              <span className="text-gray-400">
+                (Put your previous job if dont have current job)
+              </span>{" "}
             </label>
 
             <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
