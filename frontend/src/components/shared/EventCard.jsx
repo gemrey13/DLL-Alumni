@@ -31,7 +31,7 @@ const EventCard = ({ eventList }) => {
               <p className="line-clamp-2 mt-4 text-base text-black">
                 {eventItem.description}
               </p>
-              <p className="text-right mt-5 lg:mt-10">-{eventItem.organizer}</p>
+              <p className="text-right mt-5">-{eventItem.organizer}</p>
             </div>
           </Link>
         ))}
