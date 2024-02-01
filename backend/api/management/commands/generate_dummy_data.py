@@ -86,6 +86,12 @@ class Command(BaseCommand):
             "Student",
         ]
 
+        employment_type = [
+            "Government",
+            "NGO (Non-Governmental Organization)",
+            "Private",
+        ]
+
         curriculums = [
             Curriculum(
                 cmo_no=f"CMO No. {_ - 1990}",
@@ -354,6 +360,7 @@ class Command(BaseCommand):
                         employed_within_6mo=employed_within_6mo,
                         promoted_in_current_job=promoted_in_current_job,
                         getting_jobs_related_to_experience=getting_jobs_related_to_experience,
+                        employment_type=random.choice(employment_type),
                     )
 
                     EmploymentRecord.objects.create(

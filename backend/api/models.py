@@ -10,7 +10,8 @@ class SystemUpdate(models.Model):
 
     def __str__(self):
         return self.title
-    
+
+
 class Event(models.Model):
     title = models.CharField(max_length=255, unique=True)
     location = models.CharField(max_length=255, blank=False, null=False)
@@ -279,6 +280,7 @@ class CurrentJob(models.Model):
     employed_within_6mo = models.BooleanField(default=False)
     promoted_in_current_job = models.BooleanField(default=False)
     getting_jobs_related_to_experience = models.BooleanField(default=False)
+    employment_type = models.CharField(max_length=64, blank=True, null=True)
 
     def __str__(self):
         return f"{self.alumni}- {self.job_position}"
