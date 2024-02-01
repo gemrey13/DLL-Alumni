@@ -118,12 +118,14 @@ const EventItemPage = () => {
           <span className="line-clamp-1 text-sm">{data.location}</span>
         </p>
 
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 my-10 items-center">
-          <img
-            src={`${baseURL}/${data.poster_image}`}
-            alt="asd"
-            className="object-contain h-75 w-full "
-          />
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 my-10 items-start">
+          <div className="h-full lg:h-75">
+            <img
+              src={`${baseURL}/${data.poster_image}`}
+              alt="asd"
+              className="object-scale-down h-full lg:h-[200%] w-full"
+            />
+          </div>
 
           <div className="flex flex-col gap-6 justify-between">
             <section className="text-black ">
