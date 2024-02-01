@@ -6,6 +6,7 @@ from .analysis import (
     GenderBasedCurrentJobAnalyis,
     TopPerformingCourseAnalysis,
     GraduatesByCourseAnalysis,
+    EmploymentTypeAnalysis,
     TestAnalysisView,
     AnalysisTest2View,
 )
@@ -116,6 +117,11 @@ urlpatterns = [
         name="alumni-metrics-summary",
     ),
     # Analysis
+    path(
+        "employment-type/",
+        EmploymentTypeAnalysis.as_view(),
+        name="employment-type",
+    ),
     path(
         "employed-within-six-months/",
         EmployedWithinSixMonthsAnalysis.as_view(),

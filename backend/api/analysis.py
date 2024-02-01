@@ -22,6 +22,23 @@ from .serializers import (
 )
 
 
+class EmploymentTypeAnalysis(ListAPIView):
+    serializer_class = CurrentJobSerializer
+
+    def get_queryset(self):
+        employment_type_counts = CurrentJob.objects.values("employment_type").annotate(
+            count=Count("id")
+        )
+        data = {
+            entry["employment_type"]: entry["count"] for entry in employment_type_counts
+        }
+        return data
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        return Response(queryset)
+
+
 class GraduatesByCourseAnalysis(ListAPIView):
     serializer_class = GraduateInformationSerializer
 
