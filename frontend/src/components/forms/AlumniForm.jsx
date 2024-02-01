@@ -77,6 +77,7 @@ const AlumniForm = () => {
       ...data,
       employmentData,
     };
+    console.log(postData);
 
     const promise = toast.promise(
       axios.post(`${baseURL}/api/alumni-form/`, postData),
@@ -131,6 +132,11 @@ const AlumniForm = () => {
     "Consultant",
     "Remote",
     "Student",
+  ];
+  const employment_type = [
+    "Government",
+    "NGO (Non-Governmental Organization)",
+    "Private",
   ];
 
   useEffect(() => {
@@ -339,7 +345,7 @@ const AlumniForm = () => {
                       required: "Year Graduated is required",
                     })}
                     className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
-                    <option value="">Select curriculum</option>
+                    <option value="">Select year graduated</option>
                     {years.map((year, index) => (
                       <option key={index} value={year}>
                         {year}
@@ -529,6 +535,43 @@ const AlumniForm = () => {
                     <option value="3">Neutral</option>
                     <option value="2">Dissatisfied</option>
                     <option value="1">Very Dissatisfied</option>
+                  </select>
+                  <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
+                    <svg
+                      className="fill-current"
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <g opacity="0.8">
+                        <path
+                          fillRule="evenodd"
+                          clipRule="evenodd"
+                          d="M5.29289 8.29289C5.68342 7.90237 6.31658 7.90237 6.70711 8.29289L12 13.5858L17.2929 8.29289C17.6834 7.90237 18.3166 7.90237 18.7071 8.29289C19.0976 8.68342 19.0976 9.31658 18.7071 9.70711L12.7071 15.7071C12.3166 16.0976 11.6834 16.0976 11.2929 15.7071L5.29289 9.70711C4.90237 9.31658 4.90237 8.68342 5.29289 8.29289Z"
+                          fill=""></path>
+                      </g>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+
+              <div className="w-full xl:w-1/3">
+                <label className="mb-2.5 block text-black dark:text-white">
+                  Employment type <span className="text-meta-1">*</span>
+                </label>
+                <div className="relative z-20 bg-transparent dark:bg-form-input">
+                  <select
+                    {...register("employment_type", {
+                      required: "Employment type   rate is required",
+                    })}
+                    className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary">
+                    <option value="">Select employment type</option>
+                    {employment_type.map((type, index) => (
+                      <option key={index} value={type}>
+                        {type}
+                      </option>
+                    ))}
                   </select>
                   <span className="absolute top-1/2 right-4 z-30 -translate-y-1/2">
                     <svg
