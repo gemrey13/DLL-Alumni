@@ -1037,6 +1037,7 @@ class AlumniForm(APIView):
                 getting_jobs_related_to_experience=data[
                     "getting_jobs_related_to_experience"
                 ],
+                employment_type=data['employment_type']
             )
 
             for employment in employment_data:
