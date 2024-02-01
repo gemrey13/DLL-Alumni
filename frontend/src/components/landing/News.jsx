@@ -1,8 +1,4 @@
 import React, { useEffect, useState } from "react";
-import news_1 from "../../images/news-1.png";
-import news_2 from "../../images/news-2.png";
-import news_3 from "../../images/news-3.png";
-import news_4 from "../../images/news-4.png";
 import block_cage_1 from "../../images/Block_Cage_1.png";
 import axios from "axios";
 import baseURL from "@/apiConfig";

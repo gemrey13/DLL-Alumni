@@ -3,14 +3,17 @@ import baseURL from "@/apiConfig";
 import axios from "axios";
 import toast from "react-hot-toast";
 import EventCard from "../components/shared/EventCard";
+import Loader from "../common/Loader";
 
 const EventPage = () => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
     try {
       const response = await axios.get(`${baseURL}/api/event-list/`);
       setData(response.data);
+      setLoading(false);
     } catch (error) {
       toast.error("Something went wrong....");
     }
@@ -19,6 +22,24 @@ const EventPage = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  if (loading) {
+    return (
+      <section className="h-screen">
+        <Loader />
+      </section>
+    );
+  }
+
+  if (data.length === 0) {
+    return (
+      <>
+        <section className="flex items-center justify-center h-screen w-full">
+          <h1 className="text-3xl">Theres no events posted.</h1>
+        </section>
+      </>
+    );
+  }
 
   return (
     <>
