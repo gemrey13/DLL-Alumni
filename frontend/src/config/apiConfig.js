@@ -1,4 +1,4 @@
 // const baseURL = "https://dllalumni.pythonanywhere.com";
-const baseURL = "http://127.0.0.1:8000";
+const baseURL = "https://gemreytest.pythonanywhere.com";
 
 export default baseURL;
