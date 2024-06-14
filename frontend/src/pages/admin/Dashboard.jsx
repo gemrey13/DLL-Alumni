@@ -96,7 +96,7 @@ const Dashboard = () => {
           <TableTopPerformingCourse />
         </div>
         <GraduatesByCourse />
-        <EmploymentType />
+{/*         <EmploymentType /> */}
       </div>
     </>
   );
